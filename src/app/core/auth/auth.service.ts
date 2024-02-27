@@ -65,8 +65,8 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
-            switchMap((response: any) =>
+        return this._httpClient.post<{accessToken: string, refreshToken: string }>('/api/auth/sign-in', credentials).pipe(
+            switchMap((response) =>
             {
                 // Store the access token in the local storage
                 this.accessToken = response.accessToken;
@@ -75,7 +75,7 @@ export class AuthService
                 this._authenticated = true;
 
                 // Store the user on the user service
-                this._userService.user = response.user;
+                // this._userService.user = response.user;
 
                 // Return a new observable with the response
                 return of(response);
@@ -163,21 +163,27 @@ export class AuthService
      */
     check(): Observable<boolean>
     {
-        // Check if the user is logged in
-        if ( this._authenticated )
-        {
-            return of(true);
-        }
-
         // Check the access token availability
+        console.warn('this.accessToken', !this.accessToken);
         if ( !this.accessToken )
         {
             return of(false);
         }
 
+        // Check if the user is logged in
+        console.warn('this._authenticated', this._authenticated);
+        if ( this._authenticated )
+        {
+            return of(true);
+        }
+
+
         // Check the access token expire date
+        console.warn('AuthUtils.isTokenExpired(this.accessToken)',  AuthUtils.isTokenExpired(this.accessToken));
+
         if ( AuthUtils.isTokenExpired(this.accessToken) )
         {
+            console.warn('isTokenExpired', AuthUtils.isTokenExpired(this.accessToken));
             return of(false);
         }
 

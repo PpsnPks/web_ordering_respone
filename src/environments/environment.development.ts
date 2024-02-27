@@ -1,4 +1,4 @@
 export const environment = {
     production: false,
-    apiUrl: ''
+    apiUrl: 'https://upos-api.dev-asha.com'
   };
