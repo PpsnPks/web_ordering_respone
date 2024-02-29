@@ -1,0 +1,14 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <div class="flex-auto  sm:p-10 bg-card m-4 p-4 rounded-md">
+
+        <div class="flex justify-end pb-2">
+            <button mat-flat-button color="primary" class="w-[100px] rounded-2xl gap-2" (click)="opendialogapro()">
+                <mat-icon svgIcon="heroicons_solid:plus-circle"></mat-icon>
+                เพิ่ม
+            </button>
+        </div>
+        <table datatable [dtOptions]="dtOptions" class="row-border hover">
+        </table>
+
+    </div>
+</div>

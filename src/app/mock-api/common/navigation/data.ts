@@ -11,24 +11,31 @@ export const defaultNavigation: FuseNavigationItem[] = [
     },
     {
         id: 'user',
-        title: 'User',
+        title: 'ผู้ใช้งาน',
         type: 'basic',
         icon: 'heroicons_outline:user-group',
         link: '/user'
     },
     {
         id: 'branch',
-        title: 'branch',
+        title: 'สาขา',
         type: 'basic',
         icon: 'heroicons_mini:archive-box',
         link: '/branch'
     },
     {
         id: 'customers',
-        title: 'customers',
+        title: 'ลูกค้า',
         type: 'basic',
         icon: 'heroicons_solid:rectangle-stack',
         link: '/customers'
+    },
+    {
+        id: 'AddProduct',
+        title: 'สินค้า',
+        type: 'basic',
+        icon: 'heroicons_solid:squares-plus',
+        link: '/AddProduct'
     },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
