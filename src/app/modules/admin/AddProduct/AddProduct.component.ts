@@ -7,21 +7,26 @@ import { DataTablesModule } from 'angular-datatables';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
+import { FilePickerModule, ValidationError } from 'ngx-awesome-uploader';
+import { HttpClient } from '@angular/common/http';
+import { DemoFilePickerAdapter } from '../AddProduct/demo-file-picker.adapter';
 @Component({
     selector: 'app-AddProduct',
     standalone: true,
-    imports: [CommonModule, DataTablesModule, MatButtonModule, MatIconModule,],
+    imports: [CommonModule, DataTablesModule, MatButtonModule, MatIconModule, FilePickerModule],
     providers: [DatePipe],
     templateUrl: './AddProduct.component.html',
     styleUrl: './AddProduct.component.scss'
 })
 export class AddProductcomponent implements OnInit {
+    public adapter = new DemoFilePickerAdapter(this.http);
     dtOptions: ADTSettings = {};
     constructor(
         // private branchService: BranchService,
         public dialog: MatDialog,
         private datePipe: DatePipe,
         private AddProductService: AddProductService,
+        private http: HttpClient,
     ) { }
     opendialogapro() {
         const DialogRef = this.dialog.open(dialogapro, {
@@ -62,7 +67,7 @@ export class AddProductcomponent implements OnInit {
                 title: 'At',
                 data: 'createdAt',
                 ngPipeInstance: this.datePipe,//เปลียนเวลาโดยการใช่ datepipe
-                ngPipeArgs: ["dd-MM-yyyy"]
+                ngPipeArgs: [" dd-MM-yyyy HH:mm น."]
             },
                 //     {
                 //     title: 'ร้าน',
@@ -71,6 +76,14 @@ export class AddProductcomponent implements OnInit {
             ]
         };
 
+    }
+
+    public uploadSuccess(event): void {
+        console.log(event);
+    }
+
+    public onValidationError(error: ValidationError): void {
+        alert(`Validation Error ${error.error} in ${error.file?.name}`);
     }
 
 }

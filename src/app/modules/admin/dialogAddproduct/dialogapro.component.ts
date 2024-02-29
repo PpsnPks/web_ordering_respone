@@ -19,6 +19,9 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
+import { DemoFilePickerAdapter } from '../AddProduct/demo-file-picker.adapter';
+import { HttpClient } from '@angular/common/http';
+import { ValidationError, FilePickerModule } from 'ngx-awesome-uploader';
 
 @Component({
     selector: 'app-dialogapro',
@@ -31,11 +34,11 @@ import { MatInputModule } from '@angular/material/input';
         MatDialogTitle,
         MatDialogContent,
         MatDialogActions,
-        MatDialogClose, MatSelectModule,
+        MatDialogClose, MatSelectModule, FilePickerModule,
         ReactiveFormsModule]
 })
 export class dialogapro implements OnInit {
-
+    public adapter = new DemoFilePickerAdapter(this.http);
     form: FormGroup;
 
     constructor(
@@ -43,6 +46,7 @@ export class dialogapro implements OnInit {
         public dialog: MatDialog,
         private FormBuilder: FormBuilder,
         public AddProductService: AddProductService,
+        private http: HttpClient,
     ) {
         ({});
     }
@@ -84,5 +88,13 @@ export class dialogapro implements OnInit {
             "price": "95",
             "details": "ขนมปังอบกรอปใส่ครีม",
         }
+
+    public uploadSuccess(event): void {
+        console.log(event);
+    }
+
+    public onValidationError(error: ValidationError): void {
+        alert(`Validation Error ${error.error} in ${error.file?.name}`);
+    }
 
 }

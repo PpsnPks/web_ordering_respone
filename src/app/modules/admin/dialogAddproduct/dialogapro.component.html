@@ -1,4 +1,4 @@
-<div class="flex-col flex h-full">
+<div class="dialog-content flex-col flex h-full overflow-y-auto ">
     <mat-toolbar class="flex justify-between">
         <button mat-icon-button mat-dialog-close class="example-icon " aria-label="Example icon-button with menu icon">
             <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
@@ -9,14 +9,12 @@
 
         <span class="example-spacer"></span>
     </mat-toolbar>
-    <div class="flex justify-between flex-col grow">
+    <div class="flex justify-between flex-col grow ">
         <div class="flex justify-center grow">
             <form
                 class="flex flex-col w-[712px] h-fit  mt-8 p-8 pb-4 bg-card rounded-2xl shadow-[0px_10px_20px_1px_] shadow-gray-200 overflow-hidden "
                 [formGroup]="form">
-                <!-- <div class="mb-5">
-                    <h1 class="font-bold text-lg">ข้อมูลลูกค้า</h1>
-                </div> -->
+
                 <div class="grid grid-cols-2 w-full gap-3 ">
                     <div class="relative w-full">
                         <label class="absolute -top-2 left-2 z-40 pl-2 pr-2 text-gray-400 text-sm bg-white"
@@ -49,16 +47,23 @@
                         for="">รายละเอียดสินค้า</label>
                     <textarea ng-model="myTextarea" [formControlName]="'details'" required
                         [placeholder]="'ระบุรายละเอียดสินค้า'" class=" w-full h-20 border-2 p-2 border-gray-200">
-                    </textarea>
+                </textarea>
+                </div>
+
+                <div class="flex justify-center">
+                    <ngx-awesome-uploader [adapter]="adapter" class="w-full" [enableCropper]="true" [fileMaxSize]="200"
+                        (uploadSuccess)="uploadSuccess($event)" (validationError)="onValidationError($event)">
+
+                    </ngx-awesome-uploader>
                 </div>
             </form>
         </div>
         <div class="flex justify-between border-t  mt-8 px-8 py-5 bg-white dark:bg-gray-700 bottom-0 w-full ">
             <div>
                 <!-- <button mat-stroked-button color="primary"
-                    class="gap-2 text-primary-600 border-2 border-red-500 rounded-xl">ลบลูกค้า
-                    <mat-icon class="text-primary-500" svgIcon="heroicons_outline:trash"></mat-icon>
-                </button> -->
+                class="gap-2 text-primary-600 border-2 border-red-500 rounded-xl">ลบลูกค้า
+                <mat-icon class="text-primary-500" svgIcon="heroicons_outline:trash"></mat-icon>
+            </button> -->
             </div>
 
             <div class="flex ">
