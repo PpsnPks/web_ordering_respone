@@ -1,25 +1,30 @@
 
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { ChangeDetectionStrategy, Component, Input, OnInit, Output } from '@angular/core';
+import { CommonModule, DatePipe } from '@angular/common';
 import { CustomersService } from './customers.service';
 import { DataTablesModule } from 'angular-datatables';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Dialogcustomer } from '../dialogcustomer/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ADTSettings } from 'angular-datatables/src/models/settings';
+import { Subject } from 'rxjs';
 @Component({
     selector: 'app-customer',
     standalone: true,
     imports: [CommonModule, DataTablesModule, MatIconModule, MatButtonModule],
+    providers: [DatePipe],
     templateUrl: './customers.component.html',
     styleUrl: './customers.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class Customerscomponent implements OnInit {
-    dtOptions: DataTables.Settings = {};
+    dtOptions: ADTSettings = {};
     constructor(
         private customerService: CustomersService,
         public dialog: MatDialog,
+        private DatePipe: DatePipe
     ) { }
 
     opendialogcustomer() {
@@ -27,6 +32,7 @@ export class Customerscomponent implements OnInit {
             data: {}
         });
     }
+
 
     ngOnInit(): void {
         this.dtOptions = {
@@ -63,7 +69,9 @@ export class Customerscomponent implements OnInit {
                 data: 'phoneNumber'
             }, {
                 title: 'At',
-                data: 'createdAt'
+                data: 'createdAt',
+                ngPipeInstance: this.DatePipe,//เปลียนเวลาโดยการใช่ datepipe
+                ngPipeArgs: ["dd-MM-yyyy"]
             },
             ]
         };
@@ -71,3 +79,4 @@ export class Customerscomponent implements OnInit {
     }
 
 }
+
