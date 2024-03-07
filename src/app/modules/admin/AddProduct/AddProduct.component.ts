@@ -55,16 +55,16 @@ export class AddProductcomponent implements OnInit {
                 )
             },
             columns: [{
-                title: 'ID',
+                title: 'เลขที่',
                 data: 'id'
             }, {
-                title: 'code',
+                title: 'รหัสสินค้า',
                 data: 'code'
             }, {
                 title: 'สินค้า',
                 data: 'name'
             }, {
-                title: 'At',
+                title: 'วันที่และเวลา',
                 data: 'createdAt',
                 ngPipeInstance: this.datePipe,//เปลียนเวลาโดยการใช่ datepipe
                 ngPipeArgs: [" dd-MM-yyyy HH:mm น."]

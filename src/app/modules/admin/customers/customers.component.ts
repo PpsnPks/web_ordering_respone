@@ -56,22 +56,22 @@ export class Customerscomponent implements OnInit {
                 )
             },
             columns: [{
-                title: 'ID',
+                title: 'เลขทีี่',
                 data: 'id'
             }, {
-                title: 'code',
+                title: 'รหัสลูกค้า',
                 data: 'code'
             }, {
-                title: 'name',
+                title: 'ชื่อลูกค้า',
                 data: 'name'
             }, {
-                title: 'number',
+                title: 'เบอร์มือถือ',
                 data: 'phoneNumber'
             }, {
-                title: 'At',
+                title: 'วันที่และเวลา',
                 data: 'createdAt',
                 ngPipeInstance: this.DatePipe,//เปลียนเวลาโดยการใช่ datepipe
-                ngPipeArgs: ["dd-MM-yyyy"]
+                ngPipeArgs: ["dd-MM-yyyy HH:mm น."]
             },
             ]
         };

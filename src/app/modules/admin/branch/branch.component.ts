@@ -51,19 +51,19 @@ export class BranchComponent implements OnInit {
                 )
             },
             columns: [{
-                title: 'ID',
+                title: 'เลขที่',
                 data: 'id'
             }, {
-                title: 'code',
+                title: 'รหัสสาขา',
                 data: 'code'
             }, {
                 title: 'สาขา',
                 data: 'name'
             }, {
-                title: 'At',
+                title: 'วันที่และเวลา',
                 data: 'createdAt',
                 ngPipeInstance: this.datePipe,//เปลียนเวลาโดยการใช่ datepipe
-                ngPipeArgs: ["dd-MM-yyyy"]
+                ngPipeArgs: ["dd-MM-yyyy HH:mm น."]
             },
                 //     {
                 //     title: 'ร้าน',

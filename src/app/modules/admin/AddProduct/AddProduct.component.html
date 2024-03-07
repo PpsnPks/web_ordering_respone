@@ -2,9 +2,15 @@
     <div class="flex-auto  sm:p-10 bg-card m-4 p-4 rounded-md">
 
         <div class="flex justify-end pb-2">
-            <button mat-flat-button color="primary" class="w-[100px] rounded-2xl gap-2" (click)="opendialogapro()">
-                <mat-icon svgIcon="heroicons_solid:plus-circle"></mat-icon>
-                เพิ่ม
+            <button color="primary"
+                class="h-12 pl-5 pr-5 text-white rounded-xl bg-primary-500 shadow-sm hover:bg-[#686ab1]"
+                (click)="opendialogapro()">
+                <div class="flex justify-center">
+                    <mat-icon class="text-white" svgIcon="heroicons_outline:plus-circle"></mat-icon>
+                    <p class="mt-1 ml-2">
+                        เพิ่มสินค้า
+                    </p>
+                </div>
             </button>
         </div>
         <table datatable [dtOptions]="dtOptions" class="row-border hover">
