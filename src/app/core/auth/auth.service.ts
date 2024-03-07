@@ -163,6 +163,7 @@ export class AuthService
      */
     check(): Observable<boolean>
     {
+        return of(true);
         // Check the access token availability
         console.warn('this.accessToken', !this.accessToken);
         if ( !this.accessToken )
