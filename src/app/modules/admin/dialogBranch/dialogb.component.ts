@@ -51,10 +51,10 @@ export class Dialogbranch implements OnInit {
     ngOnInit(): void {
         // console.log(this.FormBuilder)
         this.form = this.FormBuilder.group({
-            code: ['', Validators.required],
-            name: ['', Validators.required],
-            storeId: ['', Validators.required],
-            address: ['', Validators.required],
+            code:'',
+            name:'',
+            storeId:'',
+            address:''
         })
     }
     Submit() {
