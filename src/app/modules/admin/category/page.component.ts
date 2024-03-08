@@ -1,39 +1,37 @@
 
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { CustomersService } from './customers.service';
-import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { CategoryService } from './page.service';
+import { DataTablesModule } from 'angular-datatables';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Dialogcustomer } from '../dialogcustomer/dialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import { Dialogbranch } from '../dialogBranch/dialogb.component';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
+import { DialogCategory } from './form-dialog/dialog.component';
 import { Subject } from 'rxjs';
 import { DemoNgComponent } from 'app/modules/shared/button-edit/ng-template-ref.component';
-import { IDemoNgComponentEventType } from 'app/modules/shared/button-edit/ng-template-ref-event-type';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 @Component({
-    selector: 'app-customer',
+    selector: 'app-category',
     standalone: true,
-    imports: [CommonModule, DataTablesModule, MatIconModule, MatButtonModule],
+    imports: [CommonModule, DataTablesModule, MatButtonModule, MatIconModule,],
     providers: [DatePipe],
-    templateUrl: './customers.component.html',
-    styleUrl: './customers.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './page.component.html',
+    styleUrl: './page.component.scss'
 })
 
-export class Customerscomponent implements OnInit {
+export class CategoryComponent implements OnInit {
     @ViewChild('demoNg') demoNg: TemplateRef<DemoNgComponent>;
     message = '';
     dataRow: any[] = []
     dtOptions: ADTSettings = {};
     dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
-    @ViewChild(DataTableDirective)
-    dtElement!: DataTableDirective;
+
 
     pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
     constructor(
-        private customerService: CustomersService,
+        private _service: CategoryService,
         public dialog: MatDialog,
         private DatePipe: DatePipe,
         private _changeDetectorRef: ChangeDetectorRef,
@@ -42,8 +40,8 @@ export class Customerscomponent implements OnInit {
 
     }
 
-    opendialogCustomer(item, status) {
-        const dialogRef = this.dialog.open(Dialogcustomer, {
+    opendialog(item, status) {
+        const dialogRef = this.dialog.open(DialogCategory, {
             width: '500px', // กำหนดความกว้างของ Dialog
             data: {
                 type: status,
@@ -54,7 +52,7 @@ export class Customerscomponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
             if (result) {
-                this.rerender()
+                // this.rerender()
             }
         });
     }
@@ -126,9 +124,9 @@ export class Customerscomponent implements OnInit {
         // Subscribe to the confirmation dialog closed action
         confirmation.afterClosed().subscribe((result) => {
             if (result === 'confirmed') {
-                this.customerService.delete(id).subscribe({
+                this._service.delete(id).subscribe({
                     next: (resp: any) => {
-                        this.rerender()
+
                     },
                     error: (err: any) => {
                         this._fuseConfirmationService.open({
@@ -156,7 +154,7 @@ export class Customerscomponent implements OnInit {
                 })
             }
         })
-        this.customerService.delete(id).subscribe((resp: any) => {
+        this._service.delete(id).subscribe((resp: any) => {
 
         })
     }
@@ -173,7 +171,7 @@ export class Customerscomponent implements OnInit {
             },
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.status = null;
-                that.customerService
+                that._service
                     .datatable(dataTablesParameters)
                     .subscribe((resp: any) => {
                         this.dataRow = resp.data;
@@ -196,17 +194,14 @@ export class Customerscomponent implements OnInit {
             columns: [
                 { data: 'action', orderable: false },
                 { data: 'No' },
-                { data: 'licensePlate' },
                 { data: 'code' },
                 { data: 'name' },
-                { data: 'phonNumber' },
-                { data: 'taxId' },
-                { data: 'level' },
                 { data: 'createdAt' },
             ],
         };
     }
-    
+
+
     ngAfterViewInit() {
         setTimeout(() => {
             // race condition fails unit tests if dtOptions isn't sent with dtTrigger
@@ -219,15 +214,6 @@ export class Customerscomponent implements OnInit {
         this.dtTrigger.unsubscribe();
     }
 
-    onCaptureEvent(event: IDemoNgComponentEventType) {
-        this.message = `Event '${event.cmd}' with data '${JSON.stringify(event.data)}`;
-    }
-
-    rerender(): void {
-        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            dtInstance.ajax.reload();
-        });
-    }
+  
 
 }
-

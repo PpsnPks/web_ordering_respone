@@ -1,76 +1,55 @@
-<div class="flex-col flex h-full">
-    <mat-toolbar class="flex justify-between">
-        <button mat-icon-button mat-dialog-close class="example-icon " aria-label="Example icon-button with menu icon">
-            <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
+<div class="md:max-w-lg">
+    <h1 mat-dialog-title class="text-xl font-semibold mb-4">เพิ่มสาขา</h1>
+    <div mat-dialog-content class="max-h-96 overflow-y-auto md:max-h-180">
+        <form [formGroup]="addForm">
+            <div class="flex-auto">
+                <div class="flex flex-col md:flex mb-6">
+                    <div class="md:w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>รหัสสาขา</mat-label>
+                            <input matInput [placeholder]="'กรุณาระบุรหัสสาขา'" formControlName="code">
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>ชื่อสาขา</mat-label>
+                            <input matInput [placeholder]="'กรุณาระบุชื่อสาขา'" formControlName="name">
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>เลือกร้าน</mat-label>
+                            <mat-select [formControlName]="'storeId'">
+                                <mat-option *ngFor="let item of stores;" [value]="item.id">
+                                    {{item.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-full">
+                        <mat-form-field class="w-full" [ngClass]="formFieldHelpers">
+                            <mat-label>ที่อยู่</mat-label>
+                            <textarea matInput [placeholder]="'กรอกข้อมูลที่อยู่'" [rows]="3" formControlName="name"></textarea>
+                            <mat-icon class="icon-size-5" matPrefix>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
+                                    aria-hidden="true" fit="" height="100%" width="100%"
+                                    preserveAspectRatio="xMidYMid meet" focusable="false">
+                                    <path fill-rule="evenodd"
+                                        d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z"
+                                        clip-rule="evenodd"></path>
+                                </svg></mat-icon>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div mat-dialog-actions class="flex justify-end">
+        <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="Submit()">
+            ตกลง
         </button>
-        <div>
-            <span class="font-bold text-[20px]">เพิ่มสาขา</span>
-        </div>
-
-        <span class="example-spacer"></span>
-    </mat-toolbar>
-    <div class="flex justify-between flex-col grow">
-        <div class="flex justify-center grow">
-            <form
-                class="flex flex-col w-[712px] h-fit  mt-8 p-8 pb-4 bg-card rounded-2xl shadow-[0px_10px_20px_1px_] shadow-gray-200 overflow-hidden "
-                [formGroup]="form">
-                <!-- <div class="mb-5">
-                    <h1 class="font-bold text-lg">ข้อมูลลูกค้า</h1>
-                </div> -->
-                <div class="grid grid-cols-2 w-full gap-3 ">
-                    <div class="relative w-full">
-                        <label class="absolute -top-2 left-2 z-40 pl-2 pr-2 text-gray-400 text-sm bg-white"
-                            for="">รหัสสาขา</label>
-                        <mat-form-field class="flex-auto w-full" subscriptSizing="fixed">
-                            <input matInput [formControlName]="'code'" required [placeholder]="'ระบุรหัสสาขา'">
-                            <mat-error>Required field!</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="relative w-full mb-4">
-                        <label class="absolute -top-2  left-2 z-40 pl-2 pr-2 text-gray-400 text-sm bg-white"
-                            for="">ชื่อสาขา</label>
-                        <mat-form-field class="flex-auto w-full " subscriptSizing="fixed">
-                            <input matInput [formControlName]="'name'" required [placeholder]="'ระบุชื่อสาขา'">
-                            <mat-error>Required field!</mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <!-- dropdown -->
-                <!-- <div class="relative w-full">
-                    <label class="absolute -top-2 left-2 pl-2 pr-2 z-40 text-gray-400 text-sm bg-white"
-                        for="">ร้าน</label>
-                    <mat-form-field class="flex-auto gt-xs:pr-3 w-full">
-                        <mat-select [formControlName]="'storeId'" [placeholder]="'-เลือกร้าน-'">
-                            <mat-option *ngFor="let storeId of storeIds" [value]="storeId.id">
-                                {{storeId.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div> -->
-                <div class="relative w-full">
-                    <label class=" left-2 z-40 pb-2 pl-2 pr-2 text-gray-400 text-sm bg-white" for="">ที่อยู่สาขา</label>
-                    <textarea ng-model="myTextarea" [formControlName]="'address'" required
-                        [placeholder]="'ระบุที่อยู่ลูกค้า'" class=" w-full h-20 border-2 p-2 border-gray-200">
-                    </textarea>
-                </div>
-            </form>
-        </div>
-        <div class="flex justify-between border-t  mt-8 px-8 py-5 bg-white dark:bg-gray-700 bottom-0 w-full ">
-            <div>
-                <!-- <button mat-stroked-button color="primary"
-                    class="gap-2 text-primary-600 border-2 border-red-500 rounded-xl">ลบลูกค้า
-                    <mat-icon class="text-primary-500" svgIcon="heroicons_outline:trash"></mat-icon>
-                </button> -->
-            </div>
-
-            <div class="flex ">
-                <button class="px-8 ml-3 rounded-md flex flex-auto " mat-raised-button mat-dialog-close>
-                    ยกเลิก
-                </button>
-                <button class="px-8 ml-3 shadow-sm rounded-md" mat-flat-button [color]="'primary'" (click)="Submit()">
-                    บันทึก
-                </button>
-            </div>
-        </div>
+        <button class="px-6 ml-3" mat-flat-button [color]="'warn'" (click)="onClose()">
+            ยกเลิก
+        </button>
     </div>
 </div>

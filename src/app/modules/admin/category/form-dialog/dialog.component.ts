@@ -1,5 +1,5 @@
 import { Subscription } from 'rxjs';
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { Component, OnInit, OnChanges, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,17 +12,18 @@ import {
     MatDialogActions,
     MatDialogClose,
     MatDialogRef,
+    MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { BranchService } from '../branch/branch.service';
+import { CategoryService } from '../page.service';
 @Component({
-    selector: 'app-matching-list',
+    selector: 'app-category-form',
     standalone: true,
-    templateUrl: './dialogb.component.html',
+    templateUrl: './dialog.component.html',
     styleUrl: './dialog.component.scss',
     imports: [CommonModule, DataTablesModule, MatIconModule, MatFormFieldModule, MatInputModule,
         FormsModule, MatToolbarModule,
@@ -37,7 +38,7 @@ import { BranchService } from '../branch/branch.service';
         MatFormFieldModule,
     ]
 })
-export class Dialogbranch implements OnInit {
+export class DialogCategory implements OnInit {
 
     form: FormGroup;
     stores: any[]=[];
@@ -45,30 +46,29 @@ export class Dialogbranch implements OnInit {
     dtOptions: DataTables.Settings = {};
     addForm: FormGroup;
     constructor(
-        private dialogRef: MatDialogRef<Dialogbranch>,
+        private dialogRef: MatDialogRef<DialogCategory>,
+        @Inject(MAT_DIALOG_DATA) public data: any,
         public dialog: MatDialog,
         private FormBuilder: FormBuilder,
-        public BranchService: BranchService,
+        public _service: CategoryService,
     ) {
         this.addForm = this.FormBuilder.group({
             name: '',
             code:'',
-            storeId:'',
-            address:'',
         });
-        
-        this.BranchService.getStore().subscribe((resp: any) =>{
-            this.stores = resp;
-        })
     }
 
     ngOnInit(): void {
-        this.form = this.FormBuilder.group({
-            code:'',
-            name:'',
-            storeId:'',
-            address:''
-        })
+         if (this.data.type === 'Edit') {
+            
+          this.addForm.patchValue({
+            ...this.data.value
+          })  
+
+        } else {
+            console.log('New');
+        
+        }
     }
 
     Submit() {
@@ -76,27 +76,6 @@ export class Dialogbranch implements OnInit {
         this.dialogRef.close(formValue)
 
     }
-    databranch =
-        {
-            "id": 1,
-            "code": "ASAP001",
-            "name": "อาลาดิน ดูเยน ",
-            "storeId": 1,
-            "address": "kampongBenaeklupea",
-        }
-    // shop
-    storeIds = [
-        { "id": 1, "name": "nidashop" },
-        { "id": 1, "name": "nanajitangshop" },
-        { "id": 1, "name": "stabuck" },
-        { "id": 1, "name": "kfc" },
-        { "id": 1, "name": "OreoStore" },
-        { "id": 1, "name": "Mackdunald" },
-        { "id": 1, "name": "cocacocastick" },
-        { "id": 1, "name": "vainnasuper" },
-        { "id": 1, "name": "yangkongmodify" },
-        { "id": 1, "name": "diythailand" }
-    ];
 
     onClose() {
         this.dialogRef.close()

@@ -1,20 +1,19 @@
 <div class="flex flex-col flex-auto min-w-0">
-    <div class="flex-auto sm:p-10 bg-card m-4 p-4 rounded-md">
+    <div class="flex-auto  sm:p-10 bg-card m-4 p-4 rounded-md">
         <div class="flex justify-between pb-2 mt-2">
             <div>
                 <h2 class="text-2xl md:text-xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
-                    รายชื่อลูกค้า
+                    รายการสินค้า
                 </h2>
             </div>
             <div>
-                <button color="primary" mat-flat-button
-                class=" text-white  bg-primary-500"
-                (click)="opendialogCustomer('','New')">
-                <mat-icon class="icon-size-4 " svgIcon="heroicons_outline:plus"></mat-icon>
-                <div class="flex justify-center items-center ml-2">
-                  เพิ่มลูกค้า
-                </div>
-            </button>
+                <button color="primary" mat-flat-button class=" text-white  bg-primary-500"
+                    (click)="addProduct()">
+                    <mat-icon class="icon-size-4 " svgIcon="heroicons_outline:plus"></mat-icon>
+                    <div class="flex justify-center items-center ml-2">
+                        เพิ่มสินค้า
+                    </div>
+                </button>
             </div>
         </div>
         <table datatable [dtOptions]="dtOptions" class="row-border hover">
@@ -22,19 +21,16 @@
                 <tr>
                     <th class="w-[100px]">จัดการ</th>
                     <th class="w-[10px]">ลำดับ</th>
-                    <th>ทะเบียนรถ</th>
-                    <th>รหัสลูกค้า</th>
-                    <th>ชื่อ - นามสกุล</th>
-                    <th>เบอร์ติดต่อ</th>
-                    <th>เลขประจำตัวผู้เสียภาษี</th>
-                    <th>ระดับลูกค้า</th>
+                    <th>รหัสสินค้า</th>
+                    <th>ชื่อสินค้า</th>
+                    <th>หน่วย</th>
                     <th>สร้างเมื่อ</th>
                 </tr>
             </thead>
             <tbody *ngIf="dataRow?.length != 0">
                 <tr *ngFor="let item of dataRow; let i = index">
                     <td>
-                        <button mat-icon-button color="accent" (click)="opendialogCustomer(item, 'Edit')">
+                        <button mat-icon-button color="accent" (click)="editProduct(item.id)">
                             <mat-icon>edit</mat-icon>
                         </button>
                         <button mat-icon-button color="accent" (click)="deleteElement(item.id)">
@@ -42,12 +38,9 @@
                         </button>
                     </td>
                     <td>{{ pages.begin + (i + 1) }}</td>
-                    <td>{{ item.licensePlate ?? '-' }}</td>
                     <td>{{ item.code }}</td>
                     <td>{{ item.name }}</td>
-                    <td>{{ item.phoneNumer ? item.phoneNumer : "-" }}</td>
-                    <td>{{ item.taxId ? item.taxId : "-" }}</td>
-                    <td>{{ item.level ? item.level?.name : "-" }}</td>
+                    <td>{{ item.unit ? item.unit?.name : '-' }}</td>
                     <td>{{ (item.createdAt | date : 'dd/MM/yyyy : HH:mm') ?? '-' }}</td>
                 </tr>
             </tbody>
@@ -57,6 +50,5 @@
                 </tr>
             </tbody>
         </table>
-
     </div>
 </div>
