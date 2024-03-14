@@ -21,6 +21,7 @@ import { MatInputModule } from '@angular/material/input';
 import { HttpClient } from '@angular/common/http';
 import { ValidationError, FilePickerModule } from 'ngx-awesome-uploader';
 import { DemoFilePickerAdapter } from 'app/demo-file-picker.adapter';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 
 @Component({
     selector: 'app-product-compose',
@@ -28,13 +29,9 @@ import { DemoFilePickerAdapter } from 'app/demo-file-picker.adapter';
     templateUrl: './product-compose.component.html',
     styleUrl: './product-compose.component.scss',
     imports: [CommonModule, DataTablesModule, MatIconModule, MatFormFieldModule, MatInputModule,
-        FormsModule, MatToolbarModule,
-        MatButtonModule,
-        MatDialogTitle,
-        MatDialogContent,
-        MatDialogActions,
-        MatDialogClose, MatSelectModule, FilePickerModule,
-        ReactiveFormsModule]
+        FormsModule, MatToolbarModule, MatButtonModule, MatDialogTitle, MatDialogContent, MatDialogActions,
+        MatDialogClose, MatSelectModule, FilePickerModule, NgxMaskDirective, ReactiveFormsModule
+    ]
 })
 export class ProductComposeComponent implements OnInit {
     form: FormGroup;

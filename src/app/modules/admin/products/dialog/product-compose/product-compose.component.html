@@ -12,8 +12,7 @@
     </mat-toolbar>
     <div class="flex justify-between flex-col">
         <div class="flex justify-center">
-            <form
-                class="flex flex-col w-[712px] h-fit  mt-8 p-8 pb-4 bg-card rounded-2xl overflow-hidden "
+            <form class="flex flex-col w-[712px] h-fit  mt-8 p-8 pb-4 bg-card rounded-2xl overflow-hidden "
                 [formGroup]="form">
 
                 <div class="grid grid-cols-2 w-full gap-3 ">
@@ -37,7 +36,9 @@
                         <label class="absolute -top-2  left-2 z-40 pl-2 pr-2 text-gray-400 text-sm bg-white"
                             for="">ราคาสินค้า</label>
                         <mat-form-field class="flex-auto w-full " subscriptSizing="fixed">
-                            <input matInput [formControlName]="'price'" required [placeholder]="'ระบุราคาสินค้า'">
+                            <input matInput mask="separator.2" thousandSeparator="," separatorLimit="99999999"
+                                [allowNegativeNumbers]="false" [formControlName]="'price'" required
+                                [placeholder]="'ระบุราคาสินค้า'">
                             <mat-error>Required field!</mat-error>
                         </mat-form-field>
                     </div>
@@ -56,8 +57,9 @@
 
 
                 <div class="flex justify-center">
-                    <ngx-awesome-uploader [adapter]="adapter" [accept]="'image/*'" [uploadType]="'single'" class="w-full" [fileMaxSize]="200"
-                        (uploadSuccess)="uploadSuccess($event)" (validationError)="onValidationError($event)">
+                    <ngx-awesome-uploader [adapter]="adapter" [accept]="'image/*'" [uploadType]="'single'"
+                        class="w-full" [fileMaxSize]="200" (uploadSuccess)="uploadSuccess($event)"
+                        (validationError)="onValidationError($event)">
 
                     </ngx-awesome-uploader>
                 </div>

@@ -16,7 +16,7 @@ export class ProductService {
     constructor(private http: HttpClient) { }
 
     datatable(dataTablesParameters: any) {
-        return this.http.get('api/product/datatables');
+        return this.http.get('api/product/datatables', );
     }
 
     create(dataAproduct: { code: string, name: string, price: string, image: string, categoryId: number }) {
