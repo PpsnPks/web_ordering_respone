@@ -68,28 +68,36 @@ export class ProductsComponent implements OnInit, AfterViewInit {
           {
             title: 'ลำดับ',
             data: 'no',
+            className: 'w-15'
           },
           {
             title: 'รหัสสินค้า',
-            data: 'code'
+            data: 'code',
+            className: 'w-1/6'
           },
           {
-            title: 'สินค้า',
+            title: 'ชื่อสินค้า',
             data: 'name'
           },
           {
-            title: 'วันที่และเวลา',
-            data: 'createdAt',
-            ngPipeInstance: this.datePipe,//เปลียนเวลาโดยการใช่ datepipe
-            ngPipeArgs: [" dd-MM-yyyy HH:mm น."]
+            title: 'ราคา',
+            data: 'price',
+            className: 'w-1/6'
           },
+          // {
+          //   title: 'วันที่และเวลา',
+          //   data: 'createdAt',
+          //   ngPipeInstance: this.datePipe,//เปลียนเวลาโดยการใช่ datepipe
+          //   ngPipeArgs: [" dd-MM-yyyy HH:mm น."]
+          // },
           {
             title: 'จัดการ',
             data: null,
             defaultContent: '',
             ngTemplateRef: {
               ref: this.btNg,
-            }
+            },
+            className: 'w-15'
           }
         ],
         // columnDefs: [
@@ -99,10 +107,10 @@ export class ProductsComponent implements OnInit, AfterViewInit {
         //     targets: 0
         //   }
         // ],
-        select: {
-          style: 'multi',
-          // selector: 'td:first-child'
-        },
+        // select: {
+        //   style: 'multi',
+        //   // selector: 'td:first-child'
+        // },
         // order: [[1, 'asc']]
       };
     });
