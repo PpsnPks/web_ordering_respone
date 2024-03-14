@@ -25,13 +25,13 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './products.component.scss'
 })
 export class ProductsComponent implements OnInit, AfterViewInit {
-  dtOptions: ADTSettings = {};
+  dtOptions: any = {};
   dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
 
   categories: any[] = [];
 
   @ViewChild('btNg') btNg: any;
-  @ViewChild(DataTableDirective, {static: false})
+  @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
 
   constructor(
@@ -47,7 +47,6 @@ export class ProductsComponent implements OnInit, AfterViewInit {
 
     setTimeout(() => {
       this.dtOptions = {
-        pageLength: 25,
         serverSide: true,
         ajax: (dataTablesParameters: any, callback) => {
           this.productService.datatable(dataTablesParameters).subscribe({
@@ -58,10 +57,14 @@ export class ProductsComponent implements OnInit, AfterViewInit {
                 data: resp.data
               });
             }
-          }
-          )
+          })
         },
         columns: [
+          // {
+          //   data: function (row, type, set) {
+          //     return '';
+          //   }
+          // },
           {
             title: 'ลำดับ',
             data: 'no',
@@ -88,7 +91,19 @@ export class ProductsComponent implements OnInit, AfterViewInit {
               ref: this.btNg,
             }
           }
-        ]
+        ],
+        // columnDefs: [
+        //   {
+        //     orderable: false,
+        //     className: 'select-checkbox',
+        //     targets: 0
+        //   }
+        // ],
+        select: {
+          style: 'multi',
+          // selector: 'td:first-child'
+        },
+        // order: [[1, 'asc']]
       };
     });
   }
