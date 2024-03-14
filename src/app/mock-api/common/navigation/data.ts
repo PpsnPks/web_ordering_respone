@@ -35,7 +35,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'สินค้า',
         type: 'basic',
         icon: 'heroicons_solid:squares-plus',
-        link: '/AddProduct'
+        link: '/products'
     },
 ];
 export const compactNavigation: FuseNavigationItem[] = [
