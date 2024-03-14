@@ -16,7 +16,14 @@ export class ProductService {
     constructor(private http: HttpClient) { }
 
     datatable(dataTablesParameters: any) {
-        return this.http.get('api/product/datatables', );
+        const { start, length} = dataTablesParameters;
+        const page = start / length + 1;
+        return this.http.get('api/product/datatables', {
+            params: {
+                limit: length ,
+                page: page,
+            }
+        });
     }
 
     create(dataAproduct: { code: string, name: string, price: string, image: string, categoryId: number }) {
