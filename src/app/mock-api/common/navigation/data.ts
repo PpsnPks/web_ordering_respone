@@ -106,14 +106,14 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'รายงานยอดขายรวมทัังหมด',
                 type: 'basic',
                 icon: 'heroicons_outline:document-chart-bar',
-                // link: '/category'
+                link: '/report/total'
             },
             {
                 id: 'report.type',
                 title: 'รายงานแยกประเภทค่าใช้จ่าย',
                 type: 'basic',
                 icon: 'heroicons_outline:document-chart-bar',
-                // link: '/product'
+                link: '/report/payment-type'
             },
             {
                 id: 'report.type',
