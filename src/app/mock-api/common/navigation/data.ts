@@ -16,13 +16,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:building-office-2',
                 link: '/admin/companie/list',
             },
-            {
-                id: 'admin.department',
-                title: 'แผนกงาน',
-                type: 'basic',
-                icon: 'heroicons_outline:list-bullet',
-                link: '/admin/department/list',
-            },
+            // {
+            //     id: 'admin.department',
+            //     title: 'แผนกงาน',
+            //     type: 'basic',
+            //     icon: 'heroicons_outline:list-bullet',
+            //     link: '/admin/department/list',
+            // },
             {
                 id: 'user',
                 title: 'ผู้ใช้งาน',
@@ -38,11 +38,25 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/admin/permission/list',
             },
             {
+                id: 'store',
+                title: 'ร้านค้า',
+                type: 'basic',
+                icon: 'heroicons_mini:archive-box',
+                // link: '/branch'
+            },
+            {
                 id: 'branch',
                 title: 'สาขา',
                 type: 'basic',
                 icon: 'heroicons_mini:archive-box',
                 link: '/branch'
+            },
+            {
+                id: 'branch',
+                title: 'โปรโมชั่น',
+                type: 'basic',
+                icon: 'heroicons_mini:archive-box',
+                // link: '/branch'
             },
             {
                 id: 'customers',
@@ -76,6 +90,44 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'heroicons_solid:squares-plus',
                 link: '/product'
+            },
+     
+        ],
+    },
+    {
+        id: 'report',
+        title: 'รายงาน',
+        subtitle: 'ข้อมูลเกี่ยวกับรายงาน',
+        type: 'group',
+        icon: 'heroicons_outline:home',
+        children: [
+            {
+                id: 'report.category',
+                title: 'รายงานยอดขายรวมทัังหมด',
+                type: 'basic',
+                icon: 'heroicons_outline:document-chart-bar',
+                // link: '/category'
+            },
+            {
+                id: 'report.type',
+                title: 'รายงานแยกประเภทค่าใช้จ่าย',
+                type: 'basic',
+                icon: 'heroicons_outline:document-chart-bar',
+                // link: '/product'
+            },
+            {
+                id: 'report.type',
+                title: 'รายงานการขายตามแคชเชียร์',
+                type: 'basic',
+                icon: 'heroicons_outline:document-chart-bar',
+                // link: '/product'
+            },
+            {
+                id: 'report.type',
+                title: 'รายงานการขายแยกตามประเภทสินค้า',
+                type: 'basic',
+                icon: 'heroicons_outline:document-chart-bar',
+                // link: '/product'
             },
      
         ],
