@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
-import { CategoryComponent } from './page.component';
 import { FormComponent } from './form/form.component';
+import { ProductsComponent } from './page.component';
 
 export default [
     {
         path: '',
-        component: CategoryComponent,
+        component: ProductsComponent,
     
     },
     {

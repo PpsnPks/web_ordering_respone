@@ -1,229 +1,182 @@
-
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { ChangeDetectorRef, Component, ElementRef, OnInit, Renderer2, TemplateRef, ViewChild } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { ProductService } from './page.service';
-import { DataTablesModule } from 'angular-datatables';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { Dialogbranch } from '../dialogBranch/dialogb.component';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
-import { DialogCategory } from './form-dialog/dialog.component';
+import { FilePickerModule } from 'ngx-awesome-uploader';
+
 import { Subject } from 'rxjs';
-import { DemoNgComponent } from 'app/modules/shared/button-edit/ng-template-ref.component';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDividerModule } from '@angular/material/divider';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { ProductService } from './page.service';
+
 @Component({
-    selector: 'app-category',
-    standalone: true,
-    imports: [CommonModule, DataTablesModule, MatButtonModule, MatIconModule,],
-    providers: [DatePipe],
-    templateUrl: './page.component.html',
-    styleUrl: './page.component.scss'
+  selector: 'app-products',
+  standalone: true,
+  imports: [CommonModule, DataTablesModule, MatButtonModule, MatIconModule, FilePickerModule,
+    MatMenuModule, MatDividerModule
+  ],
+  providers: [DatePipe],
+  templateUrl: './page.component.html',
+  styleUrl: './page.component.scss'
 })
+export class ProductsComponent implements OnInit, AfterViewInit {
+  dtOptions: any = {};
+  dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
 
-export class CategoryComponent implements OnInit {
-    @ViewChild('demoNg') demoNg: TemplateRef<DemoNgComponent>;
-    message = '';
-    dataRow: any[] = []
-    dtOptions: ADTSettings = {};
-    dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
+  categories: any[] = [];
 
+  @ViewChild('btNg') btNg: any;
+  @ViewChild(DataTableDirective, { static: false })
+  dtElement: DataTableDirective;
 
-    pages = { current_page: 1, last_page: 1, per_page: 10, begin: 0 };
-    constructor(
-        private _service: ProductService,
-        public dialog: MatDialog,
-        private DatePipe: DatePipe,
-        private _changeDetectorRef: ChangeDetectorRef,
-        private _fuseConfirmationService: FuseConfirmationService,
-        private _router: Router
-    ) {
+  constructor(
+    public dialog: MatDialog,
+    private datePipe: DatePipe,
+    private productService: ProductService,
+    private fuseConfirmationService: FuseConfirmationService,
+    private toastr: ToastrService,
+  ) { }
 
-    }
+  ngOnInit(): void {
+    // this.productService.categories$.subscribe((resp) => this.categories = resp);
 
-    opendialog(item, status) {
-        const dialogRef = this.dialog.open(DialogCategory, {
-            width: '500px', // กำหนดความกว้างของ Dialog
-            data: {
-                type: status,
-                value: item
+    setTimeout(() => {
+      this.dtOptions = {
+        serverSide: true,
+        ajax: (dataTablesParameters: any, callback) => {
+          this.productService.datatable(dataTablesParameters).subscribe({
+            next: (resp: any) => {
+              callback({
+                recordsTotal: resp.meta.totalItems,
+                recordsFiltered: resp.meta.totalItems,
+                data: resp.data
+              });
             }
-
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-            if (result) {
-                // this.rerender()
-            }
-        });
-    }
-
-    
-
-    ngOnInit(): void {
-        this.loadTable()
-        // this.dtOptions = {
-        //     pagingType: 'full_numbers',
-        //     serverSide: true,     // Set the flag
-        //     ajax: (dataTablesParameters: any, callback) => {
-
-
-        //         this.customerService.datatable(dataTablesParameters).subscribe(
-        //             {
-        //                 next: (resp: any) => {
-        //                     this.dataRow = resp.data
-        //                     this.pages.current_page = resp.meta.currentPage;
-        //                     this.pages.per_page = resp.itemsPerPage;
-        //                     if (resp.currentPage > 1) {
-        //                         this.pages.begin =
-        //                             resp.itemsPerPage * resp.currentPage - 1;
-        //                     } else {
-        //                         this.pages.begin = 0;
-        //                     }
-        //                     callback({
-        //                         recordsTotal: resp.meta.totalItems,
-        //                         recordsFiltered: resp.meta.totalItems,
-        //                         data: resp.data
-        //                     });
-        //                 }
-        //             }
-        //         )
-        //     },
-        //     columns: [
-        //         { data: 'action', orderable: false },
-        //         { data: 'No' },
-        //         { data: 'name' },
-        //         { data: 'email' },
-        //         { data: 'tel' },
-        //         { data: 'create_by' },
-        //         { data: 'created_at' },
-        //     ]
-        // };
-
-    }
-
-    addProduct() {
-        this._router.navigate(['product/form'])
-    }
-
-    editProduct(id: any) {
-        this._router.navigate(['product/form/' + id])
-    }
-
-    deleteElement(id: string) {
-        const confirmation = this._fuseConfirmationService.open({
-            "title": "ลบข้อมูล",
-            "message": "คุณต้องการลบข้อมูลใช่หรือไม่ ?",
-            "icon": {
-                "show": true,
-                "name": "heroicons_outline:exclamation-triangle",
-                "color": "warn"
+          })
+        },
+        columns: [
+          {
+            title: 'ลำดับ',
+            data: 'no',
+            className: 'w-15'
+          },
+          {
+            title: 'รหัสสินค้า',
+            data: 'code',
+            className: 'w-1/6'
+          },
+          {
+            title: 'ชื่อสินค้า',
+            data: 'name'
+          },
+          {
+            title: 'ราคา',
+            data: 'price',
+            className: 'w-1/6'
+          },
+          // {
+          //   title: 'วันที่และเวลา',
+          //   data: 'createdAt',
+          //   ngPipeInstance: this.datePipe,//เปลียนเวลาโดยการใช่ datepipe
+          //   ngPipeArgs: [" dd-MM-yyyy HH:mm น."]
+          // },
+          {
+            title: 'จัดการ',
+            data: null,
+            defaultContent: '',
+            ngTemplateRef: {
+              ref: this.btNg,
             },
-            "actions": {
-                "confirm": {
-                    "show": true,
-                    "label": "ลบ",
-                    "color": "warn"
-                },
-                "cancel": {
-                    "show": true,
-                    "label": "ยกเลิก"
-                }
+            className: 'w-15'
+          }
+        ],
+        // columnDefs: [
+        //   {
+        //     orderable: false,
+        //     className: 'select-checkbox',
+        //     targets: 0
+        //   }
+        // ],
+        // select: {
+        //   style: 'multi',
+        //   // selector: 'td:first-child'
+        // },
+        // order: [[1, 'asc']]
+      };
+    });
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.dtTrigger.next(this.dtOptions);
+    }, 200);
+  }
+
+  ngOnDestroy(): void {
+    // Do not forget to unsubscribe the event
+    this.dtTrigger.unsubscribe();
+  }
+
+  rerender(): void {
+    this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+      // Destroy the table first
+      dtInstance.destroy();
+      // Call the dtTrigger to rerender again
+      this.dtTrigger.next(this.dtOptions);
+    });
+  }
+
+  opendialogapro() {
+    // const DialogRef = this.dialog.open(ProductComposeComponent, {
+    //   disableClose: true,
+    //   data: {}
+    // });
+  }
+
+
+  clickDelete(id: any) {
+    const confirmation = this.fuseConfirmationService.open({
+      title: "ยืนยันลบข้อมูล",
+      message: "กรุณาตรวจสอบข้อมูล หากลบข้อมูลแล้วจะไม่สามารถนำกลับมาได้",
+      icon: {
+        show: true,
+        name: "heroicons_outline:exclamation-triangle",
+        color: "warn"
+      },
+      actions: {
+        confirm: {
+          show: true,
+          label: "ยืนยัน",
+          color: "warn"
+        },
+        cancel: {
+          show: true,
+          label: "ยกเลิก"
+        }
+      },
+      dismissible: false
+    })
+
+    confirmation.afterClosed().subscribe(
+      result => {
+        if (result == 'confirmed') {
+          this.productService.delete(id).subscribe({
+            error: (err) => {
+
             },
-            "dismissible": true
-        });
-        // Subscribe to the confirmation dialog closed action
-        confirmation.afterClosed().subscribe((result) => {
-            if (result === 'confirmed') {
-                this._service.delete(id).subscribe({
-                    next: (resp: any) => {
+            complete: () => {
+              this.toastr.success('ดำเนินการลบสำเร็จ');
 
-                    },
-                    error: (err: any) => {
-                        this._fuseConfirmationService.open({
-                            "title": "กรุณาระบุข้อมูล",
-                            "message": err.error.message,
-                            "icon": {
-                                "show": true,
-                                "name": "heroicons_outline:exclamation",
-                                "color": "warning"
-                            },
-                            "actions": {
-                                "confirm": {
-                                    "show": false,
-                                    "label": "ยืนยัน",
-                                    "color": "primary"
-                                },
-                                "cancel": {
-                                    "show": false,
-                                    "label": "ยกเลิก",
-                                }
-                            },
-                            "dismissible": true
-                        });
-                    }
-                })
-            }
-        })
-        this._service.delete(id).subscribe((resp: any) => {
-
-        })
-    }
-
-    loadTable(): void {
-        const that = this;
-        this.dtOptions = {
-            pagingType: 'full_numbers',
-            pageLength: 25,
-            serverSide: true,
-            processing: true,
-            language: {
-                url: 'https://cdn.datatables.net/plug-ins/1.11.3/i18n/th.json',
+              this.rerender();
             },
-            ajax: (dataTablesParameters: any, callback) => {
-                dataTablesParameters.status = null;
-                that._service
-                    .datatable(dataTablesParameters)
-                    .subscribe((resp: any) => {
-                        this.dataRow = resp.data;
-                        this.pages.current_page = resp.meta.currentPage;
-                        this.pages.per_page = resp.meta.itemsPerPage;
-                        if (resp.currentPage > 1) {
-                            this.pages.begin =
-                                resp.meta.itemsPerPage * resp.meta.currentPage - 1;
-                        } else {
-                            this.pages.begin = 0;
-                        }
-                        callback({
-                            recordsTotal: resp.meta.totalItems,
-                            recordsFiltered: resp.meta.totalItems,
-                            data: [],
-                        });
-                        this._changeDetectorRef.markForCheck();
-                    });
-            },
-            columns: [
-                { data: 'action', orderable: false },
-                { data: 'No' },
-                { data: 'code' },
-                { data: 'unit.name' },
-                { data: 'name' },
-                { data: 'createdAt' },
-            ],
-        };
-    }
-
-
-    ngAfterViewInit() {
-        setTimeout(() => {
-            // race condition fails unit tests if dtOptions isn't sent with dtTrigger
-            this.dtTrigger.next(this.dtOptions);
-        }, 200);
-    }
-
-    ngOnDestroy(): void {
-        // Do not forget to unsubscribe the event
-        this.dtTrigger.unsubscribe();
-    }
+          });
+        }
+      }
+    )
+  }
 }
