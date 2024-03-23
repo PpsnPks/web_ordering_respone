@@ -133,7 +133,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ],
     },
     {
-<<<<<<< HEAD
         id: 'self',
         title: 'ส่วนตัว',
         subtitle: 'จัดการโปรไฟล์',
@@ -155,27 +154,6 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/sign-out',
             },
         ],
-=======
-        id: 'branch',
-        title: 'สาขา',
-        type: 'basic',
-        icon: 'heroicons_mini:archive-box',
-        link: '/branch'
-    },
-    {
-        id: 'customers',
-        title: 'ลูกค้า',
-        type: 'basic',
-        icon: 'heroicons_solid:rectangle-stack',
-        link: '/customers'
-    },
-    {
-        id: 'AddProduct',
-        title: 'สินค้า',
-        type: 'basic',
-        icon: 'heroicons_solid:squares-plus',
-        link: '/products'
->>>>>>> af31f4bc574edbfdb97d47d0657a687c36c4ad34
     },
 ];
 export const compactNavigation: FuseNavigationItem[] = [

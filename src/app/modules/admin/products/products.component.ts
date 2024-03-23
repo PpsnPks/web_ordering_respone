@@ -60,11 +60,6 @@ export class ProductsComponent implements OnInit, AfterViewInit {
           })
         },
         columns: [
-          // {
-          //   data: function (row, type, set) {
-          //     return '';
-          //   }
-          // },
           {
             title: 'ลำดับ',
             data: 'no',
@@ -84,12 +79,6 @@ export class ProductsComponent implements OnInit, AfterViewInit {
             data: 'price',
             className: 'w-1/6'
           },
-          // {
-          //   title: 'วันที่และเวลา',
-          //   data: 'createdAt',
-          //   ngPipeInstance: this.datePipe,//เปลียนเวลาโดยการใช่ datepipe
-          //   ngPipeArgs: [" dd-MM-yyyy HH:mm น."]
-          // },
           {
             title: 'จัดการ',
             data: null,
@@ -129,9 +118,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
 
   rerender(): void {
     this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      // Destroy the table first
       dtInstance.destroy();
-      // Call the dtTrigger to rerender again
       this.dtTrigger.next(this.dtOptions);
     });
   }

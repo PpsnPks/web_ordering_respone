@@ -16,7 +16,7 @@ import { ReportService } from '../page.service';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-    selector: 'app-report',
+    selector: 'app-report-payment-type',
     standalone: true,
     imports: [
         CommonModule,
