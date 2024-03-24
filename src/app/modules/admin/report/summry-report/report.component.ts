@@ -1,5 +1,5 @@
 import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
@@ -20,6 +20,10 @@ import { OrderStatusPipe } from 'app/modules/shared/order-status.pipe';
 import { Router } from '@angular/router';
 import { DialogForm } from './form-dialog/dialog.component';
 import { SearchComponent } from 'app/modules/shared/search-component/search.component';
+import luxon, { DateTime } from 'luxon';
+import { update } from 'lodash';
+import { environment } from 'environments/environment.development';
+
 @Component({
     selector: 'app-page-unit',
     standalone: true,
@@ -47,28 +51,35 @@ import { SearchComponent } from 'app/modules/shared/search-component/search.comp
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ReportComponent implements OnInit, AfterViewInit {
+
     dtOptions: any = {};
     dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
-    form:FormGroup
+    form: FormGroup
+    exportForm: FormGroup
     @ViewChild('btNg') btNg: any;
     @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
-
+    @ViewChild('searchComponent') searchComponent: SearchComponent;
     constructor(
         private _service: ReportService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
         public dialog: MatDialog,
         private _fb: FormBuilder,
-        private orderStatus:  OrderStatusPipe,
-        private currencyPipe:  CurrencyPipe,
+        private orderStatus: OrderStatusPipe,
+        private currencyPipe: CurrencyPipe,
         private datePipe: DatePipe,
         private _router: Router
 
     ) {
         this.form = this._fb.group({
-            startDate: '',
-            endDate: '',
+            orderDate: '',
+            branchId: '',
+            orderStatus: '',
+        })
+        this.exportForm = this._fb.group({
+           startDate :'',
+           endDate : '',
         })
     }
     ngOnInit(): void {
@@ -93,6 +104,11 @@ export class ReportComponent implements OnInit, AfterViewInit {
             pagingType: 'full_numbers',
             serverSide: true,     // Set the flag
             ajax: (dataTablesParameters: any, callback) => {
+                dataTablesParameters.filter = {
+                    'filter.orderDate': this.form.value.orderDate ?? '',
+                    'filter.shift.branch.id': this.form.value.branchId ?? '',
+                    'filter.orderStatus': this.form.value.orderStatus ?? ''
+                }
                 this._service.datatable(dataTablesParameters).subscribe({
                     next: (resp: any) => {
                         callback({
@@ -115,7 +131,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
                     ngPipeInstance: this.datePipe,
                     ngPipeArgs: ['dd-MM-yyyy : HH:mm']
                 },
-          
+
                 {
                     title: 'เลขที่ทำรายการ',
                     data: 'orderNo'
@@ -142,7 +158,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
                     title: 'สถานะ',
                     data: 'orderStatus',
                     ngPipeInstance: this.orderStatus
-                    
+
                 },
                 {
                     title: 'จัดการ',
@@ -160,7 +176,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
 
 
-    rerender(): void {        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
             dtInstance.destroy();
             // Call the dtTrigger to rerender again
@@ -187,13 +204,47 @@ export class ReportComponent implements OnInit, AfterViewInit {
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 console.log(result, 'result')
-               
+
             }
         });
     }
-    yourData : any
+    
     handleChange(updateData: any): void {
-        this.yourData = updateData
-        console.log(this.yourData)
+        var betweenString = ''
+        if( updateData.startDate && updateData.endDate) {
+        var startDate = DateTime.fromISO(updateData.startDate).toFormat('yyyy-MM-dd');
+        var endDate = DateTime.fromISO(updateData.endDate).toFormat('yyyy-MM-dd');
+        betweenString = `$btw:${startDate},${endDate}`;
+        }
+        
+        this.form.patchValue({
+            orderStatus: updateData.status ?? '',
+            orderDate: betweenString ?? '',
+            branchId: updateData.branchId ?? ''
+        })
+
+        this.exportForm.patchValue({
+            startDate: startDate,
+            endDate: endDate
+        })
+
+        console.log(this.form.value)
     }
+
+    onSearch() {
+        this.rerender()
+    }
+
+    exportExcel() {
+        window.open(environment.apiUrl + '/api/report/order/excel?' + 'startDate=' + this.exportForm.value.startDate +  '&endDate=' + this.exportForm.value.endDate)
+    }
+
+    resetSearch() {
+        this.form.reset();
+        this.exportForm.reset();
+        this.searchComponent.reset();
+        this.rerender()
+      }
 }
+
+

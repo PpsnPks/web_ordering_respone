@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { removeEmpty } from 'app/modules/shared/helper';
 import { environment } from 'environments/environment.development';
 import { toUpper } from 'lodash';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
@@ -13,11 +14,12 @@ export class ReportService {
         private http: HttpClient,
     ) { }
     datatable(dataTablesParameters: any) {
-        const { columns, order, search, start, length } = dataTablesParameters;
+        const { columns, order, search, start, length, filter } = dataTablesParameters;
         const page = start / length + 1;
         const column = columns[order[0].column].data;
         const dir = toUpper(order[0].dir);
         const sortBy = column + ':' + dir;
+        
 
         return this.http.get('api/order/datatables', {
             params: {
@@ -25,6 +27,7 @@ export class ReportService {
                 limit: length,
                 sortBy: sortBy,
                 search: search.value,
+                ...removeEmpty(filter)
             }
         }).pipe(
             map((resp: any) => {

@@ -17,11 +17,15 @@ import { BranchService } from 'app/modules/admin/branch/page.service';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit{
-
+  receiveDataFromParent(dataToSend: { startDate: string; endDate: string; }) {
+      throw new Error('Method not implemented.');
+  }
+  
   @Input() items: any;
   @Input() dataArray: any[] = [];
   @Output() dataArrayChange = new EventEmitter<any[]>();
   @Output() dataSearch = new EventEmitter<any>();
+  @Output() appSearchClicked = new EventEmitter<void>();
 
   form: FormGroup
   orderStatus: any[] = [
@@ -52,14 +56,15 @@ export class SearchComponent implements OnInit{
   }
 
   ngOnInit(): void {
- 
+   
   }
 
   tranferData() {
     this.dataSearch.emit(this.form.value);
   }
 
-
- 
+  reset() {
+    this.form.reset()
+  }
 
 }
