@@ -49,11 +49,6 @@ export class DialogForm implements OnInit {
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: DataTables.Settings = {};
     addForm: FormGroup;   
-    roles: any[] = [
-        { id: 2, name: 'Admin'},
-        { id: 3, name: 'Supervisor'},
-        { id: 4, name: 'Cashier'},
-     ];
     constructor(
         private dialogRef: MatDialogRef<DialogForm>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -68,24 +63,15 @@ export class DialogForm implements OnInit {
         if(this.data.type === 'EDIT') {
             this.form = this.FormBuilder.group({
                 code: this.data.value.code ?? '',
-                firstName: this.data.value.firstName ?? '',
-                lastName: this.data.value.lastName ?? '',
-                phoneNumber: this.data.value.phoneNumber ?? '',
-                roleId: this.data.value?.role?.id ?? '',
-                username: this.data.value?.username ?? '',
-                isActive: this.data.value?.isActive
+                name: this.data.value.name ?? '',
+        
            
              });
         } else {
             this.form = this.FormBuilder.group({
                 code: '',
-                firstName: '',
-                lastName: '',
-                phoneNumber: '',
-                roleId: '',
-                username: '',
-                password: '',
-                confirmpassword: '',
+                name: '',
+
              });
         }
 

@@ -131,7 +131,6 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     });
   }
 
-
   clickDelete(id: any) {
     const confirmation = this.fuseConfirmationService.open({
       title: "ยืนยันลบข้อมูล",

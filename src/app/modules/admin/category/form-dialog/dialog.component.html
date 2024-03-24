@@ -7,71 +7,17 @@
                 <div class="flex flex-col md:flex mb-6">
                     <div class="md:w-full">
                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full" >
-                            <mat-label>รหัสพนักงาน</mat-label>
-                            <input matInput [placeholder]="'กรุณาระบุรหัสพนักงาน'" formControlName="code" [readonly]="this.data.type === 'EDIT'" >
+                            <mat-label>รหัสประเภทสินค้า</mat-label>
+                            <input matInput [placeholder]="'กรุณาระบุรหัสประเภทสินค้า'" formControlName="code" [readonly]="this.data.type === 'EDIT'" >
                         </mat-form-field>
                     </div>
                     <div class="md:w-full">
                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                            <mat-label>ชื่อ</mat-label>
-                            <input matInput [placeholder]="'กรุณาระบุชื่อพนักงาน'" formControlName="firstName">
+                            <mat-label>ชื่อประเภทสินค้า</mat-label>
+                            <input matInput [placeholder]="'กรุณาระบุชื่อประเภทสินค้า'" formControlName="name">
                         </mat-form-field>
                     </div>
-                    <div class="md:w-full">
-                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                            <mat-label>นามสกุล</mat-label>
-                            <input matInput [placeholder]="'กรุณาระบุนามสกุลพนักงาน'" formControlName="lastName">
-                        </mat-form-field>
-                    </div>
-                    <div class="md:w-full">
-                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                            <mat-label>เบอร์ติดต่อ</mat-label>
-                            <input matInput [placeholder]="'กรุณาระบุเบอร์ติดต่อ'" formControlName="phoneNumber"
-                                type="tel">
-                        </mat-form-field>
-                    </div>
-                    <div class="md:w-full">
-                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                            <mat-label>สิทธิ์การใช้งาน</mat-label>
-                            <mat-select formControlName="roleId">
-                                <mat-option value="">
-                                    เลือกสิทธิ์การใช้งาน
-                                </mat-option>
-                                <mat-option *ngFor="let item of roles;" [value]="item.id">
-                                    {{item.name}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="md:w-full">
-                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                            <mat-label>Username</mat-label>
-                            <input matInput [placeholder]="''" formControlName="username" readonly>
-                        </mat-form-field>
-                    </div>
-                    <div class="md:w-full" *ngIf="this.data.type === 'EDIT'">
-                        <mat-radio-group aria-label="Select an option" formControlName="isActive">
-                            <mat-radio-button [value]="true" >เปิดใช้งาน</mat-radio-button>
-                            <mat-radio-button [value]="false" >ปิดใช้งาน</mat-radio-button>
-                        </mat-radio-group>
-                    </div>
-                    <div class="md:w-full" *ngIf="this.data.type === 'NEW'">
-                        <mat-form-field class="w-full">
-                            <mat-label>Password</mat-label>
-                            <input id="password" matInput type="password" [formControlName]="'password'" #passwordField>
-                            <button mat-icon-button type="button"
-                                (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
-                                matSuffix>
-                                <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'password'"
-                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                                <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'"
-                                    [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
-                            </button>
-                            <mat-error>
-                                Password is required
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
+                   
                 </div>
             </div>
         </form>

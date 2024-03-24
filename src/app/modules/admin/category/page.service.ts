@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { toUpper } from 'lodash';
 import { BehaviorSubject, map, tap } from 'rxjs';
 
 @Injectable({
@@ -17,12 +18,18 @@ export class CategoryService {
   constructor(private http: HttpClient) { }
 
   datatable(dataTablesParameters: any) {
-    const { start, length } = dataTablesParameters;
+    const { columns, order, search, start, length } = dataTablesParameters;
     const page = start / length + 1;
+    const column = columns[order[0].column].data;
+    const dir = toUpper(order[0].dir);
+    const sortBy = column + ':' + dir;
+
     return this.http.get('api/category/datatables', {
       params: {
-        limit: length,
         page: page,
+        limit: length,
+        sortBy: sortBy,
+        search: search.value,
       }
     }).pipe(
       map((resp: any) => {
