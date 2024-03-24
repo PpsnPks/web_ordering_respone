@@ -126,8 +126,8 @@ export class CategoryComponent implements OnInit, AfterViewInit {
             disableClose: true,
             width: '500px',
             maxHeight: '90%',
-            enterAnimationDuration: 4,
-            exitAnimationDuration: 500,
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
             data: {
                 type: 'NEW'
             }
@@ -145,6 +145,8 @@ export class CategoryComponent implements OnInit, AfterViewInit {
             disableClose: true,
             width: '500px',
             maxHeight: '90%',
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
             data: {
                 type: 'EDIT',
                 value: item

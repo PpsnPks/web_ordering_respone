@@ -1,7 +1,7 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
-import { UserService } from './user.service';
+import { PromotionService } from './page.service';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
 import { MatDividerModule } from '@angular/material/divider';
@@ -15,7 +15,7 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { DialogForm } from './form-dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 @Component({
-    selector: 'app-user',
+    selector: 'app-page-category',
     standalone: true,
     imports: [
         CommonModule,
@@ -26,11 +26,12 @@ import { MatDialog } from '@angular/material/dialog';
         MatMenuModule,
         MatDividerModule
     ],
-    templateUrl: './user.component.html',
-    styleUrl: './user.component.scss',
+    templateUrl: './page.component.html',
+    styleUrl: './page.component.scss',
     changeDetection: ChangeDetectionStrategy.Default,
+    providers: [DatePipe],
 })
-export class UserComponent implements OnInit, AfterViewInit {
+export class CategoryComponent implements OnInit, AfterViewInit {
     dtOptions: any = {};
     dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
 
@@ -39,10 +40,11 @@ export class UserComponent implements OnInit, AfterViewInit {
     dtElement: DataTableDirective;
 
     constructor(
-        private userService: UserService,
+        private _service: PromotionService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
         public dialog: MatDialog,
+        private datePipe: DatePipe,
 
     ) {
 
@@ -69,7 +71,7 @@ export class UserComponent implements OnInit, AfterViewInit {
             pagingType: 'full_numbers',
             serverSide: true,     // Set the flag
             ajax: (dataTablesParameters: any, callback) => {
-                this.userService.datatable(dataTablesParameters).subscribe({
+                this._service.datatable(dataTablesParameters).subscribe({
                     next: (resp: any) => {
                         callback({
                             recordsTotal: resp.meta.totalItems,
@@ -86,20 +88,30 @@ export class UserComponent implements OnInit, AfterViewInit {
                     className: 'w-15'
                 },
                 {
-                    title: 'รหัสพนักงาน',
-                    data: 'code'
+                    title: 'รหัสโปรโมชั่น',
+                    data: 'code',
+                    className: 'w-30'
                 },
                 {
-                    title: 'ชื่อ - นามสุกล',
-                    data: 'fullName'
+                    title: 'ชื่อโปรโมชั่น',
+                    data: 'name'
                 },
                 {
-                    title: 'เบอร์ติดต่อ',
-                    data: 'phoneNumber'
+                    title: 'วันที่เริ่มต้น',
+                    data: 'startDate',
+                    ngPipeInstance: this.datePipe,
+                    ngPipeArgs: ['dd-MM-yyyy']
+                },
+            
+                {
+                    title: 'วันที่สิ้นสุด',
+                    data: 'endDate',
+                    ngPipeInstance: this.datePipe,
+                    ngPipeArgs: ['dd-MM-yyyy']
                 },
                 {
-                    title: 'สิทธิ์การใช้งาน',
-                    data: 'role.name'
+                    title: 'ประเภทโปรโมชั่น',
+                    data: 'type'
                 },
                 {
                     title: 'จัดการ',
@@ -131,7 +143,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     opendialogapro() {
         const DialogRef = this.dialog.open(DialogForm, {
             disableClose: true,
-            width: '500px',
+            width: '680px',
             maxHeight: '90%',
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
@@ -148,23 +160,26 @@ export class UserComponent implements OnInit, AfterViewInit {
     }
 
     openDialogEdit(item: any) {
-        const DialogRef = this.dialog.open(DialogForm, {
-            disableClose: true,
-            width: '500px',
-            maxHeight: '90%',
-            enterAnimationDuration: 300,
-            exitAnimationDuration: 300,
-            data: {
-                type: 'EDIT',
-                value: item
-            }
-        });
-        DialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-                console.log(result, 'result')
-                this.rerender();
-            }
-        });
+        this._service.getPromotionId(item).subscribe((resp: any) => {
+            const DialogRef = this.dialog.open(DialogForm, {
+                disableClose: true,
+                width: '680px',
+                maxHeight: '90%',
+                enterAnimationDuration: 300,
+                exitAnimationDuration: 300,
+                data: {
+                    type: 'EDIT',
+                    value: resp
+                }
+            });
+            DialogRef.afterClosed().subscribe((result) => {
+                if (result) {
+                    console.log(result, 'result')
+                    this.rerender();
+                }
+            });
+        })
+     
     }
 
 
@@ -195,7 +210,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         confirmation.afterClosed().subscribe(
             result => {
                 if (result == 'confirmed') {
-                    this.userService.delete(id).subscribe({
+                    this._service.delete(id).subscribe({
                         error: (err) => {
 
                         },
