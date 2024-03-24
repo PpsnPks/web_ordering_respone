@@ -20,8 +20,8 @@ export class ProductService {
     const page = start / length + 1;
     return this.http.get('api/product/datatables', {
       params: {
-        limit: length,
         page: page,
+        limit: length,
       }
     }).pipe(
       map((resp: any) => {

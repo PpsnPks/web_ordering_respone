@@ -1,40 +1,54 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'environments/environment.development';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, map, tap } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class CategoryService {
-    private _data: BehaviorSubject<any | null> = new BehaviorSubject(null);
-    constructor(
-        private http: HttpClient,
-    ) { }
-    datatable(dataTablesParameters: any) {
-        return this.http.get('/api/category/datatables')
-    }
-    create(daatabranch: { code: string, name: string, storeId: number, address: string, }) {
-        return this.http.post('api/category', {
-            "code": daatabranch.code,
-            "name": daatabranch.name,
-            "storeId": daatabranch.storeId,
-            "address": daatabranch.address,
 
-        })
-    }
+  private _categories: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+  private _roles: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
 
-    getStore(): Observable<any> {
-        return this.http
-            .get<any>(environment.apiUrl + '/api/category')
-            .pipe(
-                tap((result) => {
-                    this._data.next(result);
-                })
-            );
-    }
+  get categories$() {
+    return this._categories.asObservable();
+  }
 
-    delete(id: any) {
-        return this.http.delete('/api/category/' + id )
-    }
+  constructor(private http: HttpClient) { }
+
+  datatable(dataTablesParameters: any) {
+    const { start, length } = dataTablesParameters;
+    const page = start / length + 1;
+    return this.http.get('api/category/datatables', {
+      params: {
+        limit: length,
+        page: page,
+      }
+    }).pipe(
+      map((resp: any) => {
+        resp.data.forEach((e: any, i: number) => e.no = start + i + 1);
+        return resp;
+      })
+    );
+  }
+
+  create(data: any) {
+    return this.http.post('api/category', data)
+  }
+
+  update(id: any,data: any) {
+    return this.http.put('/api/category/' + id, data)
+  }
+
+  getRole() {
+    return this.http.get('api/role').pipe(
+      tap((resp: any) => {
+        this._roles.next(resp);
+      }),
+    )
+  }
+
+  delete(id: number) {
+    return this.http.delete('/api/category/' + id)
+  }
 }

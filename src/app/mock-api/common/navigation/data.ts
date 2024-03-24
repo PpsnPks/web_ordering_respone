@@ -30,16 +30,15 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:user-group',
                 link: '/user'
             },
+            // {
+            //     id: 'admin.permission',
+            //     title: 'สิทธิ์การใช้งาน',
+            //     type: 'basic',
+            //     icon: 'heroicons_outline:key',
+            //     link: '/admin/permission/list',
+            // },
             {
-                id: 'admin.permission',
-                title: 'สิทธิ์การใช้งาน',
-                type: 'basic',
-                icon: 'heroicons_outline:key',
-                link: '/admin/permission/list',
-            },
-
-            {
-                id: 'branch',
+                id: 'promotion',
                 title: 'โปรโมชั่น',
                 type: 'basic',
                 icon: 'heroicons_mini:archive-box',

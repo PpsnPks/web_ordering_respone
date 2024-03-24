@@ -3,9 +3,7 @@ import { CategoryComponent } from './page.component';
 
 export default [
     {
-        path: '',
+        path     : '',
         component: CategoryComponent,
-
     },
- 
 ] as Routes;

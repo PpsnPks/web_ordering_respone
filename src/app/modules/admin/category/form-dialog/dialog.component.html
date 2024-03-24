@@ -1,26 +1,82 @@
-<div class="md:max-w-lg">
-    <h1 mat-dialog-title class="text-xl font-semibold mb-4" *ngIf="this.data?.type === 'New'">เพิ่มข้อมูล</h1>
-    <h1 mat-dialog-title class="text-xl font-semibold mb-4" *ngIf="this.data?.type === 'Edit'">แก้ไขข้อมูล</h1>
-    <div mat-dialog-content class="max-h-96 overflow-y-auto md:max-h-180">
-        <form [formGroup]="addForm">
+<div class="md:max-w-lg" >
+    <h1 mat-dialog-title class="text-xl font-semibold mb-4" *ngIf="this.data?.type === 'NEW'">เพิ่มข้อมูล</h1>
+    <h1 mat-dialog-title class="text-xl font-semibold mb-4" *ngIf="this.data?.type === 'EDIT'">แก้ไขข้อมูล</h1>
+    <div mat-dialog-content class="overflow-y-auto md:max-h-180">
+        <form [formGroup]="form">
             <div class="flex-auto">
                 <div class="flex flex-col md:flex mb-6">
                     <div class="md:w-full">
-                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                            <mat-label>รหัสลูกค้า</mat-label>
-                            <input matInput [placeholder]="'กรุณาระบุรหัสประเภทสินค้า'" formControlName="code">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full" >
+                            <mat-label>รหัสพนักงาน</mat-label>
+                            <input matInput [placeholder]="'กรุณาระบุรหัสพนักงาน'" formControlName="code" [readonly]="this.data.type === 'EDIT'" >
                         </mat-form-field>
                     </div>
                     <div class="md:w-full">
                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-                            <mat-label>ชื่อประเภทสินค้า</mat-label>
-                            <input matInput [placeholder]="'กรุณาระบุประเภทสินค้า'" formControlName="name">
+                            <mat-label>ชื่อ</mat-label>
+                            <input matInput [placeholder]="'กรุณาระบุชื่อพนักงาน'" formControlName="firstName">
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>นามสกุล</mat-label>
+                            <input matInput [placeholder]="'กรุณาระบุนามสกุลพนักงาน'" formControlName="lastName">
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>เบอร์ติดต่อ</mat-label>
+                            <input matInput [placeholder]="'กรุณาระบุเบอร์ติดต่อ'" formControlName="phoneNumber"
+                                type="tel">
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>สิทธิ์การใช้งาน</mat-label>
+                            <mat-select formControlName="roleId">
+                                <mat-option value="">
+                                    เลือกสิทธิ์การใช้งาน
+                                </mat-option>
+                                <mat-option *ngFor="let item of roles;" [value]="item.id">
+                                    {{item.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>Username</mat-label>
+                            <input matInput [placeholder]="''" formControlName="username" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-full" *ngIf="this.data.type === 'EDIT'">
+                        <mat-radio-group aria-label="Select an option" formControlName="isActive">
+                            <mat-radio-button [value]="true" >เปิดใช้งาน</mat-radio-button>
+                            <mat-radio-button [value]="false" >ปิดใช้งาน</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
+                    <div class="md:w-full" *ngIf="this.data.type === 'NEW'">
+                        <mat-form-field class="w-full">
+                            <mat-label>Password</mat-label>
+                            <input id="password" matInput type="password" [formControlName]="'password'" #passwordField>
+                            <button mat-icon-button type="button"
+                                (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
+                                matSuffix>
+                                <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'password'"
+                                    [svgIcon]="'heroicons_solid:eye'"></mat-icon>
+                                <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'"
+                                    [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
+                            </button>
+                            <mat-error>
+                                Password is required
+                            </mat-error>
                         </mat-form-field>
                     </div>
                 </div>
             </div>
         </form>
     </div>
+    <!-- <div> check : {{this.form.value | json}}</div> -->
     <div mat-dialog-actions class="flex justify-end">
         <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="Submit()">
             ตกลง
