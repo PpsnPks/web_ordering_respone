@@ -63,6 +63,13 @@ export class BranchService {
       }),
     )
   }
+  getBranch() {
+    return this.http.get('/api/branch').pipe(
+      tap((resp: any) => {
+        this._branch.next(resp);
+      }),
+    )
+  }
 
   delete(id: number) {
     return this.http.delete('/api/branch/' + id)

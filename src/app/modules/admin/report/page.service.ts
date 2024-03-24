@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'environments/environment.development';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { toUpper } from 'lodash';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,25 @@ export class ReportService {
         private http: HttpClient,
     ) { }
     datatable(dataTablesParameters: any) {
-        return this.http.get('/api/product/datatables')
+        const { columns, order, search, start, length } = dataTablesParameters;
+        const page = start / length + 1;
+        const column = columns[order[0].column].data;
+        const dir = toUpper(order[0].dir);
+        const sortBy = column + ':' + dir;
+
+        return this.http.get('api/order/datatables', {
+            params: {
+                page: page,
+                limit: length,
+                sortBy: sortBy,
+                search: search.value,
+            }
+        }).pipe(
+            map((resp: any) => {
+                resp.data.forEach((e: any, i: number) => e.no = start + i + 1);
+                return resp;
+            })
+        );
     }
     create(daatabranch: { code: string, name: string, storeId: number, address: string, }) {
         return this.http.post('api/product', {
@@ -71,7 +90,7 @@ export class ReportService {
     }
     getById(id: string): Observable<any> {
         return this.http
-            .get<any>('/api/product/' + id)
+            .get<any>('/api/order/' + id)
             .pipe(
                 tap((result) => {
                     this._data.next(result);
@@ -80,6 +99,6 @@ export class ReportService {
     }
 
     delete(id: any) {
-        return this.http.delete('/api/product/' + id )
+        return this.http.delete('/api/product/' + id)
     }
 }
