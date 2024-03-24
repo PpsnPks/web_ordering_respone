@@ -152,7 +152,7 @@ export class DialogForm implements OnInit {
                 confirm: {
                     show: true,
                     label: "ยืนยัน",
-                    color: "warn"
+                    color: "primary"
                 },
                 cancel: {
                     show: true,
@@ -169,7 +169,7 @@ export class DialogForm implements OnInit {
                         this._service.create(formValue).subscribe({
                             error: (err) => {
                                 this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
-                                this.dialogRef.close(true)
+                                // this.dialogRef.close(true)
                             },
                             complete: () => {
                                 this.toastr.success('ดำเนินการเพิ่มข้อมูลสำเร็จ')
@@ -180,7 +180,7 @@ export class DialogForm implements OnInit {
                         this._service.update(this.data.value.id ,formValue).subscribe({
                             error: (err) => {
                                 this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
-                                this.dialogRef.close(true)
+                                // this.dialogRef.close(true)
                             },
                             complete: () => {
                                 this.toastr.success('ดำเนินการแก้ไขข้อมูลสำเร็จ')
