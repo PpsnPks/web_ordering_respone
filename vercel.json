@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/:match*",
+      "destination": "https://upos-api.dev-asha.com/:match*"
+    }
+  ]
+}
