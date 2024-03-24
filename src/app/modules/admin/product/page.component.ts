@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -20,6 +20,7 @@ import { ProductService } from './page.service';
   imports: [CommonModule, DataTablesModule, MatButtonModule, MatIconModule, FilePickerModule,
     MatMenuModule, MatDividerModule
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DatePipe],
   templateUrl: './page.component.html',
   styleUrl: './page.component.scss'
@@ -40,6 +41,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
     private productService: ProductService,
     private fuseConfirmationService: FuseConfirmationService,
     private toastr: ToastrService,
+    private _changeDetecttoRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -56,6 +58,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
                 recordsFiltered: resp.meta.totalItems,
                 data: resp.data
               });
+              
             }
           })
         },
@@ -79,12 +82,6 @@ export class ProductsComponent implements OnInit, AfterViewInit {
             data: 'price',
             className: 'w-1/6'
           },
-          // {
-          //   title: 'วันที่และเวลา',
-          //   data: 'createdAt',
-          //   ngPipeInstance: this.datePipe,//เปลียนเวลาโดยการใช่ datepipe
-          //   ngPipeArgs: [" dd-MM-yyyy HH:mm น."]
-          // },
           {
             title: 'จัดการ',
             data: null,
@@ -95,19 +92,9 @@ export class ProductsComponent implements OnInit, AfterViewInit {
             className: 'w-15'
           }
         ],
-        // columnDefs: [
-        //   {
-        //     orderable: false,
-        //     className: 'select-checkbox',
-        //     targets: 0
-        //   }
-        // ],
-        // select: {
-        //   style: 'multi',
-        //   // selector: 'td:first-child'
-        // },
-        // order: [[1, 'asc']]
+
       };
+      this._changeDetecttoRef.markForCheck();
     });
   }
 

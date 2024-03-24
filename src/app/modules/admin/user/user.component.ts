@@ -1,102 +1,181 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { DataTablesModule } from 'angular-datatables';
-
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { UserService } from './user.service';
+import { ADTSettings } from 'angular-datatables/src/models/settings';
+import { Subject } from 'rxjs';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { FilePickerModule } from 'ngx-awesome-uploader';
+import { MatMenuModule } from '@angular/material/menu';
+import { ToastrService } from 'ngx-toastr';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { DialogRef } from '@angular/cdk/dialog';
+import { DialogForm } from './form-dialog/dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
     selector: 'app-user',
     standalone: true,
     imports: [
-        CommonModule, DataTablesModule
+        CommonModule,
+        DataTablesModule,
+        MatButtonModule,
+        MatIconModule,
+        FilePickerModule,
+        MatMenuModule,
+        MatDividerModule
     ],
     templateUrl: './user.component.html',
     styleUrl: './user.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserComponent implements OnInit {
-    dtOptions: DataTables.Settings = {};
+export class UserComponent implements OnInit, AfterViewInit {
+    dtOptions: any = {};
+    dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
 
+    @ViewChild('btNg') btNg: any;
+    @ViewChild(DataTableDirective, { static: false })
+    dtElement: DataTableDirective;
+
+    constructor(
+        private userService: UserService,
+        private fuseConfirmationService: FuseConfirmationService,
+        private toastr: ToastrService,
+        public dialog: MatDialog,
+
+    ) {
+    
+    }
     ngOnInit(): void {
-        this.dtOptions = {
-            pagingType: 'full_numbers',
-            serverSide: true,     // Set the flag
-            ajax: (dataTablesParameters: any, callback) => {
-                callback({
-                    recordsTotal: 0,
-                    recordsFiltered: 0,
-                    data: [{ "id": 1, "firstName": "Jerrome", "lastName": "Lovitt" },
-                    { "id": 2, "firstName": "Micaela", "lastName": "Jeffels" },
-                    { "id": 3, "firstName": "Ruy", "lastName": "Tamplin" },
-                    { "id": 4, "firstName": "Lucian", "lastName": "Scotson" },
-                    { "id": 5, "firstName": "Moe", "lastName": "Bandy" },
-                    { "id": 6, "firstName": "Toddy", "lastName": "Brettell" },
-                    { "id": 7, "firstName": "Don", "lastName": "Shann" },
-                    { "id": 8, "firstName": "Katrine", "lastName": "Woliter" },
-                    { "id": 9, "firstName": "Emmott", "lastName": "Mieville" },
-                    { "id": 10, "firstName": "Allyson", "lastName": "Patnelli" },
-                    { "id": 11, "firstName": "Chan", "lastName": "Lippett" },
-                    { "id": 12, "firstName": "Isidora", "lastName": "Leonards" },
-                    { "id": 13, "firstName": "Gilberto", "lastName": "Coventon" },
-                    { "id": 14, "firstName": "Abbott", "lastName": "Mucklo" },
-                    { "id": 15, "firstName": "Agatha", "lastName": "West-Frimley" },
-                    { "id": 16, "firstName": "Brita", "lastName": "Donhardt" },
-                    { "id": 17, "firstName": "Mureil", "lastName": "Bergeau" },
-                    { "id": 18, "firstName": "Jory", "lastName": "Law" },
-                    { "id": 19, "firstName": "Itch", "lastName": "Crass" },
-                    { "id": 20, "firstName": "Shaina", "lastName": "Murrthum" },
-                    { "id": 21, "firstName": "Dena", "lastName": "Autie" },
-                    { "id": 22, "firstName": "Lanna", "lastName": "Puddle" },
-                    { "id": 23, "firstName": "Trefor", "lastName": "Beauman" },
-                    { "id": 24, "firstName": "Curran", "lastName": "Shurmer" },
-                    { "id": 25, "firstName": "Donnajean", "lastName": "Warriner" },
-                    { "id": 26, "firstName": "Christabella", "lastName": "Mortlock" },
-                    { "id": 27, "firstName": "Betteanne", "lastName": "McGowan" },
-                    { "id": 28, "firstName": "Jarib", "lastName": "Cruden" },
-                    { "id": 29, "firstName": "Aurore", "lastName": "Flowers" },
-                    { "id": 30, "firstName": "Virgilio", "lastName": "Hinkensen" },
-                    { "id": 31, "firstName": "Ezmeralda", "lastName": "Dineen" },
-                    { "id": 32, "firstName": "Stewart", "lastName": "Molian" },
-                    { "id": 33, "firstName": "Ashly", "lastName": "Gribbon" },
-                    { "id": 34, "firstName": "Shani", "lastName": "McKeggie" },
-                    { "id": 35, "firstName": "Angele", "lastName": "Debney" },
-                    { "id": 36, "firstName": "Sarette", "lastName": "Ausello" },
-                    { "id": 37, "firstName": "Sherry", "lastName": "Sproule" },
-                    { "id": 38, "firstName": "Sauncho", "lastName": "Eve" },
-                    { "id": 39, "firstName": "Magda", "lastName": "Proudlock" },
-                    { "id": 40, "firstName": "Ker", "lastName": "Bullen" },
-                    { "id": 41, "firstName": "Consuelo", "lastName": "Rolley" },
-                    { "id": 42, "firstName": "Malory", "lastName": "Longbothom" },
-                    { "id": 43, "firstName": "Trev", "lastName": "Merrydew" },
-                    { "id": 44, "firstName": "Emelyne", "lastName": "Pessold" },
-                    { "id": 45, "firstName": "Tasha", "lastName": "Coules" },
-                    { "id": 46, "firstName": "Alix", "lastName": "Mayes" },
-                    { "id": 47, "firstName": "Lilias", "lastName": "Owthwaite" },
-                    { "id": 48, "firstName": "Devondra", "lastName": "Gudgion" },
-                    { "id": 49, "firstName": "Donella", "lastName": "Stait" },
-                    { "id": 50, "firstName": "Anica", "lastName": "Dedman" }
-                    ]
-                });
-                // this.http
-                //     .post<DataTablesResponse>(
-                //         'https://xtlncifojk.eu07.qoddiapp.com/',
-                //         dataTablesParameters, {}
-                //     ).subscribe(resp => {
-                //         callback({
-                //             recordsTotal: resp.recordsTotal,
-                //             recordsFiltered: resp.recordsFiltered,
-                //             data: resp.data
-                //         });
-                //     });
+        setTimeout(() =>
+            this.dtOptions = {
+                pagingType: 'full_numbers',
+                serverSide: true,     // Set the flag
+                ajax: (dataTablesParameters: any, callback) => {
+                    this.userService.datatable(dataTablesParameters).subscribe({
+                        next: (resp: any) => {
+                            callback({
+                                recordsTotal: resp.meta.totalItems,
+                                recordsFiltered: resp.meta.totalItems,
+                                data: resp.data
+                            });
+                        }
+                    })
+                },
+                columns: [
+                    {
+                        title: 'ลำดับ',
+                        data: 'no',
+                        className: 'w-15'
+                    },
+                    {
+                        title: 'รหัสพนักงาน',
+                        data: 'code'
+                    },
+                    {
+                        title: 'ชื่อ - นามสุกล',
+                        data: 'fullName'
+                    },
+                    {
+                        title: 'เบอร์ติดต่อ',
+                        data: 'phoneNumber'
+                    },
+                    {
+                        title: 'สิทธิ์การใช้งาน',
+                        data: 'role.name'
+                    },
+                    {
+                        title: 'จัดการ',
+                        data: null,
+                        defaultContent: '',
+                        ngTemplateRef: {
+                            ref: this.btNg,
+                        },
+                        className: 'w-15'
+                    }
+
+                ]
+            });
+
+    }
+
+    ngAfterViewInit() {
+        setTimeout(() => {
+            this.dtTrigger.next(this.dtOptions);
+        }, 200);
+    }
+
+    ngOnDestroy(): void {
+        // Do not forget to unsubscribe the event
+        this.dtTrigger.unsubscribe();
+    }
+
+    rerender(): void {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+            // Destroy the table first
+            dtInstance.destroy();
+            // Call the dtTrigger to rerender again
+            this.dtTrigger.next(this.dtOptions);
+        });
+    }
+    opendialogapro() {
+        const DialogRef = this.dialog.open(DialogForm, {
+            disableClose: true,
+            width: '500px',
+            height: '90%',
+            data: {
+                type: 'NEW'
+            }
+        });
+        DialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                   console.log(result,'result')
+                   this.rerender();
+            }
+        });
+
+    }
+
+
+
+    clickDelete(id: any) {
+        const confirmation = this.fuseConfirmationService.open({
+            title: "ยืนยันลบข้อมูล",
+            message: "กรุณาตรวจสอบข้อมูล หากลบข้อมูลแล้วจะไม่สามารถนำกลับมาได้",
+            icon: {
+                show: true,
+                name: "heroicons_outline:exclamation-triangle",
+                color: "warn"
             },
-            columns: [{
-                title: 'ID',
-                data: 'id'
-            }, {
-                title: 'First name',
-                data: 'firstName'
-            }, {
-                title: 'Last name',
-                data: 'lastName'
-            }]
-        };
+            actions: {
+                confirm: {
+                    show: true,
+                    label: "ยืนยัน",
+                    color: "warn"
+                },
+                cancel: {
+                    show: true,
+                    label: "ยกเลิก"
+                }
+            },
+            dismissible: false
+        })
+
+        confirmation.afterClosed().subscribe(
+            result => {
+                if (result == 'confirmed') {
+                    this.userService.delete(id).subscribe({
+                        error: (err) => {
+
+                        },
+                        complete: () => {
+                            this.toastr.success('ดำเนินการลบสำเร็จ');
+                            this.rerender();
+                        },
+                    });
+                }
+            }
+        )
     }
 }

@@ -57,7 +57,7 @@ export class AuthService
      *
      * @param credentials
      */
-    signIn(credentials: { email: string; password: string }): Observable<any>
+    signIn(credentials: { username: string; password: string }): Observable<any>
     {
         // Throw error, if the user is already logged in
         if ( this._authenticated )
@@ -163,7 +163,7 @@ export class AuthService
      */
     check(): Observable<boolean>
     {
-        return of(true);
+        
         // Check the access token availability
         console.warn('this.accessToken', !this.accessToken);
         if ( !this.accessToken )
