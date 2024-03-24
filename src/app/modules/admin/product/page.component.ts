@@ -74,6 +74,11 @@ export class ProductComponent implements OnInit, AfterViewInit {
             pagingType: 'full_numbers',
             serverSide: true,     // Set the flag
             ajax: (dataTablesParameters: any, callback) => {
+
+                dataTablesParameters.filter = {
+                  'filter.category.id': '',
+                }
+
                 this._service.datatable(dataTablesParameters).subscribe({
                     next: (resp: any) => {
                         callback({

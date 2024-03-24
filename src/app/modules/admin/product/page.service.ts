@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { removeEmpty } from 'app/modules/shared/helper';
 import { toUpper } from 'lodash';
 import { BehaviorSubject, map, tap } from 'rxjs';
 
@@ -19,7 +20,7 @@ export class ProductService {
   constructor(private http: HttpClient) { }
 
   datatable(dataTablesParameters: any) {
-    const { columns, order, search, start, length } = dataTablesParameters;
+    const { columns, order, search, start, length, filter } = dataTablesParameters;
     const page = start / length + 1;
     const column = columns[order[0].column].data;
     const dir = toUpper(order[0].dir);
@@ -31,7 +32,7 @@ export class ProductService {
         limit: length,
         sortBy: sortBy,
         search: search.value,
-        
+        ...removeEmpty(filter)
       }
     }).pipe(
       map((resp: any) => {
