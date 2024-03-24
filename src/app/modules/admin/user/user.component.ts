@@ -45,58 +45,12 @@ export class UserComponent implements OnInit, AfterViewInit {
         public dialog: MatDialog,
 
     ) {
-    
+
     }
     ngOnInit(): void {
         setTimeout(() =>
-            this.dtOptions = {
-                pagingType: 'full_numbers',
-                serverSide: true,     // Set the flag
-                ajax: (dataTablesParameters: any, callback) => {
-                    this.userService.datatable(dataTablesParameters).subscribe({
-                        next: (resp: any) => {
-                            callback({
-                                recordsTotal: resp.meta.totalItems,
-                                recordsFiltered: resp.meta.totalItems,
-                                data: resp.data
-                            });
-                        }
-                    })
-                },
-                columns: [
-                    {
-                        title: 'ลำดับ',
-                        data: 'no',
-                        className: 'w-15'
-                    },
-                    {
-                        title: 'รหัสพนักงาน',
-                        data: 'code'
-                    },
-                    {
-                        title: 'ชื่อ - นามสุกล',
-                        data: 'fullName'
-                    },
-                    {
-                        title: 'เบอร์ติดต่อ',
-                        data: 'phoneNumber'
-                    },
-                    {
-                        title: 'สิทธิ์การใช้งาน',
-                        data: 'role.name'
-                    },
-                    {
-                        title: 'จัดการ',
-                        data: null,
-                        defaultContent: '',
-                        ngTemplateRef: {
-                            ref: this.btNg,
-                        },
-                        className: 'w-15'
-                    }
-
-                ]
-            });
+            this.loadTable()
+        );
 
     }
 
@@ -109,6 +63,57 @@ export class UserComponent implements OnInit, AfterViewInit {
     ngOnDestroy(): void {
         // Do not forget to unsubscribe the event
         this.dtTrigger.unsubscribe();
+    }
+
+    loadTable(): void {
+        this.dtOptions = {
+            pagingType: 'full_numbers',
+            serverSide: true,     // Set the flag
+            ajax: (dataTablesParameters: any, callback) => {
+                this.userService.datatable(dataTablesParameters).subscribe({
+                    next: (resp: any) => {
+                        callback({
+                            recordsTotal: resp.meta.totalItems,
+                            recordsFiltered: resp.meta.totalItems,
+                            data: resp.data
+                        });
+                    }
+                })
+            },
+            columns: [
+                {
+                    title: 'ลำดับ',
+                    data: 'no',
+                    className: 'w-15'
+                },
+                {
+                    title: 'รหัสพนักงาน',
+                    data: 'code'
+                },
+                {
+                    title: 'ชื่อ - นามสุกล',
+                    data: 'fullName'
+                },
+                {
+                    title: 'เบอร์ติดต่อ',
+                    data: 'phoneNumber'
+                },
+                {
+                    title: 'สิทธิ์การใช้งาน',
+                    data: 'role.name'
+                },
+                {
+                    title: 'จัดการ',
+                    data: null,
+                    defaultContent: '',
+                    ngTemplateRef: {
+                        ref: this.btNg,
+                    },
+                    className: 'w-15'
+                }
+
+            ]
+        }
     }
 
     rerender(): void {
@@ -130,8 +135,8 @@ export class UserComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                   console.log(result,'result')
-                   this.rerender();
+                console.log(result, 'result')
+                this.rerender();
             }
         });
 
