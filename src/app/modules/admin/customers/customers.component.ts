@@ -18,7 +18,7 @@ import { ProductComposeComponent } from '../products/dialog/product-compose/prod
 import { CustomerService } from './customers.service';
 import { Dialogcustomer } from '../dialogcustomer/dialog.component';
 @Component({
-    selector: 'app-page-category',
+    selector: 'app-page-customer',
     standalone: true,
     imports: [
         CommonModule,
@@ -136,8 +136,8 @@ export class CustomerComponent implements OnInit, AfterViewInit {
             disableClose: true,
             width: '500px',
             maxHeight: '90%',
-            enterAnimationDuration: 4,
-            exitAnimationDuration: 500,
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
             data: {
                 type: 'NEW'
             }
@@ -155,6 +155,8 @@ export class CustomerComponent implements OnInit, AfterViewInit {
             disableClose: true,
             width: '500px',
             maxHeight: '90%',
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
             data: {
                 type: 'EDIT',
                 value: item
@@ -229,8 +231,8 @@ export class CustomerComponent implements OnInit, AfterViewInit {
             disableClose: true,
             width: '800px',
             maxHeight: '90%',
-            enterAnimationDuration: 4,
-            exitAnimationDuration: 500,
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
             data: {
                 type: 'NEW'
             }

@@ -71,12 +71,20 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/category'
             },
             {
+                id: 'unit',
+                title: 'หน่วยนับ',
+                type: 'basic',
+                icon: 'heroicons_solid:inbox-stack',
+                link: '/unit'
+            },
+            {
                 id: 'AddProduct',
                 title: 'สินค้า',
                 type: 'basic',
                 icon: 'heroicons_solid:squares-plus',
                 link: '/product'
             },
+      
      
         ],
     },

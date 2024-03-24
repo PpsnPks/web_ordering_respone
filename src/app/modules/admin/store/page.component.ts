@@ -110,27 +110,7 @@ export class StoreComponent implements OnInit {
                 if (result == 'confirmed') {
                     this.stoerService.update(this.store.id ,formValue).subscribe({
                         error: (err) => {
-                            this.fuseConfirmationService.open({
-                                title: 'กรุณาตรวจสอบข้อมูล',
-                                message: err.error.message,
-                                icon: {
-                                    show: true,
-                                    name: 'heroicons_outline:exclamation',
-                                    color: 'warning',
-                                },
-                                actions: {
-                                    confirm: {
-                                        show: false,
-                                        label: 'ยืนยัน',
-                                        color: 'warn',
-                                    },
-                                    cancel: {
-                                        show: false,
-                                        label: 'ยกเลิก',
-                                    },
-                                },
-                                dismissible: true,
-                            });
+                            this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
                         },
                         complete: () => {
                             this.toastr.success('ดำเนินการแก้ไขข้อมูลสำเร็จ')

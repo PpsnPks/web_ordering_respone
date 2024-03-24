@@ -1,7 +1,7 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
-import { PromotionService } from './page.service';
+import { UnitService } from './page.service';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
 import { MatDividerModule } from '@angular/material/divider';
@@ -14,9 +14,8 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { DialogRef } from '@angular/cdk/dialog';
 import { DialogForm } from './form-dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { IsActiveLabelPipe } from 'app/modules/shared/active-status.pipe';
 @Component({
-    selector: 'app-page-promotion',
+    selector: 'app-page-unit',
     standalone: true,
     imports: [
         CommonModule,
@@ -25,30 +24,25 @@ import { IsActiveLabelPipe } from 'app/modules/shared/active-status.pipe';
         MatIconModule,
         FilePickerModule,
         MatMenuModule,
-        MatDividerModule,
-        
+        MatDividerModule
     ],
     templateUrl: './page.component.html',
     styleUrl: './page.component.scss',
     changeDetection: ChangeDetectionStrategy.Default,
-    providers: [DatePipe,IsActiveLabelPipe],
 })
-export class CategoryComponent implements OnInit, AfterViewInit {
+export class UnitComponent implements OnInit, AfterViewInit {
     dtOptions: any = {};
     dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
 
     @ViewChild('btNg') btNg: any;
-    @ViewChild('textStatus') textStatus: any;
     @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
 
     constructor(
-        private _service: PromotionService,
+        private _service: UnitService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
         public dialog: MatDialog,
-        private datePipe: DatePipe,
-        private isActivate: IsActiveLabelPipe,
 
     ) {
 
@@ -91,39 +85,10 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                     data: 'no',
                     className: 'w-15'
                 },
+          
                 {
-                    title: 'รหัสโปรโมชั่น',
-                    data: 'code',
-                    className: 'w-30'
-                },
-                {
-                    title: 'ชื่อโปรโมชั่น',
+                    title: 'ชื่อหน่วยนับ',
                     data: 'name'
-                },
-                {
-                    title: 'วันที่เริ่มต้น',
-                    data: 'startDate',
-                    ngPipeInstance: this.datePipe,
-                    ngPipeArgs: ['dd-MM-yyyy']
-                },
-            
-                {
-                    title: 'วันที่สิ้นสุด',
-                    data: 'endDate',
-                    ngPipeInstance: this.datePipe,
-                    ngPipeArgs: ['dd-MM-yyyy']
-                },
-                {
-                    title: 'ประเภทโปรโมชั่น',
-                    data: 'type'
-                },
-                {
-                    title: 'สถานะ',
-                    data: null,
-                    defaultContent: '',
-                    ngTemplateRef: {
-                        ref: this.textStatus,
-                    },
                 },
                 {
                     title: 'จัดการ',
@@ -155,7 +120,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
     opendialogapro() {
         const DialogRef = this.dialog.open(DialogForm, {
             disableClose: true,
-            width: '680px',
+            width: '500px',
             maxHeight: '90%',
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
@@ -172,26 +137,23 @@ export class CategoryComponent implements OnInit, AfterViewInit {
     }
 
     openDialogEdit(item: any) {
-        this._service.getPromotionId(item).subscribe((resp: any) => {
-            const DialogRef = this.dialog.open(DialogForm, {
-                disableClose: true,
-                width: '680px',
-                maxHeight: '90%',
-                enterAnimationDuration: 300,
-                exitAnimationDuration: 300,
-                data: {
-                    type: 'EDIT',
-                    value: resp
-                }
-            });
-            DialogRef.afterClosed().subscribe((result) => {
-                if (result) {
-                    console.log(result, 'result')
-                    this.rerender();
-                }
-            });
-        })
-     
+        const DialogRef = this.dialog.open(DialogForm, {
+            disableClose: true,
+            width: '500px',
+            maxHeight: '90%',
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
+            data: {
+                type: 'EDIT',
+                value: item
+            }
+        });
+        DialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                console.log(result, 'result')
+                this.rerender();
+            }
+        });
     }
 
 

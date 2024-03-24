@@ -19,12 +19,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { CategoryService } from '../page.service';
+import { UnitService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
 @Component({
-    selector: 'app-category-form',
+    selector: 'app-unit-form',
     standalone: true,
     templateUrl: './dialog.component.html',
     styleUrl: './dialog.component.scss',
@@ -54,7 +54,7 @@ export class DialogForm implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
         public dialog: MatDialog,
         private FormBuilder: FormBuilder,
-        public _service: CategoryService,
+        public _service: UnitService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
     ) 
@@ -121,27 +121,7 @@ export class DialogForm implements OnInit {
                     if (this.data.type === 'NEW') {
                         this._service.create(formValue).subscribe({
                             error: (err) => {
-                                this.fuseConfirmationService.open({
-                                    title: 'กรุณาตรวจสอบข้อมูล',
-                                    message: err.error.message,
-                                    icon: {
-                                        show: true,
-                                        name: 'heroicons_outline:exclamation',
-                                        color: 'warning',
-                                    },
-                                    actions: {
-                                        confirm: {
-                                            show: false,
-                                            label: 'ยืนยัน',
-                                            color: 'warn',
-                                        },
-                                        cancel: {
-                                            show: false,
-                                            label: 'ยกเลิก',
-                                        },
-                                    },
-                                    dismissible: true,
-                                });
+                                this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
                             },
                             complete: () => {
                                 this.toastr.success('ดำเนินการเพิ่มข้อมูลสำเร็จ')
@@ -151,27 +131,7 @@ export class DialogForm implements OnInit {
                     } else {
                         this._service.update(this.data.value.id ,formValue).subscribe({
                             error: (err) => {
-                                this.fuseConfirmationService.open({
-                                    title: 'กรุณาตรวจสอบข้อมูล',
-                                    message: err.error.message,
-                                    icon: {
-                                        show: true,
-                                        name: 'heroicons_outline:exclamation',
-                                        color: 'warning',
-                                    },
-                                    actions: {
-                                        confirm: {
-                                            show: false,
-                                            label: 'ยืนยัน',
-                                            color: 'warn',
-                                        },
-                                        cancel: {
-                                            show: false,
-                                            label: 'ยกเลิก',
-                                        },
-                                    },
-                                    dismissible: true,
-                                });
+                                this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
                             },
                             complete: () => {
                                 this.toastr.success('ดำเนินการแก้ไขข้อมูลสำเร็จ')

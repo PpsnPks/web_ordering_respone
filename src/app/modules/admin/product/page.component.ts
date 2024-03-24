@@ -18,7 +18,7 @@ import { Router } from '@angular/router';
 import { PictureComponent } from '../picture/picture.component';
 import { ProductComposeComponent } from '../products/dialog/product-compose/product-compose.component';
 @Component({
-    selector: 'app-page-category',
+    selector: 'app-page-product',
     standalone: true,
     imports: [
         CommonModule,
@@ -161,8 +161,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
             disableClose: true,
             width: '500px',
             maxHeight: '90%',
-            enterAnimationDuration: 4,
-            exitAnimationDuration: 500,
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
             data: {
                 type: 'NEW'
             }
@@ -254,8 +254,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
             disableClose: true,
             width: '800px',
             maxHeight: '90%',
-            enterAnimationDuration: 4,
-            exitAnimationDuration: 500,
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
             data: {
                 type: 'NEW'
             }
