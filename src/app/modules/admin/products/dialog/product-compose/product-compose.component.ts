@@ -37,6 +37,7 @@ export class ProductComposeComponent implements OnInit {
     form: FormGroup;
     adapter = new DemoFilePickerAdapter(this.http);
     catagories: any[] = [];
+    units: any[] = [];
 
     constructor(
         private dialogRef: MatDialogRef<ProductComposeComponent>,
@@ -53,9 +54,11 @@ export class ProductComposeComponent implements OnInit {
             price: ['', Validators.required],
             image: [''],
             categoryId: ['', Validators.required],
+            unitId: ['', Validators.required],
         });
 
         this.ProductService.categories$.subscribe(resp => this.catagories = resp);
+        this.ProductService.units$.subscribe(resp => this.units = resp);
     }
     Submit() {
         if (this.form.invalid) {
@@ -68,6 +71,7 @@ export class ProductComposeComponent implements OnInit {
             price: this.form.value.price,
             image: this.form.value.image,
             categoryId: this.form.value.categoryId,
+            unitId: this.form.value.unitId,
         }).subscribe(
             {
                 next: (resp: any) => {

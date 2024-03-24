@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { Customerscomponent } from './customers.component';
+import { CustomerComponent } from './customers.component';
 
 export default [
     {
         path: '',
-        component: Customerscomponent,
+        component: CustomerComponent,
     },
 ] as Routes;

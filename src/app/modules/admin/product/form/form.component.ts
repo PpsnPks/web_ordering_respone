@@ -13,10 +13,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { CustomersService } from '../../customers/customers.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { ProductService } from '../page.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { ToastrService } from 'ngx-toastr';
+import { NgxMaskDirective } from 'ngx-mask';
+import { FilePickerModule } from 'ngx-awesome-uploader';
 
 @Component({
     selector: 'form-product',
@@ -27,6 +30,8 @@ import { ActivatedRoute } from '@angular/router';
         CommonModule,
         MatIconModule,
         FormsModule,
+        NgxMaskDirective,
+        FilePickerModule,
         MatFormFieldModule, NgClass, MatInputModule, TextFieldModule, ReactiveFormsModule, MatButtonToggleModule, MatButtonModule, MatSelectModule, MatOptionModule, MatChipsModule, MatDatepickerModule],
 })
 export class FormComponent implements OnInit {
@@ -43,9 +48,12 @@ export class FormComponent implements OnInit {
      */
     constructor(
         private _formBuilder: UntypedFormBuilder,
-        private _serviceCustomer: CustomersService,
+        private _serviceCustomer: ProductService,
         private _service: ProductService,
-        private _activatedRoute: ActivatedRoute
+        private _activatedRoute: ActivatedRoute,
+        private _router: Router,
+        private fuseConfirmationService: FuseConfirmationService,
+        private toastr: ToastrService,
     ) {
         this.Id = this._activatedRoute.snapshot.paramMap.get('id');
         this.form = this._formBuilder.group({
@@ -54,8 +62,9 @@ export class FormComponent implements OnInit {
             name: '',
             unitId: '',
             imgeUrl: '',
+            imageName: '',
             categoryId: '',
-            productLevel: this._formBuilder.array([])
+            // productLevel: this._formBuilder.array([])
         })
         this._service.getUnit().subscribe((resp: any) => {
             this.unit = resp
@@ -63,9 +72,12 @@ export class FormComponent implements OnInit {
         this._service.getCategory().subscribe((resp: any) => {
             this.category = resp
         })
-        this._service.getById(this.Id).subscribe((resp: any) => {
-            this.itemData = resp
-        })
+        if (this.Id) {
+            this._service.getById(this.Id).subscribe((resp: any) => {
+                this.itemData = resp
+            })
+        }
+
     }
 
     ngOnInit(): void {
@@ -79,32 +91,32 @@ export class FormComponent implements OnInit {
                         unitId: +this.itemData.unit.id,
                         categoryId: +this.itemData?.category?.id,
                     })
-                    this.itemData.productLevel.forEach(element => {
-                        const a = this._formBuilder.group({
-                            id: element.id,
-                            levelId: element.level.id,
-                            levelName: element.level.name,
-                            price: element.price
-                        })
-                        this.productLevel().push(a);
-                    });
+                    // this.itemData.productLevel.forEach(element => {
+                    //     const a = this._formBuilder.group({
+                    //         id: element.id,
+                    //         levelId: element.level.id,
+                    //         levelName: element.level.name,
+                    //         price: element.price
+                    //     })
+                    //     this.productLevel().push(a);
+                    // });
                 }
             })
         } else {
-            this._serviceCustomer.getLevel().subscribe((resp: any) => {
-                this.level = resp
-                if (this.level) {
-                    this.level.forEach((data: any) => {
-                        const a = this._formBuilder.group({
-                            id: '',
-                            levelId: data.id,
-                            levelName: data.name,
-                            price: ''
-                        })
-                        this.productLevel().push(a);
-                    })
-                }
-            })
+            // this._serviceCustomer.getLevel().subscribe((resp: any) => {
+            //     this.level = resp
+            //     if (this.level) {
+            //         this.level.forEach((data: any) => {
+            //             const a = this._formBuilder.group({
+            //                 id: '',
+            //                 levelId: data.id,
+            //                 levelName: data.name,
+            //                 price: ''
+            //             })
+            //             // this.productLevel().push(a);
+            //         })
+            //     }
+            // })
         }
 
     }
@@ -132,8 +144,79 @@ export class FormComponent implements OnInit {
         return this.formFieldHelpers.join(' ');
     }
 
-    onSaveClick(): void {
+    Submit() {
+        let formValue = this.form.value
+        const confirmation = this.fuseConfirmationService.open({
+            title: "ยืนยันการบันทึกข้อมูล",
+            icon: {
+                show: true,
+                name: "heroicons_outline:exclamation-triangle",
+                color: "primary"
+            },
+            actions: {
+                confirm: {
+                    show: true,
+                    label: "ยืนยัน",
+                    color: "warn"
+                },
+                cancel: {
+                    show: true,
+                    label: "ยกเลิก"
+                }
+            },
+            dismissible: false
+        })
 
+        confirmation.afterClosed().subscribe(
+            result => {
+                if (result == 'confirmed') {
+                    this._service.create(formValue).subscribe({
+                        error: (err) => {
+                            this.fuseConfirmationService.open({
+                                title: 'กรุณาตรวจสอบข้อมูล',
+                                message: err.error.message,
+                                icon: {
+                                    show: true,
+                                    name: 'heroicons_outline:exclamation',
+                                    color: 'warning',
+                                },
+                                actions: {
+                                    confirm: {
+                                        show: false,
+                                        label: 'ยืนยัน',
+                                        color: 'warn',
+                                    },
+                                    cancel: {
+                                        show: false,
+                                        label: 'ยกเลิก',
+                                    },
+                                },
+                                dismissible: true,
+                            });
+                        },
+                        complete: () => {
+                            this.toastr.success('ดำเนินการเพิ่มข้อมูลสำเร็จ')
+                            this.backTo()
+                        },  
+                    });
+                }
+            }
+        )
     }
+    
+    backTo() {
+        this._router.navigate(['/product'])
+    }
+
+    files: File[] = [];
+    onSelect(event, input: any) {
+  
+      if (input === 'productImg') {
+        this.form.patchValue({
+          image_name: event[0].name,
+        });
+      }
+    }
+
 }
 
