@@ -11,10 +11,10 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: 'admin.comp',
-                title: 'ข้อมูลบริษัท',
+                title: 'ข้อมูลร้านค้า',
                 type: 'basic',
                 icon: 'heroicons_outline:building-office-2',
-                link: '/admin/companie/list',
+                link: '/store',
             },
             // {
             //     id: 'admin.department',

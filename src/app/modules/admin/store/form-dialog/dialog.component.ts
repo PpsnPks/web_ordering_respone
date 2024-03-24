@@ -19,7 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { UserService } from '../user.service';
+import { StoerService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
@@ -28,8 +28,14 @@ import {MatRadioModule} from '@angular/material/radio';
     standalone: true,
     templateUrl: './dialog.component.html',
     styleUrl: './dialog.component.scss',
-    imports: [CommonModule, DataTablesModule, MatIconModule, MatFormFieldModule, MatInputModule,
-        FormsModule, MatToolbarModule,
+    imports: [
+        CommonModule, 
+        DataTablesModule, 
+        MatIconModule, 
+        MatFormFieldModule, 
+        MatInputModule,
+        FormsModule, 
+        MatToolbarModule,
         MatButtonModule,
         MatDialogTitle,
         MatDialogContent,
@@ -59,9 +65,8 @@ export class DialogForm implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
         public dialog: MatDialog,
         private FormBuilder: FormBuilder,
-        public _service: UserService,
         private fuseConfirmationService: FuseConfirmationService,
-        private userService: UserService,
+        private userService: StoerService,
         private toastr: ToastrService,
     ) 
     {

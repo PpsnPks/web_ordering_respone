@@ -28,7 +28,7 @@ import { MatDialog } from '@angular/material/dialog';
     ],
     templateUrl: './user.component.html',
     styleUrl: './user.component.scss',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+    changeDetection: ChangeDetectionStrategy.Default,
 })
 export class UserComponent implements OnInit, AfterViewInit {
     dtOptions: any = {};
@@ -49,8 +49,7 @@ export class UserComponent implements OnInit, AfterViewInit {
     }
     ngOnInit(): void {
         setTimeout(() =>
-            this.loadTable()
-        );
+            this.loadTable());
 
     }
 
@@ -116,6 +115,8 @@ export class UserComponent implements OnInit, AfterViewInit {
         }
     }
 
+
+
     rerender(): void {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
@@ -124,11 +125,16 @@ export class UserComponent implements OnInit, AfterViewInit {
             this.dtTrigger.next(this.dtOptions);
         });
     }
+
+
+
     opendialogapro() {
         const DialogRef = this.dialog.open(DialogForm, {
             disableClose: true,
             width: '500px',
-            height: '90%',
+            maxHeight: '90%',
+            enterAnimationDuration: 4,
+            exitAnimationDuration: 500,
             data: {
                 type: 'NEW'
             }
@@ -139,7 +145,24 @@ export class UserComponent implements OnInit, AfterViewInit {
                 this.rerender();
             }
         });
+    }
 
+    openDialogEdit(item: any) {
+        const DialogRef = this.dialog.open(DialogForm, {
+            disableClose: true,
+            width: '500px',
+            maxHeight: '90%',
+            data: {
+                type: 'EDIT',
+                value: item
+            }
+        });
+        DialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                console.log(result, 'result')
+                this.rerender();
+            }
+        });
     }
 
 

@@ -83,6 +83,7 @@ export const appRoutes: Route[] = [
             { path: 'category', loadChildren: () => import('app/modules/admin/category/page.routes') },
             { path: 'product', loadChildren: () => import('app/modules/admin/product/page.routes') },
             { path: 'report', loadChildren: () => import('app/modules/admin/report/report.routes') },
+            { path: 'store', loadChildren: () => import('app/modules/admin/store/page.routes') },
 
         ]
     }

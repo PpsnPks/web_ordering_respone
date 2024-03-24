@@ -1,0 +1,150 @@
+import { CommonModule } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { StoerService } from './page.service';
+import { ADTSettings } from 'angular-datatables/src/models/settings';
+import { Subject } from 'rxjs';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import { FilePickerModule } from 'ngx-awesome-uploader';
+import { MatMenuModule } from '@angular/material/menu';
+import { ToastrService } from 'ngx-toastr';
+import { FuseConfirmationService } from '@fuse/services/confirmation';
+import { DialogRef } from '@angular/cdk/dialog';
+import { DialogForm } from './form-dialog/dialog.component';
+import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { MatToolbarModule } from '@angular/material/toolbar';
+@Component({
+    selector: 'app-page-store',
+    standalone: true,
+    imports: [
+        CommonModule,
+        DataTablesModule,
+        MatButtonModule,
+        MatIconModule,
+        FilePickerModule,
+        MatMenuModule,
+        MatDividerModule,
+        MatFormFieldModule, 
+        MatInputModule,
+        FormsModule, 
+        MatToolbarModule,
+        MatDialogTitle,
+        MatDialogContent,
+        MatDialogActions,
+        MatDialogClose,
+        MatSelectModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatRadioModule
+    ],
+    templateUrl: './page.component.html',
+    styleUrl: './page.component.scss',
+    changeDetection: ChangeDetectionStrategy.Default,
+})
+export class StoreComponent implements OnInit {
+    form: FormGroup;
+    formFieldHelpers: string[] = ['fuse-mat-dense'];
+    dtOptions: any = {};
+    dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
+
+    @ViewChild('btNg') btNg: any;
+    @ViewChild(DataTableDirective, { static: false })
+    dtElement: DataTableDirective;
+    store: any;
+    constructor(
+        private stoerService: StoerService,
+        private fuseConfirmationService: FuseConfirmationService,
+        private toastr: ToastrService,
+        public dialog: MatDialog,
+        private fb: FormBuilder,
+
+    ) {
+     
+        this.form = this.fb.group({
+            code: '',
+            name: '',
+            address: ''
+        })
+    }
+    ngOnInit(): void {
+        this.stoerService.getStoreId(1).subscribe((resp: any) => {
+            this.store = resp
+            this.form.patchValue({
+            ...this.store
+            })
+         })
+       
+    }
+
+    Submit() {
+        let formValue = this.form.value
+        const confirmation = this.fuseConfirmationService.open({
+            title: "ยืนยันการบันทึกข้อมูล",
+            icon: {
+                show: true,
+                name: "heroicons_outline:exclamation-triangle",
+                color: "primary"
+            },
+            actions: {
+                confirm: {
+                    show: true,
+                    label: "ยืนยัน",
+                    color: "warn"
+                },
+                cancel: {
+                    show: true,
+                    label: "ยกเลิก"
+                }
+            },
+            dismissible: false
+        })
+
+        confirmation.afterClosed().subscribe(
+            result => {
+                if (result == 'confirmed') {
+                    this.stoerService.update(this.store.id ,formValue).subscribe({
+                        error: (err) => {
+                            this.fuseConfirmationService.open({
+                                title: 'กรุณาตรวจสอบข้อมูล',
+                                message: err.error.message,
+                                icon: {
+                                    show: true,
+                                    name: 'heroicons_outline:exclamation',
+                                    color: 'warning',
+                                },
+                                actions: {
+                                    confirm: {
+                                        show: false,
+                                        label: 'ยืนยัน',
+                                        color: 'warn',
+                                    },
+                                    cancel: {
+                                        show: false,
+                                        label: 'ยกเลิก',
+                                    },
+                                },
+                                dismissible: true,
+                            });
+                        },
+                        complete: () => {
+                            this.toastr.success('ดำเนินการแก้ไขข้อมูลสำเร็จ')
+                           
+                        },
+                    });
+                }
+            }
+        )
+    }
+
+  
+
+
+}
