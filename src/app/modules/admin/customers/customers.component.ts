@@ -185,7 +185,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
                 confirm: {
                     show: true,
                     label: "ยืนยัน",
-                    color: "warn"
+                    color: "primary"
                 },
                 cancel: {
                     show: true,
