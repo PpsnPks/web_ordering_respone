@@ -42,7 +42,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'โปรโมชั่น',
                 type: 'basic',
                 icon: 'heroicons_mini:archive-box',
-                // link: '/branch'
+                link: '/promotion'
             },
             {
                 id: 'customers',
