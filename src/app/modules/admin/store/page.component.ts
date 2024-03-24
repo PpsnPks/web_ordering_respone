@@ -1,9 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
-import { DataTableDirective, DataTablesModule } from 'angular-datatables';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import { DataTablesModule } from 'angular-datatables';
 import { StoerService } from './page.service';
-import { ADTSettings } from 'angular-datatables/src/models/settings';
-import { Subject } from 'rxjs';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,8 +9,6 @@ import { FilePickerModule } from 'ngx-awesome-uploader';
 import { MatMenuModule } from '@angular/material/menu';
 import { ToastrService } from 'ngx-toastr';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { DialogRef } from '@angular/cdk/dialog';
-import { DialogForm } from './form-dialog/dialog.component';
 import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,6 +16,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { BranchComponent } from '../branch/page.component';
+import { ActivatedRoute } from '@angular/router';
 @Component({
     selector: 'app-page-store',
     standalone: true,
@@ -43,7 +41,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
         ReactiveFormsModule,
         MatInputModule,
         MatFormFieldModule,
-        MatRadioModule
+        MatRadioModule,
+        BranchComponent
     ],
     templateUrl: './page.component.html',
     styleUrl: './page.component.scss',
@@ -52,22 +51,20 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 export class StoreComponent implements OnInit {
     form: FormGroup;
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    dtOptions: any = {};
-    dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
-
-    @ViewChild('btNg') btNg: any;
-    @ViewChild(DataTableDirective, { static: false })
-    dtElement: DataTableDirective;
     store: any;
+    storeId: number
     constructor(
         private stoerService: StoerService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
         public dialog: MatDialog,
         private fb: FormBuilder,
+        public activatedRoute: ActivatedRoute,
 
     ) {
-     
+    
+        this.storeId = this.activatedRoute.snapshot.params.id;
+        console.log(this.storeId)
         this.form = this.fb.group({
             code: '',
             name: '',
@@ -75,8 +72,9 @@ export class StoreComponent implements OnInit {
         })
     }
     ngOnInit(): void {
-        this.stoerService.getStoreId(1).subscribe((resp: any) => {
+        this.stoerService.getStoreId(this.storeId).subscribe((resp: any) => {
             this.store = resp
+            
             this.form.patchValue({
             ...this.store
             })

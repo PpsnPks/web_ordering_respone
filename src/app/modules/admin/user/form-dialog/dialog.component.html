@@ -8,7 +8,7 @@
                     <div class="md:w-full">
                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full" >
                             <mat-label>รหัสพนักงาน</mat-label>
-                            <input matInput [placeholder]="'กรุณาระบุรหัสพนักงาน'" formControlName="code" readonly >
+                            <input matInput [placeholder]="'กรุณาระบุรหัสพนักงาน'" formControlName="code" [readonly]="this.data.type === 'EDIT'" >
                         </mat-form-field>
                     </div>
                     <div class="md:w-full">

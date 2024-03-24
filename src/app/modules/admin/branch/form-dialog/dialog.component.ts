@@ -19,23 +19,17 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { StoerService } from '../page.service';
+import { BranchService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
 @Component({
-    selector: 'app-user-form',
+    selector: 'app-branch-form',
     standalone: true,
     templateUrl: './dialog.component.html',
     styleUrl: './dialog.component.scss',
-    imports: [
-        CommonModule, 
-        DataTablesModule, 
-        MatIconModule, 
-        MatFormFieldModule, 
-        MatInputModule,
-        FormsModule, 
-        MatToolbarModule,
+    imports: [CommonModule, DataTablesModule, MatIconModule, MatFormFieldModule, MatInputModule,
+        FormsModule, MatToolbarModule,
         MatButtonModule,
         MatDialogTitle,
         MatDialogContent,
@@ -51,7 +45,7 @@ import {MatRadioModule} from '@angular/material/radio';
 export class DialogForm implements OnInit {
 
     form: FormGroup;
-    stores: any[]=[];
+    branch: any;
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: DataTables.Settings = {};
     addForm: FormGroup;   
@@ -66,46 +60,29 @@ export class DialogForm implements OnInit {
         public dialog: MatDialog,
         private FormBuilder: FormBuilder,
         private fuseConfirmationService: FuseConfirmationService,
-        private userService: StoerService,
+        private _service: BranchService,
         private toastr: ToastrService,
     ) 
     {
         console.log(' this.form', this.data);
-        if(this.data.type === 'EDIT') {
-            this.form = this.FormBuilder.group({
-                code: this.data.value.code ?? '',
-                firstName: this.data.value.firstName ?? '',
-                lastName: this.data.value.lastName ?? '',
-                phoneNumber: this.data.value.phoneNumber ?? '',
-                roleId: this.data.value?.role?.id ?? '',
-                username: this.data.value?.username ?? '',
-                isActive: this.data.value?.isActive
-           
-             });
-        } else {
-            this.form = this.FormBuilder.group({
-                code: '',
-                firstName: '',
-                lastName: '',
-                phoneNumber: '',
-                roleId: '',
-                username: '',
-                password: '',
-                confirmpassword: '',
-             });
-        }
+        this.form = this.FormBuilder.group({
+          
+            code: '',
+            name: '',
+            address: '',
+            storeId: +this.data.store
+         });
+  
 
-
-        // console.log('1111',this.data?.type);
         
     }
     
     ngOnInit(): void {
          if (this.data.type === 'EDIT') {
-        //   this.form.patchValue({
-        //     ...this.data.value,
-        //     roleId: +this.data.value?.role?.id
-        //   })  
+            this.form.patchValue({
+                ...this.data.value
+            })
+         
        
         } else {
             console.log('New');
@@ -139,7 +116,7 @@ export class DialogForm implements OnInit {
             result => {
                 if (result == 'confirmed') {
                     if (this.data.type === 'NEW') {
-                        this.userService.create(formValue).subscribe({
+                        this._service.create(formValue).subscribe({
                             error: (err) => {
                                 this.fuseConfirmationService.open({
                                     title: 'กรุณาตรวจสอบข้อมูล',
@@ -169,7 +146,7 @@ export class DialogForm implements OnInit {
                             },
                         });
                     } else {
-                        this.userService.update(this.data.value.id ,formValue).subscribe({
+                        this._service.update(this.data.value.id ,formValue).subscribe({
                             error: (err) => {
                                 this.fuseConfirmationService.open({
                                     title: 'กรุณาตรวจสอบข้อมูล',

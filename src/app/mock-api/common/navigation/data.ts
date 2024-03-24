@@ -10,11 +10,11 @@ export const defaultNavigation: FuseNavigationItem[] = [
         icon: 'heroicons_outline:home',
         children: [
             {
-                id: 'admin.comp',
+                id: 'admin.store',
                 title: 'ข้อมูลร้านค้า',
                 type: 'basic',
                 icon: 'heroicons_outline:building-office-2',
-                link: '/store',
+                link: '/store/1',
             },
             // {
             //     id: 'admin.department',
@@ -37,20 +37,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:key',
                 link: '/admin/permission/list',
             },
-            {
-                id: 'store',
-                title: 'ร้านค้า',
-                type: 'basic',
-                icon: 'heroicons_mini:archive-box',
-                // link: '/branch'
-            },
-            {
-                id: 'branch',
-                title: 'สาขา',
-                type: 'basic',
-                icon: 'heroicons_mini:archive-box',
-                link: '/branch'
-            },
+
             {
                 id: 'branch',
                 title: 'โปรโมชั่น',

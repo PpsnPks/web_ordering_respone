@@ -3,7 +3,7 @@ import { StoreComponent } from './page.component';
 
 export default [
     {
-        path     : '',
+        path     : ':id',
         component: StoreComponent,
     },
 ] as Routes;

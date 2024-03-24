@@ -6,7 +6,6 @@ import { CategoryService } from './page.service';
 import { DataTablesModule } from 'angular-datatables';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { Dialogbranch } from '../dialogBranch/dialogb.component';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { DialogCategory } from './form-dialog/dialog.component';
 import { Subject } from 'rxjs';

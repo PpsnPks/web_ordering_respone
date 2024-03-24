@@ -1,13 +1,13 @@
 <div class="flex flex-col flex-auto min-w-0">
-  <div class="flex-auto sm:p-10 bg-card m-4 p-4 rounded-md">
+  <div class="flex-auto p-4 md:p-5 bg-card m-4  rounded-md">
     <div class="flex flex-row justify-between pb-2">
       <div>
-        <h2 class="text-2xl md:text-xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate md:px-10">
+        <h2 class="text-2xl md:text-xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate md:px-6">
           ข้อมูลร้านค้า
         </h2>
       </div>
     </div>
-    <div class="flex-auto p-6 sm:p-10">
+    <div class="flex-auto p-4 md:p-5">
       <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-1">
         <form [formGroup]="form">
           <div class="flex flex-col my-2">
@@ -23,7 +23,7 @@
               <div class="md:min-w-full px-3 mb-6 md:mb-0">
                 <mat-form-field class="w-full">
                   <mat-label>ที่อยู่ร้านค้า</mat-label>
-                  <textarea matInput [placeholder]="'กรอกรายละเอียด'" [rows]="3" formControlName="address"></textarea>
+                  <textarea matInput [placeholder]="'กรอกรายละเอียดที่อยู่'" [rows]="3" formControlName="address"></textarea>
                 </mat-form-field>
               </div>
             </div>
@@ -38,3 +38,4 @@
     </div>
   </div>
 </div>
+<app-page-branch [storeId]="storeId"></app-page-branch>
