@@ -1,23 +1,84 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { toUpper } from 'lodash';
+import { BehaviorSubject, map, tap } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-export class CustomersService {
+export class CustomerService {
 
-    constructor(
-        private http: HttpClient,
-    ) { }
-    datatable(dataTablesParameters: any) {
-        return this.http.get('api/customer/datatables')
-    }
-    create(datacustomer: { code: string, name: string, address: string, phoneNumber: string }) {
-        return this.http.post('api/customer', {
-            "code": datacustomer.code,
-            "name": datacustomer.name,
-            "address": datacustomer.address,
-            "phoneNumber": datacustomer.phoneNumber
-        })
-    }
+  private _categories: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+  private _roles: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+  private _data: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+
+  get categories$() {
+    return this._categories.asObservable();
+  }
+
+  constructor(private http: HttpClient) { }
+
+  datatable(dataTablesParameters: any) {
+    const { columns, order, search, start, length } = dataTablesParameters;
+    const page = start / length + 1;
+    const column = columns[order[0].column].data;
+    const dir = toUpper(order[0].dir);
+    const sortBy = column + ':' + dir;
+
+    return this.http.get('api/customer/datatables', {
+      params: {
+        page: page,
+        limit: length,
+        sortBy: sortBy,
+        search: search.value,
+        
+      }
+    }).pipe(
+      map((resp: any) => {
+        resp.data.forEach((e: any, i: number) => e.no = start + i + 1);
+        return resp;
+      })
+    );
+  }
+
+  create(data: any) {
+    return this.http.post('api/customer', data)
+  }
+
+  update(id: any,data: any) {
+    return this.http.put('/api/customer/' + id, data)
+  }
+
+  getRole() {
+    return this.http.get('api/role').pipe(
+      tap((resp: any) => {
+        this._roles.next(resp);
+      }),
+    )
+  }
+  getUnit() {
+    return this.http.get('api/unit').pipe(
+      tap((resp: any) => {
+        this._data.next(resp);
+      }),
+    )
+  }
+  getCategory() {
+    return this.http.get('api/category').pipe(
+      tap((resp: any) => {
+        this._data.next(resp);
+      }),
+    )
+  }
+  getById(id:string) {
+    return this.http.get('api/customer/'+ id).pipe(
+      tap((resp: any) => {
+        this._data.next(resp);
+      }),
+    )
+  }
+
+  delete(id: number) {
+    return this.http.delete('/api/customer/' + id)
+  }
 }

@@ -57,7 +57,7 @@ export class AuthService
      *
      * @param credentials
      */
-    signIn(credentials: { email: string; password: string }): Observable<any>
+    signIn(credentials: { username: string; password: string }): Observable<any>
     {
         // Throw error, if the user is already logged in
         if ( this._authenticated )
@@ -87,9 +87,10 @@ export class AuthService
      * Sign in using the access token
      */
     signInUsingToken(): Observable<any>
-    {
+    { 
+     
         // Sign in using the token
-        return this._httpClient.post('api/auth/sign-in-with-token', {
+        return this._httpClient.post('/api/auth/sign-in-with-token', {
             accessToken: this.accessToken,
         }).pipe(
             catchError(() =>
@@ -99,6 +100,7 @@ export class AuthService
             ),
             switchMap((response: any) =>
             {
+                
                 // Replace the access token with the new one if it's available on
                 // the response object.
                 //
@@ -116,7 +118,7 @@ export class AuthService
 
                 // Store the user on the user service
                 this._userService.user = response.user;
-
+              
                 // Return true
                 return of(true);
             }),
@@ -162,33 +164,29 @@ export class AuthService
      * Check the authentication status
      */
     check(): Observable<boolean>
-    {
-        return of(true);
-        // Check the access token availability
-        console.warn('this.accessToken', !this.accessToken);
-        if ( !this.accessToken )
-        {
-            return of(false);
-        }
+    {   
+        // console.log(this._authenticated,'_authenticated')
 
         // Check if the user is logged in
-        console.warn('this._authenticated', this._authenticated);
         if ( this._authenticated )
         {
             return of(true);
         }
 
+        // Check the access token availability
+        if ( !this.accessToken )
+        {
+            return of(false);
+        }
 
         // Check the access token expire date
-        console.warn('AuthUtils.isTokenExpired(this.accessToken)',  AuthUtils.isTokenExpired(this.accessToken));
-
         if ( AuthUtils.isTokenExpired(this.accessToken) )
         {
-            console.warn('isTokenExpired', AuthUtils.isTokenExpired(this.accessToken));
             return of(false);
         }
 
         // If the access token exists, and it didn't expire, sign in using it
+        // return ;
         return this.signInUsingToken();
     }
 }

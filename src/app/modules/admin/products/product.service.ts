@@ -9,9 +9,14 @@ import { BehaviorSubject, map, tap } from 'rxjs';
 export class ProductService {
 
   private _categories: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+  private _units: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
 
   get categories$() {
     return this._categories.asObservable();
+  }
+
+  get units$() {
+    return this._units.asObservable();
   }
 
   constructor(private http: HttpClient) { }
@@ -25,8 +30,8 @@ export class ProductService {
 
     return this.http.get('api/product/datatables', {
       params: {
-        limit: length,
         page: page,
+        limit: length,
         sortBy: sortBy,
         search: search.value,
       }
@@ -38,7 +43,7 @@ export class ProductService {
     );
   }
 
-  create(dataAproduct: { code: string, name: string, price: string, image: string, categoryId: number }) {
+  create(dataAproduct: { code: string, name: string, price: string, image: string, categoryId: number,unitId:number }) {
     return this.http.post('api/product', dataAproduct)
   }
 
@@ -46,6 +51,13 @@ export class ProductService {
     return this.http.get('api/category').pipe(
       tap((resp: any) => {
         this._categories.next(resp);
+      }),
+    )
+  }
+  getUnit() {
+    return this.http.get('api/unit').pipe(
+      tap((resp: any) => {
+        this._units.next(resp);
       }),
     )
   }

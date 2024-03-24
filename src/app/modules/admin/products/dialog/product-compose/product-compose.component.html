@@ -53,6 +53,17 @@
                             <mat-error>Required field!</mat-error>
                         </mat-form-field>
                     </div>
+                    <div class="relative w-full mb-4">
+                        <label
+                            class="absolute -top-2  left-2 z-40 pl-2 pr-2 text-gray-400 text-sm bg-white">หน่วยนับ</label>
+                        <mat-form-field class="flex-auto w-full">
+                            <mat-select [formControlName]="'unitId'" [placeholder]="'ระบุหน่วย'">
+                                <mat-option *ngFor="let item of units; let i = index;"
+                                    [value]="item.id">{{item.name}}</mat-option>
+                            </mat-select>
+                            <mat-error>Required field!</mat-error>
+                        </mat-form-field>
+                    </div>
                 </div>
 
 
@@ -72,13 +83,12 @@
                 <mat-icon class="text-primary-500" svgIcon="heroicons_outline:trash"></mat-icon>
             </button> -->
             </div>
-
-            <div class="flex ">
-                <button class="px-8 ml-3 rounded-md flex flex-auto " mat-raised-button mat-dialog-close>
-                    ยกเลิก
+            <div mat-dialog-actions class="flex justify-end">
+                <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="Submit()">
+                    ตกลง
                 </button>
-                <button class="px-8 ml-3 shadow-sm rounded-md" mat-flat-button [color]="'primary'" (click)="Submit()">
-                    บันทึก
+                <button class="px-6 ml-3" mat-flat-button [color]="'warn'">
+                    ยกเลิก
                 </button>
             </div>
         </div>
