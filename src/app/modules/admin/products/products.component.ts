@@ -61,9 +61,10 @@ export class ProductsComponent implements OnInit, AfterViewInit {
         },
         columns: [
           {
+            orderable: false,
             title: 'ลำดับ',
             data: 'no',
-            className: 'w-15'
+            className: 'w-15',
           },
           {
             title: 'รหัสสินค้า',
@@ -100,7 +101,7 @@ export class ProductsComponent implements OnInit, AfterViewInit {
         //   style: 'multi',
         //   // selector: 'td:first-child'
         // },
-        // order: [[1, 'asc']]
+        order: [[1, 'asc']]
       };
     });
   }
