@@ -1,11 +1,11 @@
 <div class="flex flex-col flex-auto min-w-0">
-    <div class="flex flex-col p-6 sm:p-10 bg-card m-4 rounded-md">
-        <div class="flex flex-row items-start justify-between p-3 bg-card dark:bg-transparent w-full">
+    <div class="flex flex-col p-6 sm:p-10 bg-card m-4 rounded-md overflow-auto">
+        <div class="flex flex-col md:flex-row items-start justify-between p-3 bg-card dark:bg-transparent w-full">
             <div class="flex flex-row gap-4 items-center justify-between">
                 <h2 class="text-2xl md:text-2xl tracking-tight leading-7 sm:leading-10 truncate"> รายงานยอดขาย
                 </h2>
             </div>
-            <div >
+            <div class="flex flex-col md:flex-row">
                 <button mat-flat-button [color]="'primary'" (click)="onSearch()">
                     <mat-icon class="icon-size-5" [svgIcon]="'feather:search'"></mat-icon>
                     <span class="ml-2"> ค้นหา</span>
@@ -24,13 +24,13 @@
         
             
         </div>
-        <div class="flex flex-row items-start justify-end p-3 bg-card dark:bg-transparent w-full">
+        <div class="flex items-start justify-end p-3 bg-card dark:bg-transparent w-full">
 
             <div class="w-full">
                 <app-search #searchComponent (dataSearch)="handleChange($event)" ></app-search>
             </div>
         </div>
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover ">
         </table>
     </div>
 </div>
