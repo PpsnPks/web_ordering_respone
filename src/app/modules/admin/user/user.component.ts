@@ -132,7 +132,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         const DialogRef = this.dialog.open(DialogForm, {
             disableClose: true,
             width: '500px',
-            maxHeight: '90%',
+            height: '90%',
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
             data: {
@@ -151,7 +151,7 @@ export class UserComponent implements OnInit, AfterViewInit {
         const DialogRef = this.dialog.open(DialogForm, {
             disableClose: true,
             width: '500px',
-            maxHeight: '90%',
+            height: '90%',
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
             data: {

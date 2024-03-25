@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-    <div class="grid grid-cols-4 gap-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
         <mat-form-field class="w-full" appearance="outline">
             <mat-label>สาขา</mat-label>
             <mat-select [formControlName]="'branchId'" (selectionChange)="tranferData()">
