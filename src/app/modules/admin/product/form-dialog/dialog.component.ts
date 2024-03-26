@@ -111,7 +111,7 @@ export class DialogForm implements OnInit {
                 confirm: {
                     show: true,
                     label: "ยืนยัน",
-                    color: "warn"
+                    color: "primary"
                 },
                 cancel: {
                     show: true,
