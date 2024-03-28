@@ -97,7 +97,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: 'report.category',
-                title: 'รายงานยอดขายรวมทัังหมด',
+                title: 'รายงานยอดขายรวมทั้งหมด',
                 type: 'basic',
                 icon: 'heroicons_outline:document-chart-bar',
                 link: '/report/total'
