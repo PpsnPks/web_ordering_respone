@@ -88,6 +88,7 @@ export const appRoutes: Route[] = [
             { path: 'store', loadChildren: () => import('app/modules/admin/store/page.routes') },
             { path: 'promotion', loadChildren: () => import('app/modules/admin/promotion/page.routes') },
             { path: 'unit', loadChildren: () => import('app/modules/admin/unit/page.routes') },
+            { path: 'profile', loadChildren: () => import('app/modules/admin/profile/profile.routes') },
 
         ]
     }

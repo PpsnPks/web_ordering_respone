@@ -121,7 +121,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'รายงานการขายตามแคชเชียร์',
                 type: 'basic',
                 icon: 'heroicons_outline:document-chart-bar',
-                // link: '/product'
+                link: '/report/cashier'
             },
             {
                 id: 'report.type',
@@ -145,7 +145,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'แก้ไขข้อมูลส่วนตัว',
                 type: 'basic',
                 icon: 'heroicons_outline:user',
-                link: '/admin/employee/list',
+                link: '/profile',
             },
             {
                 id: 'admin.logout',
