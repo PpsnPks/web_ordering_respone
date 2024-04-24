@@ -82,6 +82,7 @@ export const appRoutes: Route[] = [
             { path: 'banners', loadChildren: ()=> import('app/modules/admin/banners/banner.routes')},
             { path: 'customers', loadChildren: () => import('app/modules/admin/customers/customers.routes') },
             { path: 'products', loadChildren: () => import('app/modules/admin/products/product.routes') },
+            { path: 'panel', loadChildren: () => import('app/modules/admin/panel/page.routes')},
             { path: 'category', loadChildren: () => import('app/modules/admin/category/page.routes') },
             { path: 'product', loadChildren: () => import('app/modules/admin/product/page.routes') },
             { path: 'report', loadChildren: () => import('app/modules/admin/report/report.routes') },

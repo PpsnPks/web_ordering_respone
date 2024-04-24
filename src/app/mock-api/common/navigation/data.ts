@@ -72,6 +72,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
             {
                 id: 'admin.category',
+                title: 'หน้าจอสินค้า',
+                type: 'basic',
+                icon: 'heroicons_solid:computer-desktop',
+                link: '/panel'
+            },
+            {
+                id: 'admin.category',
                 title: 'ประเภทสินค้า',
                 type: 'basic',
                 icon: 'heroicons_solid:circle-stack',
