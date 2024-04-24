@@ -1,5 +1,5 @@
 import { ProductService } from '../../product.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,6 +12,7 @@ import {
     MatDialogActions,
     MatDialogClose,
     MatDialogRef,
+    MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -38,6 +39,8 @@ export class ProductComposeComponent implements OnInit {
     adapter = new DemoFilePickerAdapter(this.http);
     catagories: any[] = [];
     units: any[] = [];
+    title: string
+    delete_toggle: boolean
 
     constructor(
         private dialogRef: MatDialogRef<ProductComposeComponent>,
@@ -45,6 +48,7 @@ export class ProductComposeComponent implements OnInit {
         private FormBuilder: FormBuilder,
         public ProductService: ProductService,
         private http: HttpClient,
+        @Inject(MAT_DIALOG_DATA) public data: any
     ) { }
 
     ngOnInit(): void {
@@ -57,14 +61,29 @@ export class ProductComposeComponent implements OnInit {
             unitId: ['', Validators.required],
         });
 
+        if (this.data.type === 'NEW'){
+            this.title = "เพิ่มสินค้า"
+        }else if (this.data.type === 'EDIT'){
+            this.title = "แก้ไขสินค้า"
+            this.form.patchValue({
+                code: this.data.value.code,
+                name: this.data.value.name,
+                price: this.data.value.price,
+                image: this.data.value.image,
+                categoryId: this.data.value.category.id,
+                unitId: this.data.value.unit.id,
+              });
+        }
+
+        this.delete_toggle = this.form.value.image
         this.ProductService.categories$.subscribe(resp => this.catagories = resp);
         this.ProductService.units$.subscribe(resp => this.units = resp);
     }
+    
     Submit() {
         if (this.form.invalid) {
             return;
         }
-
         this.ProductService.create({
             code: this.form.value.code,
             name: this.form.value.name,
@@ -80,6 +99,13 @@ export class ProductComposeComponent implements OnInit {
             }
         )
 
+    }
+
+    deleteImgToInsert(){
+        //this.delete_toggle = false
+        this.delete_toggle = !this.delete_toggle
+        console.log("please insert image");
+        
     }
 
     uploadSuccess(event): void {

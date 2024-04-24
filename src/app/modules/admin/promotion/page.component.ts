@@ -115,7 +115,16 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                 },
                 {
                     title: 'ประเภทโปรโมชั่น',
-                    data: 'type'
+                    data: 'type',
+                    render: (data: any) => {
+                        if (data === 'gift') {
+                            return 'บัตรกำนัล';
+                        } else if (data === 'discount'){
+                            return 'ส่วนลด';
+                        } else{
+                            return data;
+                        }
+                    }
                 },
                 {
                     title: 'สถานะ',
