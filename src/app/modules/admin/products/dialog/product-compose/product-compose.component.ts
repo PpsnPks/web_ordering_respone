@@ -3,7 +3,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
 import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import {
     MatDialog,
@@ -32,6 +32,9 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
     imports: [CommonModule, DataTablesModule, MatIconModule, MatFormFieldModule, MatInputModule,
         FormsModule, MatToolbarModule, MatButtonModule, MatDialogTitle, MatDialogContent, MatDialogActions,
         MatDialogClose, MatSelectModule, FilePickerModule, NgxMaskDirective, ReactiveFormsModule
+    ],
+    providers: [
+      {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
     ]
 })
 export class ProductComposeComponent implements OnInit {
@@ -79,7 +82,7 @@ export class ProductComposeComponent implements OnInit {
         this.ProductService.categories$.subscribe(resp => this.catagories = resp);
         this.ProductService.units$.subscribe(resp => this.units = resp);
     }
-    
+
     Submit() {
         if (this.form.invalid) {
             return;
@@ -105,7 +108,7 @@ export class ProductComposeComponent implements OnInit {
         //this.delete_toggle = false
         this.delete_toggle = !this.delete_toggle
         console.log("please insert image");
-        
+
     }
 
     uploadSuccess(event): void {

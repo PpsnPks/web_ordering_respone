@@ -103,7 +103,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
                     title: 'เบอร์ติดต่อ',
                     data: 'phoneNumber'
                 },
-       
+
                 {
                     title: 'จัดการ',
                     data: null,
@@ -135,7 +135,6 @@ export class CustomerComponent implements OnInit, AfterViewInit {
         const DialogRef = this.dialog.open(Dialogcustomer, {
             disableClose: true,
             width: '500px',
-            height: '90%',
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
             data: {
@@ -154,7 +153,6 @@ export class CustomerComponent implements OnInit, AfterViewInit {
         const DialogRef = this.dialog.open(Dialogcustomer, {
             disableClose: true,
             width: '500px',
-            height: '90%',
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
             data: {
