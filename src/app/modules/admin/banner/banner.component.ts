@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
-import { BannerService } from './page.service';
+import { BannerService } from './banner.service';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
 import { MatDividerModule } from '@angular/material/divider';
@@ -16,9 +16,9 @@ import { DialogForm } from './form-dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PictureComponent } from '../picture/picture.component';
-import { BannerComposeComponent } from '../banners/dialog/banner-compose/banner-compose.component';
+import { BannerComposeComponent } from './dialog/banner-compose/banner-compose.component';
 @Component({
-    selector: 'app-page-banner',
+    selector: 'app-banner-banner',
     standalone: true,
     imports: [
         CommonModule,
@@ -29,8 +29,8 @@ import { BannerComposeComponent } from '../banners/dialog/banner-compose/banner-
         MatMenuModule,
         MatDividerModule
     ],
-    templateUrl: './page.component.html',
-    styleUrl: './page.component.scss',
+    templateUrl: './banner.component.html',
+    styleUrl: './banner.component.scss',
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BannerComponent implements OnInit, AfterViewInit {

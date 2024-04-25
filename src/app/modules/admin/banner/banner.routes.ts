@@ -1,15 +1,20 @@
 import { Routes } from '@angular/router';
-import { BannersComponent } from './banners.component';
+import { BannerComponent } from './banner.component';
+import { FormComponent } from './form/form.component';
 import { inject } from '@angular/core';
-import { BannerService } from './banner.service';
 
 export default [
     {
-        path: '',
-        component: BannersComponent,
+        path     : '',
+        component: BannerComponent,
         resolve  : {
             // categories: () => inject(BannerService).getCategories(),
+            // units: () => inject(BannerService).getUnit(),
             // products  : () => inject(InventoryService).getProducts(),
         },
+    },
+    {
+        path     : 'form',
+        component: FormComponent,
     },
 ] as Routes;
