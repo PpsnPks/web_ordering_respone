@@ -70,13 +70,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'group',
         icon: 'heroicons_outline:home',
         children: [
-            {
-                id: 'admin.category',
-                title: 'หน้าจอสินค้า',
-                type: 'basic',
-                icon: 'heroicons_solid:computer-desktop',
-                link: '/panel'
-            },
+            // {
+            //     id: 'admin.category',
+            //     title: 'หน้าจอสินค้า',
+            //     type: 'basic',
+            //     icon: 'heroicons_solid:computer-desktop',
+            //     link: '/panel'
+            // },
             {
                 id: 'admin.category',
                 title: 'ประเภทสินค้า',
