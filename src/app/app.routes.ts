@@ -90,6 +90,7 @@ export const appRoutes: Route[] = [
             { path: 'promotion', loadChildren: () => import('app/modules/admin/promotion/page.routes') },
             { path: 'unit', loadChildren: () => import('app/modules/admin/unit/page.routes') },
             { path: 'profile', loadChildren: () => import('app/modules/admin/profile/profile.routes') },
+            { path: 'shift', loadChildren: () => import('app/modules/admin/shift/shift.routes') },
 
         ]
     }

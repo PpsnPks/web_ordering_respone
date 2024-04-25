@@ -58,6 +58,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
               icon: 'heroicons_solid:photo',
               link: '/banner'
           },
+          {
+            id: 'shift',
+            title: 'กะทำงาน',
+            type: 'basic',
+            icon: 'heroicons_solid:clock',
+            link: '/shift'
+        },
 
         ],
     },
