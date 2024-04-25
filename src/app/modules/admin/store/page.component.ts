@@ -5,7 +5,7 @@ import { StoerService } from './page.service';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { FilePickerModule } from 'ngx-awesome-uploader';
+import { FilePickerModule} from 'ngx-awesome-uploader';
 import { MatMenuModule } from '@angular/material/menu';
 import { ToastrService } from 'ngx-toastr';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
@@ -18,6 +18,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BranchComponent } from '../branch/page.component';
 import { ActivatedRoute } from '@angular/router';
+import { DemoFilePickerAdapter } from 'app/demo-file-picker.adapter';
+import { HttpClient } from '@angular/common/http';
+import { ValidationError } from 'ngx-awesome-uploader';
 @Component({
     selector: 'app-page-store',
     standalone: true,
@@ -29,9 +32,9 @@ import { ActivatedRoute } from '@angular/router';
         FilePickerModule,
         MatMenuModule,
         MatDividerModule,
-        MatFormFieldModule, 
+        MatFormFieldModule,
         MatInputModule,
-        FormsModule, 
+        FormsModule,
         MatToolbarModule,
         MatDialogTitle,
         MatDialogContent,
@@ -42,7 +45,8 @@ import { ActivatedRoute } from '@angular/router';
         MatInputModule,
         MatFormFieldModule,
         MatRadioModule,
-        BranchComponent
+        BranchComponent,
+
     ],
     templateUrl: './page.component.html',
     styleUrl: './page.component.scss',
@@ -51,6 +55,7 @@ import { ActivatedRoute } from '@angular/router';
 export class StoreComponent implements OnInit {
     form: FormGroup;
     formFieldHelpers: string[] = ['fuse-mat-dense'];
+    adapter = new DemoFilePickerAdapter(this.http);
     store: any;
     storeId: number
     constructor(
@@ -60,32 +65,37 @@ export class StoreComponent implements OnInit {
         public dialog: MatDialog,
         private fb: FormBuilder,
         public activatedRoute: ActivatedRoute,
+        private http: HttpClient,
 
     ) {
-    
+
         this.storeId = this.activatedRoute.snapshot.params.id;
         console.log(this.storeId)
         this.form = this.fb.group({
             code: '',
             name: '',
-            address: ''
+            address: '',
+            logo:'',
+            tax:'',
+
         })
     }
     ngOnInit(): void {
         this.stoerService.getStoreId(this.storeId).subscribe((resp: any) => {
             this.store = resp
-            
+
             this.form.patchValue({
             ...this.store
             })
          })
-       
+
     }
 
     Submit() {
         let formValue = this.form.value
+        console.log(this.form)
         const confirmation = this.fuseConfirmationService.open({
-            title: "ยืนยันการบันทึกข้อมูล",
+          title: "ยืนยันการบันทึกข้อมูล",
             icon: {
                 show: true,
                 name: "heroicons_outline:exclamation-triangle",
@@ -114,7 +124,7 @@ export class StoreComponent implements OnInit {
                         },
                         complete: () => {
                             this.toastr.success('ดำเนินการแก้ไขข้อมูลสำเร็จ')
-                           
+
                         },
                     });
                 }
@@ -122,7 +132,21 @@ export class StoreComponent implements OnInit {
         )
     }
 
-  
+    uploadSuccess(event): void {
+
+       //console.log('id',this.store);
+       console.log('data',this.form);
+
+      this.form.patchValue({
+          logo: event.uploadResponse.filename
+      });
+  }
+
+  onValidationError(error: ValidationError): void {
+    alert(`Validation Error ${error.error} in ${error.file?.name}`);
+}
+
+
 
 
 }
