@@ -102,7 +102,7 @@ export class BannerComponent implements OnInit, AfterViewInit {
                 // },
                 {
                     title: 'ชื่อแบนเนอร์',
-                    data: 'name'
+                    data: 'title'
                 },
                 // {
                 //     title: 'ประเภทสินค้า',
