@@ -104,4 +104,13 @@ export class ReportService {
     delete(id: any) {
         return this.http.delete('/api/product/' + id)
     }
+    getCashier(): Observable<any> {
+        return this.http
+            .get<any>('/api/user')
+            .pipe(
+                tap((result) => {
+                    this._data.next(result);
+                })
+            );
+    }
 }

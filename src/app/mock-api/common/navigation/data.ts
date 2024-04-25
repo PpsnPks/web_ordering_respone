@@ -51,6 +51,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_solid:rectangle-stack',
                 link: '/customers'
             },
+            {
+              id: 'banner',
+              title: 'แบนเนอร์',
+              type: 'basic',
+              icon: 'heroicons_solid:photo',
+              link: '/banner'
+          },
 
         ],
     },
@@ -63,6 +70,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'group',
         icon: 'heroicons_outline:home',
         children: [
+            {
+                id: 'admin.category',
+                title: 'หน้าจอสินค้า',
+                type: 'basic',
+                icon: 'heroicons_solid:computer-desktop',
+                link: '/panel'
+            },
             {
                 id: 'admin.category',
                 title: 'ประเภทสินค้า',
@@ -84,8 +98,8 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_solid:squares-plus',
                 link: '/product'
             },
-      
-     
+
+
         ],
     },
     {
@@ -114,16 +128,16 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'รายงานการขายตามแคชเชียร์',
                 type: 'basic',
                 icon: 'heroicons_outline:document-chart-bar',
-                // link: '/product'
+                link: '/report/cashier'
             },
             {
                 id: 'report.type',
                 title: 'รายงานการขายแยกตามประเภทสินค้า',
                 type: 'basic',
                 icon: 'heroicons_outline:document-chart-bar',
-                // link: '/product'
+                link: '/report/product-type'
             },
-     
+
         ],
     },
     {
@@ -138,7 +152,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'แก้ไขข้อมูลส่วนตัว',
                 type: 'basic',
                 icon: 'heroicons_outline:user',
-                link: '/admin/employee/list',
+                link: '/profile',
             },
             {
                 id: 'admin.logout',

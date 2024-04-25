@@ -1,7 +1,7 @@
-import { CommonModule, DatePipe } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
-import { PromotionService } from './page.service';
+import { PanelService } from './page.service';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
 import { MatDividerModule } from '@angular/material/divider';
@@ -14,9 +14,9 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { DialogRef } from '@angular/cdk/dialog';
 import { DialogForm } from './form-dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { IsActiveLabelPipe } from 'app/modules/shared/active-status.pipe';
+import { Router } from '@angular/router';
 @Component({
-    selector: 'app-page-promotion',
+    selector: 'app-page-panel',
     standalone: true,
     imports: [
         CommonModule,
@@ -25,32 +25,32 @@ import { IsActiveLabelPipe } from 'app/modules/shared/active-status.pipe';
         MatIconModule,
         FilePickerModule,
         MatMenuModule,
-        MatDividerModule,
-        
+        MatDividerModule
     ],
     templateUrl: './page.component.html',
     styleUrl: './page.component.scss',
     changeDetection: ChangeDetectionStrategy.Default,
-    providers: [DatePipe,IsActiveLabelPipe],
 })
-export class CategoryComponent implements OnInit, AfterViewInit {
+export class PanelComponent implements OnInit, AfterViewInit {
     dtOptions: any = {};
     dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
-
     @ViewChild('btNg') btNg: any;
-    @ViewChild('textStatus') textStatus: any;
     @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
 
+    @Input() storeId: any;
+    @Output() dataArrayChange = new EventEmitter<any[]>();
+
     constructor(
-        private _service: PromotionService,
+        private _service: PanelService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
         public dialog: MatDialog,
-        private datePipe: DatePipe,
-        private isActivate: IsActiveLabelPipe,
+        private router: Router
 
-    ) {
+    )
+    {
+
 
     }
     ngOnInit(): void {
@@ -91,48 +91,10 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                     data: 'no',
                     className: 'w-15'
                 },
+
                 {
-                    title: 'รหัสโปรโมชั่น',
-                    data: 'code',
-                    className: 'w-30'
-                },
-                {
-                    title: 'ชื่อโปรโมชั่น',
+                    title: 'ชื่อหน้าจอ',
                     data: 'name'
-                },
-                {
-                    title: 'วันที่เริ่มต้น',
-                    data: 'startDate',
-                    ngPipeInstance: this.datePipe,
-                    ngPipeArgs: ['dd-MM-yyyy']
-                },
-            
-                {
-                    title: 'วันที่สิ้นสุด',
-                    data: 'endDate',
-                    ngPipeInstance: this.datePipe,
-                    ngPipeArgs: ['dd-MM-yyyy']
-                },
-                {
-                    title: 'ประเภทโปรโมชั่น',
-                    data: 'type',
-                    render: (data: any) => {
-                        if (data === 'gift') {
-                            return 'บัตรกำนัล';
-                        } else if (data === 'discount'){
-                            return 'ส่วนลด';
-                        } else{
-                            return data;
-                        }
-                    }
-                },
-                {
-                    title: 'สถานะ',
-                    data: null,
-                    defaultContent: '',
-                    ngTemplateRef: {
-                        ref: this.textStatus,
-                    },
                 },
                 {
                     title: 'จัดการ',
@@ -161,15 +123,17 @@ export class CategoryComponent implements OnInit, AfterViewInit {
 
 
 
-    opendialogapro() {
+    opendialogAdd() {
         const DialogRef = this.dialog.open(DialogForm, {
             disableClose: true,
-            width: '680px',
+            width: '500px',
             height: '90%',
-            enterAnimationDuration: 300,
+            enterAnimationDuration: 500,
             exitAnimationDuration: 300,
             data: {
-                type: 'NEW'
+                type: 'NEW',
+                value: '',
+                store: this.storeId
             }
         });
         DialogRef.afterClosed().subscribe((result) => {
@@ -179,18 +143,20 @@ export class CategoryComponent implements OnInit, AfterViewInit {
             }
         });
     }
-
+    branch: any
     openDialogEdit(item: any) {
-        this._service.getPromotionId(item).subscribe((resp: any) => {
+        this._service.getById(item).subscribe( (resp: any)=>{
+            this.branch = resp;
             const DialogRef = this.dialog.open(DialogForm, {
                 disableClose: true,
-                width: '680px',
+                width: '500px',
                 height: '90%',
-                enterAnimationDuration: 300,
+                enterAnimationDuration: 500,
                 exitAnimationDuration: 300,
                 data: {
                     type: 'EDIT',
-                    value: resp
+                    value: this.branch,
+                    store: this.storeId
                 }
             });
             DialogRef.afterClosed().subscribe((result) => {
@@ -200,7 +166,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                 }
             });
         })
-     
+
     }
 
 
@@ -243,5 +209,9 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                 }
             }
         )
+    }
+
+    addPanel() {
+        this.router.navigateByUrl('panel/form')
     }
 }

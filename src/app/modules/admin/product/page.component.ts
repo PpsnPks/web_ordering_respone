@@ -180,11 +180,33 @@ export class ProductComponent implements OnInit, AfterViewInit {
         });
     }
 
-    openDialogEdit(item: any) {
-        const DialogRef = this.dialog.open(DialogForm, {
+    createProduct() {
+        console.log('create');
+        const DialogRef = this.dialog.open(ProductComposeComponent, {
             disableClose: true,
-            width: '500px',
+            width: '800px',
             height: '90%',
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
+            data: {
+                type: 'NEW'
+            }
+        });
+        DialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                console.log(result, 'result')
+                this.rerender();
+            }
+        });
+    }
+
+    openDialogEdit(item: any) {
+        const DialogRef = this.dialog.open(ProductComposeComponent, {     //DialogForm       
+            disableClose: true,
+            width: '800px',
+            height: '90%',
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
             data: {
                 type: 'EDIT',
                 value: item
@@ -253,23 +275,5 @@ export class ProductComponent implements OnInit, AfterViewInit {
                 // Go up twice because card routes are setup like this; "card/CARD_ID"
                 // this._router.navigate(['./../..'], {relativeTo: this._activatedRoute});
             });
-    }
-    createProduct() {
-        const DialogRef = this.dialog.open(ProductComposeComponent, {
-            disableClose: true,
-            width: '800px',
-            height: '90%',
-            enterAnimationDuration: 300,
-            exitAnimationDuration: 300,
-            data: {
-                type: 'NEW'
-            }
-        });
-        DialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-                console.log(result, 'result')
-                this.rerender();
-            }
-        });
     }
 }
