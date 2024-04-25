@@ -3,7 +3,7 @@
         <span class="example-spacer"></span>
 
         <div>
-            <span class="font-bold text-[20px]">เพิ่มสินค้า</span>
+            <span class="font-bold text-[20px]">{{title}}</span>
         </div>
 
         <button mat-icon-button mat-dialog-close class="example-icon " aria-label="Example icon-button with menu icon">
@@ -65,14 +65,22 @@
                         </mat-form-field>
                     </div>
                 </div>
-
-
-                <div class="flex justify-center">
-                    <ngx-awesome-uploader [adapter]="adapter" [accept]="'image/*'" [uploadType]="'single'"
-                        class="w-full" [fileMaxSize]="200" (uploadSuccess)="uploadSuccess($event)"
-                        (validationError)="onValidationError($event)">
-
-                    </ngx-awesome-uploader>
+                <div *ngIf="delete_toggle" class="group relative" (click)="deleteImgToInsert()">
+                    <img [src]="form.value.image" alt="Uploaded Image" class="opacity-100 group-hover:opacity-50">
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <button class="opacity-0 group-hover:opacity-100 bg-transparent group-hover:bg-red-200 text-white font-semibold group-hover:text-red-500 py-2 px-4 border border-white-500 group-hover:border-transparent rounded-xl">
+                            ลบรูปภาพ
+                        </button>
+                    </div>
+                </div>
+                  
+                <div *ngIf="!delete_toggle" (click)="deleteImgToInsert()">
+                    <div class="flex justify-center">
+                        <ngx-awesome-uploader [adapter]="adapter" [accept]="'image/*'" [uploadType]="'single'"
+                            class="w-full" [fileMaxSize]="200" (uploadSuccess)="uploadSuccess($event)"
+                            (validationError)="onValidationError($event)">
+                        </ngx-awesome-uploader>
+                    </div>
                 </div>
             </form>
         </div>

@@ -1,0 +1,101 @@
+<div class="flex flex-col flex-auto min-w-0">
+  <!-- Header -->
+  <div
+      class="flex flex-col sm:flex-row flex-0 sm:items-center sm:justify-between p-6 sm:py-8 sm:px-10 border-b bg-card dark:bg-transparent">
+      <div class="flex-1 flemin-w-0">
+          <!-- Title -->
+          <!-- <div class="flex flex-row mt-2 justify-between" *ngIf="!this.Id">
+              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                  เพิ่มพนักงาน
+              </h2>
+          </div>
+
+          <div class="flex flex-row mt-2 justify-between" *ngIf="this.Id">
+              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                  แก้ไขข้อมูลพนักงาน
+              </h2>
+          </div> -->
+          <!-- <div class="mt-2">
+              <h2 class="text-3xl md:text-4xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                  Fields
+              </h2>
+          </div> -->
+      </div>
+  </div>
+  <!-- Main -->
+  <div class="flex-auto p-6 sm:p-10">
+      <div class="grid gap-4 w-full sm:grid-cols-1 md:grid-cols-1">
+          <form class="bg-card rounded-2xl md:shadow overflow-hidden px-8 pt-6 pb-8 mb-4 flex flex-col my-2"
+              [formGroup]="form">
+              <span
+                  class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500"  *ngIf="!this.Id">
+                  เพิ่มแบนเนอร์
+              </span>
+              <span
+                  class="text-xl md:text-xl font-bold tracking-tight leading-7 sm:leading-10 truncate text-gray-500"  *ngIf="this.Id">
+                  แก้ไขสินค้า
+              </span>
+              <div class="-mx-3 md:flex mb-6">
+                  <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+                      <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                          <mat-label>รหัสสินค้า</mat-label>
+                          <input matInput [placeholder]="''" formControlName="code">
+                      </mat-form-field>
+                  </div>
+                  <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+                      <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                          <mat-label>ประเภทสินค้า</mat-label>
+                          <mat-select [formControlName]="'categoryId'">
+                              <mat-option *ngFor="let item of category;" [value]="item.id">
+                                  {{item.name}}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div>
+                  <!-- <div class="md:w-1/3 px-3 mb-6 md:mb-0">
+                      <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                          <mat-label>หน่วย</mat-label>
+                          <mat-select [formControlName]="'unitId'">
+                              <mat-option *ngFor="let item of unit;" [value]="item.id">
+                                  {{item.name}}
+                              </mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                  </div> -->
+                  <div class="-mx-3 md:flex mb-6">
+                    <div class="md:w-full px-3 mb-6 md:mb-0">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>ชื่อสินค้า</mat-label>
+                            <input matInput [placeholder]="''" formControlName="name">
+                        </mat-form-field>
+                    </div>
+                </div>
+              </div>
+              <div class="-mx-3 md:flex mb-6">
+                  <div class="md:w-full px-3 mb-6 md:mb-0">
+                      <mat-form-field class="w-full">
+                          <mat-label>รูปสินค้า</mat-label>
+                          <button mat-icon-button matPrefix>
+                              <mat-icon>attach_file</mat-icon>
+                          </button>
+                          <input type="text" readonly matInput [formControlName]="'imageName'" />
+                          <input type="file" hidden #productImg (change)="onSelect(productImg.files,'productImg')"/>
+                          <mat-error>กรุณาเลือกรูป</mat-error>
+                      </mat-form-field>
+                  </div>
+              </div>
+
+              <div
+                  class="flex items-end justify-end text-3xl md:text-4xl md:mt-10 font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
+                  <button class="px-6 ml-3" mat-flat-button (click)="Submit()" [color]="'primary'">
+                      บันทึก
+                  </button>
+                  <button class="px-6 ml-3" mat-flat-button [color]="'warn'" (click)="backTo()" >
+                      ยกเลิก
+                  </button>
+              </div>
+          </form>
+      </div>
+
+  </div>
+</div>
