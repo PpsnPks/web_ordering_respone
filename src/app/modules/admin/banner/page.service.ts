@@ -2,20 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { removeEmpty } from 'app/modules/shared/helper';
 import { toUpper } from 'lodash';
-import { BehaviorSubject, map, tap } from 'rxjs';
+import { map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BannerService {
-
-  private _categories: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
-  private _roles: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
-  private _data: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
-
-  get categories$() {
-    return this._categories.asObservable();
-  }
 
   constructor(private http: HttpClient) { }
 
@@ -26,7 +18,7 @@ export class BannerService {
     const dir = toUpper(order[0].dir);
     const sortBy = column + ':' + dir;
 
-    return this.http.get('api/product/datatables', {
+    return this.http.get('/api/banner/datatables', {
       params: {
         page: page,
         limit: length,
@@ -43,43 +35,18 @@ export class BannerService {
   }
 
   create(data: any) {
-    return this.http.post('api/product', data)
+    return this.http.post('api/banner', data)
   }
 
   update(id: any,data: any) {
-    return this.http.put('/api/product/' + id, data)
+    return this.http.put('/api/banner/' + id, data)
   }
 
-  getRole() {
-    return this.http.get('api/role').pipe(
-      tap((resp: any) => {
-        this._roles.next(resp);
-      }),
-    )
-  }
-  getUnit() {
-    return this.http.get('api/unit').pipe(
-      tap((resp: any) => {
-        this._data.next(resp);
-      }),
-    )
-  }
-  getCategory() {
-    return this.http.get('api/category').pipe(
-      tap((resp: any) => {
-        this._data.next(resp);
-      }),
-    )
-  }
-  getById(id:string) {
-    return this.http.get('api/product/'+ id).pipe(
-      tap((resp: any) => {
-        this._data.next(resp);
-      }),
-    )
+  get(id:string) {
+    return this.http.get('api/banner/'+ id)
   }
 
   delete(id: number) {
-    return this.http.delete('/api/product/' + id)
+    return this.http.delete('/api/banner/' + id)
   }
 }

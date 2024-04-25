@@ -155,32 +155,10 @@ export class BannerComponent implements OnInit, AfterViewInit {
         });
     }
 
-
-
-    opendialogapro() {
-        const DialogRef = this.dialog.open(DialogForm, {
-            disableClose: true,
-            width: '500px',
-            height: '400px',
-            enterAnimationDuration: 300,
-            exitAnimationDuration: 300,
-            data: {
-                type: 'NEW'
-            }
-        });
-        DialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-                console.log(result, 'result')
-                this.rerender();
-            }
-        });
-    }
-
     openDialogEdit(item: any) {
         const DialogRef = this.dialog.open(DialogForm, {
             disableClose: true,
             width: '500px',
-            height: '90%',
             data: {
                 type: 'EDIT',
                 value: item
@@ -254,9 +232,8 @@ export class BannerComponent implements OnInit, AfterViewInit {
         const DialogRef = this.dialog.open(BannerComposeComponent, {
             disableClose: true,
             width: '800px',
-            height: '90%',
-            enterAnimationDuration: 300,
-            exitAnimationDuration: 300,
+            // enterAnimationDuration: 300,
+            // exitAnimationDuration: 300,
             data: {
                 type: 'NEW'
             }

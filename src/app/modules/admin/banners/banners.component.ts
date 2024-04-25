@@ -28,8 +28,6 @@ export class BannersComponent implements OnInit, AfterViewInit {
   dtOptions: any = {};
   dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
 
-  categories: any[] = [];
-
   @ViewChild('btNg') btNg: any;
   @ViewChild(DataTableDirective, { static: false })
   dtElement: DataTableDirective;
@@ -43,8 +41,6 @@ export class BannersComponent implements OnInit, AfterViewInit {
   ) { }
 
   ngOnInit(): void {
-    this.bannerService.categories$.subscribe((resp) => this.categories = resp);
-
     setTimeout(() => {
       this.dtOptions = {
         serverSide: true,

@@ -66,14 +66,9 @@ export class FormComponent implements OnInit {
             categoryId: '',
             // productLevel: this._formBuilder.array([])
         })
-        this._service.getUnit().subscribe((resp: any) => {
-            this.unit = resp
-        })
-        this._service.getCategory().subscribe((resp: any) => {
-            this.category = resp
-        })
+
         if (this.Id) {
-            this._service.getById(this.Id).subscribe((resp: any) => {
+            this._service.get(this.Id).subscribe((resp: any) => {
                 this.itemData = resp
             })
         }
@@ -82,7 +77,7 @@ export class FormComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.Id) {
-            this._service.getById(this.Id).subscribe((resp: any) => {
+            this._service.get(this.Id).subscribe((resp: any) => {
                 this.itemData = resp
                 if (this.itemData) {
                     this.form.patchValue({

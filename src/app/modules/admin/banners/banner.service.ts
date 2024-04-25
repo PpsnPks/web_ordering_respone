@@ -8,17 +8,6 @@ import { BehaviorSubject, map, tap } from 'rxjs';
 })
 export class BannerService {
 
-  private _categories: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
-  private _units: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
-
-  get categories$() {
-    return this._categories.asObservable();
-  }
-
-  get units$() {
-    return this._units.asObservable();
-  }
-
   constructor(private http: HttpClient) { }
 
   datatable(dataTablesParameters: any) {
@@ -43,26 +32,11 @@ export class BannerService {
     );
   }
 
-  create(dataAproduct: { code: string, name: string, price: string, image: string, categoryId: number,unitId:number }) {
-    return this.http.post('api/product', dataAproduct)
-  }
-
-  getCategories() {
-    return this.http.get('api/category').pipe(
-      tap((resp: any) => {
-        this._categories.next(resp);
-      }),
-    )
-  }
-  getUnit() {
-    return this.http.get('api/unit').pipe(
-      tap((resp: any) => {
-        this._units.next(resp);
-      }),
-    )
+  create(data: any) {
+    return this.http.post('/api/banner', data)
   }
 
   delete(id: number) {
-    return this.http.delete('/api/product/' + id)
+    return this.http.delete('/api/banner/' + id)
   }
 }

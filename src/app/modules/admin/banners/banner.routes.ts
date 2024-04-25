@@ -8,7 +8,7 @@ export default [
         path: '',
         component: BannersComponent,
         resolve  : {
-            categories: () => inject(BannerService).getCategories(),
+            // categories: () => inject(BannerService).getCategories(),
             // products  : () => inject(InventoryService).getProducts(),
         },
     },

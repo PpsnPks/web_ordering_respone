@@ -16,54 +16,16 @@
               [formGroup]="form">
 
               <div class="grid w-full gap-3 ">
-                  <!-- <div class="relative w-full">
-                      <label class="absolute -top-2 left-2 z-40 pl-2 pr-2 text-gray-400 text-sm bg-white"
-                          for="">รหัสสินค้า</label>
-                      <mat-form-field class="flex-auto w-full" subscriptSizing="fixed">
-                          <input matInput [formControlName]="'code'" required [placeholder]="'ระบุรหัสสินค้า'">
-                          <mat-error>Required field!</mat-error>
-                      </mat-form-field>
-                  </div> -->
-                  <div class="relative w-full mb-4">
-                      <label class="absolute -top-2  left-2 z-40 pl-2 pr-2 text-gray-400 text-sm bg-white"
-                          for="">ชื่อแบนเนอร์</label>
+                  <div class="w-full mb-4">
                       <mat-form-field class="flex-auto w-full " subscriptSizing="fixed">
-                          <input matInput [formControlName]="'name'" required [placeholder]="'ระบุชื่อแบนเนอร์'">
+                          <mat-label>ชื่อแบนเนอร์</mat-label>
+                          <input matInput [formControlName]="'title'" required [placeholder]="'ระบุชื่อแบนเนอร์'">
                           <mat-error>Required field!</mat-error>
                       </mat-form-field>
                   </div>
-                  <!-- <div class="relative w-full mb-4">
-                      <label class="absolute -top-2  left-2 z-40 pl-2 pr-2 text-gray-400 text-sm bg-white"
-                          for="">ราคาสินค้า</label>
-                      <mat-form-field class="flex-auto w-full " subscriptSizing="fixed">
-                          <input matInput mask="separator.2" thousandSeparator="," separatorLimit="99999999"
-                              [allowNegativeNumbers]="false" [formControlName]="'price'" required
-                              [placeholder]="'ระบุราคาสินค้า'">
-                          <mat-error>Required field!</mat-error>
-                      </mat-form-field>
-                  </div> -->
-                  <!-- <div class="relative w-full mb-4">
-                      <label
-                          class="absolute -top-2  left-2 z-40 pl-2 pr-2 text-gray-400 text-sm bg-white">หมวดหมู่</label>
-                      <mat-form-field class="flex-auto w-full">
-                          <mat-select [formControlName]="'categoryId'" [placeholder]="'ระบุหมวดหมู่'">
-                              <mat-option *ngFor="let item of catagories; let i = index;"
-                                  [value]="item.id">{{item.name}}</mat-option>
-                          </mat-select>
-                          <mat-error>Required field!</mat-error>
-                      </mat-form-field>
-                  </div> -->
-                  <!-- <div class="relative w-full mb-4">
-                      <label
-                          class="absolute -top-2  left-2 z-40 pl-2 pr-2 text-gray-400 text-sm bg-white">หน่วยนับ</label>
-                      <mat-form-field class="flex-auto w-full">
-                          <mat-select [formControlName]="'unitId'" [placeholder]="'ระบุหน่วย'">
-                              <mat-option *ngFor="let item of units; let i = index;"
-                                  [value]="item.id">{{item.name}}</mat-option>
-                          </mat-select>
-                          <mat-error>Required field!</mat-error>
-                      </mat-form-field>
-                  </div> -->
+                  <div class="w-full mb-4">
+                    <mat-slide-toggle [formControlName]="'isShow'" [color]="'primary'">แสดง</mat-slide-toggle>
+                </div>
               </div>
 
 
@@ -87,7 +49,7 @@
               <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="Submit()">
                   ตกลง
               </button>
-              <button class="px-6 ml-3" mat-flat-button [color]="'warn'">
+              <button class="px-6 ml-3" mat-flat-button [color]="'warn'" mat-dialog-close>
                   ยกเลิก
               </button>
           </div>
