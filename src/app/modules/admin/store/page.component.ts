@@ -77,6 +77,8 @@ export class StoreComponent implements OnInit {
             address: '',
             logo:'',
             tax:'',
+            logoUrl:'',
+
 
         })
     }
@@ -89,11 +91,13 @@ export class StoreComponent implements OnInit {
             })
          })
 
+
     }
 
     Submit() {
-        let formValue = this.form.value
-        console.log(this.form)
+
+        console.log(this.form.value.logoUrl)
+        this.form.get('logoUrl').disable()
         const confirmation = this.fuseConfirmationService.open({
           title: "ยืนยันการบันทึกข้อมูล",
             icon: {
@@ -118,12 +122,13 @@ export class StoreComponent implements OnInit {
         confirmation.afterClosed().subscribe(
             result => {
                 if (result == 'confirmed') {
-                    this.stoerService.update(this.store.id ,formValue).subscribe({
+                    this.stoerService.update(this.store.id ,this.form.value).subscribe({
                         error: (err) => {
                             this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
                         },
                         complete: () => {
                             this.toastr.success('ดำเนินการแก้ไขข้อมูลสำเร็จ')
+                            this.ngOnInit()
 
                         },
                     });
@@ -145,7 +150,6 @@ export class StoreComponent implements OnInit {
   onValidationError(error: ValidationError): void {
     alert(`Validation Error ${error.error} in ${error.file?.name}`);
 }
-
 
 
 
