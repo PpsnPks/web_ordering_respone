@@ -32,7 +32,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     styleUrl: './product-compose.component.scss',
     imports: [CommonModule, DataTablesModule, MatIconModule, MatFormFieldModule, MatInputModule,
         FormsModule, MatToolbarModule, MatButtonModule, MatDialogTitle, MatDialogContent, MatDialogActions,
-        MatDialogClose, MatSelectModule, FilePickerModule, NgxMaskDirective, ReactiveFormsModule
+        MatDialogClose, MatSelectModule, FilePickerModule, NgxMaskDirective, ReactiveFormsModule,MatTabsModule
     ],
     providers: [
       {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
