@@ -1,5 +1,5 @@
-import { CommonModule, CurrencyPipe, DatePipe } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { CommonModule, CurrencyPipe, DatePipe, registerLocaleData } from '@angular/common';
+import { AfterViewInit, ChangeDetectionStrategy, Component, LOCALE_ID, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
@@ -10,7 +10,6 @@ import { FilePickerModule } from 'ngx-awesome-uploader';
 import { MatMenuModule } from '@angular/material/menu';
 import { ToastrService } from 'ngx-toastr';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { DialogRef } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { ReportService } from '../page.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -20,9 +19,11 @@ import { OrderStatusPipe } from 'app/modules/shared/order-status.pipe';
 import { Router } from '@angular/router';
 import { DialogForm } from './form-dialog/dialog.component';
 import { SearchComponent } from 'app/modules/shared/search-component/search.component';
-import luxon, { DateTime } from 'luxon';
-import { update } from 'lodash';
+import { DateTime } from 'luxon';
 import { environment } from 'environments/environment.development';
+import localeTh from '@angular/common/locales/th';
+
+registerLocaleData(localeTh);
 
 @Component({
     selector: 'app-page-unit',
@@ -44,7 +45,8 @@ import { environment } from 'environments/environment.development';
     providers: [
         OrderStatusPipe,
         CurrencyPipe,
-        DatePipe
+        DatePipe,
+        { provide: LOCALE_ID, useValue: 'th-TH' }
     ],
     templateUrl: './report.component.html',
     styleUrl: './report.component.scss',
@@ -127,9 +129,9 @@ export class ReportComponent implements OnInit, AfterViewInit {
                 },
                 {
                     title: 'วันที่ทำรายการ',
-                    data: 'createdAt',
+                    data: 'orderDate',
                     ngPipeInstance: this.datePipe,
-                    ngPipeArgs: ['dd-MM-yyyy : HH:mm']
+                    ngPipeArgs: ['mediumDate']
                 },
 
                 {
@@ -208,7 +210,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
             }
         });
     }
-    
+
     handleChange(updateData: any): void {
         var betweenString = ''
         if( updateData.startDate && updateData.endDate) {
@@ -216,7 +218,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
         var endDate = DateTime.fromISO(updateData.endDate).toFormat('yyyy-MM-dd');
         betweenString = `$btw:${startDate},${endDate}`;
         }
-        
+
         this.form.patchValue({
             orderStatus: updateData.status ?? '',
             orderDate: betweenString ?? '',

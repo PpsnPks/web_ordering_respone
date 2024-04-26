@@ -185,7 +185,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
         const DialogRef = this.dialog.open(ProductComposeComponent, {
             disableClose: true,
             width: '800px',
-            height: '90%',
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
             data: {
@@ -201,7 +200,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
     }
 
     openDialogEdit(item: any) {
-        const DialogRef = this.dialog.open(ProductComposeComponent, {     //DialogForm       
+        const DialogRef = this.dialog.open(ProductComposeComponent, {     //DialogForm
             disableClose: true,
             width: '800px',
             height: '90%',

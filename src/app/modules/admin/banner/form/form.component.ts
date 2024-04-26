@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserModule } from '@angular/platform-browser';
-import { BannerService } from '../page.service';
+import { BannerService } from '../banner.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
@@ -66,14 +66,9 @@ export class FormComponent implements OnInit {
             categoryId: '',
             // productLevel: this._formBuilder.array([])
         })
-        this._service.getUnit().subscribe((resp: any) => {
-            this.unit = resp
-        })
-        this._service.getCategory().subscribe((resp: any) => {
-            this.category = resp
-        })
+
         if (this.Id) {
-            this._service.getById(this.Id).subscribe((resp: any) => {
+            this._service.get(this.Id).subscribe((resp: any) => {
                 this.itemData = resp
             })
         }
@@ -82,7 +77,7 @@ export class FormComponent implements OnInit {
 
     ngOnInit(): void {
         if (this.Id) {
-            this._service.getById(this.Id).subscribe((resp: any) => {
+            this._service.get(this.Id).subscribe((resp: any) => {
                 this.itemData = resp
                 if (this.itemData) {
                     this.form.patchValue({

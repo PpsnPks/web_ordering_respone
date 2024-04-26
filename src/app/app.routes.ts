@@ -78,8 +78,7 @@ export const appRoutes: Route[] = [
             { path: 'example', loadChildren: () => import('app/modules/admin/example/example.routes') },
             { path: 'user', loadChildren: () => import('app/modules/admin/user/user.routes') },
             { path: 'branch', loadChildren: () => import('app/modules/admin/branch/page.routes') },
-            { path: 'banner', loadChildren: ()=> import('app/modules/admin/banner/page.routes')},
-            { path: 'banners', loadChildren: ()=> import('app/modules/admin/banners/banner.routes')},
+            { path: 'banner', loadChildren: ()=> import('app/modules/admin/banner/banner.routes')},
             { path: 'customers', loadChildren: () => import('app/modules/admin/customers/customers.routes') },
             { path: 'products', loadChildren: () => import('app/modules/admin/products/product.routes') },
             { path: 'panel', loadChildren: () => import('app/modules/admin/panel/page.routes')},
@@ -90,6 +89,7 @@ export const appRoutes: Route[] = [
             { path: 'promotion', loadChildren: () => import('app/modules/admin/promotion/page.routes') },
             { path: 'unit', loadChildren: () => import('app/modules/admin/unit/page.routes') },
             { path: 'profile', loadChildren: () => import('app/modules/admin/profile/profile.routes') },
+            { path: 'shift', loadChildren: () => import('app/modules/admin/shift/shift.routes') },
 
         ]
     }
