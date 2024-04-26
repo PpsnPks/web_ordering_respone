@@ -14,7 +14,7 @@ import {
     MatDialogRef,
     MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators, FormArray, FormGroupName } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -23,7 +23,7 @@ import { HttpClient } from '@angular/common/http';
 import { ValidationError, FilePickerModule } from 'ngx-awesome-uploader';
 import { DemoFilePickerAdapter } from 'app/demo-file-picker.adapter';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
     selector: 'app-product-compose',
@@ -32,10 +32,10 @@ import {MatTabsModule} from '@angular/material/tabs';
     styleUrl: './product-compose.component.scss',
     imports: [CommonModule, DataTablesModule, MatIconModule, MatFormFieldModule, MatInputModule,
         FormsModule, MatToolbarModule, MatButtonModule, MatDialogTitle, MatDialogContent, MatDialogActions,
-        MatDialogClose, MatSelectModule, FilePickerModule, NgxMaskDirective, ReactiveFormsModule,MatTabsModule
+        MatDialogClose, MatSelectModule, FilePickerModule, NgxMaskDirective, ReactiveFormsModule, MatTabsModule
     ],
     providers: [
-      {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}}
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }
     ]
 })
 export class ProductComposeComponent implements OnInit {
@@ -45,7 +45,7 @@ export class ProductComposeComponent implements OnInit {
     units: any[] = [];
     title: string
     delete_toggle: boolean
-
+    orderForm: FormGroup;
     constructor(
         private dialogRef: MatDialogRef<ProductComposeComponent>,
         public dialog: MatDialog,
@@ -65,9 +65,17 @@ export class ProductComposeComponent implements OnInit {
             unitId: ['', Validators.required],
         });
 
-        if (this.data.type === 'NEW'){
+        this.orderForm = this.FormBuilder.group({
+            items: this.FormBuilder.array([]),
+            name: [''],
+            price: [''],
+            type: ['']
+        });
+
+
+        if (this.data.type === 'NEW') {
             this.title = "เพิ่มสินค้า"
-        }else if (this.data.type === 'EDIT'){
+        } else if (this.data.type === 'EDIT') {
             this.title = "แก้ไขสินค้า"
             this.form.patchValue({
                 code: this.data.value.code,
@@ -76,7 +84,7 @@ export class ProductComposeComponent implements OnInit {
                 image: this.data.value.image,
                 categoryId: this.data.value.category.id,
                 unitId: this.data.value.unit.id,
-              });
+            });
         }
 
         this.delete_toggle = this.form.value.image
@@ -105,7 +113,7 @@ export class ProductComposeComponent implements OnInit {
 
     }
 
-    deleteImgToInsert(){
+    deleteImgToInsert() {
         //this.delete_toggle = false
         this.delete_toggle = !this.delete_toggle
         console.log("please insert image");
@@ -123,4 +131,21 @@ export class ProductComposeComponent implements OnInit {
         alert(`Validation Error ${error.error} in ${error.file?.name}`);
     }
 
+    get items() : FormArray {
+        return this.orderForm.get('items') as FormArray
+    }
+
+    addItem(): void {
+        const from = this.FormBuilder.group({
+            name: [''],
+            price: [0],
+            type: ['']
+        });
+        console.log(this.orderForm.value.type)
+        this.items.push(from)
+    }
+
+    removeItem(index: number) {
+        this.items.removeAt(index);
+    }
 }
