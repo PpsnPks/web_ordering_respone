@@ -128,11 +128,11 @@
       </div>
         <!-- tagggggggg -->
 
-        <div class="flex flex-row w-full ">
-          <div class="flex flex-row" formArrayName="attributeValues">
-            <div *ngFor="let item of attributeValues.controls; let i = index;" [formGroupName]="i" class="flex-row">
-              <div class="flex flex-row t-5">
-              <div class="flex">
+        <div class="">
+          <div class="" formArrayName="attributeValues">
+            <div *ngFor="let item of attributeValues.controls; let i = index;" [formGroupName]="i" >
+              <div class="flex flex-row ">
+              <div class="flex ">
                 <mat-form-field class="flex">
                   <mat-label>ชื่อสินค้า</mat-label>
                   <input matInput formControlName="name"  [placeholder]="'ระบุชื่อสินค้า'">
