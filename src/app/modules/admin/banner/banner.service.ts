@@ -1,13 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { removeEmpty } from 'app/modules/shared/helper';
+import { environment } from 'environments/environment.development';
 import { toUpper } from 'lodash';
-import { map } from 'rxjs';
+import { BehaviorSubject, map, tap } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BannerService {
+  private _banner: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
 
   constructor(private http: HttpClient) { }
 
@@ -45,6 +47,14 @@ export class BannerService {
   get(id:string) {
     return this.http.get('api/banner/'+ id)
   }
+
+  // get(id:string) {
+  //   return this.http.get(environment.apiUrl + 'api/banner/'+ id).pipe(
+  //     tap((resp: any) => {
+  //       this._banner.next(resp);
+  //     }),
+  //   )
+  // }
 
   delete(id: number) {
     return this.http.delete('/api/banner/' + id)

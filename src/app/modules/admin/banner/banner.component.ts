@@ -41,6 +41,7 @@ export class BannerComponent implements OnInit, AfterViewInit {
     @ViewChild('btPicture') btPicture: any;
     @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
+    @ViewChild('textStatus') textStatus: any;
 
     constructor(
         private _service: BannerService,
@@ -130,6 +131,17 @@ export class BannerComponent implements OnInit, AfterViewInit {
                     },
                     className: 'w-20'
                 },
+
+                {
+                    title: 'แสดง',
+                    data: null,
+                    defaultContent: '',
+                    ngTemplateRef: {
+                        ref: this.textStatus,
+                    },
+                    className: 'w-30'
+                },
+
                 {
                     title: 'จัดการ',
                     data: null,
@@ -156,13 +168,16 @@ export class BannerComponent implements OnInit, AfterViewInit {
     }
 
     openDialogEdit(item: any) {
-        const DialogRef = this.dialog.open(DialogForm, {
+        console.log(item)
+        this._service.get(item).subscribe((resp: any) =>{
+        const DialogRef = this.dialog.open(BannerComposeComponent, {
             disableClose: true,
-            width: '500px',
+            width: '800px',
             data: {
                 type: 'EDIT',
-                value: item
-            }
+                value: resp
+            },
+            panelClass: 'overflow-auto'
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
@@ -170,7 +185,9 @@ export class BannerComponent implements OnInit, AfterViewInit {
                 this.rerender();
             }
         });
-    }
+        
+    });
+}
 
 
 
@@ -236,7 +253,8 @@ export class BannerComponent implements OnInit, AfterViewInit {
             // exitAnimationDuration: 300,
             data: {
                 type: 'NEW'
-            }
+            },
+            panelClass: 'overflow-auto'
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
