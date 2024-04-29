@@ -1,3 +1,5 @@
+import { IDemoNgComponentEventType } from './../../../../shared/button-edit/ng-template-ref-event-type';
+//import { Event } from 'rxjs';
 import { ProductService } from '../../product.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -39,7 +41,8 @@ import { MatTabsModule } from '@angular/material/tabs';
     ]
 })
 export class ProductComposeComponent implements OnInit {
-    form: FormGroup;
+  selectedValue: string;
+  form: FormGroup;
     adapter = new DemoFilePickerAdapter(this.http);
     catagories: any[] = [];
     units: any[] = [];
@@ -56,7 +59,8 @@ export class ProductComposeComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
-        this.form = this.FormBuilder.group({
+
+      this.form = this.FormBuilder.group({
             code: ['', Validators.required],
             name: ['', Validators.required],
             price: ['', Validators.required],
@@ -66,9 +70,8 @@ export class ProductComposeComponent implements OnInit {
         });
 
         this.orderForm = this.FormBuilder.group({
-            items: this.FormBuilder.array([]),
             name: [''],
-            price: [''],
+            attributeValues: this.FormBuilder.array([]),
             type: ['']
         });
 
@@ -90,12 +93,12 @@ export class ProductComposeComponent implements OnInit {
         this.delete_toggle = this.form.value.image
         this.ProductService.categories$.subscribe(resp => this.catagories = resp);
         this.ProductService.units$.subscribe(resp => this.units = resp);
-    }
+        console.log('tagggg',this.orderForm.value)
+        this.addItem()
+      }
 
     Submit() {
-        if (this.form.invalid) {
-            return;
-        }
+
         this.ProductService.create({
             code: this.form.value.code,
             name: this.form.value.name,
@@ -110,6 +113,12 @@ export class ProductComposeComponent implements OnInit {
                 }
             }
         )
+
+    }
+
+    Submit2(){
+      console.log('tagggg',this.orderForm.value)
+      this.ProductService.postAt(this.data.value.id,this.orderForm.value).subscribe({})
 
     }
 
@@ -131,21 +140,34 @@ export class ProductComposeComponent implements OnInit {
         alert(`Validation Error ${error.error} in ${error.file?.name}`);
     }
 
-    get items() : FormArray {
-        return this.orderForm.get('items') as FormArray
+    get attributeValues() : FormArray {
+        return this.orderForm.get('attributeValues') as FormArray
     }
 
     addItem(): void {
         const from = this.FormBuilder.group({
             name: [''],
-            price: [0],
-            type: ['']
+            price: [0]
         });
-        console.log(this.orderForm.value.type)
-        this.items.push(from)
+        console.log(this.form)
+        this.attributeValues.push(from)
+
+
     }
 
     removeItem(index: number) {
-        this.items.removeAt(index);
+        this.attributeValues.removeAt(index);
     }
-}
+
+    onSelectChange(event: any) {
+      // Access the selected value from the event
+      this.selectedValue = event.value;
+      this.attributeValues.clear()
+      this.addItem()
+    }
+    onTabChange(event: any) {
+      console.log('Tab index changed:', event);
+
+      // Perform any other actions based on the selected tab index
+    }
+  }

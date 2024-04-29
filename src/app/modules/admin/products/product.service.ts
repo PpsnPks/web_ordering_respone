@@ -65,4 +65,8 @@ export class ProductService {
   delete(id: number) {
     return this.http.delete('/api/product/' + id)
   }
+  postAt(id: number, data2:any){
+    return this.http.post('api/product/' + id + '/attribute', data2);
+
+  }
 }
