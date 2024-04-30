@@ -201,15 +201,18 @@ export class ProductComponent implements OnInit, AfterViewInit {
 
     openDialogEdit(item: any) {
         const DialogRef = this.dialog.open(ProductComposeComponent, {     //DialogForm
-            disableClose: true,
-            width: '800px',
-            height: '90%',
+
+          disableClose: true,
+            width: 'calc(100% - 30px)',
+            height: 'calc(100% - 30px)',
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
             data: {
                 type: 'EDIT',
                 value: item
-            }
+            },
+            maxWidth: "100%",
+            maxHeight: "100%"
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
@@ -217,6 +220,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
                 this.rerender();
             }
         });
+
+
     }
 
 

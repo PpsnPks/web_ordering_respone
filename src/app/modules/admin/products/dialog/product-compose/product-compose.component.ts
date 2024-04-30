@@ -90,8 +90,10 @@ export class ProductComposeComponent implements OnInit {
         this.delete_toggle = this.form.value.image
         this.ProductService.categories$.subscribe(resp => this.catagories = resp);
         this.ProductService.units$.subscribe(resp => this.units = resp);
-        console.log('tagggg',this.orderForm)
+        console.log('tagggg',this.form)
         //this.addItem()
+
+
       }
 
     Submit() {
@@ -114,7 +116,8 @@ export class ProductComposeComponent implements OnInit {
     }
 
     Submit2(){
-      console.log('tagggg',this.orderForm.value)
+      console.log('tagggg',this.form.patchValue)
+
      // this.ProductService.postAt(this.data.value.id,this.orderForm.value).subscribe({})
 
     }
@@ -159,14 +162,11 @@ export class ProductComposeComponent implements OnInit {
   //  }
   //  //taggg
 
-  //   removeItem(index: number) {
-  //       this.attributeValues.removeAt(index);
-  //   }
 
     onSelectChange(event: any) {
       // Access the selected value from the event
       this.selectedValue = event.value;
-      
+
       // this.addItem()
     }
     onTabChange(event: any) {

@@ -118,16 +118,17 @@
           <mat-form-field >
             <mat-label>รูปแบบ</mat-label>
             <mat-select placeholder="Select an option" [formControlName]= "'type'" (selectionChange)="onSelectChange($event)">
-              <mat-option value="single">single</mat-option>
+              <mat-option value="single" >single</mat-option>
               <mat-option value="quantity">quantity</mat-option>
               <mat-option value="multiple">multiple</mat-option>
             </mat-select>
 
 
           </mat-form-field>
-        </div>
-        <div>
-          <button    mat-flat-button [color]="'primary'" (click)="addproAt(empIndex)">
+        <!-- </div>
+        <div> -->
+
+          <button mat-flat-button [color]="'primary'" (click)="addproAt(empIndex)">
           <mat-icon class= "icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
           <span class="ml-2 "> เพิ่มรายการ</span>
         </button>
@@ -150,7 +151,7 @@
                   <input matInput formControlName="price"  [placeholder]="'ระบุราคา'">
                 </mat-form-field>
               </div>
-                <button (click)="removeItem(i)">
+                <button (click)="removeproAt(empIndex,skillIndex)">
                 <mat-icon [svgIcon]="'heroicons_solid:trash'"></mat-icon>
                 <span>ลบ</span>
               </button>

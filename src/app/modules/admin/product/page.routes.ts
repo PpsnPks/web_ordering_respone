@@ -4,6 +4,7 @@ import { FormComponent } from './form/form.component';
 import { ProductService } from '../products/product.service';
 import { inject } from '@angular/core';
 
+
 export default [
     {
         path     : '',
@@ -18,4 +19,5 @@ export default [
         path     : 'form',
         component: FormComponent,
     },
+
 ] as Routes;
