@@ -200,7 +200,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
     }
 
     openDialogEdit(item: any) {
-        const DialogRef = this.dialog.open(ProductComposeComponent, {     //DialogForm
+      console.log(item)
+      const DialogRef = this.dialog.open(ProductComposeComponent, {     //DialogForm
 
           disableClose: true,
             width: 'calc(100% - 30px)',

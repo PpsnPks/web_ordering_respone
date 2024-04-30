@@ -77,21 +77,24 @@ export class ProductComposeComponent implements OnInit {
             this.title = "เพิ่มสินค้า"
         } else if (this.data.type === 'EDIT') {
             this.title = "แก้ไขสินค้า"
-            this.form.patchValue({
-                code: this.data.value.code,
-                name: this.data.value.name,
-                price: this.data.value.price,
-                image: this.data.value.image,
-                categoryId: this.data.value.category.id,
-                unitId: this.data.value.unit.id,
+            console.log(this.data)
+            this.form = this.FormBuilder.group({
+                code: this.data.value.code ?? '',
+                name: this.data.value.name ?? '',
+                price: this.data.value.price ?? '',
+                image: this.data.value.image ?? '',
+                categoryId: this.data.value.category.id ?? '',
+                unitId: this.data.value.unit.id ?? '',
             });
         }
+        this.addPro()
 
         this.delete_toggle = this.form.value.image
         this.ProductService.categories$.subscribe(resp => this.catagories = resp);
         this.ProductService.units$.subscribe(resp => this.units = resp);
+
         console.log('tagggg',this.form)
-        //this.addItem()
+
 
 
       }
@@ -116,7 +119,7 @@ export class ProductComposeComponent implements OnInit {
     }
 
     Submit2(){
-      console.log('tagggg',this.form.patchValue)
+      console.log('tagggg',this.orderForm)
 
      // this.ProductService.postAt(this.data.value.id,this.orderForm.value).subscribe({})
 
@@ -166,8 +169,7 @@ export class ProductComposeComponent implements OnInit {
     onSelectChange(event: any) {
       // Access the selected value from the event
       this.selectedValue = event.value;
-
-      // this.addItem()
+            // this.addItem()
     }
     onTabChange(event: any) {
       console.log('Tab index changed:', event);
@@ -194,6 +196,8 @@ export class ProductComposeComponent implements OnInit {
 
     addPro() {
       this.pro().push(this.newPro());
+
+
     }
 
 
