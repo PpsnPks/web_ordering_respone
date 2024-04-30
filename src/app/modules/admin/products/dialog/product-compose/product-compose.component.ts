@@ -116,6 +116,8 @@ export class ProductComposeComponent implements OnInit {
             }
         )
 
+        
+
     }
 
     Submit2(){

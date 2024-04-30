@@ -184,9 +184,13 @@ export class ProductComponent implements OnInit, AfterViewInit {
         console.log('create');
         const DialogRef = this.dialog.open(ProductComposeComponent, {
             disableClose: true,
-            width: '800px',
+            width: 'calc(100% - 30px)',
+            height: 'calc(100% - 30px)',
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
+            maxWidth: "100%",
+            maxHeight: "100%",
+
             data: {
                 type: 'NEW'
             }
