@@ -70,11 +70,8 @@ export class ProductComposeComponent implements OnInit {
         });
 
         this.orderForm = this.FormBuilder.group({
-            name: [''],
-            attributeValues: this.FormBuilder.array([]),
-            type: ['']
+          pass: this.FormBuilder.array([])
         });
-
 
         if (this.data.type === 'NEW') {
             this.title = "เพิ่มสินค้า"
@@ -93,8 +90,8 @@ export class ProductComposeComponent implements OnInit {
         this.delete_toggle = this.form.value.image
         this.ProductService.categories$.subscribe(resp => this.catagories = resp);
         this.ProductService.units$.subscribe(resp => this.units = resp);
-        console.log('tagggg',this.orderForm.value)
-        this.addItem()
+        console.log('tagggg',this.orderForm)
+        //this.addItem()
       }
 
     Submit() {
@@ -118,9 +115,11 @@ export class ProductComposeComponent implements OnInit {
 
     Submit2(){
       console.log('tagggg',this.orderForm.value)
-      this.ProductService.postAt(this.data.value.id,this.orderForm.value).subscribe({})
+     // this.ProductService.postAt(this.data.value.id,this.orderForm.value).subscribe({})
 
     }
+
+
 
     deleteImgToInsert() {
         //this.delete_toggle = false
@@ -143,31 +142,88 @@ export class ProductComposeComponent implements OnInit {
     get attributeValues() : FormArray {
         return this.orderForm.get('attributeValues') as FormArray
     }
-
-    addItem(): void {
-        const from = this.FormBuilder.group({
-            name: [''],
-            price: [0]
-        });
-        console.log(this.form)
-        this.attributeValues.push(from)
+//tag
 
 
-    }
 
-    removeItem(index: number) {
-        this.attributeValues.removeAt(index);
-    }
+
+
+
+  //   addItem(): void {
+  //       const from = this.FormBuilder.group({
+  //           name: [''],
+  //           price: [0]
+  //       });
+  //       console.log(this.form)
+  //       this.attributeValues.push(from)
+  //  }
+  //  //taggg
+
+  //   removeItem(index: number) {
+  //       this.attributeValues.removeAt(index);
+  //   }
 
     onSelectChange(event: any) {
       // Access the selected value from the event
       this.selectedValue = event.value;
-      this.attributeValues.clear()
-      this.addItem()
+      
+      // this.addItem()
     }
     onTabChange(event: any) {
       console.log('Tab index changed:', event);
 
       // Perform any other actions based on the selected tab index
     }
+
+
+
+
+
+    pro(): FormArray {
+      return this.orderForm.get('pass') as FormArray;
+    }
+
+    newPro(): FormGroup {
+      return this.FormBuilder.group({
+        name: '',
+        type: '',
+        skills: this.FormBuilder.array([])
+      });
+    }
+
+
+    addPro() {
+      this.pro().push(this.newPro());
+    }
+
+
+    removePro(empIndex: number) {
+      this.pro().removeAt(empIndex);
+    }
+
+
+    proAt(empIndex: number): FormArray {
+      return this.pro().at(empIndex).get('skills') as FormArray;
+    }
+
+
+    newAt(): FormGroup {
+      return this.FormBuilder.group({
+        name: '',
+        price: ''
+      });
+    }
+
+    addproAt(empIndex: number) {
+      this.proAt(empIndex).push(this.newAt());
+    }
+
+
+    removeproAt(empIndex: number, skillIndex: number) {
+    this.proAt(empIndex).removeAt(skillIndex);
+  }
+
+
+
+
   }

@@ -99,9 +99,15 @@
 
 
     <mat-tab label="ข้อมูลเพิ่มเติม" *ngIf="data.type === 'EDIT'">
-      <form [formGroup]="orderForm">
-        <div class="w-full">
-          <mat-form-field class="flex-auto w-full" subscriptSizing="fixed">
+<!-- tag -->
+
+
+    <form [formGroup]="orderForm">
+      <div formArrayName="pass">
+      <div class="w-full" *ngFor="let employee of pro().controls; let empIndex=index">
+        <div [formGroupName]="empIndex">
+        <div>
+        <mat-form-field class="flex-auto w-full" subscriptSizing="fixed">
             <mat-label>ชื่อสินค้า</mat-label>
             <input matInput [formControlName]="'name'" required [placeholder]="'ระบุชื่อสินค้า'">
             <mat-error>Required field!</mat-error>
@@ -121,7 +127,7 @@
           </mat-form-field>
         </div>
         <div>
-          <button  *ngIf="orderForm.value.type === 'single' || orderForm.value.type === 'multiple'"  mat-flat-button [color]="'primary'" (click)="addItem()">
+          <button    mat-flat-button [color]="'primary'" (click)="addproAt(empIndex)">
           <mat-icon class= "icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
           <span class="ml-2 "> เพิ่มรายการ</span>
         </button>
@@ -129,9 +135,9 @@
         <!-- tagggggggg -->
 
         <div class="">
-          <div class="" formArrayName="attributeValues">
-            <div *ngFor="let item of attributeValues.controls; let i = index;" [formGroupName]="i" >
-              <div class="flex flex-row ">
+          <div class="" formArrayName="skills">
+            <div *ngFor="let skill of proAt(empIndex).controls; let skillIndex=index">
+              <div class="flex flex-row " [formGroupName]="skillIndex">
               <div class="flex ">
                 <mat-form-field class="flex">
                   <mat-label>ชื่อสินค้า</mat-label>
@@ -154,8 +160,17 @@
         </div>
 
 
+      </div>
+      </div>
+      </div>
       </form>
 
+      <div>
+        <button mat-flat-button [color]="'primary'" (click)="addPro()">
+        <mat-icon class= "icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+        <span class="ml-2 "> เพิ่มรายการ</span>
+      </button>
+    </div>
       <!-- //////////////////////////////// -->
       <div mat-dialog-actions class="flex justify-end">
         <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="Submit2()">
