@@ -1,94 +1,162 @@
-<div class="flex-col flex overflow-y-auto">
-    <mat-toolbar class="flex justify-between">
-        <span class="example-spacer"></span>
+<div class="flex flex-col overflow-y-auto">
+  <mat-toolbar class="flex justify-between">
+    <span class="example-spacer"></span>
 
-        <div>
-            <span class="font-bold text-[20px]">{{title}}</span>
-        </div>
-
-        <button mat-icon-button mat-dialog-close class="example-icon " aria-label="Example icon-button with menu icon">
-            <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
-        </button>
-    </mat-toolbar>
-    <div class="flex justify-between flex-col">
-        <div class="flex justify-center">
-            <form class="flex flex-col w-[712px] h-fit  mt-8 p-8 pb-4 bg-card rounded-2xl overflow-hidden "
-                [formGroup]="form">
-
-                <div class="grid grid-cols-2 w-full gap-3 ">
-                    <div class="w-full">
-                        <mat-form-field class="flex-auto w-full" subscriptSizing="fixed">
-                          <mat-label>รหัสสินค้า</mat-label>
-                            <input matInput [formControlName]="'code'" required [placeholder]="'ระบุรหัสสินค้า'">
-                            <mat-error>Required field!</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="w-full mb-4">
-                        <mat-form-field class="flex-auto w-full " subscriptSizing="fixed">
-                          <mat-label>ชื่อสินค้า</mat-label>
-                            <input matInput [formControlName]="'name'" required [placeholder]="'ระบุชื่อสินค้า'">
-                            <mat-error>Required field!</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="w-full mb-4">
-                        <mat-form-field class="flex-auto w-full " subscriptSizing="fixed">
-                          <mat-label>ราคาสินค้า</mat-label>
-                            <input matInput mask="separator.2" thousandSeparator="," separatorLimit="99999999"
-                                [allowNegativeNumbers]="false" [formControlName]="'price'" required
-                                [placeholder]="'ระบุราคาสินค้า'">
-                            <mat-error>Required field!</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="w-full mb-4">
-                        <mat-form-field class="flex-auto w-full">
-                          <mat-label>หมวดหมู่</mat-label>
-                            <mat-select [formControlName]="'categoryId'" [placeholder]="'ระบุหมวดหมู่'">
-                                <mat-option *ngFor="let item of catagories; let i = index;"
-                                    [value]="item.id">{{item.name}}</mat-option>
-                            </mat-select>
-                            <mat-error>Required field!</mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="w-full mb-4">
-                        <mat-form-field class="flex-auto w-full">
-                          <mat-label>หน่วยนับ</mat-label>
-                            <mat-select [formControlName]="'unitId'" [placeholder]="'ระบุหน่วย'">
-                                <mat-option *ngFor="let item of units; let i = index;"
-                                    [value]="item.id">{{item.name}}</mat-option>
-                            </mat-select>
-                            <mat-error>Required field!</mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div *ngIf="delete_toggle" class="group relative" (click)="deleteImgToInsert()">
-                    <img [src]="form.value.image" alt="Uploaded Image" class="opacity-100 group-hover:opacity-50">
-                    <div class="absolute inset-0 flex items-center justify-center">
-                        <button class="opacity-0 group-hover:opacity-100 bg-transparent group-hover:bg-red-200 text-white font-semibold group-hover:text-red-500 py-2 px-4 border border-white-500 group-hover:border-transparent rounded-xl">
-                            ลบรูปภาพ
-                        </button>
-                    </div>
-                </div>
-
-                <div *ngIf="!delete_toggle" (click)="deleteImgToInsert()">
-                    <div class="flex justify-center">
-                        <ngx-awesome-uploader [adapter]="adapter" [accept]="'image/*'" [uploadType]="'single'"
-                            class="w-full" [fileMaxSize]="200" (uploadSuccess)="uploadSuccess($event)"
-                            (validationError)="onValidationError($event)">
-                        </ngx-awesome-uploader>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="flex justify-between border-t  mt-8 px-8 py-5 bg-white dark:bg-gray-700 bottom-0 w-full ">
-            <div></div>
-            <div mat-dialog-actions class="flex justify-end">
-                <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="Submit()">
-                    ตกลง
-                </button>
-                <button class="px-6 ml-3" mat-flat-button [color]="'warn'" mat-dialog-close>
-                    ยกเลิก
-                </button>
-            </div>
-        </div>
+    <div>
+      <span class="font-bold text-[20px]">{{title}}</span>
     </div>
+
+    <button mat-icon-button mat-dialog-close class="example-icon " aria-label="Example icon-button with menu icon">
+      <mat-icon svgIcon="heroicons_outline:x-mark"></mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <mat-tab-group>
+    <mat-tab label="ข้อมูลพื้นฐาน">
+
+      <div class="flex flex-col justify-between">
+        <div class="flex justify-center">
+          <form class="flex flex-col w-[712px] h-fit  mt-8 p-8 pb-4 bg-card rounded-2xl overflow-hidden "
+            [formGroup]="form">
+
+            <div class="grid w-full grid-cols-2 gap-3 ">
+              <div class="w-full">
+                <mat-form-field class="flex-auto w-full" subscriptSizing="fixed">
+                  <mat-label>รหัสสินค้า</mat-label>
+                  <input matInput [formControlName]="'code'" required [placeholder]="'ระบุรหัสสินค้า'">
+                  <mat-error>Required field!</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="w-full mb-4">
+              </div>
+              <div class="relative w-full mb-4">
+                <label class="absolute z-40 pl-2 pr-2 text-sm text-gray-400 bg-white -top-2 left-2"
+                  for="">ราคาสินค้า</label>
+                <div class="w-full mb-4">
+                  <mat-form-field class="flex-auto w-full " subscriptSizing="fixed">
+                    <mat-label>ราคาสินค้า</mat-label>
+                    <input matInput mask="separator.2" thousandSeparator="," separatorLimit="99999999"
+                      [allowNegativeNumbers]="false" [formControlName]="'price'" required
+                      [placeholder]="'ระบุราคาสินค้า'">
+                    <mat-error>Required field!</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="w-full mb-4">
+                  <mat-form-field class="flex-auto w-full">
+                    <mat-label>หมวดหมู่</mat-label>
+                    <mat-select [formControlName]="'categoryId'" [placeholder]="'ระบุหมวดหมู่'">
+                      <mat-option *ngFor="let item of catagories; let i = index;"
+                        [value]="item.id">{{item.name}}</mat-option>
+                    </mat-select>
+                    <mat-error>Required field!</mat-error>
+                  </mat-form-field>
+                </div>
+                <div class="w-full mb-4">
+                  <mat-form-field class="flex-auto w-full">
+                    <mat-label>หน่วยนับ</mat-label>
+                    <mat-select [formControlName]="'unitId'" [placeholder]="'ระบุหน่วย'">
+                      <mat-option *ngFor="let item of units; let i = index;"
+                        [value]="item.id">{{item.name}}</mat-option>
+                    </mat-select>
+                    <mat-error>Required field!</mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+              <div *ngIf="delete_toggle" class="relative group" (click)="deleteImgToInsert()">
+                <img [src]="form.value.image" alt="Uploaded Image" class="opacity-100 group-hover:opacity-50">
+                <div class="absolute inset-0 flex items-center justify-center">
+                  <button
+                    class="px-4 py-2 font-semibold text-white bg-transparent border opacity-0 group-hover:opacity-100 group-hover:bg-red-200 group-hover:text-red-500 border-white-500 group-hover:border-transparent rounded-xl">
+                    ลบรูปภาพ
+                  </button>
+                </div>
+              </div>
+
+              <div *ngIf="!delete_toggle" (click)="deleteImgToInsert()">
+                <div class="flex justify-center">
+                  <ngx-awesome-uploader [adapter]="adapter" [accept]="'image/*'" [uploadType]="'single'" class="w-full"
+                    [fileMaxSize]="200" (uploadSuccess)="uploadSuccess($event)"
+                    (validationError)="onValidationError($event)">
+                  </ngx-awesome-uploader>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="bottom-0 flex justify-between w-full px-8 py-5 mt-8 bg-white border-t dark:bg-gray-700 ">
+          <div></div>
+          <div mat-dialog-actions class="flex justify-end">
+            <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="Submit()">
+              ตกลง
+            </button>
+            <button class="px-6 ml-3" mat-flat-button [color]="'warn'" mat-dialog-close>
+              ยกเลิก
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+
+
+    <mat-tab label="ข้อมูลเพิ่มเติม" *ngIf="data.type === 'EDIT' ">
+
+      <div class="relative w-full mb-4">
+        <label class="absolute z-40 pl-2 pr-2 text-sm text-gray-400 bg-white -top-2 left-2" for="">ชื่อสินค้า</label>
+        <mat-form-field class="flex-auto w-full " subscriptSizing="fixed">
+          <input matInput [formControlName]="'name'" required [placeholder]="'ระบุชื่อสินค้า'">
+          <mat-error>Required field!</mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="relative w-full mb-4">
+        <mat-form-field>
+          <mat-label>รูปแบบ</mat-label>
+          <select matNativeControl required>
+            <option value="single">single</option>
+            <option value="quantity">quantity</option>
+            <option value="multiple">multiple</option>
+          </select>
+        </mat-form-field>
+      </div>
+
+      <button mat-flat-button [color]="'primary'">
+        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+        <span class="ml-2"> เพิ่มรายการ</span>
+      </button>
+      <!-- tagggggggg -->
+      <div class="flex justify-center gap-3">
+        <div class="relative w-full">
+          <label class="absolute z-40 pl-2 pr-2 text-sm text-gray-400 bg-white -top-2 left-2" for="">รหัสสินค้า</label>
+          <mat-form-field class="flex-auto w-full" subscriptSizing="fixed">
+            <input matInput [formControlName]="'code'" required [placeholder]="'ระบุรหัสสินค้า'">
+            <mat-error>Required field!</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="relative w-full mb-4">
+          <label class="absolute z-40 pl-2 pr-2 text-sm text-gray-400 bg-white -top-2 left-2" for="">ชื่อสินค้า</label>
+          <mat-form-field class="flex-auto w-full " subscriptSizing="fixed">
+            <input matInput [formControlName]="'name'" required [placeholder]="'ระบุชื่อสินค้า'">
+            <mat-error>Required field!</mat-error>
+          </mat-form-field>
+        </div>
+
+        <button>
+          <mat-icon [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+          <span>ลบ</span>
+        </button>
+      </div>
+
+      <div mat-dialog-actions class="flex justify-end">
+        <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="Submit()">
+          ตกลง
+        </button>
+        <button class="px-6 ml-3" mat-flat-button [color]="'warn'">
+          ยกเลิก
+        </button>
+      </div>
+
+    </mat-tab>
+
+
+  </mat-tab-group>
 </div>
