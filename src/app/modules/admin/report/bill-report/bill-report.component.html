@@ -1,0 +1,33 @@
+<div class="flex flex-col flex-auto min-w-0">
+  <div class="flex-auto p-6 m-4 rounded-md sm:p-10 bg-card">
+      <div class="flex flex-row items-center justify-between p-3 bg-card dark:bg-transparent">
+          <div class="flex flex-row items-center justify-between gap-4">
+              <h2 class="text-2xl leading-7 tracking-tight truncate md:text-2xl sm:leading-10">
+                  รายงานยอดขายแยกตามประเภทการจ่าย
+              </h2>
+          </div>
+
+
+
+          <div class="">
+          <mat-form-field class="w-full min-w-90 ">
+            <mat-date-range-input [formGroup]="form" [rangePicker]="picker">
+              <input matStartDate formControlName="start" placeholder="วันที่เริ่ม">
+              <input matEndDate formControlName="end" placeholder="วันสุดท้าย">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+          </mat-form-field>
+        </div>
+
+
+          <div class="flex flex-col md:flex-row">
+            <button mat-flat-button [color]="'primary'" (click)="onSearch()">
+                <mat-icon class="icon-size-5" [svgIcon]="'feather:search'"></mat-icon>
+                <span class="ml-2"> ค้นหา</span>
+            </button>
+        </div>
+      </div>
+      <table datatable [dtOptions]="dtOptions" class="row-border hover"></table>
+  </div>
+</div>

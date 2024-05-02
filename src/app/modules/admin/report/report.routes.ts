@@ -5,6 +5,7 @@ import { ReportSalerComponent } from './saler/report.component';
 import { ReportProductTypeComponent }  from './product-type/report.component';
 import { CompactComponent } from './compact.component';
 import { CashierComponent } from './cashier/cashier.component';
+import { BillReportComponent } from './bill-report/bill-report.component';
 
 
 export default [
@@ -31,5 +32,9 @@ export default [
     {
         path     : 'cashier',
         component: CashierComponent,
+    },
+    {
+        path: 'bills',
+        component: BillReportComponent,
     },
 ] as Routes;

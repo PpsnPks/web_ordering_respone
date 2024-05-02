@@ -9,7 +9,17 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'group',
         icon: 'heroicons_outline:home',
         children: [
-            {
+
+          {
+            id: 'admin.example',
+            title: 'ข้อมูลแดชบอร์ด',
+            type: 'basic',
+            icon: 'heroicons_outline:clipboard-document-check',
+            link: '/example',
+        },
+
+
+          {
                 id: 'admin.store',
                 title: 'ข้อมูลร้านค้า',
                 type: 'basic',
@@ -143,6 +153,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'heroicons_outline:document-chart-bar',
                 link: '/report/product-type'
+            },
+            {
+              id: 'report.type',
+              title: 'รายงานยอดบิล',
+              type: 'basic',
+              icon: 'heroicons_outline:document-chart-bar',
+              link: '/report/bills'
             },
 
         ],

@@ -1,11 +1,158 @@
+
+
 <div class="flex flex-col flex-auto min-w-0">
 
     <!-- Main -->
     <div class="flex-auto p-6 sm:p-10">
 
-        <!-- CONTENT GOES HERE -->
-        <div class="h-400 min-h-400 max-h-400 border-2 border-dashed border-gray-300 rounded-2xl"></div>
 
+
+<mat-form-field>
+  <mat-label>เลือกสาขา</mat-label>
+  <mat-select>
+    @for (food of foods; track food) {
+      <mat-option [value]="food.viewValue">{{food.viewValue}}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>
+
+
+
+
+        <div class="grid justify-center w-full min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4"  >
+        <div class="flex flex-col flex-auto p-6 overflow-hidden shadow bg-card rounded-2xl">
+        <div class="flex items-start justify-between" >
+            <div class="text-lg font-medium leading-6 tracking-tight truncate">ยอดขายโดยรวม</div>
+            <div class="ml-2 -mt-2 -mr-3">
+                <button
+                    mat-icon-button
+                    [matMenuTriggerFor]="summaryMenu">
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_mini:ellipsis-vertical'"></mat-icon>
+                </button>
+                <mat-menu #summaryMenu="matMenu">
+                    <button mat-menu-item>Yesterday</button>
+                    <button mat-menu-item>2 days ago</button>
+                    <button mat-menu-item>3 days ago</button>
+                </mat-menu>
+            </div>
+        </div>
+        <div class="flex flex-col items-center mt-2">
+            <div class="font-bold leading-none tracking-tight text-blue-500 text-7xl sm:text-8xl">21</div>
+            <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Due Tasks</div>
+            <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+                <div class="font-medium truncate text-md">Completed:</div>
+                <div class="ml-1.5 text-lg font-semibold">13</div>
+            </div>
+        </div>
+    </div>
+    <!-- Overdue -->
+    <div class="flex flex-col flex-auto p-6 overflow-hidden shadow bg-card rounded-2xl">
+        <div class="flex items-start justify-between">
+            <div class="text-lg font-medium leading-6 tracking-tight truncate">ยอดขายรายชั่วโมง</div>
+            <div class="ml-2 -mt-2 -mr-3">
+                <button
+                    mat-icon-button
+                    [matMenuTriggerFor]="overdueMenu">
+                    <mat-icon
+                        class="icon-size-5"
+                        [svgIcon]="'heroicons_mini:ellipsis-vertical'"></mat-icon>
+                </button>
+                <mat-menu #overdueMenu="matMenu">
+                    <button mat-menu-item>Yesterday</button>
+                    <button mat-menu-item>2 days ago</button>
+                    <button mat-menu-item>3 days ago</button>
+                </mat-menu>
+            </div>
+        </div>
+        <div class="flex flex-col items-center mt-2">
+            <div class="font-bold leading-none tracking-tight text-red-500 text-7xl sm:text-8xl">17</div>
+            <div class="text-lg font-medium text-red-600 dark:text-red-500">ยอด</div>
+            <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+                <div class="font-medium truncate text-md">From yesterday:</div>
+                <div class="ml-1.5 text-lg font-semibold">9</div>
+            </div>
+        </div>
+    </div>
+    <!--  2-->
+    <div class="flex flex-col flex-auto p-6 overflow-hidden shadow bg-card rounded-2xl">
+      <div class="flex items-start justify-between">
+          <div class="text-lg font-medium leading-6 tracking-tight truncate">ยอดขายรายวัน</div>
+          <div class="ml-2 -mt-2 -mr-3">
+              <button
+                  mat-icon-button
+                  [matMenuTriggerFor]="overdueMenu">
+                  <mat-icon
+                      class="icon-size-5"
+                      [svgIcon]="'heroicons_mini:ellipsis-vertical'"></mat-icon>
+              </button>
+              <mat-menu #overdueMenu="matMenu">
+                  <button mat-menu-item>Yesterday</button>
+                  <button mat-menu-item>2 days ago</button>
+                  <button mat-menu-item>3 days ago</button>
+              </mat-menu>
+          </div>
+      </div>
+      <div class="flex flex-col items-center mt-2">
+          <div class="font-bold leading-none tracking-tight text-red-500 text-7xl sm:text-8xl">17</div>
+          <div class="text-lg font-medium text-red-600 dark:text-red-500">ยอด</div>
+          <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+              <div class="font-medium truncate text-md">From yesterday:</div>
+              <div class="ml-1.5 text-lg font-semibold">9</div>
+          </div>
+      </div>
+  </div>
+<!--  2-->
+<div class="flex flex-col flex-auto p-6 overflow-hidden shadow bg-card rounded-2xl">
+  <div class="flex items-start justify-between">
+      <div class="text-lg font-medium leading-6 tracking-tight truncate">ยอดขายรายเดือน</div>
+      <div class="ml-2 -mt-2 -mr-3">
+          <button
+              mat-icon-button
+              [matMenuTriggerFor]="overdueMenu">
+              <mat-icon
+                  class="icon-size-5"
+                  [svgIcon]="'heroicons_mini:ellipsis-vertical'"></mat-icon>
+          </button>
+          <mat-menu #overdueMenu="matMenu">
+              <button mat-menu-item>Yesterday</button>
+              <button mat-menu-item>2 days ago</button>
+              <button mat-menu-item>3 days ago</button>
+          </mat-menu>
+      </div>
+  </div>
+  <div class="flex flex-col items-center mt-2">
+      <div class="font-bold leading-none tracking-tight text-red-500 text-7xl sm:text-8xl">17</div>
+      <div class="text-lg font-medium text-red-600 dark:text-red-500">ยอด</div>
+      <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
+          <div class="font-medium truncate text-md">From yesterday:</div>
+          <div class="ml-1.5 text-lg font-semibold">9</div>
+      </div>
+  </div>
+</div>
+
+  </div>
+
+
+
+
+
+
+      <!-- CONTENT GOES HERE -->
+
+
+
+  <div id="chart">
+    <apx-chart
+      [series]="chartOptions.series"
+      [chart]="chartOptions.chart"
+      [xaxis]="chartOptions.xaxis"
+      [stroke]="chartOptions.stroke"
+      [tooltip]="chartOptions.tooltip"
+      [dataLabels]="chartOptions.dataLabels"
+    ></apx-chart>
+  </div>
     </div>
 
 </div>
