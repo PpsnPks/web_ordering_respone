@@ -116,12 +116,12 @@ export class ProductComposeComponent implements OnInit {
             }
         )
 
-        
+
 
     }
 
     Submit2(){
-      console.log('tagggg',this.orderForm)
+      console.log('Tab index changed:', this.selectedValue);
 
      // this.ProductService.postAt(this.data.value.id,this.orderForm.value).subscribe({})
 
@@ -170,9 +170,14 @@ export class ProductComposeComponent implements OnInit {
 
     onSelectChange(event: any) {
       // Access the selected value from the event
+      console.log('Tab index changed:', event.value);
       this.selectedValue = event.value;
+      this.orderForm.reset
             // this.addItem()
     }
+
+
+
     onTabChange(event: any) {
       console.log('Tab index changed:', event);
 
