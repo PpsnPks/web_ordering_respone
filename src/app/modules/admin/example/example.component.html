@@ -5,18 +5,12 @@
     <!-- Main -->
     <div class="flex-auto p-6 sm:p-10">
 
-
-
-<mat-form-field>
-  <mat-label>เลือกสาขา</mat-label>
-  <mat-select>
-    @for (food of foods; track food) {
-      <mat-option [value]="food.viewValue">{{food.viewValue}}</mat-option>
-    }
-  </mat-select>
-</mat-form-field>
-
-
+      <mat-form-field>
+        <mat-label>เลือกสาขา</mat-label>
+        <mat-select (selectionChange)="onSelect($event.value)">
+          <mat-option *ngFor="let food of foods" [value]="food">{{ food }}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
 
         <div class="grid justify-center w-full min-w-0 grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4"  >
@@ -39,7 +33,7 @@
             </div>
         </div>
         <div class="flex flex-col items-center mt-2">
-            <div class="font-bold leading-none tracking-tight text-blue-500 text-7xl sm:text-8xl">21</div>
+            <div class="font-bold leading-none tracking-tight text-blue-500 text-7xl sm:text-8xl">{{ value1 }}</div>
             <div class="text-lg font-medium text-blue-600 dark:text-blue-500">Due Tasks</div>
             <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
                 <div class="font-medium truncate text-md">Completed:</div>
@@ -67,7 +61,7 @@
             </div>
         </div>
         <div class="flex flex-col items-center mt-2">
-            <div class="font-bold leading-none tracking-tight text-red-500 text-7xl sm:text-8xl">17</div>
+            <div class="font-bold leading-none tracking-tight text-red-500 text-7xl sm:text-8xl">{{ value2 }}</div>
             <div class="text-lg font-medium text-red-600 dark:text-red-500">ยอด</div>
             <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
                 <div class="font-medium truncate text-md">From yesterday:</div>
@@ -95,7 +89,7 @@
           </div>
       </div>
       <div class="flex flex-col items-center mt-2">
-          <div class="font-bold leading-none tracking-tight text-red-500 text-7xl sm:text-8xl">17</div>
+          <div class="font-bold leading-none tracking-tight text-red-500 text-7xl sm:text-8xl">{{ value3 }}</div>
           <div class="text-lg font-medium text-red-600 dark:text-red-500">ยอด</div>
           <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
               <div class="font-medium truncate text-md">From yesterday:</div>
@@ -123,7 +117,7 @@
       </div>
   </div>
   <div class="flex flex-col items-center mt-2">
-      <div class="font-bold leading-none tracking-tight text-red-500 text-7xl sm:text-8xl">17</div>
+      <div class="font-bold leading-none tracking-tight text-red-500 text-7xl sm:text-8xl">{{ value4 }}</div>
       <div class="text-lg font-medium text-red-600 dark:text-red-500">ยอด</div>
       <div class="flex items-baseline justify-center w-full mt-5 text-secondary">
           <div class="font-medium truncate text-md">From yesterday:</div>

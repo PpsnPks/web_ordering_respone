@@ -20,7 +20,7 @@ import {
   ApexTooltip,
   ApexStroke
 } from "ng-apexcharts";
-import {FormsModule} from '@angular/forms';
+import {FormControl, FormsModule, Validators} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -34,10 +34,8 @@ export type ChartOptions = {
   dataLabels: ApexDataLabels;
 };
 
-interface Food {
 
-  viewValue: string;
-}
+
 @Component({
     selector     : 'example',
     standalone   : true,
@@ -49,12 +47,53 @@ interface Food {
 })
 export class ExampleComponent
 {
+  value1: string = '';
+  value2: string = '';
+  value3: string = '';
+  value4: string = '';
 
-  foods: Food[] = [
-    { viewValue: 'Steak'},
-    { viewValue: 'Pizza'},
-    { viewValue: 'Tacos'},
-  ];
+  selectedFood: string = 'สาขา1';
+  foods: string[] = ['สาขา1', 'สาขา2', 'สาขา3', 'สาขา4'];
+
+  onSelect(food: string): void {
+    if (food === 'สาขา1') {
+      this.value1 = '56';
+      this.value2 = '4';
+      this.value3 = '6'
+      this.value4 = '30';
+    }
+    else if (food === 'สาขา2') {
+      this.value1 = '78';
+      this.value2 = '6';
+      this.value3 = '12'
+      this.value4 = '38';
+    }
+    else if (food === 'สาขา3') {
+      this.value1 = '184';
+      this.value2 = '13';
+      this.value3 = '27'
+      this.value4 = '45';
+    }
+    else if (food === 'สาขา4') {
+      this.value1 = '88';
+      this.value2 = '5';
+      this.value3 = '12'
+      this.value4 = '33';
+    }
+
+
+    else {
+
+      // Clear the values if Pizza is not selected
+      this.value1 = '0';
+      this.value2 = '0';
+      this.value3 = '0';
+      this.value4 = '0';
+    }
+  }
+
+
+
 
 
   @ViewChild("chart") chart: ChartComponent;
@@ -65,15 +104,15 @@ export class ExampleComponent
       series: [
         {
           name: "สาขา1",
-          data: [31, 40, 28, 51, 42, 109, 100]
+          data: [11, 31, 40, 28, 51, 42, 109, 100]
         },
         {
           name: "สาขา2",
-          data: [11, 32, 45, 32, 34, 52, 41]
+          data: [11, 11, 32, 45, 32, 34, 52, 41]
         },
         {
           name: "สาขา3",
-          data: [11, 38, 85, 32, 54, 22, 71]
+          data: [11, 11, 38, 85, 32, 54, 22, 71]
         }
 
       ],
@@ -107,7 +146,7 @@ export class ExampleComponent
     };
   }
   ngOnInit(): void {
-   console.log(this.foods)
+
 
   }
 
