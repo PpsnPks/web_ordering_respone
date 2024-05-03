@@ -24,6 +24,8 @@ import {FormControl, FormsModule, Validators} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { ExampleService } from './example.service';
+
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -51,34 +53,40 @@ export class ExampleComponent
   value2: string = '';
   value3: string = '';
   value4: string = '';
-
-  selectedFood: string = 'สาขา1';
-  foods: string[] = ['สาขา1', 'สาขา2', 'สาขา3', 'สาขา4'];
-
+  data: any;
+  selectedFood: string;
+  foods: any;
+  branchNames: string[] = [];
   onSelect(food: string): void {
-    if (food === 'สาขา1') {
+    if (food === 'บางนา') {
       this.value1 = '56';
       this.value2 = '4';
       this.value3 = '6'
       this.value4 = '30';
     }
-    else if (food === 'สาขา2') {
+    else if (food === 'bkk') {
       this.value1 = '78';
       this.value2 = '6';
       this.value3 = '12'
       this.value4 = '38';
     }
-    else if (food === 'สาขา3') {
+    else if (food === 'บางซื่อ') {
       this.value1 = '184';
       this.value2 = '13';
       this.value3 = '27'
       this.value4 = '45';
     }
-    else if (food === 'สาขา4') {
+    else if (food === 'ลาดกระบัง') {
       this.value1 = '88';
       this.value2 = '5';
       this.value3 = '12'
       this.value4 = '33';
+    }
+    else if (food === 'okt') {
+      this.value1 = '34';
+      this.value2 = '1';
+      this.value3 = '12'
+      this.value4 = '55';
     }
 
 
@@ -99,7 +107,15 @@ export class ExampleComponent
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   selectedProject: string = 'ACME Corp. Backend App';
-  constructor() {
+  constructor(private service: ExampleService,) {
+
+    this.value1 = '56';
+    this.value2 = '4';
+    this.value3 = '6';
+    this.value4 = '30';
+    this.selectedFood = 'บางนา'; // ตั้งค่าเริ่มต้นให้เป็น บางนา หรือค่าใดก็ได้ตามที่ต้องการ
+    this.onSelect(this.selectedFood);
+
     this.chartOptions = {
       series: [
         {
@@ -148,6 +164,18 @@ export class ExampleComponent
   ngOnInit(): void {
 
 
+
+      this.service.getBranchNames().subscribe(names => {
+        this.branchNames = names;
+        // ทำอะไรก็ตามที่ต้องการกับข้อมูลชื่อสาขา ในที่นี้เราเพียงแสดงผลในคอนโซลเท่านั้น
+        console.log(this.branchNames);
+        this.foods = this.branchNames;
+      });
+
+
+
+
+
   }
 
   public generateData(baseval, count, yrange) {
@@ -165,4 +193,7 @@ export class ExampleComponent
     }
     return series;
   }
+
+
+
 }

@@ -46,14 +46,16 @@ export class BranchComponent implements OnInit, AfterViewInit {
         private toastr: ToastrService,
         public dialog: MatDialog,
 
-    ) 
+    )
     {
-        
-        
+
+
     }
     ngOnInit(): void {
         setTimeout(() =>
             this.loadTable());
+
+       
 
     }
 
@@ -168,7 +170,7 @@ export class BranchComponent implements OnInit, AfterViewInit {
                 }
             });
         })
-        
+
     }
 
 
