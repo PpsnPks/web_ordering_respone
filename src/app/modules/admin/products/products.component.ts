@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { FilePickerModule } from 'ngx-awesome-uploader';
-import { ProductComposeComponent } from './dialog/product-compose/product-compose.component';
+import { ProductComposeComponent } from '../product/dialog/product-compose/product-compose.component';
 import { ProductService } from './product.service';
 import { Subject } from 'rxjs';
 import { MatMenuModule } from '@angular/material/menu';

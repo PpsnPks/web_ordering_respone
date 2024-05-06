@@ -43,8 +43,8 @@ export class ProductService {
     );
   }
 
-  create(dataAproduct: { code: string, name: string, price: string, image: string, categoryId: number,unitId:number }) {
-    return this.http.post('api/product', dataAproduct)
+  create(data: any) {
+    return this.http.post('api/product', data)
   }
 
   getCategories() {
@@ -65,7 +65,7 @@ export class ProductService {
   delete(id: number) {
     return this.http.delete('/api/product/' + id)
   }
-  postAt(id: number, data2:any){
+  postAt(id: number, data2: any) {
     return this.http.post('api/product/' + id + '/attribute', data2);
 
   }

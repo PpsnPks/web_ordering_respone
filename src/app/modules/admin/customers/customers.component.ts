@@ -14,7 +14,7 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PictureComponent } from '../picture/picture.component';
-import { ProductComposeComponent } from '../products/dialog/product-compose/product-compose.component';
+import { ProductComposeComponent } from '../product/dialog/product-compose/product-compose.component';
 import { CustomerService } from './customers.service';
 import { Dialogcustomer } from '../dialogcustomer/dialog.component';
 @Component({
