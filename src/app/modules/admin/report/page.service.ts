@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { removeEmpty } from 'app/modules/shared/helper';
+import { removeEmpty } from 'app/modules/common/helper';
 import { environment } from 'environments/environment.development';
 import { toUpper } from 'lodash';
 import { BehaviorSubject, Observable, map, tap } from 'rxjs';
@@ -19,7 +19,7 @@ export class ReportService {
         const column = columns[order[0].column].data;
         const dir = toUpper(order[0].dir);
         const sortBy = column + ':' + dir;
-        
+
 
         return this.http.get('api/order/datatables', {
             params: {

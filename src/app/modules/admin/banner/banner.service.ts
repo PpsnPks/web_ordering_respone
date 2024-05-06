@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { removeEmpty } from 'app/modules/shared/helper';
+import { removeEmpty } from 'app/modules/common/helper';
 import { environment } from 'environments/environment.development';
 import { toUpper } from 'lodash';
 import { BehaviorSubject, map, tap } from 'rxjs';

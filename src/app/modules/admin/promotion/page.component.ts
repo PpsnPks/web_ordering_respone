@@ -14,7 +14,7 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { DialogRef } from '@angular/cdk/dialog';
 import { DialogForm } from './form-dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { IsActiveLabelPipe } from 'app/modules/shared/active-status.pipe';
+import { IsActiveLabelPipe } from 'app/modules/common/active-status.pipe';
 @Component({
     selector: 'app-page-promotion',
     standalone: true,
@@ -26,7 +26,7 @@ import { IsActiveLabelPipe } from 'app/modules/shared/active-status.pipe';
         FilePickerModule,
         MatMenuModule,
         MatDividerModule,
-        
+
     ],
     templateUrl: './page.component.html',
     styleUrl: './page.component.scss',
@@ -106,7 +106,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                     ngPipeInstance: this.datePipe,
                     ngPipeArgs: ['dd-MM-yyyy']
                 },
-            
+
                 {
                     title: 'วันที่สิ้นสุด',
                     data: 'endDate',
@@ -200,7 +200,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                 }
             });
         })
-     
+
     }
 
 
