@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
-import { ProductService } from './page.service';
+import { ProductService } from './product.service';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
 import { MatDividerModule } from '@angular/material/divider';
@@ -55,8 +55,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     setTimeout(() =>
       this.loadTable());
-
-    this.createProduct()
   }
 
   ngAfterViewInit() {
@@ -205,29 +203,28 @@ export class ProductComponent implements OnInit, AfterViewInit {
   }
 
   openDialogEdit(item: any) {
-    console.log(item)
-    const DialogRef = this.dialog.open(ProductComposeComponent, {     //DialogForm
+    this._service.getById(item.id).subscribe((result) => {
+      const dialogRef = this.dialog.open(ProductComposeComponent, {
 
-      disableClose: true,
-      width: 'calc(100% - 30px)',
-      height: 'calc(100% - 30px)',
-      enterAnimationDuration: 300,
-      exitAnimationDuration: 300,
-      data: {
-        type: 'EDIT',
-        value: item
-      },
-      maxWidth: "100%",
-      maxHeight: "100%"
-    });
-    DialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log(result, 'result')
-        this.rerender();
-      }
-    });
+        disableClose: true,
+        width: 'calc(100% - 30px)',
+        height: 'calc(100% - 30px)',
+        enterAnimationDuration: 300,
+        exitAnimationDuration: 300,
+        data: {
+          type: 'EDIT',
+          value: result
+        },
+        maxWidth: "100%",
+        maxHeight: "100%"
+      });
 
-
+      dialogRef.afterClosed().subscribe((result) => {
+        if (result) {
+          this.rerender();
+        }
+      });
+    })
   }
 
 

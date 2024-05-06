@@ -1,4 +1,3 @@
-import { ProductService } from '../../../products/product.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
@@ -17,6 +16,7 @@ import { DemoFilePickerAdapter } from 'app/demo-file-picker.adapter';
 import { NgxMaskDirective } from 'ngx-mask';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDividerModule } from '@angular/material/divider';
+import { ProductService } from '../../product.service';
 
 @Component({
   selector: 'app-product-compose',
@@ -46,12 +46,13 @@ export class ProductComposeComponent implements OnInit {
     private dialogRef: MatDialogRef<ProductComposeComponent>,
     public dialog: MatDialog,
     private fb: FormBuilder,
-    public ProductService: ProductService,
+    public productService: ProductService,
     private http: HttpClient,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: { type: string, value: any }
   ) { }
 
   ngOnInit(): void {
+    console.log(this.data);
 
     this.form = this.fb.group({
       code: ['', Validators.required],
@@ -66,8 +67,6 @@ export class ProductComposeComponent implements OnInit {
       attributes: this.fb.array([])
     });
 
-
-
     if (this.data.type === 'NEW') {
       this.title = "เพิ่มสินค้า"
 
@@ -77,18 +76,19 @@ export class ProductComposeComponent implements OnInit {
       this.title = "แก้ไขสินค้า"
 
       this.form = this.fb.group({
-        code: this.data.value.code ?? '',
-        name: this.data.value.name ?? '',
-        price: this.data.value.price ?? '',
-        image: this.data.value.image ?? '',
-        categoryId: this.data.value.category.id ?? '',
-        unitId: this.data.value.unit.id ?? '',
+        ...this.data.value,
+        categoryId: this.data?.value?.category?.id,
+        unitId: this.data?.value?.unit?.id,
       });
+
+      for (const productAttribute of this.data.value.productAttributes) {
+        this.addAttribute(productAttribute)
+      }
     }
 
     this.delete_toggle = this.form.value.image
-    this.ProductService.categories$.subscribe(resp => this.catagories = resp);
-    this.ProductService.units$.subscribe(resp => this.units = resp);
+    this.productService.categories$.subscribe(resp => this.catagories = resp);
+    this.productService.units$.subscribe(resp => this.units = resp);
   }
 
   attributes(): FormArray {
@@ -107,17 +107,35 @@ export class ProductComposeComponent implements OnInit {
       attributeValues: this.fb.array([])
     })
 
+    if (data) {
+      g.patchValue({
+        ...data,
+      });
+
+      for (const productAttributeValue of data?.productAttributeValues) {
+        this.addAttValue(g, productAttributeValue)
+      }
+    }
+
     this.attributes().push(g)
   }
 
-  addAttValue(index: number, data?: any) {
+  addAttValue(fg: any, data?: any) {
     const g = this.fb.group({
       id: [null],
       name: ['', Validators.required],
       price: ['', Validators.required],
     })
 
-    this.attributeValues(index).push(g)
+    if (data) {
+      g.patchValue({
+        ...data
+      })
+    }
+
+    const attributeValues = fg.get('attributeValues') as FormArray
+
+    attributeValues.push(g)
   }
 
   removeAttribute(index: number) {
@@ -130,21 +148,44 @@ export class ProductComposeComponent implements OnInit {
 
   Submit() {
     if (confirm('Are you sure you want to save')) {
-      this.ProductService.create({
-        code: this.form.value.code,
-        name: this.form.value.name,
-        price: this.form.value.price,
-        image: this.form.value.image,
-        categoryId: this.form.value.categoryId,
-        unitId: this.form.value.unitId,
-        attributes: this.attForm.value.attributes,
-      }).subscribe({
-        next: (resp: any) => {
-          this.dialogRef.close()
-        }
+      if (this.data.type === 'NEW') {
+        this.create()
+      } else {
+        this.update()
       }
-      )
     }
+  }
+
+  create() {
+    this.productService.create({
+      code: this.form.value.code,
+      name: this.form.value.name,
+      price: this.form.value.price,
+      image: this.form.value.image,
+      categoryId: this.form.value.categoryId,
+      unitId: this.form.value.unitId,
+      attributes: this.attForm.value.attributes,
+    }).subscribe({
+      next: (resp: any) => {
+        this.dialogRef.close()
+      }
+    })
+  }
+
+  update() {
+    this.productService.update(this.data.value.id, {
+      code: this.form.value.code,
+      name: this.form.value.name,
+      price: this.form.value.price,
+      image: this.form.value.image,
+      categoryId: this.form.value.categoryId,
+      unitId: this.form.value.unitId,
+      attributes: this.attForm.value.attributes,
+    }).subscribe({
+      next: (resp: any) => {
+        this.dialogRef.close()
+      }
+    })
   }
 
   uploadSuccess(event): void {

@@ -113,7 +113,7 @@
             </div>
             <div class="flex w-full mb-4">
               @if (!!attribute.value.type) {
-              <button mat-flat-button [color]="'primary'" (click)="addAttValue(i)">
+              <button mat-flat-button [color]="'primary'" (click)="addAttValue(attribute)">
                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
                 <span class="ml-2 "> เพิ่มตัวเลือก</span>
               </button>

@@ -19,7 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { ProductService } from '../page.service';
+import { ProductService } from '../product.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
@@ -29,12 +29,12 @@ import {MatRadioModule} from '@angular/material/radio';
     templateUrl: './dialog.component.html',
     styleUrl: './dialog.component.scss',
     imports: [
-        CommonModule, 
-        DataTablesModule, 
-        MatIconModule, 
-        MatFormFieldModule, 
+        CommonModule,
+        DataTablesModule,
+        MatIconModule,
+        MatFormFieldModule,
         MatInputModule,
-        FormsModule, 
+        FormsModule,
         MatToolbarModule,
         MatButtonModule,
         MatDialogTitle,
@@ -54,7 +54,7 @@ export class DialogForm implements OnInit {
     stores: any[]=[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: DataTables.Settings = {};
-    addForm: FormGroup;   
+    addForm: FormGroup;
     constructor(
         private dialogRef: MatDialogRef<DialogForm>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -63,15 +63,15 @@ export class DialogForm implements OnInit {
         public _service: ProductService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
-    ) 
+    )
     {
         console.log(' this.form', this.data);
         if(this.data.type === 'EDIT') {
             this.form = this.FormBuilder.group({
                 code: this.data.value.code ?? '',
                 name: this.data.value.name ?? '',
-        
-           
+
+
              });
         } else {
             this.form = this.FormBuilder.group({
@@ -83,16 +83,16 @@ export class DialogForm implements OnInit {
 
 
         // console.log('1111',this.data?.type);
-        
+
     }
-    
+
     ngOnInit(): void {
          if (this.data.type === 'EDIT') {
         //   this.form.patchValue({
         //     ...this.data.value,
         //     roleId: +this.data.value?.role?.id
-        //   })  
-       
+        //   })
+
         } else {
             console.log('New');
         }

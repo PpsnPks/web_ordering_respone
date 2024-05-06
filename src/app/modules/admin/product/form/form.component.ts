@@ -14,7 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserModule } from '@angular/platform-browser';
-import { ProductService } from '../page.service';
+import { ProductService } from '../product.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
@@ -177,20 +177,20 @@ export class FormComponent implements OnInit {
                         complete: () => {
                             this.toastr.success('ดำเนินการเพิ่มข้อมูลสำเร็จ')
                             this.backTo()
-                        },  
+                        },
                     });
                 }
             }
         )
     }
-    
+
     backTo() {
         this._router.navigate(['/product'])
     }
 
     files: File[] = [];
     onSelect(event, input: any) {
-  
+
       if (input === 'productImg') {
         this.form.patchValue({
           image_name: event[0].name,
