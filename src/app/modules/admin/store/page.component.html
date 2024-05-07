@@ -23,7 +23,8 @@
               <div class="px-3 mb-6 md:min-w-full md:mb-0">
                 <mat-form-field class="w-full">
                   <mat-label>ที่อยู่ร้านค้า</mat-label>
-                  <textarea matInput [placeholder]="'กรอกรายละเอียดที่อยู่'" [rows]="3" formControlName="address"></textarea>
+                  <textarea matInput [placeholder]="'กรอกรายละเอียดที่อยู่'" [rows]="3"
+                    formControlName="address"></textarea>
                 </mat-form-field>
               </div>
             </div>
@@ -37,20 +38,10 @@
             </div>
 
             <div class="flex justify-center">
-              <div class="w-1/3 h-auto">
-                <img src ={{this.form.value.logoUrl}} alt='API Image'>
+              <asha-image-upload [initial]="store?.logoUrl" (uploadSuccess)="uploadSuccess($event)"></asha-image-upload>
             </div>
-          </div>
-          <div class="flex justify-center">
-              <ngx-awesome-uploader [adapter]="adapter" [accept]="'image/png, image/jpeg , image/jpg'" [uploadType]="'single'"
-                  class="w-full" [fileMaxSize]="200" (uploadSuccess)="uploadSuccess($event)"
-                  (validationError)="onValidationError($event)">
 
-              </ngx-awesome-uploader>
-          </div>
-
-
-          <div mat-dialog-actions class="flex justify-end mt-2">
+            <div mat-dialog-actions class="flex justify-end mt-2">
               <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="Submit()">
                 ตกลง
               </button>
