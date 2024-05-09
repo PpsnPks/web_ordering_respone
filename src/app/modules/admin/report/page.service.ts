@@ -113,4 +113,13 @@ export class ReportService {
                 })
             );
     }
+
+    orderExcel(start: any, end: any) {
+        return this.http.post('/api/report/order/excel', {
+            startDate: start,
+            endDate: end
+        }, {
+            responseType: 'blob'
+        })
+    }
 }
