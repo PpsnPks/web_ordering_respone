@@ -23,18 +23,19 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
 import { CustomerService } from '../customers/customers.service';
+import { Config } from 'datatables.net';
 @Component({
     selector: 'app-custmor-form',
     standalone: true,
     templateUrl: './dialog.component.html',
     styleUrl: './dialog.component.scss',
     imports: [
-        CommonModule, 
-        DataTablesModule, 
-        MatIconModule, 
-        MatFormFieldModule, 
+        CommonModule,
+        DataTablesModule,
+        MatIconModule,
+        MatFormFieldModule,
         MatInputModule,
-        FormsModule, 
+        FormsModule,
         MatToolbarModule,
         MatButtonModule,
         MatDialogTitle,
@@ -53,8 +54,8 @@ export class Dialogcustomer implements OnInit {
     form: FormGroup;
     stores: any[]=[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    dtOptions: DataTables.Settings = {};
-    addForm: FormGroup;   
+    dtOptions: Config = {};
+    addForm: FormGroup;
     constructor(
         private dialogRef: MatDialogRef<Dialogcustomer>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -63,7 +64,7 @@ export class Dialogcustomer implements OnInit {
         public _service: CustomerService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
-    ) 
+    )
     {
         console.log(' this.form', this.data);
         if(this.data.type === 'EDIT') {
@@ -73,8 +74,8 @@ export class Dialogcustomer implements OnInit {
                 phoneNumber: this.data.value.phoneNumber ?? '',
                 tax: this.data.value.tax ?? '',
                 address: this.data.value.address ?? '',
-        
-           
+
+
              });
         } else {
             this.form = this.FormBuilder.group({
@@ -88,16 +89,16 @@ export class Dialogcustomer implements OnInit {
 
 
         // console.log('1111',this.data?.type);
-        
+
     }
-    
+
     ngOnInit(): void {
          if (this.data.type === 'EDIT') {
         //   this.form.patchValue({
         //     ...this.data.value,
         //     roleId: +this.data.value?.role?.id
-        //   })  
-       
+        //   })
+
         } else {
             console.log('New');
         }

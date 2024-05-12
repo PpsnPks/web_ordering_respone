@@ -14,6 +14,7 @@ import { RouterLink } from '@angular/router';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ReportService } from '../page.service';
 import { MatSelectModule } from '@angular/material/select';
+import { Config } from 'datatables.net';
 
 @Component({
     selector: 'app-report',
@@ -21,23 +22,23 @@ import { MatSelectModule } from '@angular/material/select';
     imports: [
         CommonModule,
         MatIconModule,
-        MatButtonModule, 
-        MatDatepickerModule, 
-        MatFormFieldModule, 
-        MatInputModule, 
-        RouterLink, 
-        ReactiveFormsModule, 
-        FormsModule, 
+        MatButtonModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        RouterLink,
+        ReactiveFormsModule,
+        FormsModule,
         DataTablesModule,
         MatSelectModule
     ],
-   
+
     templateUrl: './report.component.html',
     styleUrl: './report.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReportSalerComponent implements OnInit {
-    dtOptions: DataTables.Settings = {};
+    dtOptions: Config = {};
     orders: any[] = [];
     form: FormGroup;
     users: any[] = []
@@ -50,7 +51,7 @@ export class ReportSalerComponent implements OnInit {
     ) {
         this.form = this._fb.group({
             payment_type: '',
-    
+
         })
         this._service.getUser().subscribe((resp: any)=>{
             this.users = resp
@@ -62,10 +63,10 @@ export class ReportSalerComponent implements OnInit {
         })
         this._service.getOrder().subscribe((resp: any)=>{
                 this.orders = resp;
-                
-               
+
+
         })
-      
+
         this.dtOptions = {
             pagingType: 'full_numbers',
             serverSide: true,     // Set the flag
@@ -677,7 +678,7 @@ export class ReportSalerComponent implements OnInit {
                     }
                     return data;
                 }
-            }, 
+            },
             {
                 title: 'รวม',
                 data: 'total',

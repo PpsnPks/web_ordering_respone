@@ -23,6 +23,7 @@ import { UserService } from '../user.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
+import { Config } from 'datatables.net';
 @Component({
     selector: 'app-user-form',
     standalone: true,
@@ -47,8 +48,8 @@ export class DialogForm implements OnInit {
     form: FormGroup;
     stores: any[]=[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    dtOptions: DataTables.Settings = {};
-    addForm: FormGroup;   
+    dtOptions: Config = {};
+    addForm: FormGroup;
     roles: any[] = [
         { id: 2, name: 'Admin'},
         { id: 3, name: 'Supervisor'},
@@ -63,7 +64,7 @@ export class DialogForm implements OnInit {
         private fuseConfirmationService: FuseConfirmationService,
         private userService: UserService,
         private toastr: ToastrService,
-    ) 
+    )
     {
         console.log(' this.form', this.data);
         if(this.data.type === 'EDIT') {
@@ -75,7 +76,7 @@ export class DialogForm implements OnInit {
                 roleId: this.data.value?.role?.id ?? '',
                 username: this.data.value?.username ?? '',
                 isActive: this.data.value?.isActive
-           
+
              });
         } else {
             this.form = this.FormBuilder.group({
@@ -92,16 +93,16 @@ export class DialogForm implements OnInit {
 
 
         // console.log('1111',this.data?.type);
-        
+
     }
-    
+
     ngOnInit(): void {
          if (this.data.type === 'EDIT') {
         //   this.form.patchValue({
         //     ...this.data.value,
         //     roleId: +this.data.value?.role?.id
-        //   })  
-       
+        //   })
+
         } else {
             console.log('New');
         }

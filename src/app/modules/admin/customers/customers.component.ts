@@ -121,7 +121,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
 
 
     rerender(): void {
-        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
+        this.dtElement.dtInstance.then(dtInstance => {
             // Destroy the table first
             dtInstance.destroy();
             // Call the dtTrigger to rerender again

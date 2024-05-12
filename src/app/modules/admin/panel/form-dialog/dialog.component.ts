@@ -23,6 +23,7 @@ import { PanelService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import { MatRadioModule } from '@angular/material/radio';
+import { Config } from 'datatables.net';
 @Component({
     selector: 'app-panel-form',
     standalone: true,
@@ -47,7 +48,7 @@ export class DialogForm implements OnInit {
     form: FormGroup;
     branch: any;
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    dtOptions: DataTables.Settings = {};
+    dtOptions: Config = {};
     addForm: FormGroup;
     categories: any[] = [];
     productsByCategory: { [key: string]: any[] } = {};

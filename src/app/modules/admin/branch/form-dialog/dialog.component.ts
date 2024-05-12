@@ -23,6 +23,7 @@ import { BranchService } from '../page.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
+import { Config } from 'datatables.net';
 @Component({
     selector: 'app-branch-form',
     standalone: true,
@@ -47,8 +48,8 @@ export class DialogForm implements OnInit {
     form: FormGroup;
     branch: any;
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    dtOptions: DataTables.Settings = {};
-    addForm: FormGroup;   
+    dtOptions: Config = {};
+    addForm: FormGroup;
     roles: any[] = [
         { id: 2, name: 'Admin'},
         { id: 3, name: 'Supervisor'},
@@ -62,28 +63,28 @@ export class DialogForm implements OnInit {
         private fuseConfirmationService: FuseConfirmationService,
         private _service: BranchService,
         private toastr: ToastrService,
-    ) 
+    )
     {
         console.log(' this.form', this.data);
         this.form = this.FormBuilder.group({
-          
+
             code: '',
             name: '',
             address: '',
             storeId: +this.data.store
          });
-  
 
-        
+
+
     }
-    
+
     ngOnInit(): void {
          if (this.data.type === 'EDIT') {
             this.form.patchValue({
                 ...this.data.value
             })
-         
-       
+
+
         } else {
             console.log('New');
         }
