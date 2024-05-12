@@ -11,8 +11,6 @@ import { FilePickerModule } from 'ngx-awesome-uploader';
 import { MatMenuModule } from '@angular/material/menu';
 import { ToastrService } from 'ngx-toastr';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
-import { DialogRef } from '@angular/cdk/dialog';
-import { DialogForm } from './form-dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PictureComponent } from '../picture/picture.component';
@@ -155,27 +153,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
       dtInstance.destroy();
       // Call the dtTrigger to rerender again
       this.dtTrigger.next(this.dtOptions);
-    });
-  }
-
-
-
-  opendialogapro() {
-    const DialogRef = this.dialog.open(DialogForm, {
-      disableClose: true,
-      width: '500px',
-      height: '400px',
-      enterAnimationDuration: 300,
-      exitAnimationDuration: 300,
-      data: {
-        type: 'NEW'
-      }
-    });
-    DialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        console.log(result, 'result')
-        this.rerender();
-      }
     });
   }
 
