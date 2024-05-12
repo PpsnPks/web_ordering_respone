@@ -1,7 +1,7 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { APP_INITIALIZER, ApplicationConfig, inject } from '@angular/core';
+import { APP_INITIALIZER, ApplicationConfig, LOCALE_ID, inject } from '@angular/core';
 import { LuxonDateAdapter } from '@angular/material-luxon-adapter';
-import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { PreloadAllModules, provideRouter, withInMemoryScrolling, withPreloading } from '@angular/router';
 import { provideFuse } from '@fuse';
@@ -15,6 +15,10 @@ import { TranslocoHttpLoader } from './core/transloco/transloco.http-loader';
 import { provideEnvironmentNgxMask } from 'ngx-mask';
 import { provideToastr } from 'ngx-toastr';
 import { baseUrlInterceptor } from './base-url.interceptor';
+// import localeTh from '@angular/common/locales/th';
+// import { registerLocaleData } from '@angular/common';
+
+// registerLocaleData(localeTh);
 
 export const appConfig: ApplicationConfig = {
     providers: [
@@ -30,6 +34,8 @@ export const appConfig: ApplicationConfig = {
         ),
 
         // Material Date Adapter
+        { provide: MAT_DATE_LOCALE, useValue: 'th-TH' },
+        { provide: LOCALE_ID, useValue: "th-TH" },
         {
             provide : DateAdapter,
             useClass: LuxonDateAdapter,
@@ -41,7 +47,7 @@ export const appConfig: ApplicationConfig = {
                     dateInput: 'D',
                 },
                 display: {
-                    dateInput         : 'DDD',
+                    dateInput         : 'DD',
                     monthYearLabel    : 'LLL yyyy',
                     dateA11yLabel     : 'DD',
                     monthYearA11yLabel: 'LLLL yyyy',
