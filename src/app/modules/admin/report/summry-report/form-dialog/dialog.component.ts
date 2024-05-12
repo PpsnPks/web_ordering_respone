@@ -24,7 +24,6 @@ import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
 import { ReportService } from '../../page.service';
 import { MatDateSelectionModel, MatDatepickerModule } from '@angular/material/datepicker';
-import { Config } from 'datatables.net';
 @Component({
     selector: 'app-search-form',
     standalone: true,
@@ -50,8 +49,8 @@ export class DialogForm implements OnInit {
     form: FormGroup;
     stores: any[]=[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    dtOptions: Config = {};
-    addForm: FormGroup;
+    dtOptions: DataTables.Settings = {};
+    addForm: FormGroup;   
     constructor(
         private dialogRef: MatDialogRef<DialogForm>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -60,7 +59,7 @@ export class DialogForm implements OnInit {
         public _service: ReportService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
-    )
+    ) 
     {
         console.log(' this.form', this.data);
         this.form = this._fb.group({
@@ -69,15 +68,15 @@ export class DialogForm implements OnInit {
         })
 
 
-
+        
     }
-
+    
     ngOnInit(): void {
 
     }
 
     Submit() {
-
+   
     }
 
     onClose() {

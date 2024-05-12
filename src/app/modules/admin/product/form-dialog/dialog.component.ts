@@ -23,7 +23,6 @@ import { ProductService } from '../product.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
-import { Config } from 'datatables.net';
 @Component({
     selector: 'app-product-form',
     standalone: true,
@@ -54,7 +53,7 @@ export class DialogForm implements OnInit {
     form: FormGroup;
     stores: any[]=[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    dtOptions: Config = {};
+    dtOptions: DataTables.Settings = {};
     addForm: FormGroup;
     constructor(
         private dialogRef: MatDialogRef<DialogForm>,

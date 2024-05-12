@@ -16,7 +16,6 @@ import { ReportService } from '../page.service';
 import { MatSelectModule } from '@angular/material/select';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
-import { Config } from 'datatables.net';
 @Component({
   selector: 'app-bill-report',
   standalone: true,
@@ -35,7 +34,7 @@ import { Config } from 'datatables.net';
   styleUrl: './bill-report.component.scss'
 })
 export class BillReportComponent {
-  dtOptions: Config = {};
+  dtOptions: DataTables.Settings = {};
   orders: any[] = [];
   dtElement: DataTableDirective;
   dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
@@ -236,7 +235,7 @@ export class BillReportComponent {
 
 
 rerender(): void {
-  this.dtElement.dtInstance.then(dtInstance => {
+  this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
       // Destroy the table first
       dtInstance.destroy();
       // Call the dtTrigger to rerender again

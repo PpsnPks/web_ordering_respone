@@ -85,7 +85,7 @@ export class UnitComponent implements OnInit, AfterViewInit {
                     data: 'no',
                     className: 'w-15'
                 },
-
+          
                 {
                     title: 'ชื่อหน่วยนับ',
                     data: 'name'
@@ -107,7 +107,7 @@ export class UnitComponent implements OnInit, AfterViewInit {
 
 
     rerender(): void {
-        this.dtElement.dtInstance.then(dtInstance => {
+        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
             dtInstance.destroy();
             // Call the dtTrigger to rerender again

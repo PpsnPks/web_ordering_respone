@@ -14,7 +14,6 @@ import { RouterLink } from '@angular/router';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ReportService } from '../page.service';
 import { MatSelectModule } from '@angular/material/select';
-import { Config } from 'datatables.net';
 
 @Component({
     selector: 'app-report-payment-type',
@@ -22,23 +21,23 @@ import { Config } from 'datatables.net';
     imports: [
         CommonModule,
         MatIconModule,
-        MatButtonModule,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        MatInputModule,
-        RouterLink,
-        ReactiveFormsModule,
-        FormsModule,
+        MatButtonModule, 
+        MatDatepickerModule, 
+        MatFormFieldModule, 
+        MatInputModule, 
+        RouterLink, 
+        ReactiveFormsModule, 
+        FormsModule, 
         DataTablesModule,
         MatSelectModule
     ],
-
+   
     templateUrl: './cashier.component.html',
     styleUrl: './cashier.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CashierComponent implements OnInit {
-    dtOptions: Config = {};
+    dtOptions: DataTables.Settings = {};
     orders: any[] = [];
     form: FormGroup;
     cashiers: any[] = [
@@ -58,7 +57,7 @@ export class CashierComponent implements OnInit {
     ) {
         this.form = this._fb.group({
             cashier: '',
-
+    
         })
     }
 
@@ -66,7 +65,7 @@ export class CashierComponent implements OnInit {
 		this._service.getCashier().subscribe((resp: any)=>{
 			this.cashiers = resp;
 			console.log(resp);
-
+			
 		})
 	}
 
@@ -78,7 +77,7 @@ export class CashierComponent implements OnInit {
         this._service.getOrder().subscribe((resp: any)=>{
                 this.orders = resp;
         })
-
+      
         this.dtOptions = {
             pagingType: 'full_numbers',
             serverSide: true,     // Set the flag
@@ -690,7 +689,7 @@ export class CashierComponent implements OnInit {
                     }
                     return data;
                 }
-            },
+            }, 
             {
                 title: 'รวม',
                 data: 'total',

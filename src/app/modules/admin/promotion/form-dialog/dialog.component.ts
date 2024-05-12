@@ -26,19 +26,18 @@ import { NgxMaskDirective } from 'ngx-mask';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
-import { Config } from 'datatables.net';
 @Component({
     selector: 'app-promotion-form',
     standalone: true,
     templateUrl: './dialog.component.html',
     styleUrl: './dialog.component.scss',
     imports: [
-        CommonModule,
-        DataTablesModule,
-        MatIconModule,
-        MatFormFieldModule,
+        CommonModule, 
+        DataTablesModule, 
+        MatIconModule, 
+        MatFormFieldModule, 
         MatInputModule,
-        FormsModule,
+        FormsModule, 
         MatToolbarModule,
         MatButtonModule,
         MatDialogTitle,
@@ -60,8 +59,8 @@ export class DialogForm implements OnInit {
     form: FormGroup;
     stores: any[]=[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
-    dtOptions: Config = {};
-    addForm: FormGroup;
+    dtOptions: DataTables.Settings = {};
+    addForm: FormGroup;   
     displays: any[] = [
        {
         id: 'percent',
@@ -82,7 +81,7 @@ export class DialogForm implements OnInit {
         name: 'บัตรกำนัล'
        },
     ];
-
+    
     constructor(
         private dialogRef: MatDialogRef<DialogForm>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -92,7 +91,7 @@ export class DialogForm implements OnInit {
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
         private _changeDetectorRef: ChangeDetectorRef,
-    )
+    ) 
     {
         console.log(' this.form', this.data);
         if(this.data.type === 'EDIT') {
@@ -120,23 +119,23 @@ export class DialogForm implements OnInit {
                 endDate: '',
                 isActive: true
              });
-
+       
         }
 
 
         // console.log('1111',this.data?.type);
-
+        
     }
-
+    
     ngOnInit(): void {
          if (this.data.type === 'EDIT') {
         //   this.form.patchValue({
         //     ...this.data.value,
         //     roleId: +this.data.value?.role?.id
-        //   })
-
+        //   })  
+       
         } else {
-
+   
         }
     }
 

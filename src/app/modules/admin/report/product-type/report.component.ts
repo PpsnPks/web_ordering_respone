@@ -14,7 +14,6 @@ import { RouterLink } from '@angular/router';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ReportService } from '../page.service';
 import { MatSelectModule } from '@angular/material/select';
-import { Config } from 'datatables.net';
 
 @Component({
     selector: 'app-report-product-type',
@@ -38,7 +37,7 @@ import { Config } from 'datatables.net';
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ReportProductTypeComponent implements OnInit {
-    dtOptions: Config = {};
+    dtOptions: DataTables.Settings = {};
     orders: any[] = [];
     form: FormGroup;
     productType: any[] = [
