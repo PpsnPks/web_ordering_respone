@@ -24,7 +24,7 @@ export class CategoryService {
     const dir = toUpper(order[0].dir);
     const sortBy = column + ':' + dir;
 
-    return this.http.get('api/category/datatables', {
+    return this.http.get('/api/category/datatables', {
       params: {
         page: page,
         limit: length,
@@ -40,7 +40,7 @@ export class CategoryService {
   }
 
   create(data: any) {
-    return this.http.post('api/category', data)
+    return this.http.post('/api/category', data)
   }
 
   update(id: any,data: any) {
@@ -48,7 +48,7 @@ export class CategoryService {
   }
 
   getRole() {
-    return this.http.get('api/role').pipe(
+    return this.http.get('/api/role').pipe(
       tap((resp: any) => {
         this._roles.next(resp);
       }),

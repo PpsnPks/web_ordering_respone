@@ -25,7 +25,7 @@ export class BranchService {
     const dir = toUpper(order[0].dir);
     const sortBy = column + ':' + dir;
 
-    return this.http.get('api/branch/datatables', {
+    return this.http.get('/api/branch/datatables', {
       params: {
         page: page,
         limit: length,
@@ -41,7 +41,7 @@ export class BranchService {
   }
 
   create(data: any) {
-    return this.http.post('api/branch', data)
+    return this.http.post('/api/branch', data)
   }
 
   update(id: any,data: any) {
@@ -49,7 +49,7 @@ export class BranchService {
   }
 
   getRole() {
-    return this.http.get('api/role').pipe(
+    return this.http.get('/api/role').pipe(
       tap((resp: any) => {
         this._roles.next(resp);
       }),

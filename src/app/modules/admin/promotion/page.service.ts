@@ -25,7 +25,7 @@ export class PromotionService {
     const dir = toUpper(order[0].dir);
     const sortBy = column + ':' + dir;
 
-    return this.http.get('api/promotion/datatables', {
+    return this.http.get('/api/promotion/datatables', {
       params: {
         page: page,
         limit: length,
@@ -41,7 +41,7 @@ export class PromotionService {
   }
 
   create(data: any) {
-    return this.http.post('api/promotion', data)
+    return this.http.post('/api/promotion', data)
   }
 
   update(id: any,data: any) {
@@ -49,14 +49,14 @@ export class PromotionService {
   }
 
   getRole() {
-    return this.http.get('api/role').pipe(
+    return this.http.get('/api/role').pipe(
       tap((resp: any) => {
         this._roles.next(resp);
       }),
     )
   }
   getPromotionId(id: any) {
-    return this.http.get('api/promotion/' + id).pipe(
+    return this.http.get('/api/promotion/' + id).pipe(
       tap((resp: any) => {
         this._promotion.next(resp);
       }),

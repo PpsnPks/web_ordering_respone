@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { APP_INITIALIZER, ApplicationConfig, inject } from '@angular/core';
 import { LuxonDateAdapter } from '@angular/material-luxon-adapter';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
@@ -14,11 +14,14 @@ import { mockApiServices } from 'app/mock-api';
 import { TranslocoHttpLoader } from './core/transloco/transloco.http-loader';
 import { provideEnvironmentNgxMask } from 'ngx-mask';
 import { provideToastr } from 'ngx-toastr';
+import { baseUrlInterceptor } from './base-url.interceptor';
 
 export const appConfig: ApplicationConfig = {
     providers: [
         provideAnimations(),
-        provideHttpClient(),
+        provideHttpClient(
+            withInterceptors([baseUrlInterceptor])
+        ),
         provideEnvironmentNgxMask(),
         provideToastr(),
         provideRouter(appRoutes,
@@ -126,5 +129,6 @@ export const appConfig: ApplicationConfig = {
                 ],
             },
         }),
+
     ],
 };

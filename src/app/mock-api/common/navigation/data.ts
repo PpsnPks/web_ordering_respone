@@ -54,13 +54,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_mini:archive-box',
                 link: '/promotion'
             },
-            {
-                id: 'customers',
-                title: 'สมาชิก',
-                type: 'basic',
-                icon: 'heroicons_solid:rectangle-stack',
-                link: '/customers'
-            },
+            // {
+            //     id: 'customers',
+            //     title: 'สมาชิก',
+            //     type: 'basic',
+            //     icon: 'heroicons_solid:rectangle-stack',
+            //     link: '/customers'
+            // },
             {
               id: 'banner',
               title: 'แบนเนอร์',
