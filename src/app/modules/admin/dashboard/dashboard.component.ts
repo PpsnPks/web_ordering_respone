@@ -24,7 +24,7 @@ import {FormControl, FormsModule, Validators} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { ExampleService } from './example.service';
+import { DashboardService } from './dashboard.service';
 
 
 export type ChartOptions = {
@@ -39,15 +39,15 @@ export type ChartOptions = {
 
 
 @Component({
-    selector     : 'example',
+    selector     : 'dashboard',
     standalone   : true,
-    templateUrl  : './example.component.html',
+    templateUrl  : './dashboard.component.html',
     encapsulation: ViewEncapsulation.None,
     imports        : [TranslocoModule, MatIconModule, MatButtonModule, MatRippleModule,
       MatMenuModule, MatTabsModule, MatButtonToggleModule, NgApexchartsModule,
       NgFor, NgIf, MatTableModule, NgClass, CurrencyPipe,MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule],
 })
-export class ExampleComponent
+export class DashboardComponent
 {
   value1: string = '';
   value2: string = '';
@@ -100,14 +100,11 @@ export class ExampleComponent
     }
   }
 
-
-
-
-
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   selectedProject: string = 'ACME Corp. Backend App';
-  constructor(private service: ExampleService,) {
+
+  constructor(private service: DashboardService) {
 
     this.value1 = '56';
     this.value2 = '4';

@@ -6,7 +6,7 @@ import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ExampleService {
+export class DashboardService {
 
   private _branch: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
   constructor(private http: HttpClient) { }

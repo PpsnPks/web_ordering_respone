@@ -11,11 +11,11 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
 
           {
-            id: 'admin.example',
+            id: 'admin.dashboard',
             title: 'ข้อมูลแดชบอร์ด',
             type: 'basic',
             icon: 'heroicons_outline:clipboard-document-check',
-            link: '/example',
+            link: '/dashboard',
         },
 
 
