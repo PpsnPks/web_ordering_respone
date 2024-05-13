@@ -65,6 +65,17 @@
                                     <mat-error>Required field!</mat-error>
                                 </mat-form-field>
                             </div>
+
+                            <div class="w-full">
+                                <mat-form-field class="flex-auto w-full">
+                                    <mat-label>สาขา</mat-label>
+                                    <mat-select [formControlName]="'branchId'" [placeholder]="'ระบุสาขา'">
+                                        <mat-option *ngFor="let item of branch; let i = index;"
+                                            [value]="item.id">{{item.name}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>Required field!</mat-error>
+                                </mat-form-field>
+                            </div>
                             <!-- <div *ngIf="delete_toggle" class="relative group" (click)="deleteImgToInsert()">
                                 <img [src]="form.value.image" alt="Uploaded Image"
                                     class="opacity-100 group-hover:opacity-50">

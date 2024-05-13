@@ -11,6 +11,7 @@ export default [
     resolve: {
       categories: () => inject(ProductService).getCategories(),
       units: () => inject(ProductService).getUnit(),
+      branch: () => inject(ProductService).getฺBranch(),
       // products  : () => inject(InventoryService).getProducts(),
     },
   }

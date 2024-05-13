@@ -42,6 +42,7 @@ export class ProductComposeComponent implements OnInit {
     units: any[] = [];
     title: string
     attForm: FormGroup;
+    branch: any[] = [];
 
     item: any
 
@@ -63,6 +64,7 @@ export class ProductComposeComponent implements OnInit {
             image: [''],
             categoryId: ['', Validators.required],
             unitId: ['', Validators.required],
+            branchId: ['', Validators.required],
         });
 
         this.attForm = this.fb.group({
@@ -84,6 +86,8 @@ export class ProductComposeComponent implements OnInit {
                 ...this.data.value,
                 categoryId: this.data?.value?.category?.id,
                 unitId: this.data?.value?.unit?.id,
+                branchId: this.data?.value?.branch?.id,
+                
             });
 
             for (const productAttribute of this.data.value.productAttributes) {
@@ -93,6 +97,9 @@ export class ProductComposeComponent implements OnInit {
 
         this.productService.categories$.subscribe(resp => this.catagories = resp);
         this.productService.units$.subscribe(resp => this.units = resp);
+        this.productService.branch$.subscribe(resp => this.branch = resp);
+       
+
     }
 
     attributes(): FormArray {
@@ -168,6 +175,7 @@ export class ProductComposeComponent implements OnInit {
             image: this.form.value.image,
             categoryId: this.form.value.categoryId,
             unitId: this.form.value.unitId,
+            branchId: this.form.value.branchId,
             attributes: this.attForm.value.attributes,
         }).subscribe({
             next: (resp: any) => {
@@ -184,6 +192,7 @@ export class ProductComposeComponent implements OnInit {
             image: this.form.value.image,
             categoryId: this.form.value.categoryId,
             unitId: this.form.value.unitId,
+            branchId: this.form.value.branchId,
             attributes: this.attForm.value.attributes,
         }).subscribe({
             next: (resp: any) => {

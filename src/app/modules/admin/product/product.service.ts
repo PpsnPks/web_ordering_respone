@@ -12,6 +12,7 @@ export class ProductService {
   private _categories: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
   private _roles: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
   private _data: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+  private _branch: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
 
   get categories$() {
     return this._categories.asObservable();
@@ -71,6 +72,16 @@ export class ProductService {
       }),
     )
   }
+
+  getฺBranch() {
+    return this.http.get('/api/branch').pipe(
+      tap((resp: any) => {
+        this._branch.next(resp);
+      }),
+    )
+  }
+
+
   getById(id: string) {
     return this.http.get('/api/product/' + id).pipe(
       tap((resp: any) => {
@@ -144,4 +155,13 @@ export class ProductService {
   //   return this.http.post('/api/product/' + id + '/attribute', data2);
 
   // }
+
+  // private _branch: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+
+  get branch$() {
+    return this._branch.asObservable();
+  }
+
+
+  
 }
