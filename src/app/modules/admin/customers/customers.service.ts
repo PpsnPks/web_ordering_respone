@@ -25,13 +25,13 @@ export class CustomerService {
     const dir = toUpper(order[0].dir);
     const sortBy = column + ':' + dir;
 
-    return this.http.get('api/customer/datatables', {
+    return this.http.get('/api/customer/datatables', {
       params: {
         page: page,
         limit: length,
         sortBy: sortBy,
         search: search.value,
-        
+
       }
     }).pipe(
       map((resp: any) => {
@@ -42,7 +42,7 @@ export class CustomerService {
   }
 
   create(data: any) {
-    return this.http.post('api/customer', data)
+    return this.http.post('/api/customer', data)
   }
 
   update(id: any,data: any) {
@@ -50,28 +50,28 @@ export class CustomerService {
   }
 
   getRole() {
-    return this.http.get('api/role').pipe(
+    return this.http.get('/api/role').pipe(
       tap((resp: any) => {
         this._roles.next(resp);
       }),
     )
   }
   getUnit() {
-    return this.http.get('api/unit').pipe(
+    return this.http.get('/api/unit').pipe(
       tap((resp: any) => {
         this._data.next(resp);
       }),
     )
   }
   getCategory() {
-    return this.http.get('api/category').pipe(
+    return this.http.get('/api/category').pipe(
       tap((resp: any) => {
         this._data.next(resp);
       }),
     )
   }
   getById(id:string) {
-    return this.http.get('api/customer/'+ id).pipe(
+    return this.http.get('/api/customer/'+ id).pipe(
       tap((resp: any) => {
         this._data.next(resp);
       }),

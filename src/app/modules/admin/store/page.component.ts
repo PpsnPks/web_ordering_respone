@@ -22,120 +22,120 @@ import { ImageUploadComponent } from 'app/modules/common/image-upload/image-uplo
 import { ImageUploadService } from 'app/modules/common/image-upload/image-upload.service';
 
 @Component({
-  selector: 'app-page-store',
-  standalone: true,
-  imports: [
-    CommonModule,
-    DataTablesModule,
-    MatButtonModule,
-    MatIconModule,
-    FilePickerModule,
-    MatMenuModule,
-    MatDividerModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatToolbarModule,
-    MatDialogTitle,
-    MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
-    MatSelectModule,
-    ReactiveFormsModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatRadioModule,
-    BranchComponent,
-    ImageUploadComponent
-  ],
-  templateUrl: './page.component.html',
-  styleUrl: './page.component.scss',
+    selector: 'app-page-store',
+    standalone: true,
+    imports: [
+        CommonModule,
+        DataTablesModule,
+        MatButtonModule,
+        MatIconModule,
+        FilePickerModule,
+        MatMenuModule,
+        MatDividerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatToolbarModule,
+        MatDialogTitle,
+        MatDialogContent,
+        MatDialogActions,
+        MatDialogClose,
+        MatSelectModule,
+        ReactiveFormsModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatRadioModule,
+        BranchComponent,
+        ImageUploadComponent
+    ],
+    templateUrl: './page.component.html',
+    styleUrl: './page.component.scss',
 })
 export class StoreComponent implements OnInit {
 
-  form: FormGroup;
-  formFieldHelpers: string[] = ['fuse-mat-dense'];
-  store: any;
-  storeId: number
+    form: FormGroup;
+    formFieldHelpers: string[] = ['fuse-mat-dense'];
+    store: any;
+    storeId: number
 
-  constructor(
-    private stoerService: StoerService,
-    private fuseConfirmationService: FuseConfirmationService,
-    private toastr: ToastrService,
-    public dialog: MatDialog,
-    private fb: FormBuilder,
-    public activatedRoute: ActivatedRoute,
-    private imageUploadService: ImageUploadService,
-  ) {
-    this.storeId = this.activatedRoute.snapshot.params.id;
-  }
+    constructor(
+        private stoerService: StoerService,
+        private fuseConfirmationService: FuseConfirmationService,
+        private toastr: ToastrService,
+        public dialog: MatDialog,
+        private fb: FormBuilder,
+        public activatedRoute: ActivatedRoute,
+        private imageUploadService: ImageUploadService,
+    ) {
+        this.storeId = this.activatedRoute.snapshot.params.id;
+    }
 
-  ngOnInit(): void {
-    this.form = this.fb.group({
-      code: '',
-      name: '',
-      address: '',
-      logo: '',
-      tax: '',
-    })
+    ngOnInit(): void {
+        this.form = this.fb.group({
+            code: '',
+            name: '',
+            address: '',
+            logo: '',
+            tax: '',
+        })
 
-    this.stoerService.getStoreId(this.storeId).subscribe((resp: any) => {
-      this.store = resp
+        this.stoerService.getStoreId(this.storeId).subscribe((resp: any) => {
+            this.store = resp
 
-      this.form.patchValue({
-        ...this.store
-      })
-    })
-  }
+            this.form.patchValue({
+                ...this.store
+            })
+        })
+    }
 
-  Submit() {
-    const confirmation = this.fuseConfirmationService.open({
-      title: "ยืนยันการบันทึกข้อมูล",
-      icon: {
-        show: true,
-        name: "heroicons_outline:exclamation-triangle",
-        color: "primary"
-      },
-      actions: {
-        confirm: {
-          show: true,
-          label: "ยืนยัน",
-          color: "primary"
-        },
-        cancel: {
-          show: true,
-          label: "ยกเลิก"
-        }
-      },
-      dismissible: false
-    })
+    Submit() {
+        const confirmation = this.fuseConfirmationService.open({
+            title: "ยืนยันการบันทึกข้อมูล",
+            icon: {
+                show: true,
+                name: "heroicons_outline:exclamation-triangle",
+                color: "primary"
+            },
+            actions: {
+                confirm: {
+                    show: true,
+                    label: "ยืนยัน",
+                    color: "primary"
+                },
+                cancel: {
+                    show: true,
+                    label: "ยกเลิก"
+                }
+            },
+            dismissible: false
+        })
 
-    confirmation.afterClosed().subscribe(
-      result => {
-        if (result == 'confirmed') {
-          this.stoerService.update(this.store.id, this.form.value).subscribe({
+        confirmation.afterClosed().subscribe(
+            result => {
+                if (result == 'confirmed') {
+                    this.stoerService.update(this.store.id, this.form.value).subscribe({
+                        error: (err) => {
+                            this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
+                        },
+                        complete: () => {
+                            this.toastr.success('ดำเนินการแก้ไขข้อมูลสำเร็จ')
+                            this.ngOnInit()
+                        },
+                    });
+                }
+            }
+        )
+    }
+
+    uploadSuccess(event: any): void {
+        this.imageUploadService.upload(event).subscribe({
+            next: (resp: any) => {
+                this.form.patchValue({
+                    logo: resp.filename
+                });
+            },
             error: (err) => {
-              this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
+                alert(JSON.stringify(err))
             },
-            complete: () => {
-              this.toastr.success('ดำเนินการแก้ไขข้อมูลสำเร็จ')
-              this.ngOnInit()
-            },
-          });
-        }
-      }
-    )
-  }
-
-  uploadSuccess(event: any): void {
-    this.imageUploadService.upload(event).subscribe({
-      next: (resp: any) => {
-        this.form.patchValue({
-          logo: resp.filename
-        });
-      },
-      error: (err) => {
-        alert(JSON.stringify(err))
-      },
-    })
-  }
+        })
+    }
 }

@@ -20,7 +20,7 @@ export class UserService {
   // datatable(dataTablesParameters: any) {
   //   const { start, length } = dataTablesParameters;
   //   const page = start / length + 1;
-  //   return this.http.get('api/user/datatables', {
+  //   return this.http.get('/api/user/datatables', {
   //     params: {
   //       limit: length,
   //       page: page,
@@ -40,7 +40,7 @@ export class UserService {
     const dir = toUpper(order[0].dir);
     const sortBy = column + ':' + dir;
 
-    return this.http.get('api/user/datatables', {
+    return this.http.get('/api/user/datatables', {
       params: {
         page: page,
         limit: length,
@@ -56,7 +56,7 @@ export class UserService {
   }
 
   create(data: any) {
-    return this.http.post('api/user', data)
+    return this.http.post('/api/user', data)
   }
 
   update(id: any,data: any) {
@@ -64,7 +64,7 @@ export class UserService {
   }
 
   getRole() {
-    return this.http.get('api/role').pipe(
+    return this.http.get('/api/role').pipe(
       tap((resp: any) => {
         this._roles.next(resp);
       }),

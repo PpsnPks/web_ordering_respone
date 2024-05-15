@@ -12,6 +12,7 @@ export class ProductService {
   private _categories: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
   private _roles: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
   private _data: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+  private _branch: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
 
   get categories$() {
     return this._categories.asObservable();
@@ -26,7 +27,7 @@ export class ProductService {
     const dir = toUpper(order[0].dir);
     const sortBy = column + ':' + dir;
 
-    return this.http.get('api/product/datatables', {
+    return this.http.get('/api/product/datatables', {
       params: {
         page: page,
         limit: length,
@@ -43,7 +44,7 @@ export class ProductService {
   }
 
   create(data: any) {
-    return this.http.post('api/product', data)
+    return this.http.post('/api/product', data)
   }
 
   update(id: any, data: any) {
@@ -51,28 +52,38 @@ export class ProductService {
   }
 
   getRole() {
-    return this.http.get('api/role').pipe(
+    return this.http.get('/api/role').pipe(
       tap((resp: any) => {
         this._roles.next(resp);
       }),
     )
   }
   getUnit() {
-    return this.http.get('api/unit').pipe(
+    return this.http.get('/api/unit').pipe(
       tap((resp: any) => {
         this._units.next(resp);
       }),
     )
   }
   getCategory() {
-    return this.http.get('api/category').pipe(
+    return this.http.get('/api/category').pipe(
       tap((resp: any) => {
         this._data.next(resp);
       }),
     )
   }
+
+  getฺBranch() {
+    return this.http.get('/api/branch').pipe(
+      tap((resp: any) => {
+        this._branch.next(resp);
+      }),
+    )
+  }
+
+
   getById(id: string) {
-    return this.http.get('api/product/' + id).pipe(
+    return this.http.get('/api/product/' + id).pipe(
       tap((resp: any) => {
         this._data.next(resp);
       }),
@@ -103,7 +114,7 @@ export class ProductService {
   //   const dir = toUpper(order[0].dir);
   //   const sortBy = column + ':' + dir;
 
-  //   return this.http.get('api/product/datatables', {
+  //   return this.http.get('/api/product/datatables', {
   //     params: {
   //       page: page,
   //       limit: length,
@@ -119,18 +130,18 @@ export class ProductService {
   // }
 
   // create(data: any) {
-  //   return this.http.post('api/product', data)
+  //   return this.http.post('/api/product', data)
   // }
 
   getCategories() {
-    return this.http.get('api/category').pipe(
+    return this.http.get('/api/category').pipe(
       tap((resp: any) => {
         this._categories.next(resp);
       }),
     )
   }
   // getUnit() {
-  //   return this.http.get('api/unit').pipe(
+  //   return this.http.get('/api/unit').pipe(
   //     tap((resp: any) => {
   //       this._units.next(resp);
   //     }),
@@ -141,7 +152,16 @@ export class ProductService {
   //   return this.http.delete('/api/product/' + id)
   // }
   // postAt(id: number, data2: any) {
-  //   return this.http.post('api/product/' + id + '/attribute', data2);
+  //   return this.http.post('/api/product/' + id + '/attribute', data2);
 
   // }
+
+  // private _branch: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+
+  get branch$() {
+    return this._branch.asObservable();
+  }
+
+
+  
 }

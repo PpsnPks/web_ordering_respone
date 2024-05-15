@@ -1,8 +1,0 @@
-{
-    "/api/*": {
-        "target": "https://upos-api.dev-asha.com",
-        "secure": false,
-        "logLevel": "debug",
-        "changeOrigin": true
-    }
-}

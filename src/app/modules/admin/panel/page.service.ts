@@ -27,7 +27,7 @@ export class PanelService {
     const dir = toUpper(order[0].dir);
     const sortBy = column + ':' + dir;
 
-    return this.http.get('api/panel/datatables', {
+    return this.http.get('/api/panel/datatables', {
       params: {
         page: page,
         limit: length,
@@ -43,7 +43,7 @@ export class PanelService {
   }
 
   create(data: any) {
-    return this.http.post('api/panel', data)
+    return this.http.post('/api/panel', data)
   }
 
   update(id: any,data: any) {
@@ -51,7 +51,7 @@ export class PanelService {
   }
 
   getRole() {
-    return this.http.get('api/role').pipe(
+    return this.http.get('/api/role').pipe(
       tap((resp: any) => {
         this._roles.next(resp);
       }),

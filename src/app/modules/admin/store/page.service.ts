@@ -20,7 +20,7 @@ export class StoerService {
   datatable(dataTablesParameters: any) {
     const { start, length } = dataTablesParameters;
     const page = start / length + 1;
-    return this.http.get('api/store/datatables', {
+    return this.http.get('/api/store/datatables', {
       params: {
         limit: length,
         page: page,
@@ -34,7 +34,7 @@ export class StoerService {
   }
 
   create(data: any) {
-    return this.http.post('api/store', data)
+    return this.http.post('/api/store', data)
   }
 
   update(id: any,data: any) {
@@ -42,7 +42,7 @@ export class StoerService {
   }
 
   getRole() {
-    return this.http.get('api/role').pipe(
+    return this.http.get('/api/role').pipe(
       tap((resp: any) => {
         this._roles.next(resp);
       }),
@@ -56,7 +56,7 @@ export class StoerService {
       }),
     )
   }
-  
+
   delete(id: number) {
     return this.http.delete('/api/store/' + id)
   }

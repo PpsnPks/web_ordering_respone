@@ -67,7 +67,7 @@
             ]
           },
           "configurations": {
-            "production": {
+            "uat": {
               "budgets": [
                 {
                   "type": "initial",
@@ -95,15 +95,33 @@
                   "with": "src/environments/environment.development.ts"
                 }
               ]
+            },
+            "production": {
+                "budgets": [
+                    {
+                      "type": "initial",
+                      "maximumWarning": "3mb",
+                      "maximumError": "5mb"
+                    },
+                    {
+                      "type": "anyComponentStyle",
+                      "maximumWarning": "75kb",
+                      "maximumError": "90kb"
+                    }
+                  ],
+                  "outputHashing": "all",
+                  "fileReplacements": [
+                    {
+                      "replace": "src/environments/environment.ts",
+                      "with": "src/environments/environment.production.ts"
+                    }
+                  ]
             }
           },
-          "defaultConfiguration": "production"
+          "defaultConfiguration": "uat"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "proxyConfig": "src/proxy.conf.json"
-          },
           "configurations": {
             "production": {
               "buildTarget": "fuse:build:production"
@@ -121,23 +139,9 @@
           }
         },
         "test": {
-          "builder": "@angular-devkit/build-angular:karma",
+          "builder": "@angular-builders/jest:run",
           "options": {
-            "polyfills": [
-              "zone.js",
-              "zone.js/testing"
-            ],
-            "tsConfig": "tsconfig.spec.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "src/favicon-16x16.png",
-              "src/favicon-32x32.png",
-              "src/assets"
-            ],
-            "styles": [
-              "src/styles/styles.scss"
-            ],
-            "scripts": []
+            "configPath": "./jest.config.ts"
           }
         }
       }

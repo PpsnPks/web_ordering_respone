@@ -37,7 +37,7 @@ export class BannerService {
   }
 
   create(data: any) {
-    return this.http.post('api/banner', data)
+    return this.http.post('/api/banner', data)
   }
 
   update(id: any,data: any) {
@@ -45,7 +45,7 @@ export class BannerService {
   }
 
   get(id:string) {
-    return this.http.get('api/banner/'+ id)
+    return this.http.get('/api/banner/'+ id)
   }
 
   // get(id:string) {

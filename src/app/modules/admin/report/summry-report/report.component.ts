@@ -22,6 +22,7 @@ import { SearchComponent } from 'app/modules/common/search-component/search.comp
 import { DateTime } from 'luxon';
 import { environment } from 'environments/environment.development';
 import localeTh from '@angular/common/locales/th';
+import { createFileFromBlob } from 'app/helper';
 
 registerLocaleData(localeTh);
 
@@ -80,8 +81,8 @@ export class ReportComponent implements OnInit, AfterViewInit {
             orderStatus: '',
         })
         this.exportForm = this._fb.group({
-           startDate :'',
-           endDate : '',
+            startDate: '',
+            endDate: '',
         })
     }
     ngOnInit(): void {
@@ -213,10 +214,10 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
     handleChange(updateData: any): void {
         var betweenString = ''
-        if( updateData.startDate && updateData.endDate) {
-        var startDate = DateTime.fromISO(updateData.startDate).toFormat('yyyy-MM-dd');
-        var endDate = DateTime.fromISO(updateData.endDate).toFormat('yyyy-MM-dd');
-        betweenString = `$btw:${startDate},${endDate}`;
+        if (updateData.startDate && updateData.endDate) {
+            var startDate = DateTime.fromISO(updateData.startDate).toFormat('yyyy-MM-dd');
+            var endDate = DateTime.fromISO(updateData.endDate).toFormat('yyyy-MM-dd');
+            betweenString = `$btw:${startDate},${endDate}`;
         }
 
         this.form.patchValue({
@@ -238,7 +239,16 @@ export class ReportComponent implements OnInit, AfterViewInit {
     }
 
     exportExcel() {
-        window.open(environment.apiUrl + '/api/report/order/excel?' + 'startDate=' + this.exportForm.value.startDate +  '&endDate=' + this.exportForm.value.endDate)
+        this._service.orderExcel(this.exportForm.value.startDate, this.exportForm.value.endDate).subscribe({
+            next: (resp) => {
+                createFileFromBlob(resp)
+            },
+            error: (err) => {
+                console.error(err)
+                alert(JSON.stringify(err.statusText))
+            }
+        })
+        // window.open(environment.apiUrl + '/api/report/order/excel?' + 'startDate=' + this.exportForm.value.startDate + '&endDate=' + this.exportForm.value.endDate)
     }
 
     resetSearch() {
@@ -246,7 +256,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
         this.exportForm.reset();
         this.searchComponent.reset();
         this.rerender()
-      }
+    }
 }
 
 

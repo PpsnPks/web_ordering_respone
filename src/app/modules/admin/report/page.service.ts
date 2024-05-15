@@ -21,7 +21,7 @@ export class ReportService {
         const sortBy = column + ':' + dir;
 
 
-        return this.http.get('api/order/datatables', {
+        return this.http.get('/api/order/datatables', {
             params: {
                 page: page,
                 limit: length,
@@ -37,7 +37,7 @@ export class ReportService {
         );
     }
     create(daatabranch: { code: string, name: string, storeId: number, address: string, }) {
-        return this.http.post('api/product', {
+        return this.http.post('/api/product', {
             "code": daatabranch.code,
             "name": daatabranch.name,
             "storeId": daatabranch.storeId,
@@ -119,5 +119,14 @@ export class ReportService {
                     this._data.next(result);
                 })
             );
+    }
+
+    orderExcel(start: any, end: any) {
+        return this.http.post('/api/report/order/excel', {
+            startDate: start,
+            endDate: end
+        }, {
+            responseType: 'blob'
+        })
     }
 }

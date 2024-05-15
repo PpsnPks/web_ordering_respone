@@ -33,7 +33,7 @@ export class ShiftService {
   }
 
   create(data: any) {
-    return this.http.post('api/shift', data)
+    return this.http.post('/api/shift', data)
   }
 
   update(id: any,data: any) {
@@ -41,7 +41,7 @@ export class ShiftService {
   }
 
   get(id: any) {
-    return this.http.get('api/shift/' + id)
+    return this.http.get('/api/shift/' + id)
   }
 
   delete(id: number) {

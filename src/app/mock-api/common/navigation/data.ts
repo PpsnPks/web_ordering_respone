@@ -11,11 +11,11 @@ export const defaultNavigation: FuseNavigationItem[] = [
         children: [
 
           {
-            id: 'admin.example',
+            id: 'admin.dashboard',
             title: 'ข้อมูลแดชบอร์ด',
             type: 'basic',
             icon: 'heroicons_outline:clipboard-document-check',
-            link: '/example',
+            link: '/dashboard',
         },
 
 
@@ -54,13 +54,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_mini:archive-box',
                 link: '/promotion'
             },
-            {
-                id: 'customers',
-                title: 'สมาชิก',
-                type: 'basic',
-                icon: 'heroicons_solid:rectangle-stack',
-                link: '/customers'
-            },
+            // {
+            //     id: 'customers',
+            //     title: 'สมาชิก',
+            //     type: 'basic',
+            //     icon: 'heroicons_solid:rectangle-stack',
+            //     link: '/customers'
+            // },
             {
               id: 'banner',
               title: 'แบนเนอร์',
