@@ -6,7 +6,7 @@ import { BehaviorSubject, map, tap } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class CustomerService {
+export class MemberService {
 
   private _categories: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
   private _roles: BehaviorSubject<any[] | null> = new BehaviorSubject(null);

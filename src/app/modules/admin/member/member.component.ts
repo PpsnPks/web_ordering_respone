@@ -15,10 +15,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PictureComponent } from '../picture/picture.component';
 import { ProductComposeComponent } from '../product/dialog/product-compose/product-compose.component';
-import { CustomerService } from './customers.service';
-import { Dialogcustomer } from './dialogcustomer/dialog.component';
+import { MemberService } from './member.service';
+import { MemberComposeComponent } from './dialogcustomer/member-compose.component';
 @Component({
-    selector: 'app-page-customer',
+    selector: 'app-member',
     standalone: true,
     imports: [
         CommonModule,
@@ -29,11 +29,11 @@ import { Dialogcustomer } from './dialogcustomer/dialog.component';
         MatMenuModule,
         MatDividerModule
     ],
-    templateUrl: './customers.component.html',
-    styleUrl: './customers.component.scss',
+    templateUrl: './member.component.html',
+    styleUrl: './member.component.scss',
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class CustomerComponent implements OnInit, AfterViewInit {
+export class MemberComponent implements OnInit, AfterViewInit {
     dtOptions: any = {};
     dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
 
@@ -43,7 +43,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     dtElement: DataTableDirective;
 
     constructor(
-        private _service: CustomerService,
+        private _service: MemberService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
         public dialog: MatDialog,
@@ -136,7 +136,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
 
 
     opendialogapro() {
-        const DialogRef = this.dialog.open(Dialogcustomer, {
+        const DialogRef = this.dialog.open(MemberComposeComponent, {
             disableClose: true,
             width: '500px',
             enterAnimationDuration: 300,
@@ -154,7 +154,7 @@ export class CustomerComponent implements OnInit, AfterViewInit {
     }
 
     openDialogEdit(item: any) {
-        const DialogRef = this.dialog.open(Dialogcustomer, {
+        const DialogRef = this.dialog.open(MemberComposeComponent, {
             disableClose: true,
             width: '500px',
             enterAnimationDuration: 300,
