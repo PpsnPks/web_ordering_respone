@@ -1,5 +1,4 @@
-import { Subscription } from 'rxjs';
-import { Component, OnInit, OnChanges, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,27 +13,28 @@ import {
     MatDialogRef,
     MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
-import {MatRadioModule} from '@angular/material/radio';
-import { CustomerService } from '../customers/customers.service';
+import { MatRadioModule } from '@angular/material/radio';
+import { MemberService } from '../member.service';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @Component({
-    selector: 'app-custmor-form',
+    selector: 'app-member-compose',
     standalone: true,
-    templateUrl: './dialog.component.html',
-    styleUrl: './dialog.component.scss',
+    templateUrl: './member-compose.component.html',
+    styleUrl: './member-compose.component.scss',
     imports: [
-        CommonModule, 
-        DataTablesModule, 
-        MatIconModule, 
-        MatFormFieldModule, 
+        CommonModule,
+        DataTablesModule,
+        MatIconModule,
+        MatFormFieldModule,
         MatInputModule,
-        FormsModule, 
+        FormsModule,
         MatToolbarModule,
         MatButtonModule,
         MatDialogTitle,
@@ -45,61 +45,51 @@ import { CustomerService } from '../customers/customers.service';
         ReactiveFormsModule,
         MatInputModule,
         MatFormFieldModule,
-        MatRadioModule
+        MatRadioModule,
+        MatSlideToggleModule
     ]
 })
-export class Dialogcustomer implements OnInit {
+export class MemberComposeComponent implements OnInit {
 
     form: FormGroup;
-    stores: any[]=[];
+    stores: any[] = [];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: DataTables.Settings = {};
-    addForm: FormGroup;   
+    addForm: FormGroup;
     constructor(
-        private dialogRef: MatDialogRef<Dialogcustomer>,
+        private dialogRef: MatDialogRef<MemberComposeComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         public dialog: MatDialog,
         private FormBuilder: FormBuilder,
-        public _service: CustomerService,
+        public _service: MemberService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
-    ) 
-    {
-        console.log(' this.form', this.data);
-        if(this.data.type === 'EDIT') {
+    ) {
+        if (this.data.type === 'EDIT') {
             this.form = this.FormBuilder.group({
                 code: this.data.value.code ?? '',
-                name: this.data.value.name ?? '',
-                phoneNumber: this.data.value.phoneNumber ?? '',
-                tax: this.data.value.tax ?? '',
-                address: this.data.value.address ?? '',
-        
-           
-             });
+                firstname: this.data.value.firstname ?? '',
+                lastname: this.data.value.lastname ?? '',
+                active: this.data.value.active,
+                cardSN: this.data.value.card?.sn ?? '',
+
+
+            });
         } else {
             this.form = this.FormBuilder.group({
                 code: '',
-                name: '',
-                phoneNumber: '',
-                tax: '',
-                address: '',
-             });
+                firstname: '',
+                lastname: '',
+                active: '',
+                cardSN: '',
+            });
         }
 
-
-        // console.log('1111',this.data?.type);
-        
     }
-    
+
     ngOnInit(): void {
-         if (this.data.type === 'EDIT') {
-        //   this.form.patchValue({
-        //     ...this.data.value,
-        //     roleId: +this.data.value?.role?.id
-        //   })  
-       
+        if (this.data.type === 'EDIT') {
         } else {
-            console.log('New');
         }
     }
 
@@ -160,7 +150,7 @@ export class Dialogcustomer implements OnInit {
                             },
                         });
                     } else {
-                        this._service.update(this.data.value.id ,formValue).subscribe({
+                        this._service.update(this.data.value.id, formValue).subscribe({
                             error: (err) => {
                                 this.fuseConfirmationService.open({
                                     title: 'กรุณาตรวจสอบข้อมูล',
