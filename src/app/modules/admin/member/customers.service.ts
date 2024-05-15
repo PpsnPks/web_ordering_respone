@@ -25,7 +25,7 @@ export class CustomerService {
     const dir = toUpper(order[0].dir);
     const sortBy = column + ':' + dir;
 
-    return this.http.get('/api/customer/datatables', {
+    return this.http.get('/api/member/datatables', {
       params: {
         page: page,
         limit: length,
@@ -42,11 +42,11 @@ export class CustomerService {
   }
 
   create(data: any) {
-    return this.http.post('/api/customer', data)
+    return this.http.post('/api/member', data)
   }
 
   update(id: any,data: any) {
-    return this.http.put('/api/customer/' + id, data)
+    return this.http.put('/api/member/' + id, data)
   }
 
   getRole() {
@@ -71,7 +71,7 @@ export class CustomerService {
     )
   }
   getById(id:string) {
-    return this.http.get('/api/customer/'+ id).pipe(
+    return this.http.get('/api/member/'+ id).pipe(
       tap((resp: any) => {
         this._data.next(resp);
       }),
@@ -79,6 +79,6 @@ export class CustomerService {
   }
 
   delete(id: number) {
-    return this.http.delete('/api/customer/' + id)
+    return this.http.delete('/api/member/' + id)
   }
 }

@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 import { PictureComponent } from '../picture/picture.component';
 import { ProductComposeComponent } from '../product/dialog/product-compose/product-compose.component';
 import { CustomerService } from './customers.service';
-import { Dialogcustomer } from '../dialogcustomer/dialog.component';
+import { Dialogcustomer } from './dialogcustomer/dialog.component';
 @Component({
     selector: 'app-page-customer',
     standalone: true,
@@ -96,12 +96,16 @@ export class CustomerComponent implements OnInit, AfterViewInit {
                     className: 'w-30'
                 },
                 {
-                    title: 'ชื่อสมาชิก',
-                    data: 'name'
+                    title: 'ชื่อ',
+                    data: 'firstname'
                 },
                 {
-                    title: 'เบอร์ติดต่อ',
-                    data: 'phoneNumber'
+                    title: 'นามสกุล',
+                    data: 'lastname'
+                },
+                {
+                    title: 'ยอดเงิน',
+                    data: 'wallet'
                 },
 
                 {

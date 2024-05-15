@@ -22,19 +22,20 @@ import { MatInputModule } from '@angular/material/input';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
-import { CustomerService } from '../customers/customers.service';
+import { CustomerService } from '../customers.service';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 @Component({
     selector: 'app-custmor-form',
     standalone: true,
     templateUrl: './dialog.component.html',
     styleUrl: './dialog.component.scss',
     imports: [
-        CommonModule, 
-        DataTablesModule, 
-        MatIconModule, 
-        MatFormFieldModule, 
+        CommonModule,
+        DataTablesModule,
+        MatIconModule,
+        MatFormFieldModule,
         MatInputModule,
-        FormsModule, 
+        FormsModule,
         MatToolbarModule,
         MatButtonModule,
         MatDialogTitle,
@@ -45,7 +46,8 @@ import { CustomerService } from '../customers/customers.service';
         ReactiveFormsModule,
         MatInputModule,
         MatFormFieldModule,
-        MatRadioModule
+        MatRadioModule,
+        MatSlideToggleModule
     ]
 })
 export class Dialogcustomer implements OnInit {
@@ -54,7 +56,7 @@ export class Dialogcustomer implements OnInit {
     stores: any[]=[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: DataTables.Settings = {};
-    addForm: FormGroup;   
+    addForm: FormGroup;
     constructor(
         private dialogRef: MatDialogRef<Dialogcustomer>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -63,47 +65,48 @@ export class Dialogcustomer implements OnInit {
         public _service: CustomerService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
-    ) 
+    )
     {
         console.log(' this.form', this.data);
         if(this.data.type === 'EDIT') {
             this.form = this.FormBuilder.group({
                 code: this.data.value.code ?? '',
-                name: this.data.value.name ?? '',
-                phoneNumber: this.data.value.phoneNumber ?? '',
-                tax: this.data.value.tax ?? '',
-                address: this.data.value.address ?? '',
-        
-           
+                firstname: this.data.value.firstname ?? '',
+                lastname: this.data.value.lastname ?? '',
+                active: this.data.value.active ,
+                cardSN: this.data.value.card.sn ?? '',
+
+
              });
         } else {
             this.form = this.FormBuilder.group({
                 code: '',
-                name: '',
-                phoneNumber: '',
-                tax: '',
-                address: '',
+                firstname: '',
+                lastname: '',
+                active: '',
+                cardSN: '',
              });
         }
 
 
         // console.log('1111',this.data?.type);
-        
+
     }
-    
+
     ngOnInit(): void {
          if (this.data.type === 'EDIT') {
         //   this.form.patchValue({
         //     ...this.data.value,
         //     roleId: +this.data.value?.role?.id
-        //   })  
-       
+        //   })
+
         } else {
             console.log('New');
         }
     }
 
     Submit() {
+        console.log(this.form)
         let formValue = this.form.value
         const confirmation = this.fuseConfirmationService.open({
             title: "ยืนยันการบันทึกข้อมูล",
@@ -127,6 +130,9 @@ export class Dialogcustomer implements OnInit {
         })
 
         confirmation.afterClosed().subscribe(
+
+
+
             result => {
                 if (result == 'confirmed') {
                     if (this.data.type === 'NEW') {
