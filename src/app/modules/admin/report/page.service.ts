@@ -46,6 +46,13 @@ export class ReportService {
         })
     }
 
+    orderPdf() {
+        return this.http.post(environment.apiUrl + `/api/tap-log/report-today`, null, {
+          responseType: 'blob'
+        })
+      }
+
+
     getStore(): Observable<any> {
         return this.http
             .get<any>(environment.apiUrl + '/api/product')

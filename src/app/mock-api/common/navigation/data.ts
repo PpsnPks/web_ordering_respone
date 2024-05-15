@@ -160,7 +160,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
               type: 'basic',
               icon: 'heroicons_outline:document-chart-bar',
               link: '/report/bills'
-            },
+            },{
+                id: 'report.type',
+                title: 'รายงานแตะบัตร',
+                type: 'basic',
+                icon: 'heroicons_outline:document-chart-bar',
+                link: '/report/card'
+              },
 
         ],
     },
