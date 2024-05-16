@@ -172,13 +172,13 @@ export class BannerComponent implements OnInit, AfterViewInit {
         this._service.get(item).subscribe((resp: any) =>{
         const DialogRef = this.dialog.open(BannerComposeComponent, {
             disableClose: true,
-            width: '800px',
-            height: 'auto',
+            width: '600px',
+            height: '600px',
             data: {
                 type: 'EDIT',
                 value: resp
             },
-            panelClass: 'overflow-auto'
+            // panelClass: 'overflow-auto'
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
@@ -249,14 +249,14 @@ export class BannerComponent implements OnInit, AfterViewInit {
     createBanner() {
         const DialogRef = this.dialog.open(BannerComposeComponent, {
             disableClose: true,
-            width: '800px',
-            height: 'auto',
+            width: '600px',
+            height: '600px',
             // enterAnimationDuration: 300,
             // exitAnimationDuration: 300,
             data: {
                 type: 'NEW'
             },
-            panelClass: 'overflow-auto'
+            // panelClass: 'overflow-auto'
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
