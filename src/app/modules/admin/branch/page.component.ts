@@ -89,16 +89,17 @@ export class BranchComponent implements OnInit, AfterViewInit {
                 {
                     title: 'ลำดับ',
                     data: 'no',
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 },
                 {
                     title: 'รหัสสาขา',
                     data: 'code',
-                    className: 'w-20'
+                    className: 'w-20 text-center'
                 },
                 {
                     title: 'ชื่อสาขา',
-                    data: 'name'
+                    data: 'name',
+                    className: 'text-center'
                 },
                 {
                     title: 'จัดการ',
@@ -107,7 +108,7 @@ export class BranchComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.btNg,
                     },
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 }
 
             ]

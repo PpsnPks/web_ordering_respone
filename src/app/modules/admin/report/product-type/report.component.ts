@@ -663,7 +663,8 @@ export class ReportProductTypeComponent implements OnInit {
             columns: [
                 {
                 title: 'ID',
-                data: 'id'
+                data: 'id',
+                className: 'text-center'
             },
              {
                 title: 'Order No',
@@ -673,7 +674,8 @@ export class ReportProductTypeComponent implements OnInit {
                         return '-';
                     }
                     return 'เงินสด';
-                }
+                },
+                className: 'text-center'
             },
              {
                 title: 'Order No',
@@ -683,7 +685,8 @@ export class ReportProductTypeComponent implements OnInit {
                         return '-';
                     }
                     return data;
-                }
+                },
+                className: 'text-center'
             },
           {
               title: 'รวม',
@@ -694,7 +697,8 @@ export class ReportProductTypeComponent implements OnInit {
                       return Number(data).toLocaleString('th-TH', { style: 'currency', currency: 'THB', minimumFractionDigits: 2 });
                   }
                   return data;
-              }
+              },
+              className: 'text-center'
           },
             {
                 title: 'ส่วนลด',
@@ -705,7 +709,8 @@ export class ReportProductTypeComponent implements OnInit {
                         return Number(data).toLocaleString('th-TH', { style: 'currency', currency: 'THB', minimumFractionDigits: 2 });
                     }
                     return data;
-                }
+                },
+                className: 'text-center'
             },
             {
                 title: 'ยอดรวมสุทธิ',
@@ -716,7 +721,8 @@ export class ReportProductTypeComponent implements OnInit {
                         return Number(data).toLocaleString('th-TH', { style: 'currency', currency: 'THB', minimumFractionDigits: 2 });
                     }
                     return data;
-                }
+                },
+                className: 'text-center'
             },
             {
                 title: "วันที่ทำรายการ",
@@ -732,7 +738,8 @@ export class ReportProductTypeComponent implements OnInit {
                     }
                     // สำหรับประเภทข้อมูลอื่นๆ ให้คืนค่าข้อมูลเดิม
                     return data;
-                }
+                },
+                className: 'text-center'
             }
         ]
         };

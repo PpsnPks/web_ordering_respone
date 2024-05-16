@@ -83,23 +83,27 @@ export class UserComponent implements OnInit, AfterViewInit {
                 {
                     title: 'ลำดับ',
                     data: 'no',
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 },
                 {
                     title: 'รหัสพนักงาน',
-                    data: 'code'
+                    data: 'code',
+                    className: 'text-center'
                 },
                 {
                     title: 'ชื่อ - นามสุกล',
-                    data: 'fullName'
+                    data: 'fullName',
+                    className: 'text-center'
                 },
                 {
                     title: 'เบอร์ติดต่อ',
-                    data: 'phoneNumber'
+                    data: 'phoneNumber',
+                    className: 'text-center'
                 },
                 {
                     title: 'สิทธิ์การใช้งาน',
-                    data: 'role.name'
+                    data: 'role.name',
+                    className: 'text-center'
                 },
                 {
                     title: 'จัดการ',
@@ -108,7 +112,7 @@ export class UserComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.btNg,
                     },
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 }
 
             ]

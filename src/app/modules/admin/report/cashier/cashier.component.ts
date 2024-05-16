@@ -668,7 +668,8 @@ export class CashierComponent implements OnInit {
             columns: [
                 {
                 title: 'ID',
-                data: 'id'
+                data: 'id',
+                className: 'text-center'
             },
              {
                 title: 'Order No',
@@ -678,7 +679,8 @@ export class CashierComponent implements OnInit {
                         return '-';
                     }
                     return 'เงินสด';
-                }
+                },
+                className: 'text-center'
             },
              {
                 title: 'Order No',
@@ -688,7 +690,8 @@ export class CashierComponent implements OnInit {
                         return '-';
                     }
                     return data;
-                }
+                },
+                className: 'text-center'
             }, 
             {
                 title: 'รวม',
@@ -699,7 +702,8 @@ export class CashierComponent implements OnInit {
                         return Number(data).toLocaleString('th-TH', { style: 'currency', currency: 'THB', minimumFractionDigits: 2 });
                     }
                     return data;
-                }
+                },
+                className: 'text-center'
             },
             {
                 title: 'ส่วนลด',
@@ -710,7 +714,8 @@ export class CashierComponent implements OnInit {
                         return Number(data).toLocaleString('th-TH', { style: 'currency', currency: 'THB', minimumFractionDigits: 2 });
                     }
                     return data;
-                }
+                },
+                className: 'text-center'
             },
             {
                 title: 'ยอดรวมสุทธิ',
@@ -721,7 +726,8 @@ export class CashierComponent implements OnInit {
                         return Number(data).toLocaleString('th-TH', { style: 'currency', currency: 'THB', minimumFractionDigits: 2 });
                     }
                     return data;
-                }
+                },
+                className: 'text-center'
             },
             {
                 title: "วันที่ทำรายการ",
@@ -737,7 +743,8 @@ export class CashierComponent implements OnInit {
                     }
                     // สำหรับประเภทข้อมูลอื่นๆ ให้คืนค่าข้อมูลเดิม
                     return data;
-                }
+                },
+                className: 'text-center'
             }
         ]
         };

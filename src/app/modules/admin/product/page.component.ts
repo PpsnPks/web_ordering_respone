@@ -90,20 +90,22 @@ export class ProductComponent implements OnInit, AfterViewInit {
                 {
                     title: 'ลำดับ',
                     data: 'no',
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 },
                 {
                     title: 'รหัสสินค้า',
                     data: 'code',
-                    className: 'w-30'
+                    className: 'w-30 text-center'
                 },
                 {
                     title: 'ชื่อสินค้า',
-                    data: 'name'
+                    data: 'name',
+                    className: 'text-center'
                 },
                 {
                     title: 'ประเภทสินค้า',
-                    data: 'category.name'
+                    data: 'category.name',
+                    className: 'text-center'
                 },
                 {
                     title: 'ราคา',
@@ -120,7 +122,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
                 },
                 {
                     title: 'หน่วยนับ',
-                    data: 'unit.name'
+                    data: 'unit.name',
+                    className: 'text-center'
                 },
                 {
                     title: 'รูปสินค้า',
@@ -129,7 +132,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.btPicture,
                     },
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 },
                 {
                     title: 'จัดการ',
@@ -138,7 +141,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.btNg,
                     },
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 }
 
             ]

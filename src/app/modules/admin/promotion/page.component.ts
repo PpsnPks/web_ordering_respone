@@ -89,29 +89,33 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                 {
                     title: 'ลำดับ',
                     data: 'no',
-                    className: 'w-15'
+                    //className: 'text-center'
+                    className: 'w-15 text-center'
                 },
                 {
                     title: 'รหัสโปรโมชั่น',
                     data: 'code',
-                    className: 'w-30'
+                    className: 'w-30 text-center'
                 },
                 {
                     title: 'ชื่อโปรโมชั่น',
-                    data: 'name'
+                    data: 'name',
+                    className: 'text-center'
                 },
                 {
                     title: 'วันที่เริ่มต้น',
                     data: 'startDate',
                     ngPipeInstance: this.datePipe,
-                    ngPipeArgs: ['dd-MM-yyyy']
+                    ngPipeArgs: ['dd-MM-yyyy'],
+                    className: 'text-center'
                 },
 
                 {
                     title: 'วันที่สิ้นสุด',
                     data: 'endDate',
                     ngPipeInstance: this.datePipe,
-                    ngPipeArgs: ['dd-MM-yyyy']
+                    ngPipeArgs: ['dd-MM-yyyy'],
+                    className: 'text-center'
                 },
                 {
                     title: 'ประเภทโปรโมชั่น',
@@ -124,7 +128,8 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                         } else{
                             return data;
                         }
-                    }
+                    },
+                    className: 'text-center'
                 },
                 {
                     title: 'สถานะ',
@@ -133,6 +138,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.textStatus,
                     },
+                    className: 'text-center'
                 },
                 {
                     title: 'จัดการ',
@@ -141,7 +147,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.btNg,
                     },
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 }
 
             ]

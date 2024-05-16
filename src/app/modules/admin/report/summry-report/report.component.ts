@@ -126,42 +126,47 @@ export class ReportComponent implements OnInit, AfterViewInit {
                 {
                     title: 'ลำดับ',
                     data: 'no',
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 },
                 {
                     title: 'วันที่ทำรายการ',
                     data: 'orderDate',
                     ngPipeInstance: this.datePipe,
-                    ngPipeArgs: ['mediumDate']
+                    ngPipeArgs: ['mediumDate'],
+                    className: 'text-center'
                 },
 
                 {
                     title: 'เลขที่ทำรายการ',
-                    data: 'orderNo'
+                    data: 'orderNo',
+                    className: 'text-center'
                 },
                 {
                     title: 'ส่วนลด',
                     data: 'discount',
                     ngPipeInstance: this.currencyPipe,
-                    ngPipeArgs: ['THB']
+                    ngPipeArgs: ['THB'],
+                    className: 'text-center'
                 },
                 {
                     title: 'ยอดรวม',
                     data: 'total',
                     ngPipeInstance: this.currencyPipe,
-                    ngPipeArgs: ['THB']
+                    ngPipeArgs: ['THB'],
+                    className: 'text-center'
                 },
                 {
                     title: 'ยอดรวมสุทธิ',
                     data: 'grandTotal',
                     ngPipeInstance: this.currencyPipe,
-                    ngPipeArgs: ['THB']
+                    ngPipeArgs: ['THB'],
+                    className: 'text-center'
                 },
                 {
                     title: 'สถานะ',
                     data: 'orderStatus',
-                    ngPipeInstance: this.orderStatus
-
+                    ngPipeInstance: this.orderStatus,
+                    className: 'text-center'
                 },
                 {
                     title: 'จัดการ',
@@ -170,7 +175,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.btNg,
                     },
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 }
 
             ]

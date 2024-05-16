@@ -83,16 +83,17 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                 {
                     title: 'ลำดับ',
                     data: 'no',
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 },
                 {
                     title: 'รหัสประเภทสินค้า',
                     data: 'code',
-                    className: 'w-30'
+                    className: 'w-30 text-center'
                 },
                 {
                     title: 'ชื่อประเภทสินค้า',
-                    data: 'name'
+                    data: 'name',
+                    className: 'text-center'
                 },
                 {
                     title: 'จัดการ',
@@ -101,7 +102,7 @@ export class CategoryComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.btNg,
                     },
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 }
 
             ]

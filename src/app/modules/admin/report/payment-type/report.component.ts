@@ -134,7 +134,8 @@ export class ReportPaymentTypeComponent implements OnInit {
             columns: [
                 {
                 title: 'ID',
-                data: 'id'
+                data: 'id',
+                className: 'text-center'
             },
             {
               title: 'ประเภทการสินค้า',
@@ -145,7 +146,8 @@ export class ReportPaymentTypeComponent implements OnInit {
 
                 }
                   return data;
-              }
+              },
+              className: 'text-center'
           },
             {
               title: 'จำนวนบิลทั้งหมด',
@@ -156,7 +158,8 @@ export class ReportPaymentTypeComponent implements OnInit {
 
                 }
                   return data;
-              }
+              },
+              className: 'text-center'
           },
             {
               title: 'บิลเงินสด',
@@ -166,7 +169,8 @@ export class ReportPaymentTypeComponent implements OnInit {
 
                 }
                   return data;
-              }
+              },
+              className: 'text-center'
           },
              {
                 title: 'บิลพร้อมเพย์',
@@ -177,7 +181,8 @@ export class ReportPaymentTypeComponent implements OnInit {
 
                   }
                     return data;
-                }
+                },
+                className: 'text-center'
             },
             {
                 title: 'ยอดรวมสุทธิ',
@@ -188,7 +193,8 @@ export class ReportPaymentTypeComponent implements OnInit {
                         return Number(data).toLocaleString('th-TH', { style: 'currency', currency: 'THB', minimumFractionDigits: 2 });
                     }
                     return data;
-                }
+                },
+                className: 'text-center'
             },
             {
                 title: "อัปเดตล่าสุด",
@@ -204,7 +210,8 @@ export class ReportPaymentTypeComponent implements OnInit {
                     }
                     // สำหรับประเภทข้อมูลอื่นๆ ให้คืนค่าข้อมูลเดิม
                     return data;
-                }
+                },
+                className: 'text-center'
             }
         ]
         };

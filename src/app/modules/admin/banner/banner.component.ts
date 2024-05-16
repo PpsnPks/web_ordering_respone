@@ -94,7 +94,7 @@ export class BannerComponent implements OnInit, AfterViewInit {
                 {
                     title: 'ลำดับ',
                     data: 'no',
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 },
                 // {
                 //     title: 'รหัสสินค้า',
@@ -103,7 +103,8 @@ export class BannerComponent implements OnInit, AfterViewInit {
                 // },
                 {
                     title: 'ชื่อแบนเนอร์',
-                    data: 'title'
+                    data: 'title',
+                    className: 'text-center'
                 },
                 // {
                 //     title: 'ประเภทสินค้า',
@@ -129,7 +130,7 @@ export class BannerComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.btPicture,
                     },
-                    className: 'w-20'
+                    className: 'w-20 text-center'
                 },
 
                 {
@@ -139,7 +140,7 @@ export class BannerComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.textStatus,
                     },
-                    className: 'w-30'
+                    className: 'w-30 text-center'
                 },
 
                 {
@@ -149,7 +150,7 @@ export class BannerComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.btNg,
                     },
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 }
 
             ]
