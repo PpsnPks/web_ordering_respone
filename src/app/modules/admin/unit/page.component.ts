@@ -83,12 +83,13 @@ export class UnitComponent implements OnInit, AfterViewInit {
                 {
                     title: 'ลำดับ',
                     data: 'no',
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 },
-          
+
                 {
                     title: 'ชื่อหน่วยนับ',
-                    data: 'name'
+                    data: 'name',
+                    className: 'text-center'
                 },
                 {
                     title: 'จัดการ',
@@ -97,7 +98,7 @@ export class UnitComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.btNg,
                     },
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 }
 
             ]
@@ -121,7 +122,7 @@ export class UnitComponent implements OnInit, AfterViewInit {
         const DialogRef = this.dialog.open(DialogForm, {
             disableClose: true,
             width: '500px',
-            height: '90%',
+            height: 'auto',
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
             data: {

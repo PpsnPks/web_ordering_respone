@@ -55,7 +55,7 @@ export class BranchComponent implements OnInit, AfterViewInit {
         setTimeout(() =>
             this.loadTable());
 
-       
+
 
     }
 
@@ -89,16 +89,17 @@ export class BranchComponent implements OnInit, AfterViewInit {
                 {
                     title: 'ลำดับ',
                     data: 'no',
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 },
                 {
                     title: 'รหัสสาขา',
                     data: 'code',
-                    className: 'w-20'
+                    className: 'w-20 text-center'
                 },
                 {
                     title: 'ชื่อสาขา',
-                    data: 'name'
+                    data: 'name',
+                    className: 'text-center'
                 },
                 {
                     title: 'จัดการ',
@@ -107,7 +108,7 @@ export class BranchComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.btNg,
                     },
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 }
 
             ]
@@ -131,7 +132,7 @@ export class BranchComponent implements OnInit, AfterViewInit {
         const DialogRef = this.dialog.open(DialogForm, {
             disableClose: true,
             width: '500px',
-            height: '90%',
+            height: 'auto',
             enterAnimationDuration: 500,
             exitAnimationDuration: 300,
             data: {

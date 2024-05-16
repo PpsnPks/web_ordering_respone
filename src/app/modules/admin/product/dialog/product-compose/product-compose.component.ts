@@ -74,7 +74,7 @@ export class ProductComposeComponent implements OnInit {
         if (this.data.type === 'NEW') {
             this.title = "เพิ่มสินค้า"
 
-            this.addAttribute()
+            //this.addAttribute()
 
         } else if (this.data.type === 'EDIT') {
             this.title = "แก้ไขสินค้า"

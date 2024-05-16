@@ -79,18 +79,38 @@ export class ShiftComponent implements OnInit, AfterViewInit {
                 {
                     title: 'ลำดับ',
                     data: 'no',
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 },
                 {
                     title: 'วันที่',
                     data: 'createdAt',
                     // className: 'w-30',
                     ngPipeInstance: this.datePipe,
-                    ngPipeArgs: ['dd-MM-yyyy']
+                    ngPipeArgs: ['dd-MM-yyyy HH:mm:ss'],
+                    className: 'text-center'
                 },
                 {
                     title: 'สถานะ',
-                    data: 'status'
+                    data: 'status',
+                    render:(data: any) => {
+                        if(data == 'open')
+                            return 'เปิดกะ'
+                        else if(data == 'close')
+                            return 'ปิดกะ'
+                        else
+                            return data
+                    },
+                    className: 'text-center'
+                },
+                {
+                    title: 'change',
+                    data: 'change',
+                    className: 'text-center'
+                },
+                {
+                    title: 'cash',
+                    data: 'cash',
+                    className: 'text-center'
                 },
                 // {
                 //     title: 'จัดการ',
