@@ -173,6 +173,7 @@ export class BannerComponent implements OnInit, AfterViewInit {
         const DialogRef = this.dialog.open(BannerComposeComponent, {
             disableClose: true,
             width: '800px',
+            height: 'auto',
             data: {
                 type: 'EDIT',
                 value: resp
@@ -185,7 +186,7 @@ export class BannerComponent implements OnInit, AfterViewInit {
                 this.rerender();
             }
         });
-        
+
     });
 }
 
@@ -249,6 +250,7 @@ export class BannerComponent implements OnInit, AfterViewInit {
         const DialogRef = this.dialog.open(BannerComposeComponent, {
             disableClose: true,
             width: '800px',
+            height: 'auto',
             // enterAnimationDuration: 300,
             // exitAnimationDuration: 300,
             data: {

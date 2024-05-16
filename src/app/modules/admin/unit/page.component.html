@@ -8,7 +8,7 @@
       </div>
       <button mat-flat-button [color]="'primary'" (click)="opendialogapro()">
         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
-        <span class="ml-2"> เพิ่มหน่วยนับ</span>
+        <span class="ml-2 "> เพิ่มหน่วยนับ</span>
       </button>
     </div>
     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover">
@@ -20,7 +20,7 @@
   <button mat-icon-button [color]="'primary'" [matMenuTriggerFor]="menu">
     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:cog-8-tooth'"></mat-icon>
   </button>
-  <mat-menu #menu="matMenu">  
+  <mat-menu #menu="matMenu">
     <button mat-menu-item (click)="openDialogEdit(data)">
       <mat-icon [svgIcon]="'heroicons_solid:pencil-square'"></mat-icon>
       <span>แก้ไข</span>
