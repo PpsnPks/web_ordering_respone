@@ -55,7 +55,7 @@ export class BranchComponent implements OnInit, AfterViewInit {
         setTimeout(() =>
             this.loadTable());
 
-       
+
 
     }
 
@@ -131,7 +131,7 @@ export class BranchComponent implements OnInit, AfterViewInit {
         const DialogRef = this.dialog.open(DialogForm, {
             disableClose: true,
             width: '500px',
-            height: '90%',
+            height: 'auto',
             enterAnimationDuration: 500,
             exitAnimationDuration: 300,
             data: {

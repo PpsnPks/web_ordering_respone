@@ -139,6 +139,7 @@ export class MemberComponent implements OnInit, AfterViewInit {
         const DialogRef = this.dialog.open(MemberComposeComponent, {
             disableClose: true,
             width: '500px',
+            height: 'auto',
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
             data: {

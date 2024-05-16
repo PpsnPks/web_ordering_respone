@@ -85,7 +85,7 @@ export class UnitComponent implements OnInit, AfterViewInit {
                     data: 'no',
                     className: 'w-15'
                 },
-          
+
                 {
                     title: 'ชื่อหน่วยนับ',
                     data: 'name'
@@ -121,7 +121,7 @@ export class UnitComponent implements OnInit, AfterViewInit {
         const DialogRef = this.dialog.open(DialogForm, {
             disableClose: true,
             width: '500px',
-            height: '90%',
+            height: 'auto',
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
             data: {
