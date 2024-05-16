@@ -160,12 +160,12 @@ export class ProductComponent implements OnInit, AfterViewInit {
         console.log('create');
         const DialogRef = this.dialog.open(ProductComposeComponent, {
             disableClose: true,
-            width: 'calc(100% - 30px)',
+            width: 'calc(100% - 100px)',
             height: 'calc(100% - 30px)',
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
             maxWidth: "100%",
-            maxHeight: "100%",
+            maxHeight: 'calc(100% - 30px)',
 
             data: {
                 type: 'NEW'
@@ -191,7 +191,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
                     value: result
                 },
                 maxWidth: "100%",
-                maxHeight: "100%"
+                maxHeight: 'calc(100% - 30px)'
             });
 
             dialogRef.afterClosed().subscribe((result) => {

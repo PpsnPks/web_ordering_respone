@@ -13,13 +13,11 @@
 
     <mat-tab-group>
         <mat-tab label="ข้อมูลพื้นฐาน">
-
-            <div class="flex flex-col justify-between">
-                <div class="flex justify-center">
-                    <form class="flex flex-col w-[712px] h-fit mt-8 p-8 pb-4 bg-card rounded-2xl overflow-hidden "
-                        [formGroup]="form">
-
-                        <div class="grid w-full grid-cols-2 gap-3 ">
+            <div class="flex justify-center">
+                <form class="flex flex-col h-fit mt-8 p-8 pb-4 bg-card rounded-2xl w-full"
+                    [formGroup]="form">
+                    <div class="flex items-center gap-5">
+                        <div class="grid w-full grid-cols-2 gap-3">
                             <div class="w-full">
                                 <mat-form-field class="flex-auto w-full" subscriptSizing="fixed">
                                     <mat-label>รหัสสินค้า</mat-label>
@@ -65,7 +63,6 @@
                                     <mat-error>Required field!</mat-error>
                                 </mat-form-field>
                             </div>
-
                             <div class="w-full">
                                 <mat-form-field class="flex-auto w-full">
                                     <mat-label>สาขา</mat-label>
@@ -88,14 +85,14 @@
                             </div> -->
 
                         </div>
-                        <div class="flex justify-center">
+                        <div class="mb-3">
                             <asha-image-upload [initial]="item?.imageUrl" (uploadSuccess)="uploadSuccess($event)"></asha-image-upload>
                             <!-- <ngx-awesome-uploader [adapter]="adapter" [accept]="'image/*'" [uploadType]="'single'" class="w-full"
-              [fileMaxSize]="200" (uploadSuccess)="uploadSuccess($event)">
-            </ngx-awesome-uploader> -->
+                                [fileMaxSize]="200" (uploadSuccess)="uploadSuccess($event)">
+                            </ngx-awesome-uploader> -->
                         </div>
-                    </form>
-                </div>
+                    </div>
+                </form>
             </div>
         </mat-tab>
 
@@ -104,7 +101,7 @@
                 <div formArrayName="attributes">
                     @for (attribute of attributes().controls; track attribute.value.name; let i = $index) {
                     <div class="w-full" [formGroupName]="i">
-                        <div class="flex w-full gap-3 items-center">
+                        <div class="flex w-full gap-3 items-center" [ngClass]="{'mt-3': i === 0, 'mt-8': i !== 0}">
                             <div class="flex w-1/2">
                                 <mat-form-field class="flex-auto w-full" subscriptSizing="fixed">
                                     <mat-label>ชื่อตัวเลือก</mat-label>
@@ -114,7 +111,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="flex">
-                                <mat-form-field>
+                                <mat-form-field class="m-0">
                                     <mat-label>รูปแบบ</mat-label>
                                     <mat-select placeholder="Select an option" [formControlName]="'type'"
                                         (selectionChange)="onSelectChange($event)">
@@ -148,7 +145,7 @@
                                     <mat-label>ราคา</mat-label>
                                     <input matInput formControlName="price" [placeholder]="'ระบุราคา'">
                                 </mat-form-field>
-                                <button mat-icon-button (click)="removeAttValue(i,j)">
+                                <button mat-icon-button (click)="removeAttValue(i,j)" class="my-auto">
                                     <mat-icon [svgIcon]="'heroicons_solid:trash'"></mat-icon>
                                 </button>
                             </div>
@@ -160,7 +157,7 @@
                 </div>
             </form>
 
-            <button mat-flat-button [color]="'primary'" (click)="addAttribute()">
+            <button mat-flat-button [color]="'primary'" (click)="addAttribute()" [ngClass]="{'translate-y-1': attributes().controls.length === 0, 'translate-y-4': attributes().controls.length !== 0}">
                 <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
                 <span class="ml-2 "> เพิ่มรายการ</span>
             </button>
@@ -168,7 +165,7 @@
 
     </mat-tab-group>
 
-    <div class="bottom-0 flex justify-between w-full px-8 py-5 mt-8 bg-white border-t dark:bg-gray-700 ">
+    <div class="bottom-0 flex justify-between w-full px-8 py-5 mt-2 bg-white border-t dark:bg-gray-700 ">
         <div></div>
         <div mat-dialog-actions class="flex justify-end">
             <button class="px-6 ml-3" mat-flat-button [color]="'primary'" (click)="Submit()">
