@@ -19,6 +19,7 @@ import { environment } from 'environments/environment.development';
 import { Subject } from 'rxjs';
 import { createFileFromBlob } from 'app/modules/shared/helper';
 import {MatCardModule} from '@angular/material/card';
+import { DateTime } from 'luxon';
 @Component({
   selector: 'app-card-report',
   standalone: true,
@@ -58,7 +59,13 @@ export class CardReportComponent {
 }
 
 printOriginal() {
-  this._service.orderPdf().subscribe({
+
+  console.log(this.selectedDate);
+  const selectedDate = DateTime.fromISO(this.selectedDate).toFormat('yyyy-MM-dd');
+  let formValue = {
+    date : selectedDate
+  }
+  this._service.orderPdf(formValue).subscribe({
     next: (resp) => {
       createFileFromBlob(resp)
     },
