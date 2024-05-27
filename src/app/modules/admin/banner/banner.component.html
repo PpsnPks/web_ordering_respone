@@ -40,7 +40,7 @@
 </ng-template>
 
 <ng-template #textStatus let-data="adtData">
-  <div *ngIf="data.isActive; else inactiveTemplate">
+  <div *ngIf="data.isShow; else inactiveTemplate">
     <span class="bg-green-300 rounded-xl p-2 font-semibold">เปิดใช้งาน</span>
   </div>
   <ng-template #inactiveTemplate>
