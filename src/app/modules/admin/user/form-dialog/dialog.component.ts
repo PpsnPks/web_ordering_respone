@@ -23,6 +23,7 @@ import { UserService } from '../user.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
+
 @Component({
     selector: 'app-user-form',
     standalone: true,
@@ -54,6 +55,11 @@ export class DialogForm implements OnInit {
         { id: 3, name: 'Supervisor'},
         { id: 4, name: 'Cashier'},
      ];
+     registerForm = new FormGroup({
+        password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*[A-Z])(?=.*[0-9])(?=.*[-+_!@#$%^&*,.?])(?=.*[a-z]).{8,}$')]),
+      });
+     
+     
     constructor(
         private dialogRef: MatDialogRef<DialogForm>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -63,6 +69,7 @@ export class DialogForm implements OnInit {
         private fuseConfirmationService: FuseConfirmationService,
         private userService: UserService,
         private toastr: ToastrService,
+       
     ) 
     {
         console.log(' this.form', this.data);
@@ -106,6 +113,7 @@ export class DialogForm implements OnInit {
             console.log('New');
         }
     }
+
 
     Submit() {
         let formValue = this.form.value
