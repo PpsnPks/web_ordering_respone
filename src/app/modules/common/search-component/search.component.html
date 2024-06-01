@@ -4,7 +4,7 @@
             <mat-label>สาขา</mat-label>
             <mat-select [formControlName]="'branchId'" (selectionChange)="tranferData()">
                 <mat-option  [value]="">
-                    เลือกสาขา
+                    สถานะทั้งหมด
                 </mat-option>
                 <mat-option *ngFor="let item of branch;" [value]="item.id">
                     {{item.name}}
@@ -15,7 +15,7 @@
             <mat-label>สถานะ</mat-label>
             <mat-select [formControlName]="'status'" (selectionChange)="tranferData()">
                 <mat-option  [value]="">
-                    เลือกสถานะ
+                    สถานะทั้งหมด
                 </mat-option>
                 <mat-option *ngFor="let item of orderStatus;" [value]="item.key">
                     {{item.value}}

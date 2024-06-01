@@ -35,7 +35,7 @@
     </div>
 </div>
 <ng-template #btNg let-data="adtData">
-    <button mat-icon-button [color]="'primary'" (click)="printBill(data.id)">
+    <button mat-icon-button [color]="'primary'" (click)="printBill(data.id)" disabled>
         <mat-icon class="icon-size-5" svgIcon="heroicons_solid:printer"></mat-icon>
     </button>
 </ng-template>

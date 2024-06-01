@@ -131,9 +131,13 @@ export class ReportComponent implements OnInit, AfterViewInit {
                 {
                     title: 'วันที่ทำรายการ',
                     data: 'orderDate',
-                    ngPipeInstance: this.datePipe,
-                    ngPipeArgs: ['mediumDate'],
-                    className: 'text-center'
+                    
+                    // ngPipeInstance: this.datePipe,
+                    // ngPipeArgs: ['mediumDate'],
+                    className: 'text-center',
+                    render: function (data, type, row) {
+                        return DateTime.fromISO(data).toFormat('dd/MM/yyyy HH:mm:ss');
+                      }
                 },
 
                 {
