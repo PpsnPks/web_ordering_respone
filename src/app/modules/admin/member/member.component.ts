@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
@@ -29,6 +29,9 @@ import { MemberComposeComponent } from './dialogcustomer/member-compose.componen
         MatMenuModule,
         MatDividerModule
     ],
+    providers: [
+        CurrencyPipe
+    ],
     templateUrl: './member.component.html',
     styleUrl: './member.component.scss',
     changeDetection: ChangeDetectionStrategy.Default,
@@ -47,6 +50,7 @@ export class MemberComponent implements OnInit, AfterViewInit {
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
         public dialog: MatDialog,
+        private currencyPipe: CurrencyPipe,
         private _router: Router
 
     ) {
@@ -88,26 +92,56 @@ export class MemberComponent implements OnInit, AfterViewInit {
                 {
                     title: 'ลำดับ',
                     data: 'no',
-                    className: 'w-15'
+                    className: 'w-15 text-center'
                 },
                 {
-                    title: 'รหัสสมาชิก',
+                    title: 'รหัสพนักงาน',
                     data: 'code',
-                    className: 'w-30'
+                    className: 'w-30 text-left'
                 },
                 {
                     title: 'ชื่อ',
-                    data: 'firstname'
+                    data: 'firstname',
+                    className: 'text-left'
                 },
                 {
                     title: 'นามสกุล',
-                    data: 'lastname'
+                    data: 'lastname',
+                    className: 'text-left'
                 },
                 {
-                    title: 'ยอดเงิน',
-                    data: 'wallet'
+                    title: 'Card SN.',
+                    defaultContent: '-',
+                    data: 'card.sn',
+                    className: 'text-left'
                 },
-
+                {
+                    title: 'Card Type',
+                    defaultContent: '-',
+                    data: 'card.cardType',
+                    className: 'text-center'
+                },
+                {
+                    title: 'OT Credit',
+                    data: 'creditEL2',
+                    ngPipeInstance: this.currencyPipe,
+                    ngPipeArgs: ['THB','symbol','1.0-0'],
+                    className: 'text-center'
+                },
+                {
+                    title: 'Persanal Wallet',
+                    data: 'wallet',
+                    ngPipeInstance: this.currencyPipe,
+                    ngPipeArgs: ['THB','symbol','1.0-0'],
+                    className: 'text-center'
+                },
+                {
+                    title: 'VIP Credit',
+                    data: 'creditEL4',
+                    ngPipeInstance: this.currencyPipe,
+                    ngPipeArgs: ['THB','symbol','1.0-0'],
+                    className: 'text-center'
+                },
                 {
                     title: 'จัดการ',
                     data: null,
@@ -115,7 +149,8 @@ export class MemberComponent implements OnInit, AfterViewInit {
                     ngTemplateRef: {
                         ref: this.btNg,
                     },
-                    className: 'w-15'
+                    className: 'w-15 text-center',
+                    
                 }
 
             ]
