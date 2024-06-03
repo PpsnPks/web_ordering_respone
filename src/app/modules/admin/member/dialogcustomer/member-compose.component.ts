@@ -107,8 +107,6 @@ export class MemberComposeComponent implements OnInit {
     Submit() {
         let formValue = this.form.value
         formValue.activeDate = DateTime.fromISO(formValue.activeDate).toFormat('yyyy-MM-dd');
-        console.log('EDIT', formValue)
-        return;
         const confirmation = this.fuseConfirmationService.open({
             title: "ยืนยันการบันทึกข้อมูล",
             icon: {
