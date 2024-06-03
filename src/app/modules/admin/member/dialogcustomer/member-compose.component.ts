@@ -23,6 +23,8 @@ import { ToastrService } from 'ngx-toastr';
 import { MatRadioModule } from '@angular/material/radio';
 import { MemberService } from '../member.service';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DateTime } from 'luxon';
 @Component({
     selector: 'app-member-compose',
     standalone: true,
@@ -46,13 +48,20 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
         MatInputModule,
         MatFormFieldModule,
         MatRadioModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatDatepickerModule
     ]
 })
 export class MemberComposeComponent implements OnInit {
 
     form: FormGroup;
     stores: any[] = [];
+    category: any[] = [
+        'A',
+        'B',
+        'C',
+        'D',
+    ];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: DataTables.Settings = {};
     addForm: FormGroup;
@@ -72,8 +81,8 @@ export class MemberComposeComponent implements OnInit {
                 lastname: this.data.value.lastname ?? '',
                 active: this.data.value.active,
                 cardSN: this.data.value.card?.sn ?? '',
-
-
+                cardType: this.data.value.card?.cardType ?? '',
+                activeDate: this.data.value.card?.activeDate ?? '',
             });
         } else {
             this.form = this.FormBuilder.group({
@@ -82,6 +91,8 @@ export class MemberComposeComponent implements OnInit {
                 lastname: '',
                 active: '',
                 cardSN: '',
+                cardType: '',
+                activeDate: '',
             });
         }
 
@@ -95,6 +106,9 @@ export class MemberComposeComponent implements OnInit {
 
     Submit() {
         let formValue = this.form.value
+        formValue.activeDate = DateTime.fromISO(formValue.activeDate).toFormat('yyyy-MM-dd');
+        console.log('EDIT', formValue)
+        return;
         const confirmation = this.fuseConfirmationService.open({
             title: "ยืนยันการบันทึกข้อมูล",
             icon: {
