@@ -14,24 +14,24 @@ import { RouterLink } from '@angular/router';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ReportService } from '../page.service';
 import { MatSelectModule } from '@angular/material/select';
-
+import { createFileFromBlob } from 'app/helper';
 @Component({
     selector: 'app-report-payment-type',
     standalone: true,
     imports: [
         CommonModule,
         MatIconModule,
-        MatButtonModule, 
-        MatDatepickerModule, 
-        MatFormFieldModule, 
-        MatInputModule, 
-        RouterLink, 
-        ReactiveFormsModule, 
-        FormsModule, 
+        MatButtonModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatInputModule,
+        RouterLink,
+        ReactiveFormsModule,
+        FormsModule,
         DataTablesModule,
         MatSelectModule
     ],
-   
+
     templateUrl: './cashier.component.html',
     styleUrl: './cashier.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,6 +40,7 @@ export class CashierComponent implements OnInit {
     dtOptions: DataTables.Settings = {};
     orders: any[] = [];
     form: FormGroup;
+    exportForm: FormGroup
     cashiers: any[] = [
         //{id: 1 , name: 'เงินสด' },
         //{id: 2 , name: 'QR Promptpay ' },
@@ -57,7 +58,11 @@ export class CashierComponent implements OnInit {
     ) {
         this.form = this._fb.group({
             cashier: '',
-    
+
+        })
+        this.exportForm = this._fb.group({
+            startDate: '',
+            endDate: '',
         })
     }
 
@@ -65,9 +70,21 @@ export class CashierComponent implements OnInit {
 		this._service.getCashier().subscribe((resp: any)=>{
 			this.cashiers = resp;
 			console.log(resp);
-			
+
 		})
 	}
+
+    exportExcel() {
+        this._service.exportExcelCashier('').subscribe({
+            next: (resp) => {
+              createFileFromBlob(resp)
+            },
+            error: (err) => {
+                console.error(err)
+                alert(JSON.stringify(err.statusText))
+            }
+            })
+        }
 
     ngOnInit(): void {
 		this.loadCashier();
@@ -77,7 +94,7 @@ export class CashierComponent implements OnInit {
         this._service.getOrder().subscribe((resp: any)=>{
                 this.orders = resp;
         })
-      
+
         this.dtOptions = {
             pagingType: 'full_numbers',
             serverSide: true,     // Set the flag
@@ -692,7 +709,7 @@ export class CashierComponent implements OnInit {
                     return data;
                 },
                 className: 'text-center'
-            }, 
+            },
             {
                 title: 'รวม',
                 data: 'total',

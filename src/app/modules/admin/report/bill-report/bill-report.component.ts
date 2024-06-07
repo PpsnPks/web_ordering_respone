@@ -16,6 +16,7 @@ import { ReportService } from '../page.service';
 import { MatSelectModule } from '@angular/material/select';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
+import { createFileFromBlob } from 'app/helper';
 @Component({
   selector: 'app-bill-report',
   standalone: true,
@@ -40,6 +41,7 @@ export class BillReportComponent {
   dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
   form: FormGroup;
   addForm: FormGroup;
+  exportForm: FormGroup
     stores: any[]=[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
   paymentType: any[] = [
@@ -68,12 +70,28 @@ export class BillReportComponent {
             startDate: '',
             endDate: '',
         })
+        this.exportForm = this._fb.group({
+            startDate: '',
+            endDate: '',
+        })
+        this.form = this._fb.group({
+            payment_type: '',
 
-    this.form = this._fb.group({
-          payment_type: '',
-
-      })
+        })
   }
+
+  exportExcel() {
+    this._service.exportExcelBill('').subscribe({
+        next: (resp) => {
+          createFileFromBlob(resp)
+        },
+        error: (err) => {
+            console.error(err)
+            alert(JSON.stringify(err.statusText))
+        }
+        })
+    }
+
   ngOnInit(): void {
       this.form.patchValue({
           payment_type: ''

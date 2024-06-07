@@ -18,15 +18,26 @@
             <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-date-range-picker #picker></mat-date-range-picker>
           </mat-form-field>
-        </div>
+         </div>
 
 
-          <div class="flex flex-col md:flex-row">
+          <!-- <div class="flex flex-col md:flex-row">
             <button mat-flat-button [color]="'primary'" (click)="onSearch()">
                 <mat-icon class="icon-size-5" [svgIcon]="'feather:search'"></mat-icon>
                 <span class="ml-2"> ค้นหา</span>
             </button>
-        </div>
+           </div> -->
+      </div>
+      <div class="flex justify-end mb-4">
+        <button mat-flat-button [color]="'primary'" (click)="onSearch()" class="mr-2">
+            <mat-icon class="icon-size-5" [svgIcon]="'feather:search'"></mat-icon>
+            <span class="ml-2"> ค้นหา</span>
+        </button>
+        <button mat-flat-button class="bg-green-800 text-white" (click)="exportExcel()">
+            <mat-icon class="icon-size-5" [svgIcon]="'heroicons_mini:document'"></mat-icon>
+            <span class="ml-2">Excel</span>
+        </button>
+
       </div>
       <table datatable [dtOptions]="dtOptions" class="row-border hover"></table>
   </div>

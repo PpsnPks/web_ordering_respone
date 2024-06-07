@@ -14,7 +14,7 @@ import { RouterLink } from '@angular/router';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { ReportService } from '../page.service';
 import { MatSelectModule } from '@angular/material/select';
-
+import { createFileFromBlob } from 'app/helper';
 @Component({
     selector: 'app-report-payment-type',
     standalone: true,
@@ -40,6 +40,7 @@ export class ReportPaymentTypeComponent implements OnInit {
     dtOptions: DataTables.Settings = {};
     orders: any[] = [];
     form: FormGroup;
+    exportForm: FormGroup
     paymentType: any[] = [
         {id: 1 , name: 'เงินสด' },
         {id: 2 , name: 'QR Promptpay ' },
@@ -60,7 +61,24 @@ export class ReportPaymentTypeComponent implements OnInit {
             payment_type: '',
 
         })
+        this.exportForm = this._fb.group({
+            startDate: '',
+            endDate: '',
+        })
     }
+
+    exportExcel() {
+        this._service.exportExcelPaymentType('').subscribe({
+            next: (resp) => {
+              createFileFromBlob(resp)
+            },
+            error: (err) => {
+                console.error(err)
+                alert(JSON.stringify(err.statusText))
+            }
+            })
+        }
+
     ngOnInit(): void {
         this.form.patchValue({
             payment_type: ''

@@ -7,6 +7,7 @@ import { CompactComponent } from './compact.component';
 import { CashierComponent } from './cashier/cashier.component';
 import { BillReportComponent } from './bill-report/bill-report.component';
 import { CardReportComponent } from './card/card-report.component';
+import { ReportProductComponent } from './product/report.component';
 
 export default [
     {
@@ -20,7 +21,11 @@ export default [
     {
       path     : 'product-type',
       component: ReportProductTypeComponent,
-  },
+    },
+    {
+    path     : 'product',
+    component: ReportProductComponent,
+    },
     {
         path     : 'saler',
         component: ReportSalerComponent,

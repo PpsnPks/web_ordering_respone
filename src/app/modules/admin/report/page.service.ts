@@ -121,12 +121,84 @@ export class ReportService {
             );
     }
 
-    orderExcel(start: any, end: any) {
-        return this.http.post('/api/report/order/excel', {
-            startDate: start,
-            endDate: end
-        }, {
-            responseType: 'blob'
-        })
+    // orderExcel(start: any, end: any) {
+    //     return this.http.post('/api/report/order/excel', {
+    //         startDate: start,
+    //         endDate: end
+    //     }, {
+    //         responseType: 'blob'
+    //     })
+    // }
+
+    exportExcelTotal(type: any) {
+        // return this.http.post(environment.apiUrl + /api/person/export-excel, { type: type})
+        return  this.http.post(environment.apiUrl + '/api/report/order/excel', {
+                startDate: "2024-06-07",
+                endDate: "2024-06-07",
+                branchID: 0,
+                categoryID: 0,
+                productID: 0}, {
+                responseType: 'blob'
+                })
+      }
+
+    exportExcelPaymentType(type: any) {
+    // return this.http.post(environment.apiUrl + /api/person/export-excel, { type: type})
+    return  this.http.post(environment.apiUrl + '/api/report/order/excel/payment-type', {
+                startDate: "2024-06-07",
+                endDate: "2024-06-07",
+                branchID: 0,
+                categoryID: 0,
+                productID: 0}, {
+                responseType: 'blob'
+                })
+    }
+
+    exportExcelCashier(type: any) {
+    // return this.http.post(environment.apiUrl + /api/person/export-excel, { type: type})
+    return  this.http.post(environment.apiUrl + '/api/report/order/excel/cashier', {
+                startDate: "2024-06-07",
+                endDate: "2024-06-07",
+                branchID: 0,
+                categoryID: 0,
+                productID: 0}, {
+                responseType: 'blob'
+                })
+    }
+
+    exportExcelProductType(type: any) {
+    // return this.http.post(environment.apiUrl + /api/person/export-excel, { type: type})
+    return  this.http.post(environment.apiUrl + '/api/report/order/excel/branch-category', {
+                startDate: "2024-06-07",
+                endDate: "2024-06-04",
+                branchID: 0,
+                categoryID: 0,
+                productID: 0}, {
+                responseType: 'blob'
+                })
+    }
+
+    exportExcelProduct(type: any) {
+        // return this.http.post(environment.apiUrl + /api/person/export-excel, { type: type})
+        return  this.http.post(environment.apiUrl + '/api/report/order/excel/branch-product', {
+                    startDate: "2024-06-07",
+                    endDate: "2024-06-04",
+                    branchID: 0,
+                    categoryID: 0,
+                    productID: 0}, {
+                    responseType: 'blob'
+                    })
+        }
+
+    exportExcelBill(type: any) {
+    // return this.http.post(environment.apiUrl + /api/person/export-excel, { type: type})
+    return  this.http.post(environment.apiUrl + '/api/report/order/excel/branch', {
+                startDate: "2024-06-07",
+                endDate: "2024-06-07",
+                branchID: 0,
+                categoryID: 0,
+                productID: 0}, {
+                responseType: 'blob'
+                })
     }
 }

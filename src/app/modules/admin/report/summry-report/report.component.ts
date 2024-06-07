@@ -248,17 +248,16 @@ export class ReportComponent implements OnInit, AfterViewInit {
     }
 
     exportExcel() {
-        this._service.orderExcel(this.exportForm.value.startDate, this.exportForm.value.endDate).subscribe({
+        this._service.exportExcelTotal('').subscribe({
             next: (resp) => {
-                createFileFromBlob(resp)
+              createFileFromBlob(resp)
             },
             error: (err) => {
                 console.error(err)
                 alert(JSON.stringify(err.statusText))
             }
-        })
-        // window.open(environment.apiUrl + '/api/report/order/excel?' + 'startDate=' + this.exportForm.value.startDate + '&endDate=' + this.exportForm.value.endDate)
-    }
+            })
+        }
 
     resetSearch() {
         this.form.reset();

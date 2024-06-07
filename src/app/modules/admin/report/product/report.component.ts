@@ -36,7 +36,7 @@ import { createFileFromBlob } from 'app/helper';
     styleUrl: './report.component.scss',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReportProductTypeComponent implements OnInit {
+export class ReportProductComponent implements OnInit {
     dtOptions: DataTables.Settings = {};
     orders: any[] = [];
     form: FormGroup;
@@ -70,7 +70,7 @@ export class ReportProductTypeComponent implements OnInit {
     }
 
     exportExcel() {
-        this._service.exportExcelProductType('').subscribe({
+        this._service.exportExcelProduct('').subscribe({
             next: (resp) => {
               createFileFromBlob(resp)
             },

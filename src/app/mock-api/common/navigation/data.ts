@@ -165,6 +165,13 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 link: '/report/product-type'
             },
             {
+                id: 'report.type',
+                title: 'รายงานการขายแยกตามสินค้า',
+                type: 'basic',
+                icon: 'heroicons_outline:document-chart-bar',
+                link: '/report/product'
+            },
+            {
               id: 'report.type',
               title: 'รายงานยอดบิล',
               type: 'basic',
