@@ -31,7 +31,7 @@
     </div>
     <div class="flex items-center justify-center px-4">
         <mat-form-field appearance="fill" class="w-full">
-            <input matInput [matDatepicker]="picker" [(ngModel)]="selectedDate">
+            <input matInput [matDatepicker]="picker" [(ngModel)]="datePicked">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>

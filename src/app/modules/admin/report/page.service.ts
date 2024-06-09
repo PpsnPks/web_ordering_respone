@@ -46,8 +46,8 @@ export class ReportService {
         })
     }
 
-    orderPdf(data: any) {
-        return this.http.post(`/api/tap-log/report-today`, data, {
+    orderPdf(data:any) {
+        return this.http.post(environment.apiUrl + `/api/tap-log/report-today`, data, {
           responseType: 'blob'
         })
       }

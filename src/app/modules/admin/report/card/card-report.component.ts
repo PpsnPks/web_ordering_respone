@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
@@ -7,7 +7,7 @@ import { DataTableDirective} from 'angular-datatables';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepickerInputEvent, MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
@@ -23,6 +23,7 @@ import { DateTime } from 'luxon';
 @Component({
   selector: 'app-card-report',
   standalone: true,
+  providers: [DatePipe],
   imports: [CommonModule,
     MatIconModule,
     MatButtonModule,
@@ -39,12 +40,15 @@ import { DateTime } from 'luxon';
   styleUrl: './card-report.component.scss'
 })
 export class CardReportComponent {
+
 [x: string]: any;
+    datePicked: Date | null = null;
   dtOptions: DataTables.Settings = {};
   orders: any[] = [];
   dtElement: DataTableDirective;
   dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
   constructor(
+      private datePipe: DatePipe,
       private _service : ReportService,
       public dialog: MatDialog,
       private _changeDetectorRef: ChangeDetectorRef,
@@ -52,20 +56,28 @@ export class CardReportComponent {
       private _fb: FormBuilder,
   ) {
 
-       
+
   }
+
+  getFormattedDate(): string | null {
+    return this.datePicked ? this.datePipe.transform(this.datePicked, 'yyyy-MM-dd') : null;
+  }
+
   ngOnInit(): void {
-    
+    this.form = this._fb.group({
+        date:''
+    })
 }
 
 printOriginal() {
-
-  console.log(this.selectedDate);
-  const selectedDate = DateTime.fromISO(this.selectedDate).toFormat('yyyy-MM-dd');
-  let formValue = {
-    date : selectedDate
-  }
-  this._service.orderPdf(formValue).subscribe({
+    const formattedDate = this.getFormattedDate();
+    if (formattedDate) {
+      console.log('date:', formattedDate);
+    }
+    this.form.patchValue({
+        date: formattedDate
+    })
+  this._service.orderPdf(this.form.value).subscribe({
     next: (resp) => {
       createFileFromBlob(resp)
     },
