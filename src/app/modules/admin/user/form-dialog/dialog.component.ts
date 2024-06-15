@@ -52,6 +52,7 @@ export class DialogForm implements OnInit {
     addForm: FormGroup;   
     roles: any[] = [
         { id: 2, name: 'Admin'},
+        { id: 5, name: 'Manager '},
         { id: 3, name: 'Supervisor'},
         { id: 4, name: 'Cashier'},
      ];
