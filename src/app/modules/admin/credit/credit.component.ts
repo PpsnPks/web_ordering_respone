@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { DataTableDirective, DataTablesModule } from 'angular-datatables';
-import { BranchService } from './page.service';
+import { CreditService } from './credit.service';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { Subject } from 'rxjs';
 import { MatDividerModule } from '@angular/material/divider';
@@ -15,7 +15,7 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { DialogForm } from './form-dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 @Component({
-    selector: 'app-page-branch',
+    selector: 'app-credit',
     standalone: true,
     imports: [
         CommonModule,
@@ -26,36 +26,30 @@ import { MatDialog } from '@angular/material/dialog';
         MatMenuModule,
         MatDividerModule
     ],
-    templateUrl: './page.component.html',
-    styleUrl: './page.component.scss',
+    templateUrl: './credit.component.html',
+    styleUrl: './credit.component.scss',
     changeDetection: ChangeDetectionStrategy.Default,
 })
-export class BranchComponent implements OnInit, AfterViewInit {
+export class CreditComponent implements OnInit, AfterViewInit {
     dtOptions: any = {};
     dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
+
     @ViewChild('btNg') btNg: any;
     @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
 
-    @Input() storeId: any;
-    @Output() dataArrayChange = new EventEmitter<any[]>();
-
     constructor(
-        private _service: BranchService,
+        private creditService: CreditService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
         public dialog: MatDialog,
 
-    )
-    {
-
+    ) {
 
     }
     ngOnInit(): void {
         setTimeout(() =>
             this.loadTable());
-
-
 
     }
 
@@ -75,7 +69,11 @@ export class BranchComponent implements OnInit, AfterViewInit {
             pagingType: 'full_numbers',
             serverSide: true,     // Set the flag
             ajax: (dataTablesParameters: any, callback) => {
-                this._service.datatable(dataTablesParameters).subscribe({
+                dataTablesParameters.filter = {
+                    'filter.year': 2024,
+                    'filter.month': 6,
+                }
+                this.creditService.datatable(dataTablesParameters).subscribe({
                     next: (resp: any) => {
                         callback({
                             recordsTotal: resp.meta.totalItems,
@@ -92,24 +90,49 @@ export class BranchComponent implements OnInit, AfterViewInit {
                     className: 'w-15 text-center'
                 },
                 {
-                    title: 'รหัสสาขา',
-                    data: 'code',
-                    className: 'w-20 text-center'
+                    title: 'รหัสพนักงาน',
+                    data: 'member.code',
+                    className: 'text-left'
                 },
                 {
-                    title: 'ชื่อสาขา',
-                    data: 'name',
+                    title: 'ชื่อ',
+                    data: 'member.firstname',
+                    className: 'text-left'
+                },
+                {
+                    title: 'นามสุกล',
+                    data: 'member.lastname',
+                    className: 'text-left'
+                },
+                {
+                    title: 'OT Credit',
+                    data: 'creditEL2',
+                    className: 'text-left'
+                },
+                {
+                    title: 'VIP Credit',
+                    data: 'creditEL4',
+                    className: 'text-left'
+                },
+                {
+                    title: 'เดือน',
+                    data: 'month',
                     className: 'text-center'
                 },
                 {
-                    title: 'จัดการ',
-                    data: null,
-                    defaultContent: '',
-                    ngTemplateRef: {
-                        ref: this.btNg,
-                    },
-                    className: 'w-15 text-center'
-                }
+                    title: 'ปี',
+                    data: 'year',
+                    className: 'text-center h-10'
+                },
+                // {
+                //     title: 'จัดการ',
+                //     data: null,
+                //     defaultContent: '',
+                //     ngTemplateRef: {
+                //         ref: this.btNg,
+                //     },
+                //     className: 'w-15 text-center'
+                // }
 
             ]
         }
@@ -128,17 +151,15 @@ export class BranchComponent implements OnInit, AfterViewInit {
 
 
 
-    opendialogAdd() {
+    opendialogapro() {
         const DialogRef = this.dialog.open(DialogForm, {
             disableClose: true,
             width: '500px',
             height: 'auto',
-            enterAnimationDuration: 500,
+            enterAnimationDuration: 300,
             exitAnimationDuration: 300,
             data: {
-                type: 'NEW',
-                value: '',
-                store: this.storeId
+                type: 'NEW'
             }
         });
         DialogRef.afterClosed().subscribe((result) => {
@@ -148,30 +169,25 @@ export class BranchComponent implements OnInit, AfterViewInit {
             }
         });
     }
-    branch: any
-    openDialogEdit(item: any) {
-        this._service.getBranchId(item).subscribe( (resp: any)=>{
-            this.branch = resp;
-            const DialogRef = this.dialog.open(DialogForm, {
-                disableClose: true,
-                width: '500px',
-                height: 'auto',
-                enterAnimationDuration: 500,
-                exitAnimationDuration: 300,
-                data: {
-                    type: 'EDIT',
-                    value: this.branch,
-                    store: this.storeId
-                }
-            });
-            DialogRef.afterClosed().subscribe((result) => {
-                if (result) {
-                    console.log(result, 'result')
-                    this.rerender();
-                }
-            });
-        })
 
+    openDialogEdit(item: any) {
+        const DialogRef = this.dialog.open(DialogForm, {
+            disableClose: true,
+            width: '500px',
+            height: 'auto',
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
+            data: {
+                type: 'EDIT',
+                value: item
+            }
+        });
+        DialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                console.log(result, 'result')
+                this.rerender();
+            }
+        });
     }
 
 
@@ -198,11 +214,10 @@ export class BranchComponent implements OnInit, AfterViewInit {
             },
             dismissible: false
         })
-
         confirmation.afterClosed().subscribe(
             result => {
                 if (result == 'confirmed') {
-                    this._service.delete(id).subscribe({
+                    this.creditService.delete(id).subscribe({
                         error: (err) => {
 
                         },

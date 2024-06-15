@@ -129,6 +129,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
 
         ],
     },
+   
     {
         id: 'report',
         title: 'รายงาน',
@@ -136,55 +137,42 @@ export const defaultNavigation: FuseNavigationItem[] = [
         type: 'group',
         icon: 'heroicons_outline:home',
         children: [
+            // {
+            //     id: 'report.tap-card-daily',
+            //     title: 'รายงานแตะบัตรประจำวัน',
+            //     type: 'basic',
+            //     icon: 'heroicons_outline:document-chart-bar',
+            //     link: '/report/card'
+            // },
+            // {
+            //     id: 'report.tap-card-monthly',
+            //     title: 'รายงานแตะบัตร',
+            //     type: 'basic',
+            //     icon: 'heroicons_outline:document-chart-bar',
+            //     link: '/report/card'
+            // },
             {
-                id: 'report.category',
-                title: 'รายงานยอดขายรวมทั้งหมด',
-                type: 'basic',
-                icon: 'heroicons_outline:document-chart-bar',
-                link: '/report/total'
-            },
-            {
-                id: 'report.type',
-                title: 'รายงานแยกประเภทค่าใช้จ่าย',
-                type: 'basic',
-                icon: 'heroicons_outline:document-chart-bar',
-                link: '/report/payment-type'
-            },
-            {
-                id: 'report.type',
-                title: 'รายงานการขายตามแคชเชียร์',
-                type: 'basic',
-                icon: 'heroicons_outline:document-chart-bar',
-                link: '/report/cashier'
-            },
-            {
-                id: 'report.type',
-                title: 'รายงานการขายแยกตามประเภทสินค้า',
-                type: 'basic',
-                icon: 'heroicons_outline:document-chart-bar',
-                link: '/report/product-type'
-            },
-            {
-                id: 'report.type',
-                title: 'รายงานการขายแยกตามสินค้า',
-                type: 'basic',
-                icon: 'heroicons_outline:document-chart-bar',
-                link: '/report/product'
-            },
-            {
-              id: 'report.type',
-              title: 'รายงานยอดบิล',
-              type: 'basic',
-              icon: 'heroicons_outline:document-chart-bar',
-              link: '/report/bills'
-            },{
-                id: 'report.type',
+                id: 'report.tap-card',
                 title: 'รายงานแตะบัตร',
                 type: 'basic',
                 icon: 'heroicons_outline:document-chart-bar',
                 link: '/report/card'
-              },
-
+            },
+        ],
+    },
+    {
+        id: 'credit',
+        title: 'จัดการข้อมูลเครดิต',
+        type: 'group',
+        icon: 'heroicons_outline:home',
+        children: [
+            {
+                id: 'credit',
+                title: 'นำข้อมูลเครดิต',
+                type: 'basic',
+                icon: 'heroicons_outline:credit-card',
+                link: '/credit'
+            },
         ],
     },
     {

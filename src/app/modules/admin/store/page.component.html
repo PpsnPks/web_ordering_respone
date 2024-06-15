@@ -38,7 +38,7 @@
             </div>
 
             <div class="flex justify-center">
-              <asha-image-upload [initial]="store?.logoUrl" (uploadSuccess)="uploadSuccess($event)"></asha-image-upload>
+              <asha-image-upload [initial]="store?.logoUrl" (uploadSuccess)="uploadSuccess($event)" accept="image/*"></asha-image-upload>
             </div>
 
             <div mat-dialog-actions class="flex justify-end mt-2">

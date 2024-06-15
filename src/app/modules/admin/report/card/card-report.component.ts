@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@
 import { MatDialog } from '@angular/material/dialog';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { DataTablesModule } from 'angular-datatables';
-import { DataTableDirective} from 'angular-datatables';
+import { DataTableDirective } from 'angular-datatables';
 import { MatIconModule } from '@angular/material/icon';
 import { ReactiveFormsModule, FormsModule, FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +18,7 @@ import { ADTSettings } from 'angular-datatables/src/models/settings';
 import { environment } from 'environments/environment.development';
 import { Subject } from 'rxjs';
 import { createFileFromBlob } from 'app/modules/shared/helper';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { DateTime } from 'luxon';
 @Component({
   selector: 'app-card-report',
@@ -40,20 +40,23 @@ import { DateTime } from 'luxon';
   styleUrl: './card-report.component.scss'
 })
 export class CardReportComponent {
-
-[x: string]: any;
-    datePicked: Date | null = null;
+  readonly range = new FormGroup({
+    start: new FormControl<any | null>(null),
+    end: new FormControl<any | null>(null),
+  });
+  [x: string]: any;
+  datePicked: Date | null = null;
   dtOptions: DataTables.Settings = {};
   orders: any[] = [];
   dtElement: DataTableDirective;
   dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
   constructor(
-      private datePipe: DatePipe,
-      private _service : ReportService,
-      public dialog: MatDialog,
-      private _changeDetectorRef: ChangeDetectorRef,
-      private _fuseConfirmationService: FuseConfirmationService,
-      private _fb: FormBuilder,
+    private datePipe: DatePipe,
+    private _service: ReportService,
+    public dialog: MatDialog,
+    private _changeDetectorRef: ChangeDetectorRef,
+    private _fuseConfirmationService: FuseConfirmationService,
+    private _fb: FormBuilder,
   ) {
 
 
@@ -65,27 +68,40 @@ export class CardReportComponent {
 
   ngOnInit(): void {
     this.form = this._fb.group({
-        date:''
+      date: ''
     })
-}
+  }
 
-printOriginal() {
+  printOriginal() {
     const formattedDate = this.getFormattedDate();
     if (formattedDate) {
       console.log('date:', formattedDate);
     }
     this.form.patchValue({
-        date: formattedDate
+      date: formattedDate
     })
-  this._service.orderPdf(this.form.value).subscribe({
-    next: (resp) => {
-      createFileFromBlob(resp)
-    },
-    error: (err) => {
-      alert(JSON.stringify(err))
-    }
-  })
-}
-
-
+    this._service.orderPdf(this.form.value).subscribe({
+      next: (resp) => {
+        createFileFromBlob(resp)
+      },
+      error: (err) => {
+        alert(JSON.stringify(err))
+      }
+    })
+  }
+  printSummary() {
+    let formValue = this.range.value
+    if (formValue.start && formValue.end) {
+      var startDate = DateTime.fromISO(formValue.start).toFormat('yyyy-MM-dd');
+      var endDate = DateTime.fromISO(formValue.end).toFormat('yyyy-MM-dd');
+  }
+    this._service.tapSummary({startDate : startDate, endDate: endDate}).subscribe({
+      next: (resp) => {
+        createFileFromBlob(resp)
+      },
+      error: (err) => {
+        alert(JSON.stringify(err))
+      }
+    })
+  }
 }

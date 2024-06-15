@@ -19,7 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { UserService } from '../user.service';
+import { CreditService } from '../credit.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
@@ -52,8 +52,8 @@ export class DialogForm implements OnInit {
     addForm: FormGroup;   
     roles: any[] = [
         { id: 2, name: 'Admin'},
-        { id: 3, name: 'Supervisor'},
         { id: 5, name: 'Manager '},
+        { id: 3, name: 'Supervisor'},
         { id: 4, name: 'Cashier'},
      ];
      registerForm = new FormGroup({
@@ -66,9 +66,9 @@ export class DialogForm implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
         public dialog: MatDialog,
         private FormBuilder: FormBuilder,
-        public _service: UserService,
+        public _service: CreditService,
         private fuseConfirmationService: FuseConfirmationService,
-        private userService: UserService,
+        private userService: CreditService,
         private toastr: ToastrService,
        
     ) 
@@ -76,25 +76,13 @@ export class DialogForm implements OnInit {
         console.log(' this.form', this.data);
         if(this.data.type === 'EDIT') {
             this.form = this.FormBuilder.group({
-                code: this.data.value.code ?? '',
-                firstName: this.data.value.firstName ?? '',
-                lastName: this.data.value.lastName ?? '',
-                phoneNumber: this.data.value.phoneNumber ?? '',
-                roleId: this.data.value?.role?.id ?? '',
-                username: this.data.value?.username ?? '',
-                isActive: this.data.value?.isActive
-           
+                file: '',
+                file_name: '',
              });
         } else {
             this.form = this.FormBuilder.group({
-                code: '',
-                firstName: '',
-                lastName: '',
-                phoneNumber: '',
-                roleId: '',
-                username: '',
-                password: '',
-                confirmpassword: '',
+                file: '',
+                file_name: '',
              });
         }
 
@@ -117,7 +105,7 @@ export class DialogForm implements OnInit {
 
 
     Submit() {
-        let formValue = this.form.value
+  
         const confirmation = this.fuseConfirmationService.open({
             title: "ยืนยันการบันทึกข้อมูล",
             icon: {
@@ -142,8 +130,18 @@ export class DialogForm implements OnInit {
         confirmation.afterClosed().subscribe(
             result => {
                 if (result == 'confirmed') {
+                    
                     if (this.data.type === 'NEW') {
-                        this.userService.create(formValue).subscribe({
+                        const formData = new FormData();
+                        Object.entries(this.form.value).forEach(
+                            ([key, value]: any[]) => {
+                                if (value !== '' && value !== 'null' && value !== null) {
+                                    formData.append(key, value);
+                                  }
+                            }
+                        );
+                        
+                        this.userService.import(formData).subscribe({
                             error: (err) => {
                                 this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
                             },
@@ -153,15 +151,15 @@ export class DialogForm implements OnInit {
                             },
                         });
                     } else {
-                        this.userService.update(this.data.value.id ,formValue).subscribe({
-                            error: (err) => {
-                                this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
-                            },
-                            complete: () => {
-                                this.toastr.success('ดำเนินการแก้ไขข้อมูลสำเร็จ')
-                                this.dialogRef.close(true)
-                            },
-                        });
+                        // this.userService.update(this.data.value.id ,formValue).subscribe({
+                        //     error: (err) => {
+                        //         this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
+                        //     },
+                        //     complete: () => {
+                        //         this.toastr.success('ดำเนินการแก้ไขข้อมูลสำเร็จ')
+                        //         this.dialogRef.close(true)
+                        //     },
+                        // });
                     }
                 }
             }
@@ -172,4 +170,13 @@ export class DialogForm implements OnInit {
         this.dialogRef.close()
     }
 
+    files: File[] = [];
+    onSelect(event, input: any) {
+      if (input === 'addfile') {
+        this.form.patchValue({
+          file: event[0],
+          file_name: event[0].name,
+        });
+      }
+    }
 }

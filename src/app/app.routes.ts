@@ -89,6 +89,7 @@ export const appRoutes: Route[] = [
             { path: 'unit', loadChildren: () => import('app/modules/admin/unit/page.routes') },
             { path: 'profile', loadChildren: () => import('app/modules/admin/profile/profile.routes') },
             { path: 'shift', loadChildren: () => import('app/modules/admin/shift/shift.routes') },
+            { path: 'credit', loadChildren: () => import('app/modules/admin/credit/credit.routes') },
 
         ]
     }

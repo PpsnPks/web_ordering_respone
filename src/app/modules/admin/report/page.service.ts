@@ -51,6 +51,11 @@ export class ReportService {
           responseType: 'blob'
         })
       }
+    tapSummary(data:any) {
+        return this.http.post(environment.apiUrl + `/api/report/tap-log/excel/summary`, data, {
+          responseType: 'blob'
+        })
+      }
 
 
     getStore(): Observable<any> {
