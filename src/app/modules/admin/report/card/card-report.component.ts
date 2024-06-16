@@ -15,7 +15,6 @@ import { NgApexchartsModule } from 'ng-apexcharts';
 import { ReportService } from '../page.service';
 import { MatSelectModule } from '@angular/material/select';
 import { ADTSettings } from 'angular-datatables/src/models/settings';
-import { environment } from 'environments/environment.development';
 import { Subject } from 'rxjs';
 import { createFileFromBlob } from 'app/modules/shared/helper';
 import { MatCardModule } from '@angular/material/card';

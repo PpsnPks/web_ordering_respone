@@ -20,7 +20,6 @@ import { Router } from '@angular/router';
 import { DialogForm } from './form-dialog/dialog.component';
 import { SearchComponent } from 'app/modules/common/search-component/search.component';
 import { DateTime } from 'luxon';
-import { environment } from 'environments/environment.development';
 import localeTh from '@angular/common/locales/th';
 import { createFileFromBlob } from 'app/helper';
 
