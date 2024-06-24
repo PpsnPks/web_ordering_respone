@@ -79,15 +79,27 @@ export class CardReportComponent {
     this.form.patchValue({
       date: formattedDate
     })
+    
+    
+    
+    
     this._service.orderPdf(this.form.value).subscribe({
-      next: (resp) => {
-        createFileFromBlob(resp)
+      next: (resp: Blob) => {       
+        let fileName = `original_${formattedDate}.xlsx`;
+        createFileFromBlob(resp, fileName);
       },
+      
+      
+      
       error: (err) => {
         alert(JSON.stringify(err))
       }
     })
   }
+  
+  
+  
+  
   printSummary() {
     let formValue = this.range.value
     if (formValue.start && formValue.end) {
@@ -96,7 +108,7 @@ export class CardReportComponent {
   }
     this._service.tapSummary({startDate : startDate, endDate: endDate}).subscribe({
       next: (resp) => {
-        createFileFromBlob(resp)
+        createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
       },
       error: (err) => {
         alert(JSON.stringify(err))
