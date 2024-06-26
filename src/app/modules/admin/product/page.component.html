@@ -6,10 +6,17 @@
           รายการสินค้า
         </h2>
       </div>
+      <div class="ml-auto flex space-x-4">
+      <button mat-flat-button [color]="'primary'" (click)="opendialogapro2()">
+        <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+        <span class="ml-2"> นำเข้าข้อมูล</span>
+      </button>
       <button mat-flat-button [color]="'primary'" (click)="createProduct()">
         <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
         <span class="ml-2"> เพิ่มสินค้า</span>
       </button>
+    </div>
+      
     </div>
     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover w-full">
     </table>

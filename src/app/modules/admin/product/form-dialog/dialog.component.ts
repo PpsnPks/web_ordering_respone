@@ -19,7 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { CreditService } from '../credit.service';
+// import { CreditService } from '../credit.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
@@ -66,9 +66,9 @@ export class DialogForm implements OnInit {
         @Inject(MAT_DIALOG_DATA) public data: any,
         public dialog: MatDialog,
         private FormBuilder: FormBuilder,
-        public _service: CreditService,
+        // public _service: CreditService,
         private fuseConfirmationService: FuseConfirmationService,
-        private userService: CreditService,
+        // private userService: CreditService,
         private toastr: ToastrService,
        
     ) 
@@ -141,15 +141,15 @@ export class DialogForm implements OnInit {
                             }
                         );
                         
-                        this.userService.import(formData).subscribe({
-                            error: (err) => {
-                                this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
-                            },
-                            complete: () => {
-                                this.toastr.success('ดำเนินการเพิ่มข้อมูลสำเร็จ')
-                                this.dialogRef.close(true)
-                            },
-                        });
+                        // this.userService.import(formData).subscribe({
+                        //     error: (err) => {
+                        //         this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
+                        //     },
+                        //     complete: () => {
+                        //         this.toastr.success('ดำเนินการเพิ่มข้อมูลสำเร็จ')
+                        //         this.dialogRef.close(true)
+                        //     },
+                        // });
                     } else {
                         // this.userService.update(this.data.value.id ,formValue).subscribe({
                         //     error: (err) => {

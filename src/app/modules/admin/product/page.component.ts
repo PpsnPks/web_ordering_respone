@@ -15,6 +15,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { PictureComponent } from '../picture/picture.component';
 import { ProductComposeComponent } from './dialog/product-compose/product-compose.component';
+import { DialogForm } from './form-dialog/dialog.component';
 @Component({
     selector: 'app-page-product',
     standalone: true,
@@ -181,6 +182,30 @@ export class ProductComponent implements OnInit, AfterViewInit {
         });
     }
 
+   
+   
+
+    opendialogapro2() {
+        const DialogRef = this.dialog.open(DialogForm, {
+            disableClose: true,
+            width: '500px',
+            height: 'auto',
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
+            data: {
+                type: 'NEW'
+            }
+        });
+        DialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                console.log(result, 'result')
+                this.rerender();
+            }
+        });
+    }
+
+
+   
     openDialogEdit(item: any) {
         this._service.getById(item.id).subscribe((result) => {
             const dialogRef = this.dialog.open(ProductComposeComponent, {

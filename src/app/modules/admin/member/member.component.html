@@ -2,15 +2,23 @@
     <div class="flex-auto p-4 m-4 rounded-md sm:p-10 bg-card">
       <div class="flex flex-row justify-between pb-2 my-5">
         <div>
-          <h2 class="text-2xl font-extrabold leading-7 tracking-tight truncate md:text-xl sm:leading-10">
+          <h2 class="text-2xl font-extrabold leading-7 tracking-tight truncate md:text-xl sm:leading-10 ">
             รายการสมาชิก
           </h2>
         </div>
+       
+        <div class="ml-auto flex space-x-4"> 
         <button mat-flat-button [color]="'primary'" (click)="opendialogapro()">
           <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
           <span class="ml-2"> เพิ่มสมาชิก</span>
         </button>
+        <button mat-flat-button [color]="'primary'" (click)="opendialogapro2()">
+          <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+          <span class="ml-2"> นำเข้าข้อมูล</span>
+        </button>
       </div>
+      
+    </div>
       <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover w-full bg-white whitespace-nowrap">
       </table>
     </div>

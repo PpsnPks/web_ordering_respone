@@ -17,6 +17,7 @@ import { PictureComponent } from '../picture/picture.component';
 import { ProductComposeComponent } from '../product/dialog/product-compose/product-compose.component';
 import { MemberService } from './member.service';
 import { MemberComposeComponent } from './dialogcustomer/member-compose.component';
+import { DialogForm } from './form-dialog/dialog.component';
 @Component({
     selector: 'app-member',
     standalone: true,
@@ -168,7 +169,24 @@ export class MemberComponent implements OnInit, AfterViewInit {
         });
     }
 
-
+    opendialogapro2() {
+        const DialogRef = this.dialog.open(DialogForm, {
+            disableClose: true,
+            width: '500px',
+            height: 'auto',
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
+            data: {
+                type: 'NEW'
+            }
+        });
+        DialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                console.log(result, 'result')
+                this.rerender();
+            }
+        });
+    }
 
     opendialogapro() {
         const DialogRef = this.dialog.open(MemberComposeComponent, {
