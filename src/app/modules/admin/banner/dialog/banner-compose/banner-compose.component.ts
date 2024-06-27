@@ -26,6 +26,8 @@ import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
+import { ImageUploadComponent } from 'app/modules/common/image-upload/image-upload.component';
+import { ImageUploadService } from 'app/modules/common/image-upload/image-upload.service';
 
 @Component({
   selector: 'app-banner-compose',
@@ -34,7 +36,7 @@ import { ToastrService } from 'ngx-toastr';
   styleUrl: './banner-compose.component.scss',
   imports: [CommonModule, DataTablesModule, MatIconModule, MatFormFieldModule, MatInputModule,
     FormsModule, MatToolbarModule, MatButtonModule, MatDialogTitle, MatDialogContent, MatDialogActions,
-    MatDialogClose, MatSelectModule, FilePickerModule, NgxMaskDirective, ReactiveFormsModule, MatSlideToggleModule
+    MatDialogClose, MatSelectModule, FilePickerModule, NgxMaskDirective, ReactiveFormsModule, MatSlideToggleModule,ImageUploadComponent
   ],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }
@@ -46,6 +48,7 @@ export class BannerComposeComponent implements OnInit {
   BannerService: any;
   units: any;
   banner: any[] = []
+item: any;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -60,7 +63,7 @@ export class BannerComposeComponent implements OnInit {
   ) {
     // console.log(' this.form', this.data);
     //  console.log(this.data.value.title)
-    
+
 
 }
 
@@ -91,7 +94,7 @@ ngOnInit(): void {
   //     description: [''],
   //     isShow: [true, Validators.required],
   //   });
-    
+
 
   // }
 

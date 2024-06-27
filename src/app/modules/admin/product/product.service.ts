@@ -162,6 +162,17 @@ export class ProductService {
     return this._branch.asObservable();
   }
 
+  import(data: FormData) {
+    return this.http.post('/api/product/import-excel', data)
+  }
 
-  
+
+
+
+  export(data:any) {
+    return this.http.post(`/api/product/export-excel`, data, {
+      responseType: 'blob'
+    })
+  }
+
 }

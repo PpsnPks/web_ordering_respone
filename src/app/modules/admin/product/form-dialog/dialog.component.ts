@@ -23,6 +23,8 @@ import { MatInputModule } from '@angular/material/input';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
 import {MatRadioModule} from '@angular/material/radio';
+import { ProductService } from '../product.service';
+import { createFileFromBlob } from 'app/modules/shared/helper';
 
 @Component({
     selector: 'app-user-form',
@@ -49,7 +51,7 @@ export class DialogForm implements OnInit {
     stores: any[]=[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: DataTables.Settings = {};
-    addForm: FormGroup;   
+    addForm: FormGroup;
     roles: any[] = [
         { id: 2, name: 'Admin'},
         { id: 5, name: 'Manager '},
@@ -59,19 +61,20 @@ export class DialogForm implements OnInit {
      registerForm = new FormGroup({
         password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*[A-Z])(?=.*[0-9])(?=.*[-+_!@#$%^&*,.?])(?=.*[a-z]).{8,}$')]),
       });
-     
-     
+
+
     constructor(
         private dialogRef: MatDialogRef<DialogForm>,
         @Inject(MAT_DIALOG_DATA) public data: any,
         public dialog: MatDialog,
         private FormBuilder: FormBuilder,
         // public _service: CreditService,
+        private userService:ProductService,
         private fuseConfirmationService: FuseConfirmationService,
         // private userService: CreditService,
         private toastr: ToastrService,
-       
-    ) 
+
+    )
     {
         console.log(' this.form', this.data);
         if(this.data.type === 'EDIT') {
@@ -88,24 +91,46 @@ export class DialogForm implements OnInit {
 
 
         // console.log('1111',this.data?.type);
-        
+
     }
-    
+
     ngOnInit(): void {
          if (this.data.type === 'EDIT') {
         //   this.form.patchValue({
         //     ...this.data.value,
         //     roleId: +this.data.value?.role?.id
-        //   })  
-       
+        //   })
+
         } else {
             console.log('New');
         }
     }
 
+    con(){
+
+
+        this.userService.export(this.form.value).subscribe({
+            next: (resp: Blob) => {
+              let fileName = `product.xlsx`;
+              createFileFromBlob(resp, fileName);
+            },})
+
+
+
+        // const formData = new FormData();
+        //     this.userService.export(formData).subscribe({
+        //         next: (resp: Blob) => {
+        //             let fileName = `original_.xlsx`;
+        //             createFileFromBlob(resp, fileName);
+        //           },
+        //     })
+
+        }
+
+
 
     Submit() {
-  
+
         const confirmation = this.fuseConfirmationService.open({
             title: "ยืนยันการบันทึกข้อมูล",
             icon: {
@@ -130,7 +155,7 @@ export class DialogForm implements OnInit {
         confirmation.afterClosed().subscribe(
             result => {
                 if (result == 'confirmed') {
-                    
+
                     if (this.data.type === 'NEW') {
                         const formData = new FormData();
                         Object.entries(this.form.value).forEach(
@@ -140,16 +165,16 @@ export class DialogForm implements OnInit {
                                   }
                             }
                         );
-                        
-                        // this.userService.import(formData).subscribe({
-                        //     error: (err) => {
-                        //         this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
-                        //     },
-                        //     complete: () => {
-                        //         this.toastr.success('ดำเนินการเพิ่มข้อมูลสำเร็จ')
-                        //         this.dialogRef.close(true)
-                        //     },
-                        // });
+
+                        this.userService.import(formData).subscribe({
+                            error: (err) => {
+                                this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
+                            },
+                            complete: () => {
+                                this.toastr.success('ดำเนินการเพิ่มข้อมูลสำเร็จ')
+                                this.dialogRef.close(true)
+                            },
+                        });
                     } else {
                         // this.userService.update(this.data.value.id ,formValue).subscribe({
                         //     error: (err) => {
@@ -173,7 +198,7 @@ export class DialogForm implements OnInit {
     files: File[] = [];
     onSelect(event, input: any) {
       if (input === 'addfile') {
-        
+
         this.form.patchValue({
           file: event[0],
           file_name: event[0].name,

@@ -81,4 +81,12 @@ export class MemberService {
   delete(id: number) {
     return this.http.delete('/api/member/' + id)
   }
+  import(data: FormData) {
+    return this.http.post('/api/member/import-excel', data)
+  }
+  export(data:any) {
+    return this.http.post(`/api/member/export/excel`, data, {
+      responseType: 'blob'
+    })
+  }
 }
