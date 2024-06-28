@@ -1,5 +1,6 @@
 /* eslint-disable */
 import { FuseNavigationItem } from '@fuse/components/navigation';
+import { AuthService } from 'app/core/auth/auth.service';
 
 export const defaultNavigation: FuseNavigationItem[] = [
     {
@@ -8,6 +9,29 @@ export const defaultNavigation: FuseNavigationItem[] = [
         subtitle: 'ขัอมูลเกี่ยวกับระบบ',
         type: 'group',
         icon: 'heroicons_outline:home',
+        hidden: (item) =>{
+
+
+
+            var role = sessionStorage.getItem('role')
+
+
+             if(role == 'super_admin' ){
+                 return false
+             }
+             else if (role == 'manager'){
+                return false
+             }
+             else if (role == 'office'){
+                return false
+             }
+
+             else {
+                 return true
+             }
+
+
+         },
         children: [
 
           {
@@ -16,6 +40,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
             type: 'basic',
             icon: 'heroicons_outline:clipboard-document-check',
             link: '/dashboard',
+            hidden: (item) =>{
+
+
+                var role = sessionStorage.getItem('role')
+
+                 if(role == 'super_admin'){
+                     return false
+                 }
+
+                 else {
+                     return true
+                 }
+
+
+             }
         },
 
 
@@ -26,10 +65,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 icon: 'heroicons_outline:building-office-2',
                 link: '/store/1',
                 hidden: (item) =>{
-                    
-                    return false
 
-                }
+
+                    var role = sessionStorage.getItem('role')
+
+                     if(role == 'super_admin'){
+                         return false
+                     }
+
+                     else {
+                         return true
+                     }
+
+
+                 }
+
             },
             // {
             //     id: 'admin.department',
@@ -43,7 +93,22 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'ผู้ใช้งาน',
                 type: 'basic',
                 icon: 'heroicons_outline:user-group',
-                link: '/user'
+                link: '/user',
+                hidden: (item) =>{
+
+
+                    var role = sessionStorage.getItem('role')
+
+                     if(role == 'super_admin'){
+                         return false
+                     }
+
+                     else {
+                         return true
+                     }
+
+
+                 }
             },
             // {
             //     id: 'admin.permission',
@@ -72,7 +137,25 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'สมาชิก',
                 type: 'basic',
                 icon: 'heroicons_solid:rectangle-stack',
-                link: '/member'
+                link: '/member',
+                hidden: (item) =>{
+
+
+                    var role = sessionStorage.getItem('role')
+
+                     if(role == 'super_admin'){
+                         return false
+                     }
+                     else if(role == 'office'){
+                        return false
+                     }
+
+                     else {
+                         return true
+                     }
+
+
+                 }
             },
 
 
@@ -81,14 +164,44 @@ export const defaultNavigation: FuseNavigationItem[] = [
               title: 'แบนเนอร์',
               type: 'basic',
               icon: 'heroicons_solid:photo',
-              link: '/banner'
+              link: '/banner',
+              hidden: (item) =>{
+
+
+                var role = sessionStorage.getItem('role')
+
+                 if(role == 'super_admin'){
+                     return false
+                 }
+
+                 else {
+                     return true
+                 }
+
+
+             }
           },
           {
             id: 'shift',
             title: 'กะทำงาน',
             type: 'basic',
             icon: 'heroicons_solid:clock',
-            link: '/shift'
+            link: '/shift',
+            hidden: (item) =>{
+
+
+                var role = sessionStorage.getItem('role')
+
+                 if(role == 'super_admin'){
+                     return false
+                 }
+
+                 else {
+                     return true
+                 }
+
+
+             }
         },
 
         ],
@@ -101,6 +214,27 @@ export const defaultNavigation: FuseNavigationItem[] = [
         subtitle: 'ขัอมูลเกี่ยวกับสินค้า',
         type: 'group',
         icon: 'heroicons_outline:home',
+             hidden: (item) =>{
+
+
+            var role = sessionStorage.getItem('role')
+
+             if(role == 'super_admin' ){
+                 return false
+             }
+             else if (role == 'manager'){
+                return false
+             }
+             else if (role == 'office'){
+                return false
+             }
+
+             else {
+                 return true
+             }
+
+
+         },
         children: [
             // {
             //     id: 'admin.category',
@@ -141,6 +275,34 @@ export const defaultNavigation: FuseNavigationItem[] = [
         subtitle: 'ข้อมูลเกี่ยวกับรายงาน',
         type: 'group',
         icon: 'heroicons_outline:home',
+             hidden: (item) =>{
+
+
+            var role = sessionStorage.getItem('role')
+
+             if(role == 'super_admin' ){
+                 return false
+             }
+             else if (role == 'manager'){
+                return false
+             }
+             else if (role == 'supervisor'){
+             return false
+
+             }
+             else if (role == 'finance'){
+                return false
+             }
+             else if (role == 'office'){
+                return false
+             }
+
+             else {
+                 return true
+             }
+
+
+         },
         children: [
             // {
             //     id: 'report.tap-card-daily',
@@ -170,6 +332,24 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'จัดการข้อมูลเครดิต',
         type: 'group',
         icon: 'heroicons_outline:home',
+             hidden: (item) =>{
+
+
+            var role = sessionStorage.getItem('role')
+
+             if(role == 'super_admin' ){
+                 return false
+             }
+             else if (role == 'manager'){
+                return false
+             }
+
+             else {
+                 return true
+             }
+
+
+         },
         children: [
             {
                 id: 'credit',

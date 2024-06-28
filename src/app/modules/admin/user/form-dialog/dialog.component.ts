@@ -49,18 +49,22 @@ export class DialogForm implements OnInit {
     stores: any[]=[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: DataTables.Settings = {};
-    addForm: FormGroup;   
+    addForm: FormGroup;
+    branches: any[] = [];
+    selectedBranches: any[] = [];
     roles: any[] = [
         { id: 2, name: 'Admin'},
         { id: 3, name: 'Supervisor'},
         { id: 5, name: 'Manager '},
         { id: 4, name: 'Cashier'},
+        { id: 6, name: 'Office'},
+        { id: 7, name: 'Finance'}
      ];
      registerForm = new FormGroup({
         password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*[A-Z])(?=.*[0-9])(?=.*[-+_!@#$%^&*,.?])(?=.*[a-z]).{8,}$')]),
       });
-     
-     
+
+
     constructor(
         private dialogRef: MatDialogRef<DialogForm>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -70,8 +74,8 @@ export class DialogForm implements OnInit {
         private fuseConfirmationService: FuseConfirmationService,
         private userService: UserService,
         private toastr: ToastrService,
-       
-    ) 
+
+    )
     {
         console.log(' this.form', this.data);
         if(this.data.type === 'EDIT') {
@@ -82,8 +86,9 @@ export class DialogForm implements OnInit {
                 phoneNumber: this.data.value.phoneNumber ?? '',
                 roleId: this.data.value?.role?.id ?? '',
                 username: this.data.value?.username ?? '',
-                isActive: this.data.value?.isActive
-           
+                isActive: this.data.value?.isActive,
+                branchIds: this.data.value?.branches?.map((branch: any) => branch.id) ?? []
+
              });
         } else {
             this.form = this.FormBuilder.group({
@@ -95,21 +100,28 @@ export class DialogForm implements OnInit {
                 username: '',
                 password: '',
                 confirmpassword: '',
+                branchIds: ''
              });
         }
 
 
         // console.log('1111',this.data?.type);
-        
+
     }
-    
+
+
     ngOnInit(): void {
-         if (this.data.type === 'EDIT') {
+        this.userService.getBranch().subscribe(() => {
+            this.userService.branches$.subscribe((branches) => {
+              this.branches = branches;
+            });
+          });
+        if (this.data.type === 'EDIT') {
         //   this.form.patchValue({
         //     ...this.data.value,
         //     roleId: +this.data.value?.role?.id
-        //   })  
-       
+        //   })
+
         } else {
             console.log('New');
         }
@@ -171,5 +183,12 @@ export class DialogForm implements OnInit {
     onClose() {
         this.dialogRef.close()
     }
-
+    selectionChanged(event: any) {
+        // Map selected branches to their IDs
+        this.selectedBranches = event.value;
+        this.form.patchValue({
+          branchIds: this.selectedBranches.map(branch => branch.id)
+        });
+        console.log('Selected Branch IDs:', this.form.get('branchIds')?.value);
+      }
 }

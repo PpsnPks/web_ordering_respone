@@ -65,9 +65,10 @@ export class AuthService
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post<{accessToken: string, refreshToken: string }>('/api/auth/sign-in', credentials).pipe(
+        return this._httpClient.post<{accessToken: string, refreshToken: string, role: string }>('/api/auth/sign-in', credentials).pipe(
             switchMap((response) =>
             {
+
                 // Store the access token in the local storage
                 this.accessToken = response.accessToken;
 
@@ -76,7 +77,8 @@ export class AuthService
 
                 // Store the user on the user service
                 // this._userService.user = response.user;
-
+                console.log('login',response)
+                sessionStorage.setItem('role',response.role);
                 // Return a new observable with the response
                 return of(response);
             }),
@@ -87,8 +89,8 @@ export class AuthService
      * Sign in using the access token
      */
     signInUsingToken(): Observable<any>
-    { 
-     
+    {
+
         // Sign in using the token
         return this._httpClient.post('/api/auth/sign-in-with-token', {
             accessToken: this.accessToken,
@@ -100,7 +102,7 @@ export class AuthService
             ),
             switchMap((response: any) =>
             {
-                
+
                 // Replace the access token with the new one if it's available on
                 // the response object.
                 //
@@ -118,7 +120,7 @@ export class AuthService
 
                 // Store the user on the user service
                 this._userService.user = response.user;
-              
+
                 // Return true
                 return of(true);
             }),
@@ -164,7 +166,7 @@ export class AuthService
      * Check the authentication status
      */
     check(): Observable<boolean>
-    {   
+    {
         // console.log(this._authenticated,'_authenticated')
 
         // Check if the user is logged in

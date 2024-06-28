@@ -10,7 +10,9 @@ export class UserService {
 
   private _categories: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
   private _roles: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
-
+  private _branch: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+  branches: any[] = [];
+  selectedBranches: any[] = [];
   get categories$() {
     return this._categories.asObservable();
   }
@@ -33,6 +35,7 @@ export class UserService {
   //   );
   // }
 
+
   datatable(dataTablesParameters: any) {
     const { columns, order, search, start, length } = dataTablesParameters;
     const page = start / length + 1;
@@ -54,7 +57,9 @@ export class UserService {
       })
     );
   }
-
+  get branches$() {
+    return this._branch.asObservable();
+  }
   create(data: any) {
     return this.http.post('/api/user', data)
   }
@@ -70,6 +75,17 @@ export class UserService {
       }),
     )
   }
+
+  getBranch() {
+    return this.http.get('/api/branch').pipe(
+      tap((resp: any) => {
+        this._branch.next(resp);
+        console.log(resp)
+      })
+    );
+  }
+
+
 
   delete(id: number) {
     return this.http.delete('/api/user/' + id)

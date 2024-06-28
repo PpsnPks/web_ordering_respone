@@ -80,12 +80,12 @@ export class MemberComponent implements OnInit, AfterViewInit {
             serverSide: true,     // Set the flag
             scrollX: true,
             ajax: (dataTablesParameters: any, callback) => {
-                this._service.datatable(dataTablesParameters).subscribe({
+                this._service?.datatable(dataTablesParameters).subscribe({
                     next: (resp: any) => {
                         callback({
-                            recordsTotal: resp.meta.totalItems,
-                            recordsFiltered: resp.meta.totalItems,
-                            data: resp.data
+                            recordsTotal: resp?.meta?.totalItems,
+                            recordsFiltered: resp?.meta?.totalItems,
+                            data: resp?.data
                         });
                     }
                 })
@@ -152,7 +152,7 @@ export class MemberComponent implements OnInit, AfterViewInit {
                         ref: this.btNg,
                     },
                     className: 'w-15 text-center',
-                    
+
                 }
 
             ]
