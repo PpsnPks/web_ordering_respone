@@ -80,10 +80,14 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy
 
                 const branchId = localStorage.getItem('branch')
                 if (!!branchId) {
-                    this.branchControl.setValue(+branchId)
+                    this.branchControl.setValue(+branchId, {
+                        emitEvent: false
+                    })
                 } else {
                     localStorage.setItem('branch', resp[0].id)
-                    this.branchControl.setValue(resp[0].id)
+                    this.branchControl.setValue(resp[0].id, {
+                        emitEvent: false
+                    })
                 }
             }
         })
@@ -111,7 +115,7 @@ export class ClassicLayoutComponent implements OnInit, OnDestroy
 
                 const url = this._router.url
 
-                this._router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+                this._router.navigateByUrl('/dashboards', {skipLocationChange: true}).then(() => {
                     this._router.navigate([url]);
                 });
             })
