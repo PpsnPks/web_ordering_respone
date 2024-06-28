@@ -11,8 +11,10 @@
           <span class="ml-2"> เพิ่มสมาชิก</span>
         </button>
       </div>
-      <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover w-full bg-white whitespace-nowrap">
-      </table>
+      <div class="overflow-auto">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover w-full bg-white whitespace-nowrap">
+        </table>
+      </div>
     </div>
   </div>
 
