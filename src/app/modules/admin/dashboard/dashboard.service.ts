@@ -9,6 +9,7 @@ import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 export class DashboardService {
 
   private _branch: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
+  private _Dashboard: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
   constructor(private http: HttpClient) { }
 
 
@@ -20,4 +21,15 @@ export class DashboardService {
       map((data: any[]) => data.map(branch => branch.name))
     );
   }
+
+  getDashboard() {
+    return this.http.get('/api/dashboard').pipe(
+      tap((resp: any) => {
+        this._Dashboard.next(resp);
+      }),
+    )
+  }
+
+
+
 }

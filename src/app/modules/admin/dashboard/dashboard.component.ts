@@ -1,4 +1,3 @@
-import { CurrencyPipe, NgClass, NgFor, NgIf } from '@angular/common';
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -9,24 +8,15 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { TranslocoModule } from '@ngneat/transloco';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import {
-    ChartComponent,
-    ApexAxisChartSeries,
-    ApexChart,
-    ApexXAxis,
-    ApexDataLabels,
-    ApexTooltip,
-    ApexStroke,
-    ApexPlotOptions,
-    ApexYAxis,
-    ApexLegend,
-    ApexGrid
-} from "ng-apexcharts";
+import { NgClass, NgFor, NgIf } from '@angular/common';
+import { CurrencyPipe } from '@angular/common';
+import { ChartComponent, ApexAxisChartSeries, ApexChart, ApexXAxis, ApexDataLabels, ApexTooltip, ApexStroke, ApexPlotOptions, ApexYAxis, ApexLegend, ApexGrid } from "ng-apexcharts";
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { DashboardService } from './dashboard.service';
+import { items } from 'app/mock-api/apps/file-manager/data';
 
 type ApexXAxis1 = {
     type?: "category" | "datetime" | "numeric";
@@ -37,7 +27,7 @@ type ApexXAxis1 = {
         fontSize?: string;
       };
     };
-  };
+};
 
 export type ChartOptions = {
     series: ApexAxisChartSeries;
@@ -53,22 +43,34 @@ export type ChartOptions = {
     legend: ApexLegend;
 };
 
-
-
 @Component({
     selector: 'dashboard',
     standalone: true,
     templateUrl: './dashboard.component.html',
     encapsulation: ViewEncapsulation.None,
-    imports: [TranslocoModule, MatIconModule, MatButtonModule, MatRippleModule,
-        MatMenuModule, MatTabsModule, MatButtonToggleModule, NgApexchartsModule,
-        NgFor, NgIf, MatTableModule, NgClass, CurrencyPipe, MatFormFieldModule, MatSelectModule, MatInputModule, FormsModule],
+    imports: [
+        TranslocoModule,
+        MatIconModule,
+        MatButtonModule,
+        MatRippleModule,
+        MatMenuModule,
+        MatTabsModule,
+        MatButtonToggleModule,
+        NgApexchartsModule,
+        NgFor,
+        NgIf,
+        MatTableModule,
+        NgClass,
+        CurrencyPipe,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        FormsModule
+    ],
 })
 export class DashboardComponent {
 
-
-
-    value1: string = '';
+    value1: any;
     value2: string = '';
     value3: string = '';
     value4: string = '';
@@ -76,49 +78,13 @@ export class DashboardComponent {
     selectedFood: string;
     foods: any;
     branchNames: string[] = [];
-
-    onSelect(food: string): void {
-        if (food === 'บางนา') {
-            this.value1 = '56';
-            this.value2 = '4';
-            this.value3 = '6'
-            this.value4 = '30';
-        }
-        else if (food === 'bkk') {
-            this.value1 = '78';
-            this.value2 = '6';
-            this.value3 = '12'
-            this.value4 = '38';
-        }
-        else if (food === 'บางซื่อ') {
-            this.value1 = '184';
-            this.value2 = '13';
-            this.value3 = '27'
-            this.value4 = '45';
-        }
-        else if (food === 'ลาดกระบัง') {
-            this.value1 = '88';
-            this.value2 = '5';
-            this.value3 = '12'
-            this.value4 = '33';
-        }
-        else if (food === 'okt') {
-            this.value1 = '34';
-            this.value2 = '1';
-            this.value3 = '12'
-            this.value4 = '55';
-        }
-
-
-        else {
-
-            // Clear the values if Pizza is not selected
-            this.value1 = '0';
-            this.value2 = '0';
-            this.value3 = '0';
-            this.value4 = '0';
-        }
-    }
+    Dashboard: any;
+    total: any;
+    bill: any;
+    avg: any;
+    paymentType: any;
+    productValue: any;
+    productName: any;
 
     @ViewChild("chart") chart: ChartComponent;
     public chartOptions: Partial<ChartOptions>;
@@ -127,156 +93,137 @@ export class DashboardComponent {
     selectedProject: string = 'ACME Corp. Backend App';
 
     constructor(private service: DashboardService) {
-
-        this.value1 = '56';
+        this.value1 = this.total;
         this.value2 = '4';
         this.value3 = '6';
         this.value4 = '30';
-        this.selectedFood = 'บางนา'; // ตั้งค่าเริ่มต้นให้เป็น บางนา หรือค่าใดก็ได้ตามที่ต้องการ
+        // Set initial value for selectedFood or any other initialization logic
         this.onSelect(this.selectedFood);
-
-
 
         this.chartOptions3 = {
             series: [
-              {
-                name: "distibuted",
-                data: [21, 22]
-              }
+                {
+                    name: "distibuted",
+                    data: []
+                }
             ],
             chart: {
-              height: 350,
-              type: "bar",
-              events: {
-                click: function(chart, w, e) {
-                  // console.log(chart, w, e)
+                height: 350,
+                type: "bar",
+                events: {
+                    click: function(chart, w, e) {
+                        // console.log(chart, w, e)
+                    }
                 }
-              }
             },
             colors: [
-              "#008FFB",
-              "#00E396",
-              "#FEB019",
-              "#FF4560",
-              "#775DD0",
-              "#546E7A",
-              "#26a69a",
-              "#D10CE8"
+                "#008FFB",
+                "#00E396",
+                "#FEB019",
+                "#FF4560",
+                "#775DD0",
+                "#546E7A",
+                "#26a69a",
+                "#D10CE8"
             ],
             plotOptions: {
-              bar: {
-                columnWidth: "45%",
-                distributed: true
-              }
+                bar: {
+                    columnWidth: "45%",
+                    distributed: true
+                }
             },
             dataLabels: {
-              enabled: false
+                enabled: false
             },
             legend: {
-              show: false
+                show: false
             },
             grid: {
-              show: false
+                show: false
             },
             xaxis: {
-              categories: [
-                ["เงินสด"],
-                ["พร้อมเพย์"],
-
-
-              ],
-              labels: {
-                style: {
-                  colors: [
-                    "#008FFB",
-                    "#00E396",
-                    "#FEB019",
-                    "#FF4560",
-                    "#775DD0",
-                    "#546E7A",
-                    "#26a69a",
-                    "#D10CE8"
-                  ],
-                  fontSize: "12px"
+                categories: [
+                    ["เงินสด"],
+                    ["พร้อมเพย์"],
+                ],
+                labels: {
+                    style: {
+                        colors: [
+                            "#008FFB",
+                            "#00E396",
+                            "#FEB019",
+                            "#FF4560",
+                            "#775DD0",
+                            "#546E7A",
+                            "#26a69a",
+                            "#D10CE8"
+                        ],
+                        fontSize: "12px"
+                    }
                 }
-              }
             }
-          };
-
+        };
 
         this.chartOptions2 = {
             series: [
-              {
-                name: "distibuted",
-                data: [21, 22, 10, 28, 16]
-              }
+                {
+                    name: "distibuted",
+                    data: []
+                }
             ],
             chart: {
-              height: 350,
-              type: "bar",
-              events: {
-                click: function(chart, w, e) {
-                  // console.log(chart, w, e)
+                height: 350,
+                type: "bar",
+                events: {
+                    click: function(chart, w, e) {
+                        // console.log(chart, w, e)
+                    }
                 }
-              }
             },
             colors: [
-              "#008FFB",
-              "#00E396",
-              "#FEB019",
-              "#FF4560",
-              "#775DD0",
-              "#546E7A",
-              "#26a69a",
-              "#D10CE8"
+                "#008FFB",
+                "#00E396",
+                "#FEB019",
+                "#FF4560",
+                "#775DD0",
+                "#546E7A",
+                "#26a69a",
+                "#D10CE8"
             ],
             plotOptions: {
-              bar: {
-                columnWidth: "45%",
-                distributed: true
-              }
+                bar: {
+                    columnWidth: "45%",
+                    distributed: true
+                }
             },
             dataLabels: {
-              enabled: false
+                enabled: false
             },
             legend: {
-              show: false
+                show: false
             },
             grid: {
-              show: false
+                show: false
             },
             xaxis: {
-              categories: [
-                ["ชานม"],
-                ["ชาไทย"],
-                ["ม่อคค่า"],
-                ["ช้อคโกแลตปั่น"],
-                ["นมหมีปั่น"],
-
-              ],
-              labels: {
-                style: {
-                  colors: [
-                    "#008FFB",
-                    "#00E396",
-                    "#FEB019",
-                    "#FF4560",
-                    "#775DD0",
-                    "#546E7A",
-                    "#26a69a",
-                    "#D10CE8"
-                  ],
-                  fontSize: "12px"
+                categories: ["กาแฟ", "ชาเย็น", "ชาเขียว", "ชามะนาว", "ชาดำ"],
+                labels: {
+                    style: {
+                        colors: [
+                            "#008FFB",
+                            "#00E396",
+                            "#FEB019",
+                            "#FF4560",
+                            "#775DD0",
+                            "#546E7A",
+                            "#26a69a",
+                            "#D10CE8"
+                        ],
+                        fontSize: "12px"
+                    }
                 }
-              }
             }
-          };
-
-
-
-
-
-
+        };
 
         this.chartOptions = {
             series: [
@@ -286,13 +233,12 @@ export class DashboardComponent {
                 },
                 {
                     name: "สาขา2",
-                    data: [11, 11, 32, 45, 32, 34, 52, 41, 48, 97, 35, 65, 87, 94, 79, 39, 79, 57, 35, 53, 79, 59, 29,]
+                    data: [11, 11, 32, 45, 32, 34, 52, 41, 48, 97, 35, 65, 87, 94, 79, 39, 79, 57, 35, 53, 79, 59, 29]
                 },
                 {
                     name: "สาขา3",
-                    data: [11, 11, 38, 85, 32, 54, 22, 71, 75, 35, 68, 64, 79, 35, 57, 42, 58, 35, 79, 35, 24, 89, 100,]
+                    data: [11, 11, 38, 85, 32, 54, 22, 71, 75, 35, 68, 64, 79, 35, 57, 42, 58, 35, 79, 35, 24, 89, 100]
                 }
-
             ],
             chart: {
                 height: 350,
@@ -339,37 +285,56 @@ export class DashboardComponent {
                 }
             }
         };
-
-
-
-
-
-
     }
+
     ngOnInit(): void {
         this.service.getBranchNames().subscribe(names => {
             this.branchNames = names;
-            // ทำอะไรก็ตามที่ต้องการกับข้อมูลชื่อสาขา ในที่นี้เราเพียงแสดงผลในคอนโซลเท่านั้น
             this.foods = this.branchNames;
+        });
+
+        this.service.getDashboard().subscribe(resp => {
+            console.log('seedata', resp);
+            this.paymentType = resp.paymentType.map(item => item.value);
+            this.Dashboard = resp;
+            this.total = resp.total;
+            this.bill = resp.bill;
+            this.avg = resp.avg;
+            this.productValue = resp.product.map(item => item.value);
+            this.productName = resp.product.map(item => item.name);
+
+            this.chartOptions2.xaxis.categories = this.productName;
+            this.chartOptions3.series = [{
+                name: "distibuted",
+                data: this.paymentType
+            }];
+            this.chartOptions3.xaxis.categories = this.paymentType.map(value => [value.toString()]);
+
+            this.chartOptions2.series = [{
+                name: "distibuted",
+                data: this.productValue
+            }];
         });
     }
 
-    public generateData(baseval, count, yrange) {
-        var i = 0;
-        var series = [];
-        while (i < count) {
-            var x = Math.floor(Math.random() * (750 - 1 + 1)) + 1;
-            var y =
-                Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-            var z = Math.floor(Math.random() * (75 - 15 + 1)) + 15;
+    onSelect(food: string): void {
+        this.value1 = this.total;
+        this.value2 = '4';
+        this.value3 = '6';
+        this.value4 = '30';
+    }
 
+    public generateData(baseval, count, yrange) {
+        let i = 0;
+        const series = [];
+        while (i < count) {
+            const x = Math.floor(Math.random() * (750 - 1 + 1)) + 1;
+            const y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+            const z = Math.floor(Math.random() * (75 - 15 + 1)) + 15;
             series.push([x, y, z]);
             baseval += 86400000;
             i++;
         }
         return series;
     }
-
-
-
 }
