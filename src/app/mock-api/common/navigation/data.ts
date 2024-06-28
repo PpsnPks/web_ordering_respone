@@ -25,6 +25,11 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'heroicons_outline:building-office-2',
                 link: '/store/1',
+                hidden: (item) =>{
+                    
+                    return false
+
+                }
             },
             // {
             //     id: 'admin.department',
@@ -129,7 +134,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
 
         ],
     },
-   
+
     {
         id: 'report',
         title: 'รายงาน',
