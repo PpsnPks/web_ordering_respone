@@ -77,6 +77,7 @@ export class MemberComponent implements OnInit, AfterViewInit {
         this.dtOptions = {
             pagingType: 'full_numbers',
             serverSide: true,     // Set the flag
+            scrollX: true,
             ajax: (dataTablesParameters: any, callback) => {
                 this._service.datatable(dataTablesParameters).subscribe({
                     next: (resp: any) => {
