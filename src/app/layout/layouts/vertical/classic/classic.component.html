@@ -23,6 +23,16 @@
                 src="assets/images/logo/Logo_White.svg"
                 alt="Logo image">
         </div>
+
+        <div class="w-64 mt-5">
+            <mat-form-field class="w-full fuse-mat-dense" style="margin: 0 12px;">
+                <mat-select [formControl]="branchControl">
+                    <mat-option *ngFor="let branch of branchs" [value]="branch.id">
+                        {{branch.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
     </ng-container>
 </fuse-vertical-navigation>
 

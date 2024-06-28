@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FuseNavigationItem } from '@fuse/components/navigation/navigation.types';
 
@@ -10,7 +11,7 @@ export class FuseNavigationService
     /**
      * Constructor
      */
-    constructor()
+    constructor(private http: HttpClient)
     {
     }
 
@@ -180,5 +181,9 @@ export class FuseNavigationService
         }
 
         return null;
+    }
+
+    getBranch(){
+        return this.http.get('/api/branch')
     }
 }

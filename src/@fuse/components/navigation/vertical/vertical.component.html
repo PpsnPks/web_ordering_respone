@@ -17,6 +17,16 @@
             <ng-content select="[fuseVerticalNavigationContentHeader]"></ng-content>
         </div>
 
+        <!-- <div class="w-64">
+            <mat-form-field class="w-full" style="margin: 0 12px;">
+                <mat-select>
+                    <mat-option *ngFor="let food of ['1','2']" [value]="food">
+                        {{food}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div> -->
+
         <!-- Items -->
         <ng-container *ngFor="let item of navigation; trackBy: trackByFn">
 
