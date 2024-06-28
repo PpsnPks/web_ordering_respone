@@ -1,5 +1,4 @@
-import { chats } from './../../../mock-api/apps/chat/data';
-import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation, ChangeDetectorRef } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatRippleModule } from '@angular/material/core';
@@ -23,10 +22,10 @@ type ApexXAxis1 = {
     type?: "category" | "datetime" | "numeric";
     categories?: any;
     labels?: {
-      style?: {
-        colors?: string | string[];
-        fontSize?: string;
-      };
+        style?: {
+            colors?: string | string[];
+            fontSize?: string;
+        };
     };
 };
 
@@ -85,7 +84,7 @@ export class DashboardComponent {
     avg: any;
     paymentType: any;
     productValue: any;
-    productName: any;
+    productName: any[] = []; // Initialize as an empty array
     chartValue: any;
     datetime: any;
 
@@ -95,21 +94,248 @@ export class DashboardComponent {
     public chartOptions3: Partial<ChartOptions>;
     selectedProject: string = 'ACME Corp. Backend App';
 
-    constructor(private service: DashboardService) {
-        this.value1 = this.total;
-        this.value2 = '4';
-        this.value3 = '6';
-        this.value4 = '30';
-        // Set initial value for selectedFood or any other initialization logic
-        this.onSelect(this.selectedFood);
+    ngOnInit(): void {
+        this.service.getDashboard().subscribe(resp => {
+            console.log('seedata', resp);
+            this.paymentType = resp.paymentType.map(item => item.value);
+            this.total = resp.total;
+            this.bill = resp.bill;
+            this.avg = resp.avg;
+            this.chartValue = resp.chart.map(item => item.value);
+            this.productValue = resp.product.map(item => item.value);
+            this.productName = resp.product.map(item => item.name);
+            this.datetime = resp.chart.map(item => item.datetime);
+
+            // Update chartOptions2 and chartOptions with fetched data
+            this.chartOptions2 = {
+                ...this.chartOptions2,
+                xaxis: {
+                    ...this.chartOptions2.xaxis,
+                    categories: this.productName,
+                    labels: {
+                        style: {
+                            colors: [
+                                "#008FFB",
+                                "#00E396",
+                                "#FEB019",
+                                "#FF4560",
+                                "#775DD0",
+                                "#546E7A",
+                                "#26a69a",
+                                "#D10CE8"
+                            ],
+                            fontSize: "12px"
+                        }
+                    }
+                },
+                series: [{
+                    name: "distibuted",
+                    data: this.productValue
+                }]
+            };
+
+            this.chartOptions = {
+                ...this.chartOptions,
+                xaxis: {
+                    ...this.chartOptions.xaxis,
+                    categories: this.datetime,
+                    labels: {
+                        style: {
+                            colors: [
+                                "#008FFB",
+                                "#00E396",
+                                "#FEB019",
+                                "#FF4560",
+                                "#775DD0",
+                                "#546E7A",
+                                "#26a69a",
+                                "#D10CE8"
+                            ],
+                            fontSize: "12px"
+                        }
+                    }
+                },
+                series: [{
+                    name: "distibuted",
+                    data: this.chartValue
+                }],
+                tooltip: {
+                    x: {
+                        format: "dd/MM/yy HH:mm"
+                    }
+                }
+            };
+
+            this.chartOptions3 = {
+                series: [{
+                    name: "distibuted",
+                    data: this.paymentType
+                }],
+                chart: {
+                    height: 350,
+                    type: "bar",
+                    events: {
+                        click: function(chart, w, e) {
+                            // console.log(chart, w, e)
+                        }
+                    }
+                },
+                colors: [
+                    "#008FFB",
+                    "#00E396",
+                    "#FEB019",
+                    "#FF4560",
+                    "#775DD0",
+                    "#546E7A",
+                    "#26a69a",
+                    "#D10CE8"
+                ],
+                plotOptions: {
+                    bar: {
+                        columnWidth: "45%",
+                        distributed: true
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                legend: {
+                    show: false
+                },
+                grid: {
+                    show: false
+                },
+                xaxis: {
+                    categories: [
+                        ["เงินสด"],
+                        ["พร้อมเพย์"],
+                    ],
+                    labels: {
+                        style: {
+                            colors: [
+                                "#008FFB",
+                                "#00E396",
+                                "#FEB019",
+                                "#FF4560",
+                                "#775DD0",
+                                "#546E7A",
+                                "#26a69a",
+                                "#D10CE8"
+                            ],
+                            fontSize: "12px"
+                        }
+                    }
+                }
+            };
+
+            // Update chart options using chart component methods if necessary
+            if (this.chart) {
+                this.chart.updateOptions(this.chartOptions);
+                this.chart.updateOptions(this.chartOptions2);
+                this.chart.updateOptions(this.chartOptions3);
+            }
+
+            // Trigger change detection explicitly if needed
+            this.cd.detectChanges();
+        });
+
+        this.service.getBranchNames().subscribe(names => {
+            this.branchNames = names;
+            this.foods = this.branchNames;
+        });
+    }
+
+    constructor(private service: DashboardService, private cd: ChangeDetectorRef) {
+        this.chartOptions = {
+            series: [{
+                name: "สาขา1",
+                data: [11, 31, 40, 28, 51, 42, 109, 100, 56, 43, 27, 67, 47, 27, 57, 83, 47, 26, 57, 97, 47, 58, 28]
+            }],
+            chart: {
+                height: 350,
+                type: "area"
+            },
+            dataLabels: {
+                enabled: false
+            },
+            stroke: {
+                curve: "smooth"
+            },
+            xaxis: {
+                type: "datetime",
+                categories: []
+            },
+            tooltip: {
+                x: {
+                    format: "dd/MM/yy HH:mm"
+                }
+            }
+        };
+
+        this.chartOptions2 = {
+            series: [{
+                name: "distibuted",
+                data: []
+            }],
+            chart: {
+                height: 350,
+                type: "bar",
+                events: {
+                    click: function(chart, w, e) {
+                        // console.log(chart, w, e)
+                    }
+                }
+            },
+            colors: [
+                "#008FFB",
+                "#00E396",
+                "#FEB019",
+                "#FF4560",
+                "#775DD0",
+                "#546E7A",
+                "#26a69a",
+                "#D10CE8"
+            ],
+            plotOptions: {
+                bar: {
+                    columnWidth: "45%",
+                    distributed: true
+                }
+            },
+            dataLabels: {
+                enabled: false
+            },
+            legend: {
+                show: false
+            },
+            grid: {
+                show: false
+            },
+            xaxis: {
+                categories: [],
+                labels: {
+                    style: {
+                        colors: [
+                            "#008FFB",
+                            "#00E396",
+                            "#FEB019",
+                            "#FF4560",
+                            "#775DD0",
+                            "#546E7A",
+                            "#26a69a",
+                            "#D10CE8"
+                        ],
+                        fontSize: "12px"
+                    }
+                }
+            }
+        };
 
         this.chartOptions3 = {
-            series: [
-                {
-                    name: "distibuted",
-                    data: []
-                }
-            ],
+            series: [{
+                name: "distibuted",
+                data: []
+            }],
             chart: {
                 height: 350,
                 type: "bar",
@@ -166,163 +392,9 @@ export class DashboardComponent {
                 }
             }
         };
-
-        this.chartOptions2 = {
-            series: [
-                {
-                    name: "distibuted",
-                    data: []
-                }
-            ],
-            chart: {
-                height: 350,
-                type: "bar",
-                events: {
-                    click: function(chart, w, e) {
-                        // console.log(chart, w, e)
-                    }
-                }
-            },
-            colors: [
-                "#008FFB",
-                "#00E396",
-                "#FEB019",
-                "#FF4560",
-                "#775DD0",
-                "#546E7A",
-                "#26a69a",
-                "#D10CE8"
-            ],
-            plotOptions: {
-                bar: {
-                    columnWidth: "45%",
-                    distributed: true
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            legend: {
-                show: false
-            },
-            grid: {
-                show: false
-            },
-            xaxis: {
-                categories: ["กาแฟ", "ชาเย็น", "ชาเขียว", "ชามะนาว", "ชาดำ"],
-                labels: {
-                    style: {
-                        colors: [
-                            "#008FFB",
-                            "#00E396",
-                            "#FEB019",
-                            "#FF4560",
-                            "#775DD0",
-                            "#546E7A",
-                            "#26a69a",
-                            "#D10CE8"
-                        ],
-                        fontSize: "12px"
-                    }
-                }
-            }
-        };
-
-        this.chartOptions = {
-            series: [
-                {
-                    name: "สาขา1",
-                    data: [11, 31, 40, 28, 51, 42, 109, 100, 56, 43, 27, 67, 47, 27, 57, 83, 47, 26, 57, 97, 47, 58, 28]
-                },
-            ],
-            chart: {
-                height: 350,
-                type: "area"
-            },
-            dataLabels: {
-                enabled: false
-            },
-            stroke: {
-                curve: "smooth"
-            },
-            xaxis: {
-                type: "datetime",
-                categories: [
-                    "2018-09-19T00:00:00.000Z",
-                    "2018-09-19T01:30:00.000Z",
-                    "2018-09-19T02:30:00.000Z",
-                    "2018-09-19T03:30:00.000Z",
-                    "2018-09-19T04:30:00.000Z",
-                    "2018-09-19T05:30:00.000Z",
-                    "2018-09-19T06:30:00.000Z",
-                    "2018-09-19T07:30:00.000Z",
-                    "2018-09-19T08:30:00.000Z",
-                    "2018-09-19T09:30:00.000Z",
-                    "2018-09-19T10:30:00.000Z",
-                    "2018-09-19T11:30:00.000Z",
-                    "2018-09-19T12:30:00.000Z",
-                    "2018-09-19T13:30:00.000Z",
-                    "2018-09-19T14:30:00.000Z",
-                    "2018-09-19T15:30:00.000Z",
-                    "2018-09-19T16:30:00.000Z",
-                    "2018-09-19T17:30:00.000Z",
-                    "2018-09-19T18:30:00.000Z",
-                    "2018-09-19T19:30:00.000Z",
-                    "2018-09-19T20:30:00.000Z",
-                    "2018-09-19T21:30:00.000Z",
-                    "2018-09-19T22:30:00.000Z",
-                    "2018-09-19T23:00:00.000Z",
-                ]
-            },
-            tooltip: {
-                x: {
-                    format: "dd/MM/yy HH:mm"
-                }
-            }
-        };
     }
 
-    ngOnInit(): void {
 
-
-        this.service.getDashboard().subscribe(resp => {
-            console.log('seedata', resp);
-            this.paymentType = resp.paymentType.map(item => item.value);
-            this.total = resp.total;
-            this.bill = resp.bill;
-            this.avg = resp.avg;
-            this.chartValue = resp.chart.map(item => item.value);
-            this.productValue = resp.product.map(item => item.value);
-            this.productName = resp.product.map(item => item.name);
-            this.datetime = resp.chart.map(item => item.datetime);
-            this.chartOptions2.xaxis.categories = this.productName;
-            this.chartOptions.xaxis.categories = this.datetime;
-            this.chartOptions.series= [{
-                name: "distibuted",
-                data: this.chartValue
-            }];
-            this.chartOptions3.series = [{
-                name: "distibuted",
-                data: this.paymentType
-            }];
-            this.chartOptions2.series = [{
-                name: "distibuted",
-                data: this.productValue
-            }];
-        });
-        this.service.getBranchNames().subscribe(names => {
-            this.branchNames = names;
-            this.foods = this.branchNames;
-        });
-
-    }
-
-    onSelect(food: string): void {
-        this.value1 = this.total;
-        this.value2 = '4';
-        this.value3 = '6';
-        this.value4 = '30';
-    }
 
     public generateData(baseval, count, yrange) {
         let i = 0;

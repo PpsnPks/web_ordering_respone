@@ -1,40 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { toUpper } from 'lodash';
-import { BehaviorSubject, Observable, map, tap } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DashboardService {
+  private _dashboardData: BehaviorSubject<any> = new BehaviorSubject<any>(null);
+  private _branchNames: BehaviorSubject<string[]> = new BehaviorSubject<string[]>(null);
 
-  private _branch: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
-  private _Dashboard: BehaviorSubject<any[] | null> = new BehaviorSubject(null);
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient) {}
 
   getBranchNames(): Observable<string[]> {
     return this.http.get<any[]>('/api/branch').pipe(
-      tap((resp: any) => {
-        // ทำอะไรก็ตามที่ต้องการกับข้อมูลที่ได้รับ ในที่นี้เราใช้ tap เพื่อนำข้อมูลไปใช้ใน service ได้ต่อ
-      }),
-      map((data: any[]) => data.map(branch => branch.name))
+      tap(data => this._branchNames.next(data.map(item => item.name))),
+      map(data => data.map(item => item.name))
     );
   }
 
-  getDashboard() {
-   var branchid = localStorage.getItem("branch")
-    return this.http.get('/api/dashboard', {
-        params: {
-            branchId: branchid
-        }
-    }).pipe(
-      tap((resp: any) => {
-        this._Dashboard.next(resp);
-      }),
-    )
+  getDashboard(): Observable<any> {
+    const branchId = localStorage.getItem('branch');
+    return this.http.get<any>('/api/dashboard', { params: { branchId } }).pipe(
+      tap(data => this._dashboardData.next(data)),
+      map(data => data)
+    );
   }
-
-
-
 }
