@@ -75,6 +75,7 @@ export const appRoutes: Route[] = [
             initialData: initialDataResolver
         },
         children: [
+            { path: 'dashboards', loadChildren: () => import('app/modules/admin/dashboard/dashboard.routes') },
             { path: 'dashboard', loadChildren: () => import('app/modules/admin/dashboard/dashboard.routes') },
             { path: 'user', loadChildren: () => import('app/modules/admin/user/user.routes') },
             { path: 'branch', loadChildren: () => import('app/modules/admin/branch/page.routes') },
@@ -90,7 +91,6 @@ export const appRoutes: Route[] = [
             { path: 'profile', loadChildren: () => import('app/modules/admin/profile/profile.routes') },
             { path: 'shift', loadChildren: () => import('app/modules/admin/shift/shift.routes') },
             { path: 'credit', loadChildren: () => import('app/modules/admin/credit/credit.routes') },
-
         ]
     }
 ];
