@@ -20,12 +20,12 @@ export class AuthService
      */
     set accessToken(token: string)
     {
-        localStorage.setItem('accessToken', token);
+        sessionStorage.setItem('accessToken', token);
     }
 
     get accessToken(): string
     {
-        return localStorage.getItem('accessToken') ?? '';
+        return sessionStorage.getItem('accessToken') ?? '';
     }
 
     // -----------------------------------------------------------------------------------------------------
@@ -133,7 +133,7 @@ export class AuthService
     signOut(): Observable<any>
     {
         // Remove the access token from the local storage
-        localStorage.removeItem('accessToken');
+        sessionStorage.removeItem('accessToken');
 
         // Set the authenticated flag to false
         this._authenticated = false;

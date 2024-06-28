@@ -23,7 +23,12 @@ export class DashboardService {
   }
 
   getDashboard() {
-    return this.http.get('/api/dashboard').pipe(
+   var branchid = localStorage.getItem("branch")
+    return this.http.get('/api/dashboard', {
+        params: {
+            branchId: branchid
+        }
+    }).pipe(
       tap((resp: any) => {
         this._Dashboard.next(resp);
       }),

@@ -1,3 +1,4 @@
+import { chats } from './../../../mock-api/apps/chat/data';
 import { Component, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -85,6 +86,8 @@ export class DashboardComponent {
     paymentType: any;
     productValue: any;
     productName: any;
+    chartValue: any;
+    datetime: any;
 
     @ViewChild("chart") chart: ChartComponent;
     public chartOptions: Partial<ChartOptions>;
@@ -231,14 +234,6 @@ export class DashboardComponent {
                     name: "สาขา1",
                     data: [11, 31, 40, 28, 51, 42, 109, 100, 56, 43, 27, 67, 47, 27, 57, 83, 47, 26, 57, 97, 47, 58, 28]
                 },
-                {
-                    name: "สาขา2",
-                    data: [11, 11, 32, 45, 32, 34, 52, 41, 48, 97, 35, 65, 87, 94, 79, 39, 79, 57, 35, 53, 79, 59, 29]
-                },
-                {
-                    name: "สาขา3",
-                    data: [11, 11, 38, 85, 32, 54, 22, 71, 75, 35, 68, 64, 79, 35, 57, 42, 58, 35, 79, 35, 24, 89, 100]
-                }
             ],
             chart: {
                 height: 350,
@@ -288,33 +283,38 @@ export class DashboardComponent {
     }
 
     ngOnInit(): void {
-        this.service.getBranchNames().subscribe(names => {
-            this.branchNames = names;
-            this.foods = this.branchNames;
-        });
+
 
         this.service.getDashboard().subscribe(resp => {
             console.log('seedata', resp);
             this.paymentType = resp.paymentType.map(item => item.value);
-            this.Dashboard = resp;
             this.total = resp.total;
             this.bill = resp.bill;
             this.avg = resp.avg;
+            this.chartValue = resp.chart.map(item => item.value);
             this.productValue = resp.product.map(item => item.value);
             this.productName = resp.product.map(item => item.name);
-
+            this.datetime = resp.chart.map(item => item.datetime);
             this.chartOptions2.xaxis.categories = this.productName;
+            this.chartOptions.xaxis.categories = this.datetime;
+            this.chartOptions.series= [{
+                name: "distibuted",
+                data: this.chartValue
+            }];
             this.chartOptions3.series = [{
                 name: "distibuted",
                 data: this.paymentType
             }];
-            this.chartOptions3.xaxis.categories = this.paymentType.map(value => [value.toString()]);
-
             this.chartOptions2.series = [{
                 name: "distibuted",
                 data: this.productValue
             }];
         });
+        this.service.getBranchNames().subscribe(names => {
+            this.branchNames = names;
+            this.foods = this.branchNames;
+        });
+
     }
 
     onSelect(food: string): void {
