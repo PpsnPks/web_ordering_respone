@@ -38,6 +38,8 @@ export class ProductService {
     }).pipe(
       map((resp: any) => {
         resp.data.forEach((e: any, i: number) => e.no = start + i + 1);
+        console.log(1);
+        
         return resp;
       })
     );

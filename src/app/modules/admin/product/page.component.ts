@@ -16,6 +16,10 @@ import { Router } from '@angular/router';
 import { PictureComponent } from '../picture/picture.component';
 import { ProductComposeComponent } from './dialog/product-compose/product-compose.component';
 import { DialogForm } from './form-dialog/dialog.component';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 @Component({
     selector: 'app-page-product',
     standalone: true,
@@ -26,7 +30,12 @@ import { DialogForm } from './form-dialog/dialog.component';
         MatIconModule,
         FilePickerModule,
         MatMenuModule,
-        MatDividerModule
+        MatDividerModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatSelectModule,
+        MatInputModule,
+        MatFormFieldModule
     ],
     templateUrl: './page.component.html',
     styleUrl: './page.component.scss',
@@ -35,21 +44,25 @@ import { DialogForm } from './form-dialog/dialog.component';
 export class ProductComponent implements OnInit, AfterViewInit {
     dtOptions: any = {};
     dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
-
+    catagories: any[] = [];
     @ViewChild('btNg') btNg: any;
     @ViewChild('btPicture') btPicture: any;
     @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
-
+    form: FormGroup
     constructor(
         private _service: ProductService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
         public dialog: MatDialog,
-        private _router: Router
+        private _router: Router,
+        private _fb: FormBuilder
 
     ) {
-
+        this._service.categories$.subscribe(resp => this.catagories = resp);
+        this.form = this._fb.group({
+            category_id: ''
+        })
     }
     ngOnInit(): void {
         setTimeout(() =>
@@ -67,6 +80,10 @@ export class ProductComponent implements OnInit, AfterViewInit {
         this.dtTrigger.unsubscribe();
     }
 
+    onChangeType() {
+        this.rerender()
+    }
+
     loadTable(): void {
         this.dtOptions = {
             pagingType: 'full_numbers',
@@ -74,7 +91,7 @@ export class ProductComponent implements OnInit, AfterViewInit {
             ajax: (dataTablesParameters: any, callback) => {
 
                 dataTablesParameters.filter = {
-                    'filter.category.id': '',
+                    'filter.category.id': this.form.value.category_id ?? ''
                 }
 
                 this._service.datatable(dataTablesParameters).subscribe({
