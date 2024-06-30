@@ -19,6 +19,10 @@ import { MemberService } from './member.service';
 import { MemberComposeComponent } from './dialogcustomer/member-compose.component';
 import { DialogForm } from './form-dialog/dialog.component';
 import { DialogCreditComponent } from './dialog-credit/dialog-credit.component';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 @Component({
     selector: 'app-member',
     standalone: true,
@@ -29,7 +33,12 @@ import { DialogCreditComponent } from './dialog-credit/dialog-credit.component';
         MatIconModule,
         FilePickerModule,
         MatMenuModule,
-        MatDividerModule
+        MatDividerModule,
+        MatSelectModule,
+        MatInputModule,
+        MatFormFieldModule,
+        ReactiveFormsModule,
+        FormsModule
     ],
     providers: [
         CurrencyPipe
@@ -41,22 +50,31 @@ import { DialogCreditComponent } from './dialog-credit/dialog-credit.component';
 export class MemberComponent implements OnInit, AfterViewInit {
     dtOptions: any = {};
     dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
-
+    form: FormGroup
     @ViewChild('btNg') btNg: any;
     @ViewChild('btPicture') btPicture: any;
     @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
-
+    category: any[] = [
+        
+        'A',
+        'B',
+        'C',
+        'D',
+    ];
     constructor(
         private _service: MemberService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
         public dialog: MatDialog,
         private currencyPipe: CurrencyPipe,
-        private _router: Router
+        private _router: Router,
+        private _fb: FormBuilder
 
     ) {
-
+    this.form = this._fb.group({
+        card_type: '',
+    })
     }
     ngOnInit(): void {
         setTimeout(() =>
@@ -75,12 +93,20 @@ export class MemberComponent implements OnInit, AfterViewInit {
         this.dtTrigger.unsubscribe();
     }
 
+    onChangeType() {
+        this.rerender()
+    }
+
     loadTable(): void {
         this.dtOptions = {
             pagingType: 'full_numbers',
             serverSide: true,     // Set the flag
             scrollX: true,
             ajax: (dataTablesParameters: any, callback) => {
+                dataTablesParameters.filter = {
+                    'filter.card.card_type': this.form.value.card_type ?? '',
+                    
+                }
                 this._service?.datatable(dataTablesParameters).subscribe({
                     next: (resp: any) => {
                         callback({

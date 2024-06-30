@@ -14,6 +14,22 @@
           </button>
         </div>
       </div>
+      <form [formGroup]="form">
+        <div class="md:w-1/4 w-full" >
+          <mat-form-field  class="w-full">
+              <mat-label>เลือกประเภทบัตร</mat-label>
+              <mat-select [formControlName]="'card_type'" (selectionChange)="onChangeType()">
+                  <mat-option  [value]="">
+                      ทั้งหมด
+                  </mat-option>
+                  <mat-option *ngFor="let item of category;" [value]="item">
+                      {{item}}
+                  </mat-option>
+              </mat-select>
+          </mat-form-field>
+      </div>
+      </form>
+     
 
       <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table w-full bg-white row-border hover whitespace-nowrap">
         
