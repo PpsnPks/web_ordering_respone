@@ -22,7 +22,8 @@ import { MatInputModule } from '@angular/material/input';
 import { CreditService } from '../credit.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
+import { createFileFromBlob } from 'app/modules/shared/helper';;
 
 @Component({
     selector: 'app-user-form',
@@ -46,21 +47,21 @@ import {MatRadioModule} from '@angular/material/radio';
 export class DialogForm implements OnInit {
 
     form: FormGroup;
-    stores: any[]=[];
+    stores: any[] = [];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: DataTables.Settings = {};
-    addForm: FormGroup;   
+    addForm: FormGroup;
     roles: any[] = [
-        { id: 2, name: 'Admin'},
-        { id: 5, name: 'Manager '},
-        { id: 3, name: 'Supervisor'},
-        { id: 4, name: 'Cashier'},
-     ];
-     registerForm = new FormGroup({
+        { id: 2, name: 'Admin' },
+        { id: 5, name: 'Manager ' },
+        { id: 3, name: 'Supervisor' },
+        { id: 4, name: 'Cashier' },
+    ];
+    registerForm = new FormGroup({
         password: new FormControl('', [Validators.required, Validators.pattern('^(?=.*[A-Z])(?=.*[0-9])(?=.*[-+_!@#$%^&*,.?])(?=.*[a-z]).{8,}$')]),
-      });
-     
-     
+    });
+
+
     constructor(
         private dialogRef: MatDialogRef<DialogForm>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -70,34 +71,33 @@ export class DialogForm implements OnInit {
         private fuseConfirmationService: FuseConfirmationService,
         private userService: CreditService,
         private toastr: ToastrService,
-       
-    ) 
-    {
+
+    ) {
         console.log(' this.form', this.data);
-        if(this.data.type === 'EDIT') {
+        if (this.data.type === 'EDIT') {
             this.form = this.FormBuilder.group({
                 file: '',
                 file_name: '',
-             });
+            });
         } else {
             this.form = this.FormBuilder.group({
                 file: '',
                 file_name: '',
-             });
+            });
         }
 
 
         // console.log('1111',this.data?.type);
-        
+
     }
-    
+
     ngOnInit(): void {
-         if (this.data.type === 'EDIT') {
-        //   this.form.patchValue({
-        //     ...this.data.value,
-        //     roleId: +this.data.value?.role?.id
-        //   })  
-       
+        if (this.data.type === 'EDIT') {
+            //   this.form.patchValue({
+            //     ...this.data.value,
+            //     roleId: +this.data.value?.role?.id
+            //   })  
+
         } else {
             console.log('New');
         }
@@ -105,7 +105,7 @@ export class DialogForm implements OnInit {
 
 
     Submit() {
-  
+
         const confirmation = this.fuseConfirmationService.open({
             title: "ยืนยันการบันทึกข้อมูล",
             icon: {
@@ -130,17 +130,17 @@ export class DialogForm implements OnInit {
         confirmation.afterClosed().subscribe(
             result => {
                 if (result == 'confirmed') {
-                    
+
                     if (this.data.type === 'NEW') {
                         const formData = new FormData();
                         Object.entries(this.form.value).forEach(
                             ([key, value]: any[]) => {
                                 if (value !== '' && value !== 'null' && value !== null) {
                                     formData.append(key, value);
-                                  }
+                                }
                             }
                         );
-                        
+
                         this.userService.import(formData).subscribe({
                             error: (err) => {
                                 this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
@@ -172,12 +172,21 @@ export class DialogForm implements OnInit {
 
     files: File[] = [];
     onSelect(event, input: any) {
-      if (input === 'addfile') {
-        
-        this.form.patchValue({
-          file: event[0],
-          file_name: event[0].name,
-        });
-      }
+        if (input === 'addfile') {
+
+            this.form.patchValue({
+                file: event[0],
+                file_name: event[0].name,
+            });
+        }
+    }
+
+    exportData() {
+        this.userService.export(true).subscribe({
+            next: (resp: Blob) => {
+                let fileName = 'member-credit.xlsx';
+                createFileFromBlob(resp, fileName);
+            },
+        })
     }
 }

@@ -72,4 +72,10 @@ export class CreditService {
   import(data: FormData) {
     return this.http.post('/api/member/import-excel-credit', data)
   }
+
+  export(data:any) {
+    return this.http.post(`/api/member/export/excel`, {}, {
+      responseType: 'blob'
+    })
+  }
 }
