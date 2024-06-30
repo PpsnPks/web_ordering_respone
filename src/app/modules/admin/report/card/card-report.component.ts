@@ -19,6 +19,7 @@ import { Subject } from 'rxjs';
 import { createFileFromBlob } from 'app/modules/shared/helper';
 import { MatCardModule } from '@angular/material/card';
 import { DateTime } from 'luxon';
+import { ToastrService } from 'ngx-toastr';
 @Component({
   selector: 'app-card-report',
   standalone: true,
@@ -60,6 +61,7 @@ export class CardReportComponent {
     private _changeDetectorRef: ChangeDetectorRef,
     private _fuseConfirmationService: FuseConfirmationService,
     private _fb: FormBuilder,
+    private toastr: ToastrService,
   ) {
 
 
@@ -77,24 +79,21 @@ export class CardReportComponent {
 
   printOriginal() {
     const formattedDate = this.getFormattedDate();
+    if (!formattedDate) {
+      this.toastr.error('กรุณาเลือกวันที่')
+      return;
+    }
     if (formattedDate) {
       console.log('date:', formattedDate);
     }
     this.form.patchValue({
       date: formattedDate
     })
-
-
-
-
     this._service.orderPdf(this.form.value).subscribe({
       next: (resp: Blob) => {
         let fileName = `original_${formattedDate}.xlsx`;
         createFileFromBlob(resp, fileName);
       },
-
-
-
       error: (err) => {
         alert(JSON.stringify(err))
       }
@@ -110,6 +109,13 @@ export class CardReportComponent {
       var startDate = DateTime.fromISO(formValue.start).toFormat('yyyy-MM-dd');
       var endDate = DateTime.fromISO(formValue.end).toFormat('yyyy-MM-dd');
     }
+
+    if (!startDate || !endDate) {
+      this.toastr.error('กรุณาเลือกวันที่')
+      return;
+    }
+  
+    
     this._service.tapSummary({ startDate: startDate, endDate: endDate }).subscribe({
       next: (resp) => {
         createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
@@ -125,6 +131,11 @@ export class CardReportComponent {
       var startDate = DateTime.fromISO(formValue.start).toFormat('yyyy-MM-dd');
       var endDate = DateTime.fromISO(formValue.end).toFormat('yyyy-MM-dd');
     }
+    if (!startDate || !endDate) {
+      this.toastr.error('กรุณาเลือกวันที่')
+      return;
+    }
+  
     this._service.tapSummaryDetail({ startDate: startDate, endDate: endDate }).subscribe({
       next: (resp) => {
         createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
@@ -140,6 +151,11 @@ export class CardReportComponent {
       var startDate = DateTime.fromISO(formValue.start).toFormat('yyyy-MM-dd');
       var endDate = DateTime.fromISO(formValue.end).toFormat('yyyy-MM-dd');
     }
+    if (!startDate || !endDate) {
+      this.toastr.error('กรุณาเลือกวันที่')
+      return;
+    }
+  
     this._service.topupSummary({ startDate: startDate, endDate: endDate }).subscribe({
       next: (resp) => {
         createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
@@ -155,6 +171,11 @@ export class CardReportComponent {
       var startDate = DateTime.fromISO(formValue.start).toFormat('yyyy-MM-dd');
       var endDate = DateTime.fromISO(formValue.end).toFormat('yyyy-MM-dd');
     }
+    if (!startDate || !endDate) {
+      this.toastr.error('กรุณาเลือกวันที่')
+      return;
+    }
+  
     this._service.creditSummaryToday({ startDate: startDate, endDate: endDate }).subscribe({
       next: (resp) => {
         createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
