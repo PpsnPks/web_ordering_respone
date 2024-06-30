@@ -43,6 +43,10 @@ export class CardReportComponent {
     start: new FormControl<any | null>(null),
     end: new FormControl<any | null>(null),
   });
+  readonly range1 = new FormGroup({
+    start: new FormControl<any | null>(null),
+    end: new FormControl<any | null>(null),
+  });
   [x: string]: any;
   datePicked: Date | null = null;
   dtOptions: DataTables.Settings = {};
@@ -79,34 +83,64 @@ export class CardReportComponent {
     this.form.patchValue({
       date: formattedDate
     })
-    
-    
-    
-    
+
+
+
+
     this._service.orderPdf(this.form.value).subscribe({
-      next: (resp: Blob) => {       
+      next: (resp: Blob) => {
         let fileName = `original_${formattedDate}.xlsx`;
         createFileFromBlob(resp, fileName);
       },
-      
-      
-      
+
+
+
       error: (err) => {
         alert(JSON.stringify(err))
       }
     })
   }
-  
-  
-  
-  
+
+
+
+
   printSummary() {
     let formValue = this.range.value
     if (formValue.start && formValue.end) {
       var startDate = DateTime.fromISO(formValue.start).toFormat('yyyy-MM-dd');
       var endDate = DateTime.fromISO(formValue.end).toFormat('yyyy-MM-dd');
+    }
+    this._service.tapSummary({ startDate: startDate, endDate: endDate }).subscribe({
+      next: (resp) => {
+        createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
+      },
+      error: (err) => {
+        alert(JSON.stringify(err))
+      }
+    })
   }
-    this._service.tapSummary({startDate : startDate, endDate: endDate}).subscribe({
+  printSummary3() {
+    let formValue = this.range.value
+    if (formValue.start && formValue.end) {
+      var startDate = DateTime.fromISO(formValue.start).toFormat('yyyy-MM-dd');
+      var endDate = DateTime.fromISO(formValue.end).toFormat('yyyy-MM-dd');
+    }
+    this._service.tapSummaryDetail({ startDate: startDate, endDate: endDate }).subscribe({
+      next: (resp) => {
+        createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
+      },
+      error: (err) => {
+        alert(JSON.stringify(err))
+      }
+    })
+  }
+  printTopUpSummary() {
+    let formValue = this.range.value
+    if (formValue.start && formValue.end) {
+      var startDate = DateTime.fromISO(formValue.start).toFormat('yyyy-MM-dd');
+      var endDate = DateTime.fromISO(formValue.end).toFormat('yyyy-MM-dd');
+    }
+    this._service.topupSummary({ startDate: startDate, endDate: endDate }).subscribe({
       next: (resp) => {
         createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
       },
