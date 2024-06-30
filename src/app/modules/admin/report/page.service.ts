@@ -67,6 +67,11 @@ export class ReportService {
           responseType: 'blob'
         })
       }
+      creditSummaryToday(data:any) {
+        return this.http.post(environment.apiUrl + `/api/report/order/excel/credit-date`, data, {
+          responseType: 'blob'
+        })
+      }
 
 
     getStore(): Observable<any> {

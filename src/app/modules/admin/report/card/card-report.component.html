@@ -88,4 +88,27 @@
       </mat-form-field>
     </div>
   </div>
+  <div class=" flex flex-col m-5 bg-card shadow rounded-2xl text-center md:w-1/2">
+    <div class="flex flex-row items-center justify-between p-5">
+      <h2 class="text-2xl leading-7 tracking-tight truncate md:text-2xl sm:leading-10 ">
+      รายงานยอดรวม Credit รายวัน				
+      </h2>
+      <div class="flex flex-row items-center justify-between">
+        <button mat-flat-button class="bg-green-800 text-white" (click)="printSummaryCreditToday()">
+          <mat-icon class="icon-size-5" [svgIcon]="'heroicons_mini:document'"></mat-icon>
+          <span class="ml-2">Excel</span>
+        </button>
+      </div>
+    </div>
+    <div class="flex items-center justify-center px-4">
+      <mat-form-field appearance="fill" class="w-full">
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker4">
+          <input matStartDate formControlName="start" placeholder="วันที่เริ่มเต้น">
+          <input matEndDate formControlName="end" placeholder="วันที่สิ้นสุด">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker4"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker4></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+  </div>
 </div>
