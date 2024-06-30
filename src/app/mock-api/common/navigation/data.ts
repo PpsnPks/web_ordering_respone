@@ -9,76 +9,76 @@ export const defaultNavigation: FuseNavigationItem[] = [
         subtitle: 'ขัอมูลเกี่ยวกับระบบ',
         type: 'group',
         icon: 'heroicons_outline:home',
-        hidden: (item) =>{
+        hidden: (item) => {
 
 
 
             var role = sessionStorage.getItem('role')
 
 
-             if(role == 'super_admin' ){
-                 return false
-             }
-             else if (role == 'manager'){
+            if (role == 'super_admin') {
                 return false
-             }
-             else if (role == 'office'){
+            }
+            else if (role == 'manager') {
                 return false
-             }
+            }
+            else if (role == 'office') {
+                return false
+            }
 
-             else {
-                 return true
-             }
+            else {
+                return true
+            }
 
 
-         },
+        },
         children: [
 
-          {
-            id: 'admin.dashboard',
-            title: 'ข้อมูลแดชบอร์ด',
-            type: 'basic',
-            icon: 'heroicons_outline:clipboard-document-check',
-            link: '/dashboard',
-            hidden: (item) =>{
+            {
+                id: 'admin.dashboard',
+                title: 'ข้อมูลแดชบอร์ด',
+                type: 'basic',
+                icon: 'heroicons_outline:clipboard-document-check',
+                link: '/dashboard',
+                hidden: (item) => {
 
 
-                var role = sessionStorage.getItem('role')
+                    var role = sessionStorage.getItem('role')
 
-                 if(role == 'super_admin'){
-                     return false
-                 }
+                    if (role == 'super_admin') {
+                        return false
+                    }
 
-                 else {
-                     return true
-                 }
-
-
-             }
-        },
+                    else {
+                        return true
+                    }
 
 
-          {
+                }
+            },
+
+
+            {
                 id: 'admin.store',
                 title: 'ข้อมูลร้านค้า',
                 type: 'basic',
                 icon: 'heroicons_outline:building-office-2',
                 link: '/store/1',
-                hidden: (item) =>{
+                hidden: (item) => {
 
 
                     var role = sessionStorage.getItem('role')
 
-                     if(role == 'super_admin'){
-                         return false
-                     }
+                    if (role == 'super_admin') {
+                        return false
+                    }
 
-                     else {
-                         return true
-                     }
+                    else {
+                        return true
+                    }
 
 
-                 }
+                }
 
             },
             // {
@@ -94,21 +94,21 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'heroicons_outline:user-group',
                 link: '/user',
-                hidden: (item) =>{
+                hidden: (item) => {
 
 
                     var role = sessionStorage.getItem('role')
 
-                     if(role == 'super_admin'){
-                         return false
-                     }
+                    if (role == 'super_admin') {
+                        return false
+                    }
 
-                     else {
-                         return true
-                     }
+                    else {
+                        return true
+                    }
 
 
-                 }
+                }
             },
             // {
             //     id: 'admin.permission',
@@ -132,77 +132,99 @@ export const defaultNavigation: FuseNavigationItem[] = [
             //     link: '/customers'
             // },
 
-          {
+            {
                 id: 'member',
                 title: 'สมาชิก',
                 type: 'basic',
                 icon: 'heroicons_solid:rectangle-stack',
                 link: '/member',
-                hidden: (item) =>{
+                hidden: (item) => {
 
 
                     var role = sessionStorage.getItem('role')
 
-                     if(role == 'super_admin'){
-                         return false
-                     }
-                     else if(role == 'office'){
+                    if (role == 'super_admin') {
                         return false
-                     }
+                    }
+                    else if (role == 'office') {
+                        return false
+                    }
 
-                     else {
-                         return true
-                     }
+                    else {
+                        return true
+                    }
 
 
-                 }
+                }
             },
 
 
             {
-              id: 'banner',
-              title: 'แบนเนอร์',
-              type: 'basic',
-              icon: 'heroicons_solid:photo',
-              link: '/banner',
-              hidden: (item) =>{
+                id: 'banner',
+                title: 'แบนเนอร์',
+                type: 'basic',
+                icon: 'heroicons_solid:photo',
+                link: '/banner',
+                hidden: (item) => {
 
 
-                var role = sessionStorage.getItem('role')
+                    var role = sessionStorage.getItem('role')
 
-                 if(role == 'super_admin'){
-                     return false
-                 }
+                    if (role == 'super_admin') {
+                        return false
+                    }
 
-                 else {
-                     return true
-                 }
-
-
-             }
-          },
-          {
-            id: 'shift',
-            title: 'กะทำงาน',
-            type: 'basic',
-            icon: 'heroicons_solid:clock',
-            link: '/shift',
-            hidden: (item) =>{
+                    else {
+                        return true
+                    }
 
 
-                var role = sessionStorage.getItem('role')
+                }
+            },
+            {
+                id: 'shift',
+                title: 'กะทำงาน',
+                type: 'basic',
+                icon: 'heroicons_solid:clock',
+                link: '/shift',
+                hidden: (item) => {
 
-                 if(role == 'super_admin'){
-                     return false
-                 }
 
-                 else {
-                     return true
-                 }
+                    var role = sessionStorage.getItem('role')
+
+                    if (role == 'super_admin') {
+                        return false
+                    }
+
+                    else {
+                        return true
+                    }
 
 
-             }
-        },
+                }
+            },
+            {
+                id: 'device',
+                title: 'อุปกรณ์',
+                type: 'basic',
+                icon: 'heroicons_solid:device-tablet',
+                link: '/device',
+                hidden: (item) => {
+
+
+                    var role = sessionStorage.getItem('role')
+
+                    if (role == 'super_admin') {
+                        return false
+                    }
+
+                    else {
+                        return true
+                    }
+
+
+                }
+            },
 
         ],
     },
@@ -214,27 +236,27 @@ export const defaultNavigation: FuseNavigationItem[] = [
         subtitle: 'ขัอมูลเกี่ยวกับสินค้า',
         type: 'group',
         icon: 'heroicons_outline:home',
-             hidden: (item) =>{
+        hidden: (item) => {
 
 
             var role = sessionStorage.getItem('role')
 
-             if(role == 'super_admin' ){
-                 return false
-             }
-             else if (role == 'manager'){
+            if (role == 'super_admin') {
                 return false
-             }
-             else if (role == 'office'){
+            }
+            else if (role == 'manager') {
                 return false
-             }
+            }
+            else if (role == 'office') {
+                return false
+            }
 
-             else {
-                 return true
-             }
+            else {
+                return true
+            }
 
 
-         },
+        },
         children: [
             // {
             //     id: 'admin.category',
@@ -275,34 +297,34 @@ export const defaultNavigation: FuseNavigationItem[] = [
         subtitle: 'ข้อมูลเกี่ยวกับรายงาน',
         type: 'group',
         icon: 'heroicons_outline:home',
-             hidden: (item) =>{
+        hidden: (item) => {
 
 
             var role = sessionStorage.getItem('role')
 
-             if(role == 'super_admin' ){
-                 return false
-             }
-             else if (role == 'manager'){
+            if (role == 'super_admin') {
                 return false
-             }
-             else if (role == 'supervisor'){
-             return false
-
-             }
-             else if (role == 'finance'){
+            }
+            else if (role == 'manager') {
                 return false
-             }
-             else if (role == 'office'){
+            }
+            else if (role == 'supervisor') {
                 return false
-             }
 
-             else {
-                 return true
-             }
+            }
+            else if (role == 'finance') {
+                return false
+            }
+            else if (role == 'office') {
+                return false
+            }
+
+            else {
+                return true
+            }
 
 
-         },
+        },
         children: [
             // {
             //     id: 'report.tap-card-daily',
@@ -332,24 +354,24 @@ export const defaultNavigation: FuseNavigationItem[] = [
         title: 'จัดการข้อมูลเครดิต',
         type: 'group',
         icon: 'heroicons_outline:home',
-             hidden: (item) =>{
+        hidden: (item) => {
 
 
             var role = sessionStorage.getItem('role')
 
-             if(role == 'super_admin' ){
-                 return false
-             }
-             else if (role == 'manager'){
+            if (role == 'super_admin') {
                 return false
-             }
+            }
+            else if (role == 'manager') {
+                return false
+            }
 
-             else {
-                 return true
-             }
+            else {
+                return true
+            }
 
 
-         },
+        },
         children: [
             {
                 id: 'credit',

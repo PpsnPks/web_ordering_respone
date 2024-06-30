@@ -97,6 +97,7 @@ export class DialogCreditComponent implements OnInit {
     ngOnInit(): void {
         if (this.data.type === 'EDIT') {
         } else {
+            
         }
     }
 
