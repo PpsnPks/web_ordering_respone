@@ -18,6 +18,7 @@ import { ProductComposeComponent } from '../product/dialog/product-compose/produ
 import { MemberService } from './member.service';
 import { MemberComposeComponent } from './dialogcustomer/member-compose.component';
 import { DialogForm } from './form-dialog/dialog.component';
+import { DialogCreditComponent } from './dialog-credit/dialog-credit.component';
 @Component({
     selector: 'app-member',
     standalone: true,
@@ -216,6 +217,25 @@ export class MemberComponent implements OnInit, AfterViewInit {
             exitAnimationDuration: 300,
             data: {
                 type: 'EDIT',
+                value: item
+            }
+        });
+        DialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                console.log(result, 'result')
+                this.rerender();
+            }
+        });
+    }
+
+    openDialoCredit(item: any) {
+        const DialogRef = this.dialog.open(DialogCreditComponent, {
+            disableClose: true,
+            width: '500px',
+            enterAnimationDuration: 300,
+            exitAnimationDuration: 300,
+            data: {
+                type: 'NEW',
                 value: item
             }
         });

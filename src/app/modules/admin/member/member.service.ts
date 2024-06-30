@@ -89,4 +89,8 @@ export class MemberService {
       responseType: 'blob'
     })
   }
+
+  createCredit(data: any, id: any) {
+    return this.http.post('/api/member/' + id + '/topup' , data)
+  }
 }

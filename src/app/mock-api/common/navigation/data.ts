@@ -320,7 +320,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
             // },
             {
                 id: 'report.tap-card',
-                title: 'รายงานแตะบัตร',
+                title: 'รายงาน',
                 type: 'basic',
                 icon: 'heroicons_outline:document-chart-bar',
                 link: '/report/card'

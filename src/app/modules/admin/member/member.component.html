@@ -30,6 +30,11 @@
           <span>แก้ไข</span>
         </button>
         <mat-divider></mat-divider>
+        <button mat-menu-item (click)="openDialoCredit(data)">
+          <mat-icon svgIcon="heroicons_outline:currency-dollar"></mat-icon>
+          <span>เติมเงิน</span>
+        </button>
+        <mat-divider></mat-divider>
         <button mat-menu-item (click)="clickDelete(data.id)">
           <mat-icon svgIcon="heroicons_solid:trash"></mat-icon>
           <span>ลบ</span>
