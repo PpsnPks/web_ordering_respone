@@ -1,6 +1,6 @@
 <div class="overflow-auto md:max-w-lg" *ngIf="this.data?.type === 'NEW'">
-    <div class="flex grid items-center w-full grid-cols-2"><h1 mat-dialog-title class="mb-4 text-xl font-semibold" *ngIf="this.data?.type === 'NEW'">นำเข้าข้อมูลสินค้า</h1>
-    <a class="ml-auto" (click)="con()">export</a>
+    <div class=" grid items-center w-full grid-cols-2"><h1 mat-dialog-title class="mb-4 text-xl font-semibold" *ngIf="this.data?.type === 'NEW'">นำเข้าข้อมูลสินค้า</h1>
+    <a class="ml-auto cursor-pointer" (click)="con()">Export Templete</a>
     </div>
     <div mat-dialog-content class="overflow-y-auto md:max-h-180">
         <form [formGroup]="form">
