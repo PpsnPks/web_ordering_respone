@@ -225,6 +225,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
 
                 }
             },
+            
 
         ],
     },
@@ -285,6 +286,26 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 type: 'basic',
                 icon: 'heroicons_solid:squares-plus',
                 link: '/product'
+            },
+            {
+                id: 'tap-log-manual',
+                title: 'แตะบัตร',
+                type: 'basic',
+                icon: 'fastfood',
+                link: '/tap-log',
+                hidden: (item) => {
+
+                    var role = sessionStorage.getItem('role')
+
+                    if (role == 'super_admin') {
+                        return false
+                    }
+
+                    else {
+                        return true
+                    }
+
+                }
             },
 
 

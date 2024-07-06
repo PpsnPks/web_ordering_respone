@@ -92,6 +92,7 @@ export const appRoutes: Route[] = [
             { path: 'shift', loadChildren: () => import('app/modules/admin/shift/shift.routes') },
             { path: 'credit', loadChildren: () => import('app/modules/admin/credit/credit.routes') },
             { path: 'device', loadChildren: () => import('app/modules/admin/device/page.routes') },
+            { path: 'tap-log', loadChildren: () => import('app/modules/admin/tap-log/page.routes') },
         ]
     }
 ];
