@@ -72,6 +72,16 @@ export class ReportService {
           responseType: 'blob'
         })
       }
+      paymentSummary(data:any) {
+        return this.http.post(environment.apiUrl + `/api/report/cardmovement`, data, {
+          responseType: 'blob'
+        })
+      }
+      paymentSummaryTopup(data:any) {
+        return this.http.post(environment.apiUrl + `/api/report/payment/topup`, data, {
+          responseType: 'blob'
+        })
+      }
 
 
     getStore(): Observable<any> {

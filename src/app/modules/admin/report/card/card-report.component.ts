@@ -185,4 +185,44 @@ export class CardReportComponent {
       }
     })
   }
+  printSummaryPayment() {
+    let formValue = this.range.value
+    if (formValue.start && formValue.end) {
+      var startDate = DateTime.fromISO(formValue.start).toFormat('yyyy-MM-dd');
+      var endDate = DateTime.fromISO(formValue.end).toFormat('yyyy-MM-dd');
+    }
+    if (!startDate || !endDate) {
+      this.toastr.error('กรุณาเลือกวันที่')
+      return;
+    }
+  
+    this._service.paymentSummary({ startDate: startDate, endDate: endDate }).subscribe({
+      next: (resp) => {
+        createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
+      },
+      error: (err) => {
+        alert(JSON.stringify(err))
+      }
+    })
+  }
+  printSummaryTopup() {
+    let formValue = this.range.value
+    if (formValue.start && formValue.end) {
+      var startDate = DateTime.fromISO(formValue.start).toFormat('yyyy-MM-dd');
+      var endDate = DateTime.fromISO(formValue.end).toFormat('yyyy-MM-dd');
+    }
+    if (!startDate || !endDate) {
+      this.toastr.error('กรุณาเลือกวันที่')
+      return;
+    }
+  
+    this._service.paymentSummaryTopup({ startDate: startDate, endDate: endDate }).subscribe({
+      next: (resp) => {
+        createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
+      },
+      error: (err) => {
+        alert(JSON.stringify(err))
+      }
+    })
+  }
 }
