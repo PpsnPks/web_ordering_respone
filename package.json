@@ -13,6 +13,7 @@
     "build:prod": "ng build --configuration production",
     "build:ews": "ng build --configuration ews",
     "build:essilor": "ng build --configuration essilor",
+    "build:sct": "ng build --configuration sct",
     "test": "ng test",
     "test:watch": "ng test --watch"
   },
