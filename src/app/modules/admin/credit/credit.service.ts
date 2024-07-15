@@ -74,7 +74,7 @@ export class CreditService {
   }
 
   export(data:any) {
-    return this.http.post(`/api/member/export/excel`, {}, {
+    return this.http.post(`/api/member/export/credit/excel`, {}, {
       responseType: 'blob'
     })
   }
