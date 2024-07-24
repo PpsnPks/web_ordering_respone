@@ -12,7 +12,8 @@
                     <div class="pt-5 md:w-full">
                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full" appearance="outline">
                             <mat-label>OT Credit</mat-label>
-                            <input matInput [placeholder]="'กรุณะระบุ OT Credit'" [formControlName]="'amount'" type="number">
+                            <input matInput [placeholder]="'กรุณาระบุ OT Credit'" [formControlName]="'amount'" type="number">
+                            <mat-error class="text-xs">กรุณาระบุ OT Credit ไม่เกิน 2,000</mat-error>
                         </mat-form-field>
                     </div>
                     <div class="md:w-full">

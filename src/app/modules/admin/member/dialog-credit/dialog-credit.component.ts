@@ -13,7 +13,7 @@ import {
     MatDialogRef,
     MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, Validators } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -87,7 +87,7 @@ export class DialogCreditComponent implements OnInit {
             console.log(this.data.value);
             
             this.form = this.FormBuilder.group({
-                amount: 0,
+                amount: [0, [Validators.required, Validators.max(2000)]],
                 walletType: '',
             });
         }
