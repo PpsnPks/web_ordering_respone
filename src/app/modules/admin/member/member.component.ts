@@ -56,7 +56,6 @@ export class MemberComponent implements OnInit, AfterViewInit {
     @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
     category: any[] = [
-        
         'A',
         'B',
         'C',
