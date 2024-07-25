@@ -225,6 +225,28 @@ export const defaultNavigation: FuseNavigationItem[] = [
 
                 }
             },
+            {
+                id: 'Role',
+                title: 'สิทธิ์การใช้งาน',
+                type: 'basic',
+                icon: 'heroicons_solid:academic-cap',
+                link: '/role',
+                hidden: (item) => {
+
+
+                    var role = sessionStorage.getItem('role')
+
+                    if (role == 'super_admin') {
+                        return false
+                    }
+
+                    else {
+                        return true
+                    }
+
+
+                }
+            },
             
 
         ],
