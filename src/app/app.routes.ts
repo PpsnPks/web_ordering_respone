@@ -93,6 +93,7 @@ export const appRoutes: Route[] = [
             { path: 'credit', loadChildren: () => import('app/modules/admin/credit/credit.routes') },
             { path: 'device', loadChildren: () => import('app/modules/admin/device/page.routes') },
             { path: 'tap-log', loadChildren: () => import('app/modules/admin/tap-log/page.routes') },
+            { path: 'order', loadChildren: () => import('app/modules/admin/order/order.routes') },
         ]
     }
 ];

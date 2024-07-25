@@ -371,6 +371,42 @@ export const defaultNavigation: FuseNavigationItem[] = [
         ],
     },
     {
+        id: 'order',
+        title: 'จัดการรายการยอดขาย',
+        type: 'group',
+        icon: 'heroicons_outline:home',
+        hidden: (item) => {
+
+            var role = sessionStorage.getItem('role')
+
+            if (role == 'super_admin') {
+                return false
+            }
+            else if (role == 'manager') {
+                return false
+            }
+
+            else if (role == 'cashier') {
+                return false
+            }
+
+            else {
+                return true
+            }
+
+
+        },
+        children: [
+            {
+                id: 'sale.order',
+                title: 'รายการยอดขาย',
+                type: 'basic',
+                icon: 'heroicons_outline:shopping-bag',
+                link: '/order'
+            },
+        ],
+    },
+    {
         id: 'credit',
         title: 'จัดการข้อมูลเครดิต',
         type: 'group',
