@@ -2,3 +2,5 @@ https://www.figma.com/file/JxLDOHsukerLNN9oiNqxjk/POS-Design?type=design&node-id
 
 https://upos-api.dev-asha.com/swagger
 
+### UPOS
+- https://upos-back-office.vercel.app
