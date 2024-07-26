@@ -52,7 +52,7 @@ export class TapLogComponent implements OnInit, AfterViewInit {
     @Input() storeId: any;
     @Output() dataArrayChange = new EventEmitter<any[]>();
     cardTypeData : any[] = [
-       'ALL', 'A', 'B', 'C', 'D'
+       'A', 'B', 'C', 'D'
     ]
     constructor(
         private _service: TaplogService,
@@ -63,16 +63,13 @@ export class TapLogComponent implements OnInit, AfterViewInit {
     )
     {
 
-
     }
     ngOnInit(): void {
-
         this.form = this.fb.group({
             cardType: ''
         })
         setTimeout(() =>
-            this.loadTable());
-
+            this.loadTable())
     }
 
     ngAfterViewInit() {
@@ -84,7 +81,9 @@ export class TapLogComponent implements OnInit, AfterViewInit {
     onChange() {
 
         if(this.form.value.cardType === 'ALL') {
-            this.form.value.reset()
+            this.form.patchValue({
+                cardType:''
+            })
             this.rerender()
         } else {
             this.rerender()
@@ -177,7 +176,7 @@ export class TapLogComponent implements OnInit, AfterViewInit {
                 // }
 
             ],
-            orderBy: [[1, 'DESC']]
+            order: [[1, 'DESC']]
         }
     }
 

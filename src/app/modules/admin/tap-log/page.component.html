@@ -15,13 +15,16 @@
       <mat-form-field [ngClass]="formFieldHelpers" class="w-full md:w-1/4">
         <mat-label>ประเภทบัตรพนักงาน</mat-label>
         <mat-select [formControlName]="'cardType'" (selectionChange)="onChange()">
+            <mat-option  [value]="''" >
+                ALL
+            </mat-option>
             <mat-option *ngFor="let card of cardTypeData" [value]="card" >
                 {{card}}
             </mat-option>
         </mat-select>
     </mat-form-field>
     </div>
-    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover w-full whitespace-nowrap">
+    <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover w-full">
     </table>
   </div>
 </div>
