@@ -70,7 +70,7 @@ export class ReportListService {
   }
 
   remainCreditDaialy(data:any) {
-    return this.http.post(environment.apiUrl + `/api/report/remain-credit/daily`, data, {
+    return this.http.post(environment.apiUrl + `/api/report/remain-credit-daily`, data, {
       responseType: 'blob'
     })
   }
