@@ -4,6 +4,13 @@
         <form [formGroup]="form">
             <div class="flex-auto">
                 <ng-container *ngFor="let item of data.value.type; let i = index">
+                    <div class="md:w-full" *ngIf="item === 'date'">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <input matInput [matDatepicker]="pickerToday" formControlName="date" placeholder="วันที่">
+                            <mat-datepicker-toggle matSuffix [for]="pickerToday"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerToday></mat-datepicker>
+                          </mat-form-field>
+                    </div>
                     <div class="md:w-full" *ngIf="item === 'date-rang'">
                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                             <mat-date-range-input  [rangePicker]="picker">
@@ -20,6 +27,16 @@
                             <mat-select [formControlName]="'walletType'">
                                 <mat-option *ngFor="let wallet of walletTypeData" [value]="wallet.key">
                                     {{wallet.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="md:w-full" *ngIf="item === 'card-type'">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+                            <mat-label>ประเภทบัตรพนักงาน</mat-label>
+                            <mat-select [formControlName]="'cardType'">
+                                <mat-option *ngFor="let card of cardTypeData" [value]="card">
+                                    {{card}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>

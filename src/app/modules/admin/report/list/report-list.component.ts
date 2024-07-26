@@ -15,6 +15,9 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { DialogForm } from './form-dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 @Component({
     selector: 'app-page-report-list',
     standalone: true,
@@ -25,7 +28,11 @@ import { ActivatedRoute } from '@angular/router';
         MatIconModule,
         FilePickerModule,
         MatMenuModule,
-        MatDividerModule
+        MatDividerModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatFormFieldModule,
+        MatInputModule
     ],
     templateUrl: './report-list.component.html',
     styleUrl: './report-list.component.scss',
@@ -33,16 +40,18 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class ReportListComponent implements OnInit, AfterViewInit {
     dtOptions: any = {};
+    formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
     @ViewChild('btNg') btNg: any;
     @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
     branch: any[] = []
-
+    searchQuery: string = '';
+    filteredReports: any[] = [];
     reportList: any[] = [
         {
             code: 'remainCreditDaily',
-            name: 'รายงาน ยอดเงินคงเหลือของแต่ละบัตรแยกข้อมูลตามวัน (รายวัน)',
+            name: 'รายงานยอดเงินคงเหลือของแต่ละบัตรแยกข้อมูลตามวัน (รายวัน)',
             type: [
                 'date-rang',
             ],
@@ -61,6 +70,90 @@ export class ReportListComponent implements OnInit, AfterViewInit {
                 'excel'
             ]
         },
+        {
+            code: 'tapLogSummaryDetail',
+            name: 'รายงานสรุปยอดรวมแยกตามประเภทการ์ด',
+            type: [
+                'date-rang',
+            ],
+            extension: [
+                'excel'
+            ]
+        },
+        {
+            code: 'tapLogSummaryShift',
+            name: 'รายงานสรุปยอดรวมการใช้สิทธิ์พนักงาน รายกะทำงาน',
+            type: [
+                'date-rang',
+                'card-type',
+            ],
+            extension: [
+                'excel'
+            ]
+        },
+        {
+            code: 'tapLogSummaryMember',
+            name: 'รายงานสรุปยอดรวมการใช้สิทธิ์พนักงาน รายคน',
+            type: [
+                'date-rang',
+                'card-type',
+            ],
+            extension: [
+                'excel'
+            ]
+        },
+        {
+            code: 'tapLogReportToday',
+            name: 'รายงานสรุปยอดรวมการใช้สิทธิ์รายวัน',
+            type: [
+                'date',
+            ],
+            extension: [
+                'excel'
+            ]
+        },
+        {
+            code: 'paymentMethodHistory',
+            name: 'รายงานยอดใช้จ่ายแต่ละประเภทการจ่าย',
+            type: [
+                'date-rang',
+            ],
+            extension: [
+                'excel'
+            ]
+        },
+        {
+            code: 'summaryPaidCard',
+            name: 'รายงานสรุปยอดใช้จ่ายจากบัตรเติมเงิน',
+            type: [
+                'date-rang',
+                'wallet-type',
+            ],
+            extension: [
+                'excel'
+            ]
+        },
+        {
+            code: 'cashierOutlet',
+            name: 'รายงานสรุปยอดขายแต่ละร้าน',
+            type: [
+                'date-rang',
+            ],
+            extension: [
+                'excel'
+            ]
+        },
+        {
+            code: 'cardMovementDetail',
+            name: 'รายงานประวัติการใช้จ่ายบัตร',
+            type: [
+                'date-rang',
+                'member'
+            ],
+            extension: [
+                'excel'
+            ]
+        },
     ]
     constructor(
         private _service: ReportListService,
@@ -70,9 +163,9 @@ export class ReportListComponent implements OnInit, AfterViewInit {
         private activated: ActivatedRoute
 
     ) {
+        this.filteredReports = this.reportList;
         this.branch = this.activated.snapshot.data.branch;
-        // console.log(this.branch);
-        
+  
     }
     ngOnInit(): void {
       
@@ -107,6 +200,15 @@ export class ReportListComponent implements OnInit, AfterViewInit {
             }
         });
     }
+
+    onKeyup() {
+        console.log('1');
+        
+        this.filteredReports = this.searchQuery ?
+          this.reportList.filter(report =>
+            report.name.toLowerCase().includes(this.searchQuery.toLowerCase())
+          ) : this.reportList;
+      }
 
 
 

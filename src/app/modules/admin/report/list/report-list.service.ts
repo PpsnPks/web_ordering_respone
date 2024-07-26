@@ -79,4 +79,46 @@ export class ReportListService {
       responseType: 'blob'
     })  
   }
+
+  tapSummaryDetail(data:any) {
+    return this.http.post(environment.apiUrl + `/api/report/tap-log/excel/summary/type`, data, {
+      responseType: 'blob'
+    })
+  }
+
+  tapSummaryShift(data:any) {
+    return this.http.post(environment.apiUrl + `/api/report/tap-log/excel/summary`, data, {
+      responseType: 'blob'
+    })
+  }
+  tapSummaryMember(data:any) {
+    return this.http.post(environment.apiUrl + `/api/report/excel/tab-card-summary`, data, {
+      responseType: 'blob'
+    })
+  }
+  tapLogToday(data:any) {
+    return this.http.post(environment.apiUrl + `/api/tap-log/report-today`, data, {
+      responseType: 'blob'
+    })
+  }
+  paymentMethodHistory(data:any) {
+    return this.http.post(environment.apiUrl + `/api/report/excel/payment-method-history`, data, {
+      responseType: 'blob'
+    })
+  }
+  summaryPaidCard(data:any) {
+    return this.http.post(environment.apiUrl + `/api/report/excel/summary-paid-card`, data, {
+      responseType: 'blob'
+    })
+  }
+  cashierOutlet(data:any) {
+    return this.http.post(environment.apiUrl + `/api/report/excel/cashier-outlet`, data, {
+      responseType: 'blob'
+    })
+  }
+  cardMovementDetail(data:any) {
+    return this.http.post(environment.apiUrl + `/api/report/excel/card-movement-detail`, data, {
+      responseType: 'blob'
+    })
+  }
 }

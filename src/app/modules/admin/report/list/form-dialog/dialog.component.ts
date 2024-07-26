@@ -54,6 +54,7 @@ export class DialogForm implements OnInit {
     dtOptions: DataTables.Settings = {};
     addForm: FormGroup;
     walletTypeData: any[] = [];
+    cardTypeData: any[] = [];
     constructor(
         private dialogRef: MatDialogRef<DialogForm>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -64,11 +65,13 @@ export class DialogForm implements OnInit {
         private toastr: ToastrService,
     ) {
         this.form = this.FormBuilder.group({
+            date: '',
             startDate: '',
             endDate: '',
             categoryId: '',
             branchId: '',
             walletType: '',
+            cardType: '',
         });
     }
 
@@ -86,18 +89,35 @@ export class DialogForm implements OnInit {
             key: 'EL4',
             name: 'EL4 VIP Credit'
         },
+    ];
+    this.cardTypeData = [
+        'A', 'B'
     ]
     }
 
     Submit() {
-
         if (this.data.value.code === 'remainCreditDaily') {
             this.remainCreditDaily()
         } else if (this.data.value.code === 'paymentTopup') {
             this.paymentTopup()
+        } else if (this.data.value.code === 'tapLogSummaryShift') {
+            this.tapLogSummaryShift()
+        } else if (this.data.value.code === 'tapLogSummaryMember') {
+            this.tapLogSummaryMember()
+        } else if (this.data.value.code === 'tapLogReportToday') {
+            this.tapLogReportToday()
+        } else if (this.data.value.code === 'paymentMethodHistory') {
+            this.paymentMethodHistory()
+        } else if (this.data.value.code === 'summaryPaidCard') {
+            this.summaryPaidCard()
+        } else if (this.data.value.code === 'cashierOutlet') {
+            this.cashierOutlet()
+        } else if (this.data.value.code === 'cardMovementDetail') {
+            this.cardMovementDetail()
+        } else if (this.data.value.code === 'tapLogSummaryDetail') {
+            this.tapSummaryDetail()
         }
         return;
-
     }
 
     onClose() {
@@ -115,6 +135,7 @@ export class DialogForm implements OnInit {
             this.toastr.error('กรุณาเลือกวันที่')
             return;
         }
+       
 
 
         this._service.remainCreditDaialy({ startDate: startDate, endDate: endDate }).subscribe({
@@ -127,6 +148,7 @@ export class DialogForm implements OnInit {
             }
         })
     }
+    
     paymentTopup() {
         let formValue = this.form.value
         if (formValue.startDate && formValue.startDate) {
@@ -139,6 +161,7 @@ export class DialogForm implements OnInit {
             return;
         }
 
+       
 
         this._service.paymentTopup({ startDate: startDate, endDate: endDate, walType: formValue.walletType }).subscribe({
             next: (resp) => {
@@ -151,4 +174,194 @@ export class DialogForm implements OnInit {
         })
     }
 
+    tapLogSummaryShift() {
+        let formValue = this.form.value
+        if (formValue.startDate && formValue.startDate) {
+            var startDate = DateTime.fromISO(formValue.startDate).toFormat('yyyy-MM-dd');
+            var endDate = DateTime.fromISO(formValue.endDate).toFormat('yyyy-MM-dd');
+        }
+
+        if (!startDate || !endDate) {
+            this.toastr.error('กรุณาเลือกวันที่')
+            return;
+        }
+
+        if (!formValue.cardType) {
+            this.toastr.error('กรุณาเลือกประเภทบัตร')
+            return;
+        }
+
+        this._service.tapSummaryShift({ startDate: startDate, endDate: endDate, cardType: formValue.cardType }).subscribe({
+            next: (resp) => {
+                this.toastr.success('ดำเนินการสำเร็จ')
+                createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
+            },
+            error: (err) => {
+                this.toastr.error('เกิดข้อผิดพลาด')
+            }
+        })
+    }
+    tapLogSummaryMember() {
+        let formValue = this.form.value
+        if (formValue.startDate && formValue.startDate) {
+            var startDate = DateTime.fromISO(formValue.startDate).toFormat('yyyy-MM-dd');
+            var endDate = DateTime.fromISO(formValue.endDate).toFormat('yyyy-MM-dd');
+        }
+
+        if (!startDate || !endDate) {
+            this.toastr.error('กรุณาเลือกวันที่')
+            return;
+        }
+
+        if (!formValue.cardType) {
+            this.toastr.error('กรุณาเลือกประเภทบัตร')
+            return;
+        }
+
+        this._service.tapSummaryMember({ startDate: startDate, endDate: endDate, cardType: formValue.cardType, memberId: 0 }).subscribe({
+            next: (resp) => {
+                this.toastr.success('ดำเนินการสำเร็จ')
+                createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
+            },
+            error: (err) => {
+                this.toastr.error('เกิดข้อผิดพลาด')
+            }
+        })
+    }
+
+    tapLogReportToday() {
+        let formValue = this.form.value
+        var date = DateTime.fromISO(formValue.date).toFormat('yyyy-MM-dd');
+        if (!formValue.date) {
+            this.toastr.error('กรุณาเลือกวันที่')
+            return;
+        }
+
+        this._service.tapLogToday({ date: date}).subscribe({
+            next: (resp) => {
+                this.toastr.success('ดำเนินการสำเร็จ')
+                createFileFromBlob(resp, `report_tap_log_today${date}.xlsx`);
+            },
+            error: (err) => {
+                this.toastr.error('เกิดข้อผิดพลาด')
+            }
+        })
+    }
+
+    paymentMethodHistory() {
+        let formValue = this.form.value
+        if (formValue.startDate && formValue.startDate) {
+            var startDate = DateTime.fromISO(formValue.startDate).toFormat('yyyy-MM-dd');
+            var endDate = DateTime.fromISO(formValue.endDate).toFormat('yyyy-MM-dd');
+        }
+
+        if (!startDate || !endDate) {
+            this.toastr.error('กรุณาเลือกวันที่')
+            return;
+        }
+
+        this._service.paymentMethodHistory({ startDate: startDate, endDate: endDate }).subscribe({
+            next: (resp) => {
+                this.toastr.success('ดำเนินการสำเร็จ')
+                createFileFromBlob(resp, `POS_LogCardPayment_Sum_${startDate}_${endDate}..xlsx`);
+            },
+            error: (err) => {
+                this.toastr.error('เกิดข้อผิดพลาด')
+            }
+        })
+    }
+    summaryPaidCard() {
+        let formValue = this.form.value
+        if (formValue.startDate && formValue.startDate) {
+            var startDate = DateTime.fromISO(formValue.startDate).toFormat('yyyy-MM-dd');
+            var endDate = DateTime.fromISO(formValue.endDate).toFormat('yyyy-MM-dd');
+        }
+
+        if (!startDate || !endDate) {
+            this.toastr.error('กรุณาเลือกวันที่')
+            return;
+        }
+
+
+        if (!formValue.walletType) {
+            this.toastr.error('กรุณาเลือกประเภทกระเป๋า')
+            return;
+        }
+
+        this._service.summaryPaidCard({ startDate: startDate, endDate: endDate, walleType: formValue.walletType }).subscribe({
+            next: (resp) => {
+                this.toastr.success('ดำเนินการสำเร็จ')
+                createFileFromBlob(resp, `POS_RepTopup_Balance_Site${startDate}_${endDate}..xlsx`);
+            },
+            error: (err) => {
+                this.toastr.error('เกิดข้อผิดพลาด')
+            }
+        })
+    }
+    cashierOutlet() {
+        let formValue = this.form.value
+        if (formValue.startDate && formValue.startDate) {
+            var startDate = DateTime.fromISO(formValue.startDate).toFormat('yyyy-MM-dd');
+            var endDate = DateTime.fromISO(formValue.endDate).toFormat('yyyy-MM-dd');
+        }
+
+        if (!startDate || !endDate) {
+            this.toastr.error('กรุณาเลือกวันที่')
+            return;
+        }
+
+        this._service.cashierOutlet({ startDate: startDate, endDate: endDate }).subscribe({
+            next: (resp) => {
+                this.toastr.success('ดำเนินการสำเร็จ')
+                createFileFromBlob(resp, `POS_RepCashierOutlet_Sum_Essilor_${startDate}_${endDate}..xlsx`);
+            },
+            error: (err) => {
+                this.toastr.error('เกิดข้อผิดพลาด')
+            }
+        })
+    }
+    cardMovementDetail() {
+        let formValue = this.form.value
+        if (formValue.startDate && formValue.startDate) {
+            var startDate = DateTime.fromISO(formValue.startDate).toFormat('yyyy-MM-dd');
+            var endDate = DateTime.fromISO(formValue.endDate).toFormat('yyyy-MM-dd');
+        }
+
+        if (!startDate || !endDate) {
+            this.toastr.error('กรุณาเลือกวันที่')
+            return;
+        }
+
+        this._service.cardMovementDetail({ startDate: startDate, endDate: endDate, memberId: 0 }).subscribe({
+            next: (resp) => {
+                this.toastr.success('ดำเนินการสำเร็จ')
+                createFileFromBlob(resp, `POS_CardMomentDetail_Sum_Essilor_${startDate}_${endDate}..xlsx`);
+            },
+            error: (err) => {
+                this.toastr.error('เกิดข้อผิดพลาด')
+            }
+        })
+    }
+    tapSummaryDetail() {
+        let formValue = this.form.value
+        if (formValue.startDate && formValue.startDate) {
+            var startDate = DateTime.fromISO(formValue.startDate).toFormat('yyyy-MM-dd');
+            var endDate = DateTime.fromISO(formValue.endDate).toFormat('yyyy-MM-dd');
+        }
+
+        if (!startDate || !endDate) {
+            this.toastr.error('กรุณาเลือกวันที่')
+            return;
+        }
+
+        this._service.tapSummaryDetail({ startDate: startDate, endDate: endDate, memberId: 0 }).subscribe({
+            next: (resp) => {
+                this.toastr.success('ดำเนินการสำเร็จ')
+                createFileFromBlob(resp, `POS_TapLogCardDetail_Sum_Essilor_${startDate}_${endDate}..xlsx`);
+            },
+            error: (err) => {
+                this.toastr.error('เกิดข้อผิดพลาด')
+            }
+        })
+    }
 }

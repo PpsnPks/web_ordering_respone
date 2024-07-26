@@ -388,7 +388,7 @@ export const defaultNavigation: FuseNavigationItem[] = [
                 title: 'รายงาน',
                 type: 'basic',
                 icon: 'heroicons_outline:document-chart-bar',
-                link: '/report/card'
+                link: '/report/list'
             },
         ],
     },

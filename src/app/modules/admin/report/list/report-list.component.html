@@ -5,19 +5,23 @@
         <h2 class="text-2xl md:text-xl font-extrabold tracking-tight leading-7 sm:leading-10 truncate">
           รายงาน
         </h2>
+     
       </div>
-      
+      <div class="w-50">
+        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
+          <!-- <mat-label>Search Report</mat-label> -->
+          <input matInput [(ngModel)]="searchQuery" placeholder="ค้นหา" (keyup)="onKeyup()">
+        </mat-form-field>
+      </div>
     </div>
-    
-
 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
   <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
       <thead class="text-md text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>
-              <th scope="col" class="px-6 py-3 w-2/12">
+              <th scope="col" class="px-6 py-3 w-1/12">
                   No.
               </th>
-              <th scope="col" class="px-6 py-3 w-8/12">
+              <th scope="col" class="px-6 py-3 w-9/12">
                 ชื่อรายงาน
               </th>
         
@@ -27,7 +31,7 @@
           </tr>
       </thead>
       <tbody>
-          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" *ngFor="let item of reportList ; let i = index">
+          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700" *ngFor="let item of filteredReports ; let i = index">
               <th scope="row" class="px-6 py-4 text-md text-gray-900 whitespace-nowrap dark:text-white">
                   {{i + 1}}.
               </th>
