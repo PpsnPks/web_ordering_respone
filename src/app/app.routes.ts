@@ -94,7 +94,8 @@ export const appRoutes: Route[] = [
             { path: 'device', loadChildren: () => import('app/modules/admin/device/page.routes') },
             { path: 'tap-log', loadChildren: () => import('app/modules/admin/tap-log/page.routes') },
             { path: 'order', loadChildren: () => import('app/modules/admin/order/order.routes') },
-            { path: 'role', loadChildren: () => import('app/modules/admin/rightinfo/page.routes')}
+            { path: 'role', loadChildren: () => import('app/modules/admin/rightinfo/page.routes')},
+            { path: 'report-list', loadChildren: () => import('app/modules/admin/rightinfo/page.routes')}
         ]
     }
 ];
