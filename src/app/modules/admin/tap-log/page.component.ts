@@ -14,6 +14,8 @@ import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { DialogRef } from '@angular/cdk/dialog';
 import { DialogForm } from './form-dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { DateTime } from 'luxon';
+
 @Component({
     selector: 'app-page-tap-log',
     standalone: true,
@@ -55,8 +57,6 @@ export class TapLogComponent implements OnInit, AfterViewInit {
         setTimeout(() =>
             this.loadTable());
 
-
-
     }
 
     ngAfterViewInit() {
@@ -89,29 +89,52 @@ export class TapLogComponent implements OnInit, AfterViewInit {
                 {
                     title: 'ลำดับ',
                     data: 'no',
-                    className: 'w-15 text-center'
+                    className: 'w-15 text-center h-10'
                 },
                 {
-                    title: 'รหัสสาขา',
-                    data: 'code',
-                    className: 'w-20 text-center'
+                    title: 'วันที่/เวลา',
+                    defaultContent: '-',
+                    data: function(row: any) {
+                        return DateTime.fromISO(row.datetime).toFormat('dd/MM/yyyy HH:mm:ss');
+                    },
+                    className: 'w-50 text-center'
                 },
                 {
-                    title: 'ชื่อสาขา',
-                    data: 'name',
+                    title: 'รหัสพนักงาน',
+                    defaultContent: '-',
+                    data: 'card.member.code',
+                    className: 'w-20 text-left'
+                },
+                {
+                    title: 'ชื่อ',
+                    defaultContent: '-',
+                    data: 'card.member.firstname',
+                    className: 'text-left'
+                },
+                {
+                    title: 'นามสกุล',
+                    defaultContent: '-',
+                    data: 'card.member.lastname',
+                    className: 'text-left'
+                },
+                {
+                    title: 'ประเภทบัตร',
+                    defaultContent: '-',
+                    data: 'card.cardType',
                     className: 'text-center'
                 },
-                {
-                    title: 'จัดการ',
-                    data: null,
-                    defaultContent: '',
-                    ngTemplateRef: {
-                        ref: this.btNg,
-                    },
-                    className: 'w-15 text-center'
-                }
+                // {
+                //     title: 'จัดการ',
+                //     data: null,
+                //     defaultContent: '',
+                //     ngTemplateRef: {
+                //         ref: this.btNg,
+                //     },
+                //     className: 'w-15 text-center'
+                // }
 
-            ]
+            ],
+            
         }
     }
 

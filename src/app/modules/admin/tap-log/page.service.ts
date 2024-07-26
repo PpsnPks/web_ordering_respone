@@ -25,7 +25,7 @@ export class TaplogService {
     const dir = toUpper(order[0].dir);
     const sortBy = column + ':' + dir;
 
-    return this.http.get('/api/branch/datatables', {
+    return this.http.get('/api/tap-log/datatables', {
       params: {
         page: page,
         limit: length,
