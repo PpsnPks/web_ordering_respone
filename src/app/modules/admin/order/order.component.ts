@@ -16,6 +16,7 @@ import { DialogForm } from './form-dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from './order.service';
 import { DateTime } from 'luxon';
+import { orderBy } from 'lodash';
 @Component({
     selector: 'app-order',
     standalone: true,
@@ -146,7 +147,8 @@ export class OrderComponent implements OnInit, AfterViewInit {
                     className: 'w-15 text-center'
                 }
 
-            ]
+            ],
+            // orderBy: [[1, 'DESC']]
         }
     }
 

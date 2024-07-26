@@ -15,6 +15,10 @@ import { DialogRef } from '@angular/cdk/dialog';
 import { DialogForm } from './form-dialog/dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DateTime } from 'luxon';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @Component({
     selector: 'app-page-tap-log',
@@ -26,34 +30,46 @@ import { DateTime } from 'luxon';
         MatIconModule,
         FilePickerModule,
         MatMenuModule,
-        MatDividerModule
+        MatDividerModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatSelectModule,
+        MatFormFieldModule,
+        MatInputModule
     ],
     templateUrl: './page.component.html',
     styleUrl: './page.component.scss',
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class TapLogComponent implements OnInit, AfterViewInit {
+    formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: any = {};
     dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
     @ViewChild('btNg') btNg: any;
     @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
-
+    form:FormGroup
     @Input() storeId: any;
     @Output() dataArrayChange = new EventEmitter<any[]>();
-
+    cardTypeData : any[] = [
+       'ALL', 'A', 'B', 'C', 'D'
+    ]
     constructor(
         private _service: TaplogService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
         public dialog: MatDialog,
-
+        private fb : FormBuilder
     )
     {
 
 
     }
     ngOnInit(): void {
+
+        this.form = this.fb.group({
+            cardType: ''
+        })
         setTimeout(() =>
             this.loadTable());
 
@@ -65,6 +81,17 @@ export class TapLogComponent implements OnInit, AfterViewInit {
         }, 200);
     }
 
+    onChange() {
+
+        if(this.form.value.cardType === 'ALL') {
+            this.form.value.reset()
+            this.rerender()
+        } else {
+            this.rerender()
+        }
+        
+    }
+
     ngOnDestroy(): void {
         // Do not forget to unsubscribe the event
         this.dtTrigger.unsubscribe();
@@ -73,8 +100,12 @@ export class TapLogComponent implements OnInit, AfterViewInit {
     loadTable(): void {
         this.dtOptions = {
             pagingType: 'full_numbers',
-            serverSide: true,     // Set the flag
+            serverSide: true, 
+            scrollX: true,    // Set the flag
             ajax: (dataTablesParameters: any, callback) => {
+                dataTablesParameters.filter = {
+                    'filter.card.card_type': this.form.value.cardType ?? ''
+                }
                 this._service.datatable(dataTablesParameters).subscribe({
                     next: (resp: any) => {
                         callback({
@@ -118,9 +149,21 @@ export class TapLogComponent implements OnInit, AfterViewInit {
                     className: 'text-left'
                 },
                 {
+                    title: 'S/N',
+                    defaultContent: '-',
+                    data: 'card.sn',
+                    className: 'text-center'
+                },
+                {
                     title: 'ประเภทบัตร',
                     defaultContent: '-',
                     data: 'card.cardType',
+                    className: 'text-center'
+                },
+                {
+                    title: 'กะ',
+                    defaultContent: '-',
+                    data: 'shift.name',
                     className: 'text-center'
                 },
                 // {
@@ -134,7 +177,7 @@ export class TapLogComponent implements OnInit, AfterViewInit {
                 // }
 
             ],
-            
+            orderBy: [[1, 'DESC']]
         }
     }
 
