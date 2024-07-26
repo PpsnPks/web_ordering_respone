@@ -22,7 +22,10 @@ import { MatInputModule } from '@angular/material/input';
 import { ReportListService } from '../report-list.service';
 import { FuseConfirmationService } from '@fuse/services/confirmation';
 import { ToastrService } from 'ngx-toastr';
-import {MatRadioModule} from '@angular/material/radio';
+import { MatRadioModule } from '@angular/material/radio';
+import { DateTime } from 'luxon';
+import { createFileFromBlob } from 'app/modules/shared/helper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 @Component({
     selector: 'app-device-form',
     standalone: true,
@@ -39,16 +42,18 @@ import {MatRadioModule} from '@angular/material/radio';
         ReactiveFormsModule,
         MatInputModule,
         MatFormFieldModule,
-        MatRadioModule
+        MatRadioModule,
+        MatDatepickerModule
     ]
 })
 export class DialogForm implements OnInit {
-    
+
     form: FormGroup;
-    stores: any[]=[];
+    stores: any[] = [];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: DataTables.Settings = {};
-    addForm: FormGroup;   
+    addForm: FormGroup;
+    walletTypeData: any[] = [];
     constructor(
         private dialogRef: MatDialogRef<DialogForm>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -57,94 +62,93 @@ export class DialogForm implements OnInit {
         public _service: ReportListService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
-    ) 
-    {
-        if(this.data.type === 'EDIT') {
-            this.form = this.FormBuilder.group({
-                code: this.data.value.code ?? '',
-                name: this.data.value.name ?? '',
-                branchId: this.data.value.branch.id ?? '',
-
-             });
-        } else {
-            this.form = this.FormBuilder.group({
-                code: '',
-                name: '',
-                branchId: ''
-             });
-        }
-
-
-        // console.log('1111',this.data?.type);
-        
+    ) {
+        this.form = this.FormBuilder.group({
+            startDate: '',
+            endDate: '',
+            categoryId: '',
+            branchId: '',
+            walletType: '',
+        });
     }
-    
+
     ngOnInit(): void {
-         if (this.data.type === 'EDIT') {
-        //   this.form.patchValue({
-        //     ...this.data.value,
-        //     roleId: +this.data.value?.role?.id
-        //   })  
-       
-        } else {
-            console.log('New');
-        }
+       this.walletTypeData =  [
+        {
+            key: 'WAL',
+            name: 'EL1 Personal Wallet'
+        },
+        {
+            key: 'EL2',
+            name: 'EL2 OT Credit'
+        },
+        {
+            key: 'EL4',
+            name: 'EL4 VIP Credit'
+        },
+    ]
     }
 
     Submit() {
-        let formValue = this.form.value
-        const confirmation = this.fuseConfirmationService.open({
-            title: "ยืนยันการบันทึกข้อมูล",
-            icon: {
-                show: true,
-                name: "heroicons_outline:exclamation-triangle",
-                color: "primary"
-            },
-            actions: {
-                confirm: {
-                    show: true,
-                    label: "ยืนยัน",
-                    color: "primary"
-                },
-                cancel: {
-                    show: true,
-                    label: "ยกเลิก"
-                }
-            },
-            dismissible: false
-        })
 
-        confirmation.afterClosed().subscribe(
-            result => {
-                if (result == 'confirmed') {
-                    if (this.data.type === 'NEW') {
-                        this._service.create(formValue).subscribe({
-                            error: (err) => {
-                                this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
-                            },
-                            complete: () => {
-                                this.toastr.success('ดำเนินการเพิ่มข้อมูลสำเร็จ')
-                                this.dialogRef.close(true)
-                            },
-                        });
-                    } else {
-                        this._service.update(this.data.value.id ,formValue).subscribe({
-                            error: (err) => {
-                                this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
-                            },
-                            complete: () => {
-                                this.toastr.success('ดำเนินการแก้ไขข้อมูลสำเร็จ')
-                                this.dialogRef.close(true)
-                            },
-                        });
-                    }
-                }
-            }
-        )
+        if (this.data.value.code === 'remainCreditDaily') {
+            this.remainCreditDaily()
+        } else if (this.data.value.code === 'paymentTopup') {
+            this.paymentTopup()
+        }
+        return;
+
     }
 
     onClose() {
         this.dialogRef.close()
+    }
+
+    remainCreditDaily() {
+        let formValue = this.form.value
+        if (formValue.startDate && formValue.startDate) {
+            var startDate = DateTime.fromISO(formValue.startDate).toFormat('yyyy-MM-dd');
+            var endDate = DateTime.fromISO(formValue.endDate).toFormat('yyyy-MM-dd');
+        }
+
+        if (!startDate || !endDate) {
+            this.toastr.error('กรุณาเลือกวันที่')
+            return;
+        }
+
+
+        this._service.remainCreditDaialy({ startDate: startDate, endDate: endDate }).subscribe({
+            next: (resp) => {
+                this.toastr.success('ดำเนินการสำเร็จ')
+                createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
+            },
+            error: (err) => {
+                this.toastr.error('เกิดข้อผิดพลาด')
+            }
+        })
+    }
+    paymentTopup() {
+        let formValue = this.form.value
+        if (formValue.startDate && formValue.startDate) {
+            var startDate = DateTime.fromISO(formValue.startDate).toFormat('yyyy-MM-dd');
+            var endDate = DateTime.fromISO(formValue.endDate).toFormat('yyyy-MM-dd');
+        }
+
+        if (!startDate || !endDate) {
+            this.toastr.error('กรุณาเลือกวันที่')
+            return;
+        }
+
+
+        this._service.paymentTopup({ startDate: startDate, endDate: endDate, walType: formValue.walletType }).subscribe({
+            next: (resp) => {
+                this.toastr.success('ดำเนินการสำเร็จ')
+                createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
+            },
+            error: (err) => {
+                this.toastr.error('เกิดข้อผิดพลาด')
+            }
+        })
     }
 
 }

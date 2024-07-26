@@ -38,6 +38,30 @@ export class ReportListComponent implements OnInit, AfterViewInit {
     @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
     branch: any[] = []
+
+    reportList: any[] = [
+        {
+            code: 'remainCreditDaily',
+            name: 'รายงาน ยอดเงินคงเหลือของแต่ละบัตรแยกข้อมูลตามวัน (รายวัน)',
+            type: [
+                'date-rang',
+            ],
+            extension: [
+                'excel'
+            ]
+        },
+        {
+            code: 'paymentTopup',
+            name: 'รายงานประวัติการเติมเงินแต่ละบัตร',
+            type: [
+                'date-rang',
+                'wallet-type',
+            ],
+            extension: [
+                'excel'
+            ]
+        },
+    ]
     constructor(
         private _service: ReportListService,
         private fuseConfirmationService: FuseConfirmationService,
@@ -47,91 +71,24 @@ export class ReportListComponent implements OnInit, AfterViewInit {
 
     ) {
         this.branch = this.activated.snapshot.data.branch;
-        console.log(this.branch);
+        // console.log(this.branch);
         
     }
     ngOnInit(): void {
-        setTimeout(() =>
-            this.loadTable());
+      
 
     }
 
     ngAfterViewInit() {
-        setTimeout(() => {
-            this.dtTrigger.next(this.dtOptions);
-        }, 200);
+     
     }
 
     ngOnDestroy(): void {
         // Do not forget to unsubscribe the event
-        this.dtTrigger.unsubscribe();
+   
     }
 
-    loadTable(): void {
-        this.dtOptions = {
-            pagingType: 'full_numbers',
-            serverSide: true,     // Set the flag
-            ajax: (dataTablesParameters: any, callback) => {
-                this._service.datatable(dataTablesParameters).subscribe({
-                    next: (resp: any) => {
-                        callback({
-                            recordsTotal: resp.meta.totalItems,
-                            recordsFiltered: resp.meta.totalItems,
-                            data: resp.data
-                        });
-                    }
-                })
-            },
-            columns: [
-                {
-                    title: 'ลำดับ',
-                    data: 'no',
-                    className: 'w-15 text-center'
-                },
-
-                {
-                    title: 'ชื่อสาขา',
-                    data: 'branch.name',
-                    className: 'text-center'
-                },
-                {
-                    title: 'รหัสอุปกรณ์',
-                    data: 'code',
-                    className: 'text-center'
-                },
-                {
-                    title: 'ชื่ออุปกรณ์',
-                    data: 'name',
-                    className: 'text-center'
-                },
-                {
-                    title: 'จัดการ',
-                    data: null,
-                    defaultContent: '',
-                    ngTemplateRef: {
-                        ref: this.btNg,
-                    },
-                    className: 'w-15 text-center'
-                }
-
-            ]
-        }
-    }
-
-
-
-    rerender(): void {
-        this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
-            // Destroy the table first
-            dtInstance.destroy();
-            // Call the dtTrigger to rerender again
-            this.dtTrigger.next(this.dtOptions);
-        });
-    }
-
-
-
-    opendialogapro() {
+    openDialogReport(item: any) {
         const DialogRef = this.dialog.open(DialogForm, {
             disableClose: true,
             width: '500px',
@@ -139,27 +96,6 @@ export class ReportListComponent implements OnInit, AfterViewInit {
             enterAnimationDuration: 300,
             exitAnimationDuration: 300,
             data: {
-                type: 'NEW',
-                branch: this.branch
-            }
-        });
-        DialogRef.afterClosed().subscribe((result) => {
-            if (result) {
-                console.log(result, 'result')
-                this.rerender();
-            }
-        });
-    }
-
-    openDialogEdit(item: any) {
-        const DialogRef = this.dialog.open(DialogForm, {
-            disableClose: true,
-            width: '500px',
-            height: 'auto',
-            enterAnimationDuration: 300,
-            exitAnimationDuration: 300,
-            data: {
-                type: 'EDIT',
                 value: item,
                 branch: this.branch
             }
@@ -167,50 +103,12 @@ export class ReportListComponent implements OnInit, AfterViewInit {
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 console.log(result, 'result')
-                this.rerender();
+                // this.rerender();
             }
         });
     }
 
 
 
-    clickDelete(id: any) {
-        const confirmation = this.fuseConfirmationService.open({
-            title: "ยืนยันลบข้อมูล",
-            message: "กรุณาตรวจสอบข้อมูล หากลบข้อมูลแล้วจะไม่สามารถนำกลับมาได้",
-            icon: {
-                show: true,
-                name: "heroicons_outline:exclamation-triangle",
-                color: "warn"
-            },
-            actions: {
-                confirm: {
-                    show: true,
-                    label: "ยืนยัน",
-                    color: "primary"
-                },
-                cancel: {
-                    show: true,
-                    label: "ยกเลิก"
-                }
-            },
-            dismissible: false
-        })
-
-        confirmation.afterClosed().subscribe(
-            result => {
-                if (result == 'confirmed') {
-                    this._service.delete(id).subscribe({
-                        error: (err) => {
-
-                        },
-                        complete: () => {
-                            this.toastr.success('ดำเนินการลบสำเร็จ');
-                            this.rerender();
-                        },
-                    });
-                }
-            }
-        )
-    }
+   
 }

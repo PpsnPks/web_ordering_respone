@@ -8,6 +8,7 @@ import { CashierComponent } from './cashier/cashier.component';
 import { BillReportComponent } from './bill-report/bill-report.component';
 import { CardReportComponent } from './card/card-report.component';
 import { ReportProductComponent } from './product/report.component';
+import { ReportListComponent } from './list/report-list.component';
 
 export default [
     {
@@ -45,5 +46,9 @@ export default [
     {
         path: 'card',
         component: CardReportComponent,
+    },
+    {
+        path: 'list',
+        component: ReportListComponent,
     },
 ] as Routes;
