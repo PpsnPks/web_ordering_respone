@@ -77,7 +77,7 @@ export class OrderComponent implements OnInit, AfterViewInit {
             serverSide: true,     // Set the flag
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.filter = {
-                    'filter.orderStatus': 'complete'
+                    'filter.orderStatus': ['void', 'complete']
                 }
                 this._service.datatable(dataTablesParameters).subscribe({
                     next: (resp: any) => {
