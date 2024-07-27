@@ -193,14 +193,25 @@ export class DialogForm implements OnInit {
         this.dialogRef.close()
     }
 
+    fileError: string | null = null;
     files: File[] = [];
     onSelect(event, input: any) {
-      if (input === 'addfile') {
-
-        this.form.patchValue({
-          file: event[0],
-          file_name: event[0].name,
-        });
-      }
+        if (input === 'addfile') {
+            if (event && event.length > 0) {
+                const file = event[0];
+                const fileName = file.name;
+                const fileExtension = fileName.split('.').pop()?.toLowerCase();
+                if (fileExtension === 'xlsx') {
+                    this.fileError = null;
+                    this.form.patchValue({
+                        file: event[0],
+                        file_name: event[0].name,
+                    });
+                } else {
+                    this.toastr.error('กรุณาเลือกไฟล์นามสกุล .xlsx เท่านั้น')
+                    // this.fileError = '';
+                }
+            }
+        }
     }
 }

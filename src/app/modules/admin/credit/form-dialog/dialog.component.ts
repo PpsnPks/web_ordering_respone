@@ -169,6 +169,7 @@ export class DialogForm implements OnInit {
     onClose() {
         this.dialogRef.close()
     }
+    
     fileError: string | null = null;
     files: File[] = [];
     onSelect(event, input: any) {
