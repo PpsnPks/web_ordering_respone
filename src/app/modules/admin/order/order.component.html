@@ -11,6 +11,19 @@
         <span class="ml-2"> นำเข้าข้อมูล</span>
       </button> -->
     </div>
+    <div [formGroup]="formstatus" class="flex flex-row justify-start mb-2">
+      <mat-form-field [ngClass]="formFieldHelpers" class="w-full md:w-1/4">
+        <mat-label>สถานะ</mat-label>
+        <mat-select [formControlName]="'filter_status'" (selectionChange)="onChangeStatus()">
+            <mat-option  [value]="''" >
+                ALL
+            </mat-option>
+            <mat-option *ngFor="let item of filterStatus" [value]="item" >
+                {{item}}
+            </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
     <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="row-border hover w-full">
     </table>
   </div>

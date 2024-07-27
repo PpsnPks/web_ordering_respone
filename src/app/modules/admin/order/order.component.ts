@@ -17,6 +17,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { OrderService } from './order.service';
 import { DateTime } from 'luxon';
 import { orderBy } from 'lodash';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatSelectModule } from '@angular/material/select';
 @Component({
     selector: 'app-order',
     standalone: true,
@@ -27,28 +29,39 @@ import { orderBy } from 'lodash';
         MatIconModule,
         FilePickerModule,
         MatMenuModule,
-        MatDividerModule
+        MatDividerModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatSelectModule
     ],
     templateUrl: './order.component.html',
     styleUrl: './order.component.scss',
     changeDetection: ChangeDetectionStrategy.Default,
 })
 export class OrderComponent implements OnInit, AfterViewInit {
+    formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: any = {};
     dtTrigger: Subject<ADTSettings> = new Subject<ADTSettings>();
 
     @ViewChild('btNg') btNg: any;
     @ViewChild(DataTableDirective, { static: false })
     dtElement: DataTableDirective;
+    formstatus: FormGroup
 
+    filterStatus : any[] = [
+        'complete', 
+        'void'
+     ]
     constructor(
         private _service: OrderService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
         public dialog: MatDialog,
-
+        private _fb: FormBuilder
     ) {
-
+        this.formstatus = this._fb.group({
+            filter_status: ''
+        })
     }
     ngOnInit(): void {
         setTimeout(() =>
@@ -71,13 +84,17 @@ export class OrderComponent implements OnInit, AfterViewInit {
         return DateTime.fromISO(date).toFormat('dd/MM/yyyy HH:mm:ss');
     }
 
+    onChangeStatus(){
+        this.rerender()
+    }
+
     loadTable(): void {
         this.dtOptions = {
             pagingType: 'full_numbers',
             serverSide: true,     // Set the flag
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.filter = {
-                    'filter.orderStatus': ['void', 'complete']
+                    'filter.orderStatus': this.formstatus.value.filter_status
                 }
                 this._service.datatable(dataTablesParameters).subscribe({
                     next: (resp: any) => {
