@@ -1,10 +1,10 @@
 <div class="overflow-auto md:max-w-lg">
     <h1 mat-dialog-title class="mb-4 text-xl font-semibold" *ngIf="this.data?.type === 'NEW'">เพิ่มข้อมูล</h1>
     <h1 mat-dialog-title class="mb-4 text-xl font-semibold" *ngIf="this.data?.type === 'EDIT'">แก้ไขข้อมูล</h1>
-    <div mat-dialog-content class="overflow-y-auto md:max-h-180">
+    <div mat-dialog-content class="h-fit">
         <form [formGroup]="form">
             <div class="flex-auto">
-                <div class="flex flex-col mb-6 md:flex">
+                <div class="flex flex-col mb-2 md:flex">
                     <div class="md:w-full">
                         <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                             <mat-label>รหัสพนักงาน</mat-label>
@@ -48,9 +48,9 @@
 
                     <div class="md:w-full">
                     <!-- <form [formGroup]="form" (ngSubmit)="Submit()"> -->
-                        <mat-form-field appearance="fill" class="w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" appearance="fill" class="w-full">
                             <mat-label>Select Branches</mat-label>
-                            <mat-select formControlName="selectedBranches" multiple (selectionChange)="selectionChanged($event)">
+                            <mat-select  formControlName="selectedBranches" multiple (selectionChange)="selectionChanged($event)">
                               <mat-option *ngFor="let branch of branches" [value]="branch">{{ branch.name }}</mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -71,9 +71,9 @@
                     </div>
 
                     <div class="md:w-full" *ngIf="this.data.type === 'NEW'">
-                        <mat-form-field class="w-full">
+                        <mat-form-field [ngClass]="formFieldHelpers" class="w-full">
                             <mat-label>Password</mat-label>
-                            <input id="password" matInput type="password" [formControlName]="'password'" #passwordField required pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[-+_!@#$%^&*,.?])(?=.*[a-z]).{8,}$">
+                            <input id="password" class="h-[40px]" matInput type="password" [formControlName]="'password'" #passwordField required pattern="^(?=.*[A-Z])(?=.*[0-9])(?=.*[-+_!@#$%^&*,.?])(?=.*[a-z]).{8,}$">
 
                             <button mat-icon-button type="button"
                                 (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
@@ -83,11 +83,10 @@
                                 <mat-icon class="icon-size-5" *ngIf="passwordField.type === 'text'"
                                     [svgIcon]="'heroicons_solid:eye-slash'"></mat-icon>
                             </button>
-                            <mat-error
-                                *ngIf="registerForm.value.password">Password must be a combination of lower-case, upper-case, numbers, symbols and at least 8 characters long
+                            <mat-error class="text-xs">Password must be a combination of lower-case, upper-case, numbers, symbols and at least 8 characters long
                             </mat-error>
                         </mat-form-field>
-                        <mat-error class="text-xs">Password must be a combination of lower-case, upper-case, numbers, symbols and at least 8 characters long.</mat-error>
+                        <!--<mat-error class="text-xs">Password must be a combination of lower-case, upper-case, numbers, symbols and at least 8 characters long.</mat-error>-->
 
                     </div>
                 </div>
