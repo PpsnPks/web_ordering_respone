@@ -105,16 +105,12 @@ export class DialogForm implements OnInit {
             console.log('New');
         }
     }
-    con(){
-
-
+    exportTemplate(){
         this.userService.export(this.form.value).subscribe({
             next: (resp: Blob) => {
               let fileName = `member.xlsx`;
               createFileFromBlob(resp, fileName);
             },})
-
-
 
         // const formData = new FormData();
         //     this.userService.export(formData).subscribe({
