@@ -1,4 +1,3 @@
-import { Subscription } from 'rxjs';
 import { Component, OnInit, OnChanges, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataTablesModule } from 'angular-datatables';
@@ -143,6 +142,7 @@ export class DialogForm implements OnInit {
 
                         this.userService.import(formData).subscribe({
                             error: (err) => {
+                                let mesError = err.error.message.join(', ')
                                 this.toastr.error('ไม่สามารถบันทึกข้อมูลได้')
                             },
                             complete: () => {

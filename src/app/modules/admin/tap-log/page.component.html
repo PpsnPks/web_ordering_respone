@@ -33,7 +33,11 @@
     <mat-icon class="icon-size-5" [svgIcon]="'heroicons_solid:cog-8-tooth'"></mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item (click)="openDialogEdit(data.id)">
+    <button mat-menu-item (click)="clickVoid(data.id)">
+      <mat-icon [svgIcon]="'heroicons_outline:receipt-refund'"></mat-icon>
+      <span>void</span>
+    </button>
+    <!--<button mat-menu-item (click)="openDialogEdit(data.id)">
       <mat-icon [svgIcon]="'heroicons_solid:pencil-square'"></mat-icon>
       <span>แก้ไข</span>
     </button>
@@ -41,6 +45,6 @@
     <button mat-menu-item (click)="clickDelete(data.id)">
       <mat-icon [svgIcon]="'heroicons_solid:trash'"></mat-icon>
       <span>ลบ</span>
-    </button>
+    </button>-->
   </mat-menu>
 </ng-template>

@@ -117,7 +117,7 @@ export class OrderComponent implements OnInit, AfterViewInit {
                     title: 'เลขที่ทำรายการ',
                     defaultContent: '-',
                     data: 'orderNo',
-                    className: 'text-left'
+                    className: 'text-center'
                 },
                 {
                     title: 'วันที่ทำรายการ',
@@ -125,13 +125,13 @@ export class OrderComponent implements OnInit, AfterViewInit {
                     data: function(row: any) {
                         return DateTime.fromISO(row.orderDate).toFormat('dd/MM/yyyy HH:mm:ss');
                     },
-                    className: 'text-left'
+                    className: 'text-center'
                 },
                 {
                     title: 'ร้านค้า',
                     defaultContent: '-',
                     data: 'device.name',
-                    className: 'text-left'
+                    className: 'text-center'
                 },
                 {
                     title: 'ช่องทางชำระ',
@@ -140,19 +140,19 @@ export class OrderComponent implements OnInit, AfterViewInit {
                         const successfulPayments = row.orderPayments.filter(payment => payment.status === 'success');
                         return successfulPayments.length > 0 ? successfulPayments[0].paymentMethod.name : '-';
                     },
-                    className: 'text-left'
+                    className: 'text-center'
                 },
                 {
                     title: 'สถานะ',
                     defaultContent: '-',
                     data: 'orderStatus',
-                    className: 'text-left'
+                    className: 'text-center'
                 },
                 {
                     title: 'Grand Total',
                     defaultContent: '-',
                     data: 'grandTotal',
-                    className: 'text-left'
+                    className: 'text-center'
                 },
                 {
                     title: 'จัดการ',
@@ -169,8 +169,6 @@ export class OrderComponent implements OnInit, AfterViewInit {
         }
     }
 
-
-
     rerender(): void {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
             // Destroy the table first
@@ -179,8 +177,6 @@ export class OrderComponent implements OnInit, AfterViewInit {
             this.dtTrigger.next(this.dtOptions);
         });
     }
-
-
 
     opendialogapro() {
         const DialogRef = this.dialog.open(DialogForm, {
@@ -225,7 +221,45 @@ export class OrderComponent implements OnInit, AfterViewInit {
       
     }
 
+    clickVoid(id: any){
+        const confirmation = this.fuseConfirmationService.open({
+            title: "คุณต้องการ void ใช่หรือไม่ ?",
+            message: "กรุณาตรวจสอบให้แน่ใจ หากยืนยันแล้วจะไม่สามารถย้อนกลับได้",
+            icon: {
+                show: true,
+                name: "heroicons_outline:exclamation-triangle",
+                color: "warn"
+            },
+            actions: {
+                confirm: {
+                    show: true,
+                    label: "ยืนยัน",
+                    color: "primary"
+                },
+                cancel: {
+                    show: true,
+                    label: "ยกเลิก"
+                }
+            },
+            dismissible: false
+        })
 
+        confirmation.afterClosed().subscribe(
+            result => {
+                if (result == 'confirmed') {
+                    this._service.voidOrder(id).subscribe({
+                        error: (err) => {
+                            this.toastr.error(err.error.message)
+                        },
+                        complete: () => {
+                            this.toastr.success('ดำเนินการ void สำเร็จ');
+                            this.rerender();
+                        },
+                    });
+                }
+            }
+        )
+    }
 
     clickDelete(id: any) {
         const confirmation = this.fuseConfirmationService.open({
