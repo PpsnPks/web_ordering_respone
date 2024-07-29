@@ -39,6 +39,10 @@
       <span>ดูรายละเอียด</span>
     </button>
     <mat-divider></mat-divider>
+    <button mat-menu-item (click)="clickVoid(data.id)">
+      <mat-icon [svgIcon]="'heroicons_outline:receipt-refund'"></mat-icon>
+      <span>void</span>
+    </button>
     <!-- <button mat-menu-item (click)="clickDelete(data.id)">
       <mat-icon [svgIcon]="'heroicons_solid:trash'"></mat-icon>
       <span>ลบ</span>

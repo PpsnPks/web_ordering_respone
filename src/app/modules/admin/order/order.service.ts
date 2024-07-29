@@ -82,4 +82,8 @@ export class OrderService {
       responseType: 'blob'
     })
   }
+
+  voidOrder(id: any){
+    return this.http.post(`/api/order/${id}/void`,'')
+  }
 }

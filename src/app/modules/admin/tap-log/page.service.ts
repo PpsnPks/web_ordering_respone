@@ -46,7 +46,7 @@ export class TaplogService {
     return this.http.post('/api/tap-log', data)
   }
 
-  update(id: any,data: any) {
+  update(id: any,data: any) { //น่าจะยังไม่แก้
     return this.http.put('/api/branch/' + id, data)
   }
 
@@ -73,7 +73,11 @@ export class TaplogService {
     )
   }
 
-  delete(id: number) {
+  delete(id: number) { //น่าจะยังไม่แก้
     return this.http.delete('/api/branch/' + id)
+  }
+
+  voidTaplog(id: number) { //น่าจะยังไม่แก้
+    return this.http.post(`/api/tap-log/${id}/void`,'')
   }
 }

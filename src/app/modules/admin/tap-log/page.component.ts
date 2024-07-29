@@ -99,8 +99,8 @@ export class TapLogComponent implements OnInit, AfterViewInit {
     loadTable(): void {
         this.dtOptions = {
             pagingType: 'full_numbers',
-            serverSide: true, 
-            scrollX: true,    // Set the flag
+            serverSide: true, // Set the flag
+            //scrollX: true, 
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.filter = {
                     'filter.card.card_type': this.form.value.cardType ?? ''
@@ -165,22 +165,20 @@ export class TapLogComponent implements OnInit, AfterViewInit {
                     data: 'shift.name',
                     className: 'text-center'
                 },
-                // {
-                //     title: 'จัดการ',
-                //     data: null,
-                //     defaultContent: '',
-                //     ngTemplateRef: {
-                //         ref: this.btNg,
-                //     },
-                //     className: 'w-15 text-center'
-                // }
+                 {
+                     title: 'จัดการ',
+                     data: null,
+                     defaultContent: '',
+                     ngTemplateRef: {
+                         ref: this.btNg,
+                     },
+                     className: 'w-15 text-center'
+                 }
 
             ],
             order: [[1, 'DESC']]
         }
     }
-
-
 
     rerender(): void {
         this.dtElement.dtInstance.then((dtInstance: DataTables.Api) => {
@@ -213,6 +211,7 @@ export class TapLogComponent implements OnInit, AfterViewInit {
             }
         });
     }
+
     branch: any
     openDialogEdit(item: any) {
         this._service.getBranchId(item).subscribe( (resp: any)=>{
@@ -239,7 +238,45 @@ export class TapLogComponent implements OnInit, AfterViewInit {
 
     }
 
+    clickVoid(id: any){
+        const confirmation = this.fuseConfirmationService.open({
+            title: "คุณต้องการ void ใช่หรือไม่ ?",
+            message: "กรุณาตรวจสอบให้แน่ใจ หากยืนยันแล้วจะไม่สามารถย้อนกลับได้",
+            icon: {
+                show: true,
+                name: "heroicons_outline:exclamation-triangle",
+                color: "warn"
+            },
+            actions: {
+                confirm: {
+                    show: true,
+                    label: "ยืนยัน",
+                    color: "primary"
+                },
+                cancel: {
+                    show: true,
+                    label: "ยกเลิก"
+                }
+            },
+            dismissible: false
+        })
 
+        confirmation.afterClosed().subscribe(
+            result => {
+                if (result == 'confirmed') {
+                    this._service.voidTaplog(id).subscribe({
+                        error: (err) => {
+                            this.toastr.error(err.error.message)
+                        },
+                        complete: () => {
+                            this.toastr.success('ดำเนินการ void สำเร็จ');
+                            this.rerender();
+                        },
+                    });
+                }
+            }
+        )
+    }
 
     clickDelete(id: any) {
         const confirmation = this.fuseConfirmationService.open({
