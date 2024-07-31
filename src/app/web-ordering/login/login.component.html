@@ -1,0 +1,47 @@
+<div>
+	<p>login works!</p>
+</div>
+<div class="flex flex-col w-full max-w-md bg-white max-h-dvh">
+	<asha-web-ordering-bar [title]="'ประวัติการสั่งซื้อ'" back="false"></asha-web-ordering-bar>
+	<div class="flex grow flex-col">
+	  <!-- <div class="flex flex-col rounded-lg justify-center items-center p-8 gap-4">
+		<img class="" src="assets/images/member_card.png" alt="background" />
+	  </div> -->
+	  <!-- @if ((asyncTabs | async) === null) {
+	  Loading tabs...
+	  } -->
+	  <div class="flex flex-row justify-between w-full py-6">
+		<!-- <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == null}">
+		  <a [routerLink]="['/client']" mat-button class="rounded-none text-kPrimary font-bold"
+			[ngClass]="{'text-kPrimary font-bold': status == null}">ที่ต้องชำระ</a>
+		</div>
+		<div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'active'}">
+		  <a [routerLink]="['/client/list/active']" mat-button class="rounded-none"
+			[ngClass]="{'text-kPrimary font-bold': status == 'active'}">ที่ต้องจัดส่ง</a>
+		</div> -->
+	  </div>
+	  <div class="w-full relative flex flex-row gap-4 justify-center items-center border-b-2 border-top-menu p-4" *ngFor="let data of datas">
+		<img class="w-[105px] h-[107px] object-cover rounded-[10px] border-2 border-top-menu"
+		  src="{{data.image }}" alt="img-cart">
+		<div class="text-color1 text-sm font-normal flex flex-col justify-between items-start grow h-full gap-4" >
+		  <div class="w-full text-color1 text-sm font-normal flex flex-col justify-start items-center grow gap-2">
+			<div class="w-full text-[18px] font-normal">{{data.title}}</div>
+			<div class="w-full flex flex-row gap-4 justify-start items-center">
+			  <div class="flex flex-row gap-1 justify-start items-center">
+				<div class="w-[13px] h-[13px] bg-stone-600 rounded-full shadow-reward-card"></div>
+				<div class="text-black text-sm font-normal leading-4">สีน้ำตาลอ่อน</div>
+			  </div>
+			</div>
+		  </div>
+		  <div class="flex flex-row gap-2 text-sm font-normal">
+			<div class="w-full text-[18px] font-normal">฿ {{data.price | number}}</div>
+		  </div>
+		</div>
+	  </div>
+	  <!-- <footer class="px-8 pb-8 w-full">
+	  <button mat-stroked-button [disabled]="form.invalid" color="accent" class="fuse-mat-button-large w-full rounded-lg
+	   text-black" (click)="goto()">
+		ย้อนกลับ
+	  </button>
+	</footer> -->
+</div>
