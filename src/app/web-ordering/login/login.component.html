@@ -1,47 +1,28 @@
-<div>
+<!--<div>
 	<p>login works!</p>
-</div>
+</div>-->
 <div class="flex flex-col w-full max-w-md bg-white max-h-dvh">
-	<asha-web-ordering-bar [title]="'ประวัติการสั่งซื้อ'" back="false"></asha-web-ordering-bar>
-	<div class="flex grow flex-col">
-	  <!-- <div class="flex flex-col rounded-lg justify-center items-center p-8 gap-4">
-		<img class="" src="assets/images/member_card.png" alt="background" />
-	  </div> -->
-	  <!-- @if ((asyncTabs | async) === null) {
-	  Loading tabs...
-	  } -->
-	  <div class="flex flex-row justify-between w-full py-6">
-		<!-- <div class="border-b-2 " [ngClass]="{'border-kPrimary': status == null}">
-		  <a [routerLink]="['/client']" mat-button class="rounded-none text-kPrimary font-bold"
-			[ngClass]="{'text-kPrimary font-bold': status == null}">ที่ต้องชำระ</a>
-		</div>
-		<div class="border-b-2 " [ngClass]="{'border-kPrimary': status == 'active'}">
-		  <a [routerLink]="['/client/list/active']" mat-button class="rounded-none"
-			[ngClass]="{'text-kPrimary font-bold': status == 'active'}">ที่ต้องจัดส่ง</a>
-		</div> -->
+	<!--<asha-web-ordering-bar [title]="'ประวัติการสั่งซื้อ'" [back]="false"></asha-web-ordering-bar>-->
+	<div class="h-full grid grid-rows-3 grid-cols-1">
+	  <div class="flex items-center justify-center">
+		<img class="w-[210px] h-[193px]" src="../../../assets/ordering/login.png" alt="img_login">
 	  </div>
-	  <div class="w-full relative flex flex-row gap-4 justify-center items-center border-b-2 border-top-menu p-4" *ngFor="let data of datas">
-		<img class="w-[105px] h-[107px] object-cover rounded-[10px] border-2 border-top-menu"
-		  src="{{data.image }}" alt="img-cart">
-		<div class="text-color1 text-sm font-normal flex flex-col justify-between items-start grow h-full gap-4" >
-		  <div class="w-full text-color1 text-sm font-normal flex flex-col justify-start items-center grow gap-2">
-			<div class="w-full text-[18px] font-normal">{{data.title}}</div>
-			<div class="w-full flex flex-row gap-4 justify-start items-center">
-			  <div class="flex flex-row gap-1 justify-start items-center">
-				<div class="w-[13px] h-[13px] bg-stone-600 rounded-full shadow-reward-card"></div>
-				<div class="text-black text-sm font-normal leading-4">สีน้ำตาลอ่อน</div>
-			  </div>
+	  <div class="flex flex-col px-4 gap-[20px] justify-center">
+		<p class="font-semibold text-[32px] text-[#424242]">สั่งอาหาร</p>
+		<form [formGroup]="form">
+			<div class="w-full flex items-center gap-2 border-b-[1px] border-[#78909C] px-2 py-3">
+				<div class="w-5 h-5">
+					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+						<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+					</svg>
+				</div>
+				<div class="w-4">
+					<input class="" formControlName="room_No" placeholder="ระบุเลขห้อง">
+				</div>
 			</div>
-		  </div>
-		  <div class="flex flex-row gap-2 text-sm font-normal">
-			<div class="w-full text-[18px] font-normal">฿ {{data.price | number}}</div>
-		  </div>
-		</div>
+		</form>
+		<button class="w-full h-14 text-[16px] font-medium text-[#FFFFFF] bg-[#1264E3] rounded-[8px]" (click)="next()">เข้าสู่ระบบ</button>
 	  </div>
-	  <!-- <footer class="px-8 pb-8 w-full">
-	  <button mat-stroked-button [disabled]="form.invalid" color="accent" class="fuse-mat-button-large w-full rounded-lg
-	   text-black" (click)="goto()">
-		ย้อนกลับ
-	  </button>
-	</footer> -->
+	  <div></div>
+	</div>
 </div>

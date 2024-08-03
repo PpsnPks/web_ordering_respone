@@ -61,7 +61,7 @@ export const appRoutes: Route[] = [
             layout: 'empty'
         },
         children: [
-            { path: 'home', loadChildren: () => import('app/modules/landing/home/home.routes') },
+            { path: 'homes', loadChildren: () => import('app/modules/landing/home/home.routes') },
         ]
     },
 
@@ -75,7 +75,7 @@ export const appRoutes: Route[] = [
             initialData: initialDataResolver
         },
         children: [
-            { path: 'login', loadChildren: () => import('app/web-ordering/web-ordering.routes') },
+            { path: '', loadChildren: () => import('app/web-ordering/web-ordering.routes') },
 
             //{ path: 'dashboards', loadChildren: () => import('app/modules/admin/dashboard/dashboard.routes') },
             //{ path: 'dashboard', loadChildren: () => import('app/modules/admin/dashboard/dashboard.routes') },

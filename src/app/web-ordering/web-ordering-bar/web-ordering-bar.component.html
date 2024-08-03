@@ -1,5 +1,5 @@
 <header>
-	<mat-toolbar class="flex justify-between bg-card shadow-lg">
+	<!--<mat-toolbar class="flex justify-between bg-card shadow-lg">
 	  <div class="w-10">
 		<button mat-icon-button class=" h-10 rounded-full example-icon text-5xl" *ngIf="back == true" (click)="location.back()"
 			aria-label="Example icon-button with menu icon">
@@ -7,8 +7,18 @@
 		</button>
 	  </div>
 	  <span class="font-bold text-xl">{{title}}</span>
-	  <div class="flex justify-center w-10">
-		<!-- <mat-icon svgIcon="heroicons_outline:information-circle" class="text-gray-500"></mat-icon> -->
-	  </div>
-	</mat-toolbar>
+	  <div class="flex justify-center w-10"></div>
+	</mat-toolbar>-->
+	<mat-toolbar class="flex shadow-lg bg-[#1B1B28]">
+		<div *ngIf="back == true" class="w-10">
+		  <button mat-icon-button class=" h-10 rounded-full example-icon text-5xl" (click)="location.back()"
+			  aria-label="Example icon-button with menu icon">
+			  <mat-icon class="text-[#FFFFFF]" svgIcon="heroicons_outline:arrow-left"></mat-icon>
+		  </button>
+		</div>
+		<span class="font-medium text-xl ml-1 text-[#FFFFFF]">{{title}}</span>
+		<div class="flex justify-center w-10">
+		  <!-- <mat-icon svgIcon="heroicons_outline:information-circle" class="text-gray-500"></mat-icon> -->
+		</div>
+	  </mat-toolbar>
 </header>

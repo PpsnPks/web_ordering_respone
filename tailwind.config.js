@@ -102,8 +102,9 @@ const config = {
                 '0': '0 0 auto'
             },
             fontFamily              : {
-                sans: `"Inter var", ${defaultTheme.fontFamily.sans.join(',')}`,
-                mono: `"IBM Plex Mono", ${defaultTheme.fontFamily.mono.join(',')}`
+                sans: `"IBM Plex Sans Thai", ${defaultTheme.fontFamily.sans.join(',')}`,
+                mono: `"IBM Plex Mono", ${defaultTheme.fontFamily.mono.join(',')}`,
+                ibm: `"IBM Plex Sans Thai", ${defaultTheme.fontFamily.sans.join(',')}`,
             },
             opacity                 : {
                 12: '0.12',

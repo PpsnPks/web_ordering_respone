@@ -88,20 +88,20 @@ $dark-base: (
     color: null,
     density: 0,
     typography: mat.define-typography-config(
-        $font-family: theme('fontFamily.sans'),
-        $headline-1: mat.define-typography-level(1.875rem, 2.25rem, 800, theme('fontFamily.sans')),
-        $headline-2: mat.define-typography-level(1.25rem, 1.75rem, 700, theme('fontFamily.sans')),
-        $headline-3: mat.define-typography-level(1.125rem, 1.75rem, 600, theme('fontFamily.sans')),
-        $headline-4: mat.define-typography-level(0.875rem, 1.25rem, 600, theme('fontFamily.sans')),
-        $headline-5: mat.define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.sans')),
-        $headline-6: mat.define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.sans')),
-        $subtitle-1: mat.define-typography-level(1rem, 1.75rem, 400, theme('fontFamily.sans')),
-        $subtitle-2: mat.define-typography-level(0.875rem, 1.25rem, 600, theme('fontFamily.sans')),
-        $body-1: mat.define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.sans')),
-        $body-2: mat.define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.sans')),
-        $caption: mat.define-typography-level(0.75rem, 1rem, 400, theme('fontFamily.sans')),
-        $button: mat.define-typography-level(0.875rem, 0.875rem, 500, theme('fontFamily.sans')),
-        $overline: mat.define-typography-level(0.75rem, 2rem, 500, theme('fontFamily.sans'))
+        $font-family: theme('fontFamily.ibm'),
+        $headline-1: mat.define-typography-level(1.875rem, 2.25rem, 800, theme('fontFamily.ibm')),
+        $headline-2: mat.define-typography-level(1.25rem, 1.75rem, 700, theme('fontFamily.ibm')),
+        $headline-3: mat.define-typography-level(1.125rem, 1.75rem, 600, theme('fontFamily.ibm')),
+        $headline-4: mat.define-typography-level(0.875rem, 1.25rem, 600, theme('fontFamily.ibm')),
+        $headline-5: mat.define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.ibm')),
+        $headline-6: mat.define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.ibm')),
+        $subtitle-1: mat.define-typography-level(1rem, 1.75rem, 400, theme('fontFamily.ibm')),
+        $subtitle-2: mat.define-typography-level(0.875rem, 1.25rem, 600, theme('fontFamily.ibm')),
+        $body-1: mat.define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.ibm')),
+        $body-2: mat.define-typography-level(0.875rem, 1.5rem, 400, theme('fontFamily.ibm')),
+        $caption: mat.define-typography-level(0.75rem, 1rem, 400, theme('fontFamily.ibm')),
+        $button: mat.define-typography-level(0.875rem, 0.875rem, 500, theme('fontFamily.ibm')),
+        $overline: mat.define-typography-level(0.75rem, 2rem, 500, theme('fontFamily.ibm'))
     )
 ));
 
