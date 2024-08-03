@@ -32,7 +32,7 @@
 			</div>
 		</div>
 		<div class="px-5 pt-[10px] grid grid-cols-1">
-			<div class="flex gap-4 py-[10px] border-b-[1px] border-[#CFD8DC]" *ngFor="let item of items">
+			<div class="flex gap-4 py-[10px] border-b-[1px] border-[#CFD8DC]" *ngFor="let item of items" (click)="submit(item)">
 				<div>
 					<img class="h-[90px] w-[90px]" src= {{item.product_img}} alt="mock_img">
 				</div>

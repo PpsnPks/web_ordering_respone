@@ -5,6 +5,8 @@ import { WebOrderingBarComponent } from '../web-ordering-bar/web-ordering-bar.co
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { MatBottomSheet, MatBottomSheetModule } from '@angular/material/bottom-sheet';
+import { PromotionBsComponent } from './promotion-bs/promotion-bs.component';
 
 @Component({
   selector: 'asha-home',
@@ -15,7 +17,7 @@ import { MatSelectModule } from '@angular/material/select';
     MatFormFieldModule,
     MatOptionModule,
     MatSelectModule,
-
+    MatBottomSheetModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -25,7 +27,8 @@ export class HomeComponent {
 
   items: any
   constructor(
-    private _router: Router
+    private _router: Router,
+    public bottom: MatBottomSheet,
   ){
     this.items = [
       {
@@ -74,5 +77,11 @@ export class HomeComponent {
         product_price: "85.00",
       },
     ]
+  }
+
+  submit(item: any) {
+    this.bottom.open(PromotionBsComponent, {
+      data: item
+    });
   }
 }
