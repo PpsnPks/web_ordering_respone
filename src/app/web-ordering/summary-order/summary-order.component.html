@@ -1,1 +1,59 @@
-<p>summary-order works!</p>
+<div class="flex flex-col w-full max-w-md bg-white max-h-dvh">
+	<asha-web-ordering-bar [title]="'รายการชำระ'" [back]="true"></asha-web-ordering-bar>
+	<div class="w-full grid grid-cols-1 px-5 pt-5 gap-5">
+		<div class="flex flex-col">
+			<p class="text-[#424242] text-[16px] font-medium">ประเภทผู้ชำระ</p>
+			<div class="grid grid-cols-2 p-1 bg-[#f1ecec] rounded-[8px]">
+				<button class="py-[14px] rounded-[6px] text-[#FFFFFF] bg-[#1264E3]">ทั่วไป</button>
+				<button class="py-[14px] rounded-[6px] text-[#424242] bg-[#ECEFF1]">สมาชิก</button>
+			</div>
+		</div>
+		<form [formGroup]="form">
+			<div class="flex flex-col">
+				<!--<mat-form-field>
+					<mat-label>Choose one</mat-label>
+					<mat-select>
+					  <mat-option>Clear</mat-option>
+					  <mat-option value="valid">Valid option</mat-option>
+					  <mat-option value="invalid">Invalid option</mat-option>
+					</mat-select>
+					<mat-hint>Errors appear instantly!</mat-hint>
+				  </mat-form-field>-->
+				<div class="w-full mb-3">
+					<mat-form-field class="w-full">
+						<mat-label>สัญชาติ</mat-label>
+						<mat-select formControlName="nation">
+						@for (nation of nations; track nation) {
+							<mat-option [value]="nation.value">{{nation.name}}</mat-option>
+						}
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<div class="w-full mb-3">
+					<mat-form-field class="w-full">
+						<mat-label>เพศ</mat-label>
+						<mat-select>
+							<mat-option value="man">ชาย</mat-option>
+							<mat-option value="women">หญิง</mat-option>
+							<mat-option value="none">ไม่ระบุ</mat-option>
+						</mat-select>
+					</mat-form-field>
+				</div>
+				<!--<label for="nation">สัญชาติ</label>
+				<select name="nation" class="border-b-[1px] border-[#78909C]">
+					<option value="thai">ไทย</option>
+				</select>-->
+			</div>
+		</form>
+	</div>
+	<div class="flex justify-between px-5 py-[10px] bg-[#E8EAF6]">
+		<p class="text-[16px] font-medium text-[#424242]">Order #20240214001</p>
+		<div class="flex items-center">
+			<mat-icon svgIcon="heroicons_solid:x-circle"></mat-icon>
+			<p class="text-[16px] font-normal text-[#424242]">ลบบิล</p>
+		</div>
+	</div>
+	<div>
+
+	</div>
+</div>
