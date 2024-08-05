@@ -53,7 +53,83 @@
 			<p class="text-[16px] font-normal text-[#424242]">ลบบิล</p>
 		</div>
 	</div>
-	<div>
-
+	<div class="flex flex-col">
+		<ng-container *ngFor="let order of orders">
+			<div class="grid grid-cols-9 px-5 pt-5 border-b-[1px] border-[#B0BEC5]">
+				<div class="flex flex-col col-span-6">
+					<div class="flex pb-2">
+						<div *ngIf="order.type == 'Pro'" class="bg-[#4CAF50] text-[#FFFFFF] text-[12px] font-normal px-3 py-[3px] rounded-[12px] h-fit mr-[14px]">Pro</div>
+						<div *ngIf="order.type == 'DC'" class="bg-[#FF5252] text-[#FFFFFF] text-[12px] font-normal px-3 py-[3px] rounded-[12px] h-fit mr-[14px]">DC</div>
+						<p class="text-[#424242] text-[16px] font-medium">{{order.name}}</p>
+					</div>
+					<ng-container *ngFor="let add of order.add">
+						<p class="text-[#455A64] text-[14px] font-normal" [ngClass]="add.type == 'discount' ? 'text-[#FF5252]':'text-[#455A64]'">{{add.name}}</p>
+					</ng-container>
+				</div>
+				<div class="col-span-3 justify-self-end">
+					<div class="flex">
+						<div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center" [ngClass]="num_order == 0? 'opacity-50': 'opacity-1'"  (click)="order.order == 0? '': changeNumOrder('minus', order)">
+						  <mat-icon svgIcon="heroicons_outline:minus-small"></mat-icon>
+						</div>
+						<p class="flex items-center px-[16px] text-[#424242] text-[16px] font-normal">{{order.order}}</p>
+						<div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center" (click)="changeNumOrder('plus', order)">
+						  <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
+						</div>
+					</div>
+				</div>
+				<div class="col-span-10 flex justify-between items-center py-2">
+					<p class="text-[#424242] text-[14px] font-normal">{{order.price | number: '1.2-2'}}</p>
+					<p class="text-[#424242] text-[20px] font-medium">{{order.price*order.order | number: '1.2-2'}}</p>
+				</div>
+			</div>
+		</ng-container>
+	</div>
+	<div class="h-[12px] w-full bg-[#F6F6F8]"></div>
+	<div class="flex flex-col p-5 gap-[8px]">
+		<div class="flex justify-between items-center">
+			<p class="text-[#424242] text-[16px] font-normal">จำนวนสินค้า</p>
+			<p class="text-[#424242] text-[16px] font-medium">{{sum_order}}</p>
+		</div>
+		<div class="flex justify-between items-center">
+			<p class="text-[#424242] text-[16px] font-normal">รวม</p>
+			<p class="text-[#424242] text-[16px] font-medium">295.00 ฿</p>
+		</div>
+		<div class="flex justify-between items-center">
+			<p class="text-[#424242] text-[16px] font-normal">ส่วนลด</p>
+			<p class="text-[#FF5252] text-[16px] font-medium">-2.00 ฿</p>
+		</div>
+		<div class="flex justify-between items-center">
+			<p class="text-[#424242] text-[16px] font-normal">VAT 7%</p>
+			<p class="text-[#424242] text-[16px] font-medium">0.00 ฿</p>
+		</div>
+		<div class="flex justify-between pb-4 border-b-[1px] border-[#78909C] items-center">
+			<p class="text-[#424242] text-[16px] font-normal">Service Charge 10%</p>
+			<p class="text-[#424242] text-[16px] font-medium">0.00 ฿</p>
+		</div>
+		<div class="flex justify-between items-center pt-2">
+			<p class="text-[#424242] text-[16px] font-normal">ชำระทั้งหมด</p>
+			<p class="text-[#1264E3] text-[23px] font-semibold">293.00 ฿</p>
+		</div>
+	</div>
+	<div class="h-[12px] w-full bg-[#F6F6F8]"></div>
+	<div class="flex justify-between px-[20px] py-[18px] items-center w-full border-b-[1px] border-[#78909C]">
+		<div class="flex items-center">
+			<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M23.074 10.6113C23.441 10.5366 23.771 10.3374 24.0081 10.0474C24.2452 9.75735 24.3748 9.39435 24.375 9.01977V6.5C24.375 6.06902 24.2038 5.6557 23.8991 5.35095C23.5943 5.0462 23.181 4.875 22.75 4.875H3.25C2.81903 4.875 2.4057 5.0462 2.10095 5.35095C1.79621 5.6557 1.625 6.06902 1.625 6.5V9.01977C1.62521 9.39435 1.75482 9.75735 1.99189 10.0474C2.22897 10.3374 2.55896 10.5366 2.92602 10.6113C3.47487 10.7251 3.96772 11.0246 4.32155 11.4593C4.67538 11.894 4.86856 12.4374 4.86856 12.998C4.86856 13.5585 4.67538 14.1019 4.32155 14.5366C3.96772 14.9714 3.47487 15.2709 2.92602 15.3847C2.55827 15.4595 2.22776 15.6593 1.99061 15.9501C1.75345 16.241 1.62427 16.605 1.625 16.9802V19.5C1.625 19.931 1.79621 20.3443 2.10095 20.649C2.4057 20.9538 2.81903 21.125 3.25 21.125H22.75C23.181 21.125 23.5943 20.9538 23.8991 20.649C24.2038 20.3443 24.375 19.931 24.375 19.5V16.9802C24.3748 16.6057 24.2452 16.2426 24.0081 15.9526C23.771 15.6626 23.441 15.4634 23.074 15.3888C22.5251 15.2749 22.0323 14.9754 21.6785 14.5407C21.3246 14.106 21.1314 13.5626 21.1314 13.002C21.1314 12.4415 21.3246 11.8981 21.6785 11.4634C22.0323 11.0286 22.5251 10.7291 23.074 10.6153V10.6113ZM3.25 16.9812C4.16782 16.7943 4.99283 16.2959 5.58537 15.5705C6.17791 14.8451 6.50158 13.9372 6.50158 13.0005C6.50158 12.0638 6.17791 11.156 5.58537 10.4305C4.99283 9.70511 4.16782 9.20673 3.25 9.01977V6.5H8.9375V19.5H3.25V16.9812Z" fill="#1264E3"/>
+			</svg>	
+			<p class="ml-2 text-[18px] font-medium">ส่วนลด</p>
+		</div>
+		<div class="justify-self-end">
+			<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+				<path d="M14.4132 10.6632L8.16325 16.9132C7.98713 17.0894 7.74826 17.1883 7.49918 17.1883C7.25011 17.1883 7.01124 17.0894 6.83512 16.9132C6.659 16.7371 6.56006 16.4983 6.56006 16.2492C6.56006 16.0001 6.659 15.7612 6.83512 15.5851L12.4218 9.99997L6.83668 4.41325C6.74948 4.32604 6.6803 4.22251 6.63311 4.10857C6.58591 3.99463 6.56162 3.87251 6.56162 3.74918C6.56162 3.62586 6.58591 3.50374 6.63311 3.3898C6.6803 3.27586 6.74948 3.17233 6.83668 3.08512C6.92389 2.99792 7.02742 2.92874 7.14136 2.88155C7.2553 2.83435 7.37742 2.81006 7.50075 2.81006C7.62408 2.81006 7.7462 2.83435 7.86014 2.88155C7.97408 2.92874 8.0776 2.99792 8.16481 3.08512L14.4148 9.33512C14.5021 9.42232 14.5713 9.5259 14.6185 9.63991C14.6657 9.75392 14.6899 9.87612 14.6898 9.99951C14.6896 10.1229 14.6651 10.245 14.6177 10.3589C14.5702 10.4728 14.5007 10.5763 14.4132 10.6632Z" fill="black"/>
+			</svg>	
+		</div>
+	</div>
+	<div class="w-full px-3 py-3 flex items-center justify-between bg-[#1264E3] rounded-[8px]" (click)="next()">
+		<div class="flex items-center">
+			<div class="rounded-[4px] px-3 mr-2 text-[16px] text-[#1264E3] font-medium bg-[#FFFFFF]">{{sum_order}}</div>
+			<p class="text-[#FFFFFF] text-[16px] font-medium">รายการ</p>
+		</div>
+		<p class="text-[#FFFFFF] text-[16px] font-semibold">{{293 | number: '1.2-2'}} ฿</p>
 	</div>
 </div>
