@@ -8,6 +8,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { FormBuilder, FormControl, FormGroupDirective, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { DeleteComponent } from './delete/delete.component';
+import { DiscountComponent } from './discount/discount.component';
 
 @Component({
   selector: 'asha-summary-order',
@@ -63,6 +65,31 @@ export class SummaryOrderComponent {
   }
 
   next(){
-    
+    this._router.navigate(['/payment'])
+  }
+
+  //openAddProduct(item: any) {
+  //  const bottomSheetAddProductRef = this.bottom.open(AddProductComponent, {
+  //    data: item
+  //  });
+  //  bottomSheetAddProductRef.afterDismissed().subscribe((result) => {
+  //    if (result === 'confirm') {
+  //      item.order = item.order + 1
+  //      console.log(item);
+  //      this.summaryOrder()
+  //    }
+  //  });
+  //}
+
+  openDeleteBill(){
+    const bottomSheetDeleteRef = this.bottom.open(DeleteComponent, {
+      data: ''
+    });
+  }
+
+  openDiscount(){
+    const bottomSheetDiscountRef = this.bottom.open(DiscountComponent, {
+      data: ''
+    });
   }
 }

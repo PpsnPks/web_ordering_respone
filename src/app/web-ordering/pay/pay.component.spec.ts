@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PromotionComponent } from './promotion.component';
+import { PayComponent } from './pay.component';
 
-describe('PromotionComponent', () => {
-  let component: PromotionComponent;
-  let fixture: ComponentFixture<PromotionComponent>;
+describe('PayComponent', () => {
+  let component: PayComponent;
+  let fixture: ComponentFixture<PayComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PromotionComponent]
+      imports: [PayComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(PromotionComponent);
+    fixture = TestBed.createComponent(PayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

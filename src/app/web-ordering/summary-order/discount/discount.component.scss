@@ -1,0 +1,11 @@
+::ng-deep{
+	.mdc-radio__native-control:checked+.mdc-radio__background .mdc-radio__outer-circle, .mdc-radio__native-control:disabled+.mdc-radio__background .mdc-radio__outer-circle{
+		border-color: #1264E3 !important;
+	}
+	.mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled+.mdc-radio__background .mdc-radio__inner-circle{
+		border-color: #1264E3 !important;
+	}
+	.mdc-button--outlined .mdc-button__ripple {
+		border-color: #FF5252 !important;
+	}
+}

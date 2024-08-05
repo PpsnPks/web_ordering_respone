@@ -1,0 +1,8 @@
+::ng-deep{
+	.mdc-button--outlined .mdc-button__ripple {
+		border-color: '#1264E3' !important;
+	}
+	.mat-mdc-outlined-button:not([disabled=true]) {
+		border-color: '#1264E3' !important;
+	}
+}

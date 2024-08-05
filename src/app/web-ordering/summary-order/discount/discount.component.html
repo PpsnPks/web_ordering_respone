@@ -1,0 +1,46 @@
+<div class="flex flex-col pt-3">
+    <div class="flex justify-between pb-4 border-b-[1px] border-[#78909C]">
+      <p class="text-[23px] text-[#424242] font-medium">ส่วนลด</p>
+      <mat-icon (click)="close()" class="icon-size-4 text-[#616161]" svgIcon="heroicons_outline:x-mark"></mat-icon>
+    </div>
+    <div class="mt-4 mb-4">
+      <p class="text-[16px] text-[#424242] font-medium pb-[2px]">เลือกรูปแบบการลด</p>
+      <div class="">
+        <mat-radio-group [(ngModel)]="selectedDiscount" class="grid grid-cols-2 gap-5">
+          <div class="py-1 border-[1px] border-[#1264E3] rounded-[8px] flex justify-center items-center" [ngClass]="selectedDiscount == 1 ? 'bg-[#E8EAF6]':'bg-[#FFFFFF]'">
+            <mat-radio-button value="1" class="custom-radio text-[15px] font-medium text-[#424242] pr-[14px]">จำนวนเงิน</mat-radio-button>
+          </div>
+          <div class="py-1 border-[1px] border-[#1264E3] rounded-[8px] flex justify-center" [ngClass]="selectedDiscount == 2 ? 'bg-[#E8EAF6]':'bg-[#FFFFFF]'">
+            <mat-radio-button value="2" class="custom-radio text-[15px] text-[#424242] font-medium pr-[14px]">เปอร์เซ็น %</mat-radio-button>
+          </div>
+        </mat-radio-group>
+      </div>
+    </div>
+    <div class="mb-5">
+      <mat-form-field class="w-full">
+        <span matTextPrefix class="text-[32px] font-medium text-[#424242]">฿ &nbsp;</span>
+        <input class="p-2 text-[32px] font-medium text-[#424242] text-right"matInput placeholder="0">
+      </mat-form-field>
+    </div>
+    <footer class="w-full mb-6">
+      <button mat-flat-button class="fuse-mat-button-large w-full rounded-lg bg-[#1264E3]
+       text-white font-bold" (click)="submit()">
+       บันทึก
+      </button>
+      <button mat-stroked-button fill="#1264E3"  class="fuse-mat-button-large w-full rounded-lg bg-[#FFFFFF] border-[1px]
+      text-[#FF5252] font-bold mt-3" (click)="goto()">ล้างข้อมูล</button>
+    </footer>
+</div>
+<!--<div class="flex flex-col items-center">
+  <img class="w-50 h-45 mt-6" src="assets/images/driver-home/job-time.png" alt="">
+  <div class="text-center text-xl font-bold mt-6 mb-4 ">ยืนยันจบงานทั้งหมด</div>
+  <div class="text-center text-base mr-10 ml-10">คุณจะไม่สามารถแก้ไขเวลาได้อีก</div>
+  <footer class="p-8 w-full">
+      <button mat-flat-button  color="primary" class="fuse-mat-button-large w-full rounded-lg
+       text-white font-bold" (click)="submit()">
+       ยืนยันจบงาน
+      </button>
+      <button mat-stroked-button  class=" fuse-mat-button-large w-full rounded-lg
+      text-black font-bold mt-3" (click)="goto()">ยกเลิก</button>
+    </footer>
+</div>-->

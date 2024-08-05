@@ -2,6 +2,8 @@ import { Routes } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { SummaryOrderComponent } from './summary-order/summary-order.component';
+import { PaymentComponent } from './payment/payment.component';
+import { PayComponent } from './pay/pay.component';
 
 export default [
     {
@@ -15,5 +17,13 @@ export default [
     {
         path     : 'summary-order',
         component: SummaryOrderComponent,
+    },
+    {
+        path     : 'payment',
+        component: PaymentComponent,
+    },
+    {
+        path     : 'payment/pay',
+        component: PayComponent,
     },
 ] as Routes;
