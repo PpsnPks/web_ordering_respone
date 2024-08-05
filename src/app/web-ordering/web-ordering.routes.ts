@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { SummaryOrderComponent } from './summary-order/summary-order.component';
 import { PaymentComponent } from './payment/payment.component';
 import { PayComponent } from './pay/pay.component';
+import { SuccessComponent } from './success/success.component';
 
 export default [
     {
@@ -25,5 +26,9 @@ export default [
     {
         path     : 'payment/pay',
         component: PayComponent,
+    },
+    {
+        path     : 'payment/pay/success',
+        component: SuccessComponent,
     },
 ] as Routes;

@@ -16,10 +16,10 @@ import { WebOrderingBarComponent } from '../web-ordering-bar/web-ordering-bar.co
     FormsModule,
     MatFormFieldModule,
   ],
-  templateUrl: './pay.component.html',
-  styleUrl: './pay.component.scss'
+  templateUrl: './success.component.html',
+  styleUrl: './success.component.scss'
 })
-export class PayComponent {
+export class SuccessComponent {
 
   constructor(
     private _router: Router,
