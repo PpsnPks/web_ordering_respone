@@ -10,6 +10,9 @@ import { PromotionBsComponent } from './promotion-bs/promotion-bs.component';
 import { AddProductComponent } from './add-product/add-product.component';
 import localeTh from '@angular/common/locales/th';
 import { WebOrderingService } from '../web-ordering.service';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 registerLocaleData(localeTh);
 @Component({
@@ -25,7 +28,11 @@ registerLocaleData(localeTh);
     MatOptionModule,
     MatSelectModule,
     MatBottomSheetModule,
-    DecimalPipe
+    DecimalPipe,
+    MatIconModule,
+    FormsModule,
+    MatInputModule,
+    ReactiveFormsModule
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -36,6 +43,9 @@ export class HomeComponent {
   items: any
   all_order: any = 0
   all_price: any = 0
+
+  filterSearch: any = 'filter'
+  text_search: any = ''
   
   constructor(
     private _router: Router,
@@ -98,6 +108,17 @@ export class HomeComponent {
         order: 0
       },
     ]
+  }
+
+  resetText_search(){
+    this.text_search = ''
+    console.log('resetText_search');
+    
+  }
+
+  set_filterSearch(data: any){
+    this.filterSearch = data
+    console.log("filterSearch: ", this.filterSearch);
   }
 
   summaryOrder(){

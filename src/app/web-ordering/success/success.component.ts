@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { Router } from '@angular/router';
 import { WebOrderingService } from '../web-ordering.service';
 import { CommonModule } from '@angular/common';
@@ -14,17 +13,28 @@ import { WebOrderingBarComponent } from '../web-ordering-bar/web-ordering-bar.co
     WebOrderingBarComponent,
     CommonModule,
     FormsModule,
-    MatFormFieldModule,
+    MatFormFieldModule
   ],
   templateUrl: './success.component.html',
   styleUrl: './success.component.scss'
 })
 export class SuccessComponent {
+  all_total: any
 
   constructor(
     private _router: Router,
-    public bottom: MatBottomSheet,
     private _service: WebOrderingService
-  ){}
+  ){
+    this.all_total = this._service.get_sumPrice()
+  }
+
+  next(){
+    this._router.navigate(['/home'])
+  }
+
+  print(){
+    console.log('print');
+    
+  }
 
 }

@@ -48,12 +48,12 @@
 	</div>
 	<div class="flex justify-between px-5 py-[10px] bg-[#E8EAF6]">
 		<p class="text-[16px] font-medium text-[#424242]">Order #20240214001</p>
-		<div class="flex items-center" (click)="openDeleteBill()">
-			<mat-icon svgIcon="heroicons_solid:x-circle"></mat-icon>
+		<div class="flex items-center gap-[6px]" (click)="openDeleteBill()">
+			<mat-icon class="text-[#616161]" svgIcon="heroicons_solid:x-circle"></mat-icon>
 			<p class="text-[16px] font-normal text-[#424242]">ลบบิล</p>
 		</div>
 	</div>
-	<div class="flex flex-col">
+	<div class="flex flex-col" *ngIf="orders.length > 0">
 		<ng-container *ngFor="let order of orders">
 			<div class="grid grid-cols-9 px-5 pt-5 border-b-[1px] border-[#B0BEC5]">
 				<div class="flex flex-col col-span-6">
@@ -84,6 +84,11 @@
 			</div>
 		</ng-container>
 	</div>
+	<div *ngIf="orders.length == 0">
+		<div class="w-full flex justify-center">
+			<p class="text-[16px] text-[#838383] font-medium py-2">NOT FOUND</p>
+		</div>
+	</div>
 	<div class="h-[12px] w-full bg-[#F6F6F8]"></div>
 	<div class="flex flex-col p-5 gap-[8px]">
 		<div class="flex justify-between items-center">
@@ -92,23 +97,23 @@
 		</div>
 		<div class="flex justify-between items-center">
 			<p class="text-[#424242] text-[16px] font-normal">รวม</p>
-			<p class="text-[#424242] text-[16px] font-medium">295.00 ฿</p>
+			<p class="text-[#424242] text-[16px] font-medium">{{sum_price | number:'1.2-2'}} ฿</p>
 		</div>
 		<div class="flex justify-between items-center">
 			<p class="text-[#424242] text-[16px] font-normal">ส่วนลด</p>
-			<p class="text-[#FF5252] text-[16px] font-medium">-2.00 ฿</p>
+			<p class="text-[#FF5252] text-[16px] font-medium">-{{sum_discount | number:'1.2-2'}} ฿</p>
 		</div>
 		<div class="flex justify-between items-center">
 			<p class="text-[#424242] text-[16px] font-normal">VAT 7%</p>
-			<p class="text-[#424242] text-[16px] font-medium">0.00 ฿</p>
+			<p class="text-[#424242] text-[16px] font-medium">{{sum_vat | number:'1.2-2'}} ฿</p>
 		</div>
 		<div class="flex justify-between pb-4 border-b-[1px] border-[#78909C] items-center">
 			<p class="text-[#424242] text-[16px] font-normal">Service Charge 10%</p>
-			<p class="text-[#424242] text-[16px] font-medium">0.00 ฿</p>
+			<p class="text-[#424242] text-[16px] font-medium">{{sum_service | number:'1.2-2'}} ฿</p>
 		</div>
 		<div class="flex justify-between items-center pt-2">
 			<p class="text-[#424242] text-[16px] font-normal">ชำระทั้งหมด</p>
-			<p class="text-[#1264E3] text-[23px] font-semibold">293.00 ฿</p>
+			<p class="text-[#1264E3] text-[23px] font-semibold">{{sum_price - sum_discount + sum_vat + sum_service | number:'1.2-2'}} ฿</p>
 		</div>
 	</div>
 	<div class="h-[12px] w-full bg-[#F6F6F8]"></div>
@@ -128,10 +133,10 @@
 	<div class="p-4">
 		<div class="w-full px-3 py-3 flex items-center justify-between bg-[#1264E3] rounded-[8px]" (click)="next()">
 			<div class="flex items-center">
-				<div class="rounded-[4px] px-3 mr-2 text-[16px] text-[#1264E3] font-medium bg-[#FFFFFF]">{{sum_order}}</div>
+				<div class="rounded-[4px] px-3 mr-2 text-[16px] text-[#1264E3] font-medium bg-[#FFFFFF] pt-[2px]">{{sum_order}}</div>
 				<p class="text-[#FFFFFF] text-[16px] font-medium">รายการ</p>
 			</div>
-			<p class="text-[#FFFFFF] text-[16px] font-semibold">{{293 | number: '1.2-2'}} ฿</p>
+			<p class="text-[#FFFFFF] text-[16px] font-semibold pt-[2px]">{{sum_price - sum_discount + sum_vat + sum_service | number: '1.2-2'}} ฿</p>
 		</div>
 	</div>
 </div>

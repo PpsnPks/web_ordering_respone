@@ -20,14 +20,27 @@ import { WebOrderingService } from '../web-ordering.service';
   styleUrl: './payment.component.scss'
 })
 export class PaymentComponent {
-  
+  selected_payment: any = 0
+  all_total: any
+
   constructor(
     private _router: Router,
     public bottom: MatBottomSheet,
     private _service: WebOrderingService
-  ){}
+  ){
+    this.all_total = this._service.get_sumPrice()
+  }
   
   next(){
     this._router.navigate(['/payment/pay'])
+  }
+
+  selectPayment(data: any){
+    if(this.selected_payment == data){
+      this.selected_payment = 0
+    }
+    else{
+      this.selected_payment = data
+    }
   }
 }

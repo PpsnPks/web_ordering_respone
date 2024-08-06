@@ -8,6 +8,7 @@ export class WebOrderingService {
 
   constructor(private http: HttpClient) { }
   order: any
+  total: any
 
   sendOrder(data:any){
 	this.order = data
@@ -15,6 +16,16 @@ export class WebOrderingService {
 
   receiveOrder(){
 	return this.order
+  }
+
+  set_sumPrice(data: any){
+    this.total = data
+    console.log("set_sumPrice" ,this.total);
+    
+  }
+
+  get_sumPrice(){
+    return this.total
   }
 //  datatable(dataTablesParameters: any) {
 //    const { columns, order, search, start, length } = dataTablesParameters;

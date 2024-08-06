@@ -63,15 +63,15 @@ export class DeleteComponent {
     }
 
     goto() {
-      this._bottomSheetRef.dismiss();
+      this._bottomSheetRef.dismiss('');
     }
 
     close(){
-      this._bottomSheetRef.dismiss();
+      this._bottomSheetRef.dismiss('cancle');
     }
   
     submit() {
       this.toastrService.success('ลบบิลสำเร็จ', '', {positionClass: 'toast-top-center'})//{positionClass: 'toast-top-center'}
-      this._bottomSheetRef.dismiss();
+      this._bottomSheetRef.dismiss('confirm');
     }
 }

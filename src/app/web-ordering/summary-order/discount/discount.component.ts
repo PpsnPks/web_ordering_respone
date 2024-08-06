@@ -81,7 +81,7 @@ export class DiscountComponent {
     }
   
     submit() {
-      this.toastrService.success('บันทึกจบงานสำเร็จ', '', {positionClass: 'toast-top-center'})
+      this.toastrService.success('เลือกส่วนลดสำเร็จ', '', {positionClass: 'toast-top-center'})
       this._bottomSheetRef.dismiss();
     }
 }
