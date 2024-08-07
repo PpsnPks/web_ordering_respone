@@ -4,25 +4,28 @@
 <div class="flex flex-col w-full max-w-md bg-white max-h-dvh">
 	<!--<asha-web-ordering-bar [title]="'ประวัติการสั่งซื้อ'" [back]="false"></asha-web-ordering-bar>-->
 	<div class="h-full grid grid-rows-3 grid-cols-1">
-	  <div class="flex items-center justify-center">
-		<img class="w-[210px] h-[193px]" src="../../../assets/ordering/login.png" alt="img_login">
-	  </div>
-	  <div class="flex flex-col px-4 gap-[20px] justify-center">
-		<p class="font-semibold text-[32px] text-[#424242]">สั่งอาหาร</p>
-		<form [formGroup]="form">
-			<div class="w-full flex items-center gap-2 border-b-[1px] border-[#78909C] px-2 py-3">
-				<div class="w-5 h-5">
-					<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
-						<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-					</svg>
+	  	<div class="flex items-center justify-center">
+			<img class="w-[210px] h-[193px]" src="../../../assets/ordering/login.png" alt="img_login">
+	  	</div>
+	  	<div class="flex flex-col px-4 gap-[20px] justify-center">
+			<p class="font-semibold text-[32px] text-[#424242]">สั่งอาหาร</p>
+			<form [formGroup]="form" class="h-[56px]">
+				<div class="w-full flex items-center gap-2 border-b-[1px] border-[#78909C] px-2 py-3">
+					<div class="w-5 h-5">
+						<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-4">
+							<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+						</svg>
+					</div>
+					<div class="w-4">
+						<input class="" formControlName="room_No" placeholder="ระบุเลขห้อง" required>
+					</div>
 				</div>
-				<div class="w-4">
-					<input class="" formControlName="room_No" placeholder="ระบุเลขห้อง">
+				<div *ngIf="form.get('room_No').invalid && (form.get('room_No').dirty || form.get('room_No').touched)">
+					<small class="error text-[#ff0505]">Please enter a room number.</small>
 				</div>
-			</div>
-		</form>
-		<button class="w-full h-14 text-[16px] font-medium text-[#FFFFFF] bg-[#1264E3] rounded-[8px]" (click)="next()">เข้าสู่ระบบ</button>
-	  </div>
-	  <div></div>
+			</form>
+			<button class="w-full h-14 text-[16px] font-medium text-[#FFFFFF] bg-[#1264E3] rounded-[8px]" (click)="next()">เข้าสู่ระบบ</button>
+	  	</div>
+	  	<div></div>
 	</div>
 </div>

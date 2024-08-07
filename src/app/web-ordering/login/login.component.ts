@@ -2,7 +2,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Component, OnInit } from '@angular/core';
 import { WebOrderingBarComponent } from '../web-ordering-bar/web-ordering-bar.component';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule  } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators  } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatFormFieldModule } from '@angular/material/form-field';
 
@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit{
     private _router: Router
   ){
     this.form = this._fb.group({
-      room_No: ''
+      room_No: ['',[Validators.required]]
     })
   }
 
