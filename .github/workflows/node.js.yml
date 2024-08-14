@@ -1,0 +1,34 @@
+name: Build SCT Web Order
+
+on:
+  push:
+    branches: [ "sct/ordering/develop" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: 18
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build SCT Web Order
+      run: npm run build:sct:dev
+
+    - name: rsync deployments
+      uses: burnett01/rsync-deployments@7.0.1
+      with:
+        switches: -rltvz --delete --omit-dir-times
+        path: dist/fuse/
+        remote_path: /var/www/sct/web/
+        remote_host: ${{ secrets.DEPLOY_HOST }}
+        remote_user: ${{ secrets.DEPLOY_USER }}
+        remote_key: ${{ secrets.DEPLOY_KEY }}
