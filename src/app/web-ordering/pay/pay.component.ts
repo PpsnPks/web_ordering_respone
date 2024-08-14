@@ -39,10 +39,17 @@ export class PayComponent {
           this.img_qr = resp.image
       },
     })
+    this.LoopCheckPayment()
   }
 
   LoopCheckPayment(){
-    return ;
+    this._service.check_statusQR().subscribe({
+      next:(resp: any)=>{
+        console.log('LoopCheckPayment resp:', resp);
+        if(resp.orderStatus == 'complete')
+          this.openLoading()
+      }
+    })
   }
 
   //checkPayment(){

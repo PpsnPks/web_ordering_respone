@@ -67,31 +67,35 @@ export class WebOrderingService {
     return this.http.post(`/api/order/${orderId}/payment/${orderPaymentId}`, {})
   }
 
-  //check_statusQR() {
-  //  //const token = localStorage.getItem('accessToken');
-  //  // const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE3MTYyOTM3MzcsImV4cCI6MTcxNjM4MDEzN30.052VPoFGCA-TnFPul7hEwscTnfRtPNwr-D2i9RKltFY"
-  //  // const headers = new HttpHeaders({
-  //  //   'Authorization': 'Bearer ' + token
-  //  // });
-  //  const checkInterval = 3000; // 3 วินาที
-  //  const checkTimeout = 600000; // 10 นาที
-  //  const id = sessionStorage.getItem('orderId')
+  getCategory(){
+    return this.http.get('/api/category')
+  }
 
-  //  return interval(checkInterval).pipe(
-  //    switchMap(() => this.http.get('/api/top-up/qrpayment/' + id).pipe(//, { headers: headers }
-  //      catchError(error => {
-  //        console.error('API call failed:', error);
-  //        return of(null);
-  //      })
-  //    )),
-  //    takeWhile(response => response === null || response.status !== 'SUCCESS', true),
-  //    timeout(checkTimeout),
-  //    catchError(error => {
-  //      console.error('Polling timed out:', error);
-  //      return of(null);
-  //    })
-  //  );
-  //}
+  check_statusQR() {
+    //const token = localStorage.getItem('accessToken');
+    // const token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJpYXQiOjE3MTYyOTM3MzcsImV4cCI6MTcxNjM4MDEzN30.052VPoFGCA-TnFPul7hEwscTnfRtPNwr-D2i9RKltFY"
+    // const headers = new HttpHeaders({
+    //   'Authorization': 'Bearer ' + token
+    // });
+    const checkInterval = 5000; // 5 วินาที
+    const checkTimeout = 600000; // 10 นาที
+    const id = sessionStorage.getItem('orderId')
+
+    return interval(checkInterval).pipe(
+      switchMap(() => this.http.get<any>('/api/order/' + id).pipe(//, { headers: headers }
+        catchError(error => {
+          console.error('API call failed:', error);
+          return of(null);
+        })
+      )),
+      takeWhile(response => response === null || response.orderStatus !== 'complete', true),
+      timeout(checkTimeout),
+      catchError(error => {
+        console.error('Polling timed out:', error);
+        return of(null);
+      })
+    );
+  }
 //  datatable(dataTablesParameters: any) {
 //    const { columns, order, search, start, length } = dataTablesParameters;
 //    const page = start / length + 1;

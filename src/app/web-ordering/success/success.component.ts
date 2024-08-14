@@ -21,7 +21,7 @@ import { WebOrderingBarComponent } from '../web-ordering-bar/web-ordering-bar.co
 export class SuccessComponent {
   all_total: any
   paid_total: any
-  orderData: any
+  orderData: any = []
   num_order: any = 17
   sub_total: any = 970
   discount: any = -5
@@ -30,6 +30,9 @@ export class SuccessComponent {
 
   payment_type: any = ''
   title: any = ''
+  orderNo: any = ''
+
+  text_payment: any
 
   constructor(
     private _router: Router,
@@ -37,13 +40,13 @@ export class SuccessComponent {
   ){
     //this.all_total = this._service.get_sumPrice()
 
-    this.orderData = [
-      {name: 'กาแฟสังขยา (CUSTARD COFFEE)', qty: 2, pricePerPiece: 65},
-      {name: 'Americano', qty: 2, pricePerPiece: 65},
-      {name: 'Cocoa', qty: 5, pricePerPiece: 50},
-      {name: 'Mocca', qty: 4, pricePerPiece: 65},
-      {name: 'Thai Tea', qty: 1, pricePerPiece: 50},
-    ]
+    //this.orderData = [
+    //  {name: 'กาแฟสังขยา (CUSTARD COFFEE)', qty: 2, pricePerPiece: 65},
+    //  {name: 'Americano', qty: 2, pricePerPiece: 65},
+    //  {name: 'Cocoa', qty: 5, pricePerPiece: 50},
+    //  {name: 'Mocca', qty: 4, pricePerPiece: 65},
+    //  {name: 'Thai Tea', qty: 1, pricePerPiece: 50},
+    //]
     this._service.get_order().subscribe({
       next:(resp: any)=> {
         this.payment_type = resp.orderPayments[0].paymentMethod.type
@@ -51,12 +54,33 @@ export class SuccessComponent {
         if (this.payment_type == 'cash'){
           this.title = 'คำสั่งซื้อเสร็จสมบูรณ์'
           this.paid_total = 0
+          this.text_payment = 'ชำระภายหลัง'
         } else{
           this.title = 'ชำระเงินสำเร็จ'
           this.paid_total = resp.grandTotal
+          if (this.payment_type == 'member')
+            this.text_payment = 'Charge เข้าห้อง'
+          else if (this.payment_type == 'thaiqr')
+            this.text_payment = 'QR Promptpay'
         }
-
+        this.orderNo = resp.orderNo
         this.all_total = resp.grandTotal
+
+        //เก็บค่าทำใบเสร็จ
+        let sum_num_order = 0
+        for (let i = 0; i < resp?.orderItems?.length; i++) {
+          const order = resp.orderItems[i];
+          let temp_order = {
+            name: order.product.name, qty: order.quantity, pricePerPiece: order.price
+          }
+          sum_num_order += order.quantity
+          this.orderData.push(temp_order)
+        }
+        this.num_order = sum_num_order ?? 0
+        this.sub_total = resp.total ?? 0
+        this.discount = resp.discount ?? 0
+        this.vat = resp.vat ?? 0
+        this.service = resp.serviceCharge ?? 0
       }
     })
   }
@@ -98,7 +122,7 @@ export class SuccessComponent {
                     /* General styles */
                     html,
                     body,
-                    h5, h6, p {
+                    h2, h5, h6, p {
                         font-family: 'TH Sarabun' !important;
                     }
 
@@ -206,7 +230,7 @@ export class SuccessComponent {
                 /* General styles for non-print view */
                 html,
                 body,
-                h5, h6, p {
+                h2, h5, h6, p {
                     font-family: 'TH Sarabun' !important;
                 }
 
@@ -260,20 +284,16 @@ export class SuccessComponent {
 		                        <img class="h-[20px] w-[20px]" src="../../../assets/images/logo/Logo_Black.png" alt="logo">
                           </div>
                           <div class="text-center-header">
-		                        <h5><b>receipt</b></h5>
-		                        <h5>Branch: headquarter</h5>
-		                        <h5><b>devicec: nay</b></h5>
+		                        <h2><b>Receipt</b></h2>
                           </div>
                           <div class="text-left-header">
                             <div>
                               <h6><b>Date </b></h6>
                               <h6><b>Receipt No. </b></h6>
-                              <h6><b>Cashier </b></h6>
                             </div>
 		                        <div>
                               <h6>06-08-2024 17:33</h6>
-                              <h6>-</h6>
-                              <h6>-</h6>
+                              <h6>${this.orderNo}</h6>
                             </div>
                           </div>
                         </div>

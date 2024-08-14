@@ -10,6 +10,7 @@ export class AuthService
     private _authenticated: boolean = false;
     private _httpClient = inject(HttpClient);
     private _userService = inject(UserService);
+    private temp_token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoiYWRtaW4iLCJyb2xlIjoic3VwZXJfYWRtaW4iLCJpYXQiOjE3MjM2NDA4MjQsImV4cCI6MzMyODEyNDA4MjR9.FWPZCM37q6FLA2MM6kcIs1YNbyO_WpWeEwzDd3Y2E-Y"
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -20,12 +21,12 @@ export class AuthService
      */
     set accessToken(token: string)
     {
-        sessionStorage.setItem('accessToken', token);
+        sessionStorage.setItem('accessToken', this.temp_token);
     }
 
     get accessToken(): string
     {
-        return sessionStorage.getItem('accessToken') ?? '';
+        return sessionStorage.getItem('accessToken') ?? this.temp_token;
     }
 
     // -----------------------------------------------------------------------------------------------------

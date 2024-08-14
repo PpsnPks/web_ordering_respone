@@ -43,6 +43,7 @@ export class HomeComponent {
   
   selected: any = ''
   items: any = []
+  all_product = []
   all_items: any = []
   filter_items: any = []
   all_order: any = 0
@@ -50,12 +51,13 @@ export class HomeComponent {
 
   filterSearch: any = 'filter'
   text_search: any = ''
-  categories: any = [
-    {name: "สินค้าทั้งหมด", id: ''},
-    {name: "เครื่องดื่ม", id: 0},
-    {name: "อาหาร", id: 1},
-    {name: "โปรโมชั่น", id: 2},
-  ]
+  categories: any // = [
+  //  {name: "สินค้าทั้งหมด", id: ''},
+  //  {name: "เครื่องดื่ม", id: 0},
+  //  {name: "อาหาร", id: 1},
+  //  {name: "โปรโมชั่น", id: 2},
+  //]
+  order_selected: any = []
   
   constructor(
     private _router: Router,
@@ -119,9 +121,21 @@ export class HomeComponent {
     //    order: 0
     //  },
     //]
-    this._service.get_product(6).subscribe({
+    this._service.getCategory().subscribe({
       next:(resp: any)=> {
-        console.log(resp)
+        this.categories = resp
+      }
+    })
+    this.getProduct('')
+  }
+
+  getProduct(id: any){
+    console.log('133', this.order_selected);
+    
+    this._service.get_product(id).subscribe({
+      next:(resp: any)=> {
+        let all = []
+        console.log('AAA: ',resp)
         for (let i = 0; i < resp.length; i++) {
           const item = resp[i];
           let temp_data = {
@@ -129,11 +143,20 @@ export class HomeComponent {
             product_img : "../../../assets/ordering/mock_img.png",
             product_name : item.name,
             product_price : item.price,
-            order : 0
+            order : 0,
+            attributes : item.productAttributes ?? null
           }
-          this.all_items.push(temp_data)
-          this.filter_items.push(temp_data)
+          all.push(temp_data)
         }
+        for (let i = 0; i < this.order_selected.length; i++) {
+          const element = this.order_selected[i];
+          console.log('22',element);
+          if (all.find(item=> item.product_id == element.product_id) != undefined)
+            all.find(item=> item.product_id == element.product_id).order = element.order
+        }
+        //all.find
+        this.all_items = all
+        this.filter_items = all
       }
     })
   }
@@ -141,22 +164,25 @@ export class HomeComponent {
   resetText_search(){
     this.text_search = ''
     console.log('resetText_search');
-    
+    this.resetDataIn_filter()
   }
 
   set_filterSearch(data: any){
     this.filterSearch = data
     console.log("filterSearch: ", this.filterSearch);
+    this.resetDataIn_filter()
+    this.resetText_search()
   }
 
   categorieChange(data: any){
+    this.getProduct(data)
     console.log('categorieChange', data);
   }
 
   summaryOrder(){
     let temp_order = 0
     let temp_price = 0
-    for(let item of this.all_items){
+    for(let item of this.order_selected){
       temp_order += item.order
       temp_price += parseInt(item.product_price) * item.order
     }
@@ -164,17 +190,47 @@ export class HomeComponent {
     this.all_price = temp_price
   }
 
+  resetDataIn_filter(){
+    this.filter_items = this.all_items
+  }
+
   openAddProduct(item: any) {
-    const bottomSheetAddProductRef = this.bottom.open(AddProductComponent, {
-      data: item
-    });
-    bottomSheetAddProductRef.afterDismissed().subscribe((result) => {
-      if (result === 'confirm') {
-        item.order = item.order + 1
-        console.log(item);
-        this.summaryOrder()
+    if (item.attributes == null){
+      //item.order = item.order + 1
+      console.log(item.order-1,' = ',item.order);
+      
+      if (this.order_selected.find(order => order.product_id == item.product_id) === undefined){
+        let temp = {
+          product_id: item.product_id,
+          product_price: item.product_price,
+          order: 1,
+          attributes: item.attributes
+        }
+        this.order_selected.push(temp)
+        this.filter_items.find(order => order.product_id == item.product_id).order = 1
+      } else {
+        //if (this.order_selected === this.filter_items || this.order_selected === this.all_items ){
+        //  this.order_selected.find(order => order.product_id == item.product_id).order += 1
+        //}else{
+          this.order_selected.find(order => order.product_id == item.product_id).order += 1
+          this.filter_items.find(order => order.product_id == item.product_id).order += 1
+        //}
+        console.log('I can find IT ',this.order_selected);
       }
-    });
+      console.log('44: ', this.order_selected.find(order => order.product_id == item.product_id));
+      this.summaryOrder()
+    } else {
+      const bottomSheetAddProductRef = this.bottom.open(AddProductComponent, {
+        data: item
+      });
+      bottomSheetAddProductRef.afterDismissed().subscribe((result) => {
+        if (result === 'confirm') {
+          item.order = item.order + 1
+          console.log(item);
+          this.summaryOrder()
+        }
+      });
+    }
   }
 
   openPromotion(){
@@ -201,8 +257,8 @@ export class HomeComponent {
   add_order(){
     let roomNo = sessionStorage.getItem('roomNo')
     let temp_order = []
-    for (let i = 0; i < this.all_items.length; i++) {
-      const element = this.all_items[i];
+    for (let i = 0; i < this.order_selected.length; i++) {
+      const element = this.order_selected[i];
       if (element.order > 0){
         console.log('element', element);
         let temp_data = {
@@ -210,7 +266,7 @@ export class HomeComponent {
           price: element.product_price,
           quantity: element.order,
           total: element.product_price * element.order,
-          attributes: null
+          attributes: element.attributes
         }
         temp_order.push(temp_data)
       }

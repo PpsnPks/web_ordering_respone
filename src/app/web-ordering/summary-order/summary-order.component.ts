@@ -42,6 +42,8 @@ export class SummaryOrderComponent {
   sum_vat: any
   sum_service: any
 
+  status_order: any
+
   constructor(
     private _router: Router,
     public bottom: MatBottomSheet,
@@ -68,7 +70,7 @@ export class SummaryOrderComponent {
     this._service.get_order().subscribe({
       next:(resp: any)=> {
         console.log('resp', resp);
-        
+        this.status_order = resp.orderStatus
         for (let i = 0; i < resp?.orderItems?.length; i++) {
           const order = resp.orderItems[i];
           let temp_order = {
@@ -98,36 +100,40 @@ export class SummaryOrderComponent {
 
   next(){
     this._service.set_sumPrice(this.sum_price - this.sum_discount + this.sum_vat + this.sum_service)
-    let roomNo = sessionStorage.getItem('roomNo')
-    let temp_order = []
-    for (let i = 0; i < this.orders.length; i++) {
-      const element = this.orders[i];
-      if (element.order > 0){
-        console.log('element2', element);
-        let temp_data = {
-          productId: element.product_id,
-          price: element.price,
-          quantity: element.order,
-          total: element.price * element.order,
-          attributes: null
+    if (this.status_order != 'complete'){
+      let roomNo = sessionStorage.getItem('roomNo')
+      let temp_order = []
+      for (let i = 0; i < this.orders.length; i++) {
+        const element = this.orders[i];
+        if (element.order > 0){
+          console.log('element2', element);
+          let temp_data = {
+            productId: element.product_id,
+            price: element.price,
+            quantity: element.order,
+            total: element.price * element.order,
+            attributes: null
+          }
+          temp_order.push(temp_data)
         }
-        temp_order.push(temp_data)
       }
+      let formvalue = {
+        total: this.sum_price - this.sum_discount + this.sum_vat + this.sum_service,
+        deviceId: 2,
+        roomNo: roomNo,
+        orderItems: temp_order,
+        remark: ''
+      }
+      this._service.edit_order(formvalue).subscribe({
+        complete: ()=> {
+          console.log('update order');
+        },
+        error: ()=> this.toastr.error("error")
+      })
+      this._router.navigate(['/payment'])
+    } else {
+      this.toastr.error('คำสั่งซื้อรายการนี้มีการชำระเงินแล้ว')
     }
-    let formvalue = {
-      total: this.sum_price - this.sum_discount + this.sum_vat + this.sum_service,
-      deviceId: 2,
-      roomNo: roomNo,
-      orderItems: temp_order,
-      remark: ''
-    }
-    this._service.edit_order(formvalue).subscribe({
-      complete: ()=> {
-        console.log('update order');
-      },
-      error: ()=> this.toastr.error("error")
-    })
-    this._router.navigate(['/payment'])
   }
 
   changePayer(data: any){

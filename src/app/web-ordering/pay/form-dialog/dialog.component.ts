@@ -61,7 +61,9 @@ export class DialogForm implements OnInit {
     }
     
     ngOnInit(): void {
-        
+        setTimeout(() => {
+            this.onClose();
+          }, 3000);
     }
 
     onClose() {
