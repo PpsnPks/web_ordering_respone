@@ -4,8 +4,8 @@
 		<div class="flex flex-col">
 			<p class="text-[#424242] text-[16px] font-medium">ประเภทผู้ชำระ</p>
 			<div class="grid grid-cols-2 p-1 bg-[#f1ecec] rounded-[8px]">
-				<button class="py-[14px] rounded-[6px] text-[#FFFFFF] bg-[#1264E3]">ทั่วไป</button>
-				<button class="py-[14px] rounded-[6px] text-[#424242] bg-[#ECEFF1]">สมาชิก</button>
+				<button class="py-[14px] rounded-[6px]" [ngClass]="payerType === 'normal'? 'bg-[#1264E3] text-[#FFFFFF]' : 'bg-[#ECEFF1] text-[#424242]'" (click)="changePayer('normal')">ทั่วไป</button>
+				<button class="py-[14px] rounded-[6px]" [ngClass]="payerType === 'member'? 'bg-[#1264E3] text-[#FFFFFF]' : 'bg-[#ECEFF1] text-[#424242]'" (click)="changePayer('member')">สมาชิก</button>
 			</div>
 		</div>
 		<form [formGroup]="form">

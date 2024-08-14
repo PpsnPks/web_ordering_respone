@@ -7,8 +7,8 @@
 			</svg>	
 		</div>
 		<div class="flex flex-col items-center justify-center border-b-[1px] border-[#78909C]">
-			<p class="text-[#424242] text-[20px] font-medium">ชำระเงินสำเร็จ</p>
-			<p class="text-[#424242] text-[16px] font-normal">ประเภท: QR Promptpay</p>
+			<p class="text-[#424242] text-[20px] font-medium">{{title}}</p>
+			<p class="text-[#424242] text-[16px] font-normal">ประเภท: ----</p>
 			<div class="flex mt-[10px] pb-[30px]">
 				<p class="text-[#424242] text-[20px] font-normal">ใบเสร็จ:&nbsp;</p>
 				<p class="text-[#1264E3] text-[20px] font-medium">RM924022300002</p>
@@ -21,19 +21,88 @@
 			</div>
 			<div class="flex justify-between">
 				<p class="text-[#424242] text-[16px] font-normal">ยอดชำระ</p>
-				<p class="text-[#424242] text-[16px] font-medium">{{all_total| number: '1.2-2'}} ฿</p>
+				<p class="text-[#424242] text-[16px] font-medium">{{paid_total| number: '1.2-2'}} ฿</p>
 			</div>
 			<div class="flex justify-between">
 				<p class="text-[#424242] text-[16px] font-normal">ยอดคงเหลือ</p>
-				<p class="text-[#424242] text-[16px] font-medium">0.00 ฿</p>
+				<p class="text-[#424242] text-[16px] font-medium">{{all_total - paid_total| number: '1.2-2'}} ฿</p>
 			</div>
 		</div>
 		<div class="w-full flex flex-col gap-4">
-			<div class="w-full px-3 py-3 bg-[#1264E3] rounded-[8px] text-center" (click)="next()">
+			<div class="w-full px-3 py-3 bg-[#1264E3] rounded-[8px] text-center cursor-pointer" (click)="next()">
 				<p class="text-[#FFFFFF] text-[16px] font-medium">รับเงินสำเร็จ</p>
 			</div>
-			<div class="w-full px-3 py-3 bg-[#FFFFFF] border-[1px] border-[#1264E3] rounded-[8px] text-center" (click)="print()">
+			<div class="w-full px-3 py-3 bg-[#FFFFFF] border-[1px] border-[#1264E3] rounded-[8px] text-center cursor-pointer" (click)="print()">
 				<p class="text-[#1264E3] text-[16px] font-medium">พิมพ์ใบเสร็จ</p>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row" style="display: none">
+	<div class="col-md-7 mx-auto d-block">
+		<div class="card p-7 mb-0">
+			<div class="text-center">
+				<h1 class="h3 mb-3 font-weight-bold">PDF (Preview)</h1>
+				<h1 class="h4 mb-3">รายงานมูลค่าสินค้าคงคลัง</h1>
+				<button class="btn btn-primary" (click)="print()">
+					<i class="fa fa-print mr-1"></i> Print PDF
+				</button>
+			</div>
+			<div class="p-2 text-center" style="display: none">
+				<div class="flex flex-col" id="print-section">
+					<table style="border-collapse: collapse">
+						<thead style="width: 100%">
+						<tr>
+							<td style="text-align: center;width: 50%;">Item</td>
+							<td style="text-align: center;width: 20%;">Qty</td>
+							<td style="text-align: center;width: 20%;">Price/Piece</td>
+							<td style="text-align: center;width: 3%;">Total</td>
+						</tr>
+						</thead>
+						<tbody>
+							<tr *ngFor="let item of orderData">
+								<td style="text-align: left">{{item.name}}</td>
+								<td style="text-align: center">{{item.qty}}</td>
+								<td style="text-align: center">{{item.pricePerPiece | number: '1.2-2'}}</td>
+								<td style="text-align: center">{{item.pricePerPiece * item.qty | number: '1.2-2'}}</td>
+							</tr>
+							<!--<tr id="table-footer">
+								
+							</tr>-->
+						</tbody>
+					</table>
+					<div style="display: flex;justify-content: end;border-top: 1px solid #000000;padding-top: 10px;">
+						<div style="display: grid;grid-template-columns: repeat(2, minmax(0, 1fr));gap: 8rem;">
+							<div>
+								<p style="margin-bottom: 10px; font-weight:bold;">จำนวนสินค้า</p>
+								<p style="margin-bottom: 10px; font-weight:bold;">ราคารวม</p>
+								<p style="margin-bottom: 10px; font-weight:bold;">ส่วนลด</p>
+								<p style="margin-bottom: 10px; font-weight:bold;">VAT 7%</p>
+								<p style="margin-bottom: 10px; font-weight:bold;">Service Charge 10%</p>
+								<p style="margin-bottom: 10px; font-weight:bold;">รวมทั้งหมด</p>
+							</div>
+							<div style="text-align: right;padding-right: 6px;">
+								<p style="margin-bottom: 10px; font-weight:bold;">{{num_order}}</p>
+								<p style="margin-bottom: 10px; font-weight:bold;">{{sub_total | number: '1.2-2'}}</p>
+								<p style="margin-bottom: 10px; font-weight:bold;">{{discount | number: '1.2-2'}}</p>
+								<p style="margin-bottom: 10px; font-weight:bold;">{{vat | number: '1.2-2'}}</p>
+								<p style="margin-bottom: 10px; font-weight:bold;">{{service | number: '1.2-2'}}</p>
+								<p style="margin-bottom: 10px; font-weight:bold;">{{all_total | number: '1.2-2'}}</p>
+							</div>
+						</div>
+					</div>
+					<!--<div style="display: flex; flex-direction: column; align-items: center;">
+						<p>***Thank YOU***</p>
+					</div>
+					<div style="display: flex;gap: 2rem;">
+						<div>
+							<p>Print DateTime</p>
+						</div>
+						<div>
+							<p>DATE 06-08-2024 17:33</p>
+						</div>
+					</div>-->
+				</div>
 			</div>
 		</div>
 	</div>

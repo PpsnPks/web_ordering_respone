@@ -17,11 +17,8 @@
 		<div class="bg-[#607D8B] flex justify-between px-[20px] py-[6px] items-center w-full" *ngIf="filterSearch != 'search'">
 			<div class="flex items-center w-full">
 				<mat-form-field class="w-full">
-					<mat-select class="font-medium text-[18px] text-white w-fit" [(value)]="selected">
-					  <mat-option class="font-normal text-[16px] text-[#424242]" value="">สินค้าทั้งหมด</mat-option>
-					  <mat-option class="font-normal text-[16px] text-[#424242]" value="drink">เครื่องดื่ม</mat-option>
-					  <mat-option class="font-normal text-[16px] text-[#424242]" value="food">อาหาร</mat-option>
-					  <mat-option class="font-normal text-[16px] text-[#424242]" value="promotion">โปรโมชั่น</mat-option>
+					<mat-select class="font-medium text-[18px] text-white w-fit" [(value)]="selected" (selectionChange)="categorieChange($event.value)">
+					  <mat-option *ngFor="let item of categories" class="font-normal text-[16px] text-[#424242]" [value]="item.id">{{item.name}}</mat-option>
 					</mat-select>
 				  </mat-form-field>
 			</div>
@@ -35,13 +32,13 @@
 			<div class="flex items-center grow">
 				<mat-icon (click)="set_filterSearch('filter')" class="text-white h-[32px] w-[32px] my-[7px]" [svgIcon]="'heroicons_outline:chevron-left'"></mat-icon>	
 				<mat-form-field [ngClass]="formFieldHelpers" class="w-full">
-					<input matInput [(ngModel)]="text_search" class="text-[20px] text-white font-normal pt-[2px]" [placeholder]="'ค้นหา'">
+					<input matInput [(ngModel)]="text_search" (input)="search_itemName($event)" class="text-[20px] text-white font-normal pt-[2px]" [placeholder]="'ค้นหา'">
 				</mat-form-field>
 			</div>
 			<mat-icon (click)="resetText_search()" class="text-white h-[32px] w-[32px]" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
 		</div>
 		<div class="px-5 pt-[10px] grid grid-cols-1">
-			<div class="flex gap-4 py-[10px] border-b-[1px] border-[#CFD8DC]" *ngFor="let item of items" (click)="openAddProduct(item)">
+			<div class="flex gap-4 py-[10px] border-b-[1px] border-[#CFD8DC]" *ngFor="let item of filter_items" (click)="openAddProduct(item)">
 				<div class="">
 					<img class="h-[90px] w-[90px]" src= {{item.product_img}} alt="mock_img">
 				</div>

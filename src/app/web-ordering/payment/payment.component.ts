@@ -6,6 +6,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { WebOrderingService } from '../web-ordering.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'asha-payment',
@@ -20,19 +21,113 @@ import { WebOrderingService } from '../web-ordering.service';
   styleUrl: './payment.component.scss'
 })
 export class PaymentComponent {
-  selected_payment: any = 0
+  selected_payment: any = 2
   all_total: any
 
   constructor(
     private _router: Router,
     public bottom: MatBottomSheet,
-    private _service: WebOrderingService
+    private _service: WebOrderingService,
+    private toastr: ToastrService
   ){
-    this.all_total = this._service.get_sumPrice()
+    this._service.get_order().subscribe({
+      next:(resp: any)=> {
+        console.log('grandTotal', resp.grandTotal);
+        this.all_total = resp.grandTotal
+      }
+    })
+    //this.all_total = this._service.get_sumPrice()
   }
   
   next(){
-    this._router.navigate(['/payment/pay'])
+    if(this.selected_payment == 4){
+      let formvalue = {
+        paid: this.all_total,
+        change: 0,
+        discount: 0,
+        serviceCharge: 0,
+        serviceChargeRate: 0,
+        orderPayments: [
+          {
+            paymentMethodId: 4,
+            amount: this.all_total,
+            remark: "test"
+          }
+        ]
+      }
+      this._service.selectPayment(formvalue).subscribe({
+        next: (resp: any)=>{
+          sessionStorage.setItem('orderPaymentId', resp.orderPayments[0].id)
+          this._service.paidRoomService().subscribe({
+            complete: ()=> {
+              console.log('pay roomService complete')
+              this._router.navigate(['/payment/pay/success'])
+            },
+            error: ()=> {
+              console.log('pay roomService error')
+              this.toastr.error('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง')
+            }
+          })
+          console.log('selectPayment: service charge');
+        }
+      })
+    } else if(this.selected_payment == 3) {
+      let formvalue = {
+        paid: this.all_total,
+        change: 0,
+        discount: 0,
+        serviceCharge: 0,
+        serviceChargeRate: 0,
+        orderPayments: [
+          {
+            paymentMethodId: 1,
+            amount: this.all_total,
+            remark: "ชำระภายหลัง"
+          }
+        ]
+      }
+      this._service.selectPayment(formvalue).subscribe({
+        next: (resp: any)=>{
+          console.log('selectPayment', resp.orderPayments[0].id);
+          
+          sessionStorage.setItem('orderPaymentId', resp.orderPayments[0].id)
+          this._service.paylater().subscribe({
+            complete: ()=> {
+              console.log('pay later complete')
+              this._router.navigate(['/payment/pay/success'])
+            },
+            error: ()=> {
+              console.log('pay later error')
+              this.toastr.error('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง')
+            }
+          })
+          console.log('selectPayment: pay later');
+        }
+      })
+    } else if(this.selected_payment == 2) {
+      let formvalue = {
+        paid: this.all_total,
+        change: 0,
+        discount: 0,
+        serviceCharge: 0,
+        serviceChargeRate: 0,
+        orderPayments: [
+          {
+            paymentMethodId: 2,
+            amount: this.all_total,
+            remark: "คิวอาร์โค้ด"
+          }
+        ]
+      }
+      this._service.selectPayment(formvalue).subscribe({
+        next: (resp: any)=>{
+          console.log('selectPayment', resp.orderPayments[0].id);
+          sessionStorage.setItem('orderPaymentId', resp.orderPayments[0].id)
+          console.log('selectPayment: QR Code');
+          this._router.navigate(['/payment/pay'])
+        }
+      })
+    }
   }
 
   selectPayment(data: any){

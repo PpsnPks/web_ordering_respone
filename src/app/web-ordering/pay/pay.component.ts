@@ -24,6 +24,7 @@ import { DialogForm } from './form-dialog/dialog.component';
 })
 export class PayComponent {
   all_total: any
+  img_qr: any;
   constructor(
     private _router: Router,
     public bottom: MatBottomSheet,
@@ -31,7 +32,26 @@ export class PayComponent {
     private dialog: MatDialog
   ){
     this.all_total = this._service.get_sumPrice()
+    this._service.paybyQR().subscribe({
+      next:(resp: any)=> {
+          console.log(resp);
+          this.all_total = resp.total
+          this.img_qr = resp.image
+      },
+    })
   }
+
+  LoopCheckPayment(){
+    return ;
+  }
+
+  //checkPayment(){
+  //  this._service.get_order().subscribe({
+  //    next:(resp: any)=> {
+  //      console.log(resp);
+  //    }
+  //  })
+  //}
 
   openLoading(){
     const dialogRef = this.dialog.open(DialogForm, {

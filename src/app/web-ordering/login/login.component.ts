@@ -1,3 +1,4 @@
+import { ToastrService } from 'ngx-toastr';
 import { MatIconModule } from '@angular/material/icon';
 import { Component, OnInit } from '@angular/core';
 import { WebOrderingBarComponent } from '../web-ordering-bar/web-ordering-bar.component';
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit{
 
   constructor(
     private _fb: FormBuilder,
-    private _router: Router
+    private _router: Router,
+    private _toastr: ToastrService
   ){
     this.form = this._fb.group({
       room_No: ['',[Validators.required]]
@@ -40,6 +42,12 @@ export class LoginComponent implements OnInit{
   }
 
   next(){
-    this._router.navigate(['/home'])
+    if (this.form.value.room_No != ''){
+      sessionStorage.setItem('roomNo', this.form.value.room_No)
+      this._router.navigate(['/home'])
+    }
+    else{
+      this._toastr.error('กรุณาระบุเลขห้อง')
+    }
   }
 }

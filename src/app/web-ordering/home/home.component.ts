@@ -1,3 +1,5 @@
+import { ToastrService } from 'ngx-toastr';
+import { categories } from './../../mock-api/apps/academy/data';
 import { CommonModule, DecimalPipe, registerLocaleData } from '@angular/common';
 import { Component, LOCALE_ID } from '@angular/core';
 import { Router } from '@angular/router';
@@ -40,74 +42,100 @@ registerLocaleData(localeTh);
 export class HomeComponent {
   
   selected: any = ''
-  items: any
+  items: any = []
+  all_items: any = []
+  filter_items: any = []
   all_order: any = 0
   all_price: any = 0
 
   filterSearch: any = 'filter'
   text_search: any = ''
+  categories: any = [
+    {name: "สินค้าทั้งหมด", id: ''},
+    {name: "เครื่องดื่ม", id: 0},
+    {name: "อาหาร", id: 1},
+    {name: "โปรโมชั่น", id: 2},
+  ]
   
   constructor(
     private _router: Router,
     public bottom: MatBottomSheet,
-    private _service: WebOrderingService
+    private _service: WebOrderingService,
+    private toastr: ToastrService
   ){
-    this.items = [
-      {
-        product_img: "../../../assets/ordering/mock_img.png",
-        product_name: "Matcha Latte",
-        product_price: "85.00",
-        order: 0
-      },
-      {
-        product_img: "../../../assets/ordering/mock_img.png",
-        product_name: "Matcha Latte",
-        product_price: "85.00",
-        order: 0
-      },
-      {
-        product_img: "../../../assets/ordering/mock_img.png",
-        product_name: "Matcha Latte",
-        product_price: "85.00",
-        order: 0
-      },
-      {
-        product_img: "../../../assets/ordering/mock_img.png",
-        product_name: "Matcha Latte",
-        product_price: "85.00",
-        order: 0
-      },
-      {
-        product_img: "../../../assets/ordering/mock_img.png",
-        product_name: "Matcha Latte",
-        product_price: "85.00",
-        order: 0
-      },
-      {
-        product_img: "../../../assets/ordering/mock_img.png",
-        product_name: "Matcha Latte",
-        product_price: "85.00",
-        order: 0
-      },
-      {
-        product_img: "../../../assets/ordering/mock_img.png",
-        product_name: "Matcha Latte",
-        product_price: "85.00",
-        order: 0
-      },
-      {
-        product_img: "../../../assets/ordering/mock_img.png",
-        product_name: "Matcha Latte",
-        product_price: "85.00",
-        order: 0
-      },
-      {
-        product_img: "../../../assets/ordering/mock_img.png",
-        product_name: "Matcha Latte",
-        product_price: "85.00",
-        order: 0
-      },
-    ]
+    //this.all_items = [
+    //  {
+    //    product_img: "../../../assets/ordering/mock_img.png",
+    //    product_name: "Matcha Latte",
+    //    product_price: "85.00",
+    //    order: 0
+    //  },
+    //  {
+    //    product_img: "../../../assets/ordering/mock_img.png",
+    //    product_name: "Matcha Latte",
+    //    product_price: "85.00",
+    //    order: 0
+    //  },
+    //  {
+    //    product_img: "../../../assets/ordering/mock_img.png",
+    //    product_name: "Matcha Latte",
+    //    product_price: "85.00",
+    //    order: 0
+    //  },
+    //  {
+    //    product_img: "../../../assets/ordering/mock_img.png",
+    //    product_name: "Matcha Latte",
+    //    product_price: "85.00",
+    //    order: 0
+    //  },
+    //  {
+    //    product_img: "../../../assets/ordering/mock_img.png",
+    //    product_name: "Matcha Latte",
+    //    product_price: "85.00",
+    //    order: 0
+    //  },
+    //  {
+    //    product_img: "../../../assets/ordering/mock_img.png",
+    //    product_name: "Matcha Latte",
+    //    product_price: "85.00",
+    //    order: 0
+    //  },
+    //  {
+    //    product_img: "../../../assets/ordering/mock_img.png",
+    //    product_name: "Matcha Latte",
+    //    product_price: "85.00",
+    //    order: 0
+    //  },
+    //  {
+    //    product_img: "../../../assets/ordering/mock_img.png",
+    //    product_name: "Matcha Latte",
+    //    product_price: "85.00",
+    //    order: 0
+    //  },
+    //  {
+    //    product_img: "../../../assets/ordering/mock_img.png",
+    //    product_name: "Matcha Latte",
+    //    product_price: "85.00",
+    //    order: 0
+    //  },
+    //]
+    this._service.get_product(6).subscribe({
+      next:(resp: any)=> {
+        console.log(resp)
+        for (let i = 0; i < resp.length; i++) {
+          const item = resp[i];
+          let temp_data = {
+            product_id : item.id,
+            product_img : "../../../assets/ordering/mock_img.png",
+            product_name : item.name,
+            product_price : item.price,
+            order : 0
+          }
+          this.all_items.push(temp_data)
+          this.filter_items.push(temp_data)
+        }
+      }
+    })
   }
 
   resetText_search(){
@@ -121,10 +149,14 @@ export class HomeComponent {
     console.log("filterSearch: ", this.filterSearch);
   }
 
+  categorieChange(data: any){
+    console.log('categorieChange', data);
+  }
+
   summaryOrder(){
     let temp_order = 0
     let temp_price = 0
-    for(let item of this.items){
+    for(let item of this.all_items){
       temp_order += item.order
       temp_price += parseInt(item.product_price) * item.order
     }
@@ -153,7 +185,7 @@ export class HomeComponent {
 
   next(){
     let sum_order = []
-    for(let item of this.items){
+    for(let item of this.all_items){
       if(item.order > 0)
         sum_order.push(item)
     }
@@ -163,6 +195,49 @@ export class HomeComponent {
       sum_price: this.all_price
     }
     this._service.sendOrder(all_data)
-    this._router.navigate(['/summary-order'])
+    this.add_order()
+  }
+
+  add_order(){
+    let roomNo = sessionStorage.getItem('roomNo')
+    let temp_order = []
+    for (let i = 0; i < this.all_items.length; i++) {
+      const element = this.all_items[i];
+      if (element.order > 0){
+        console.log('element', element);
+        let temp_data = {
+          productId: element.product_id,
+          price: element.product_price,
+          quantity: element.order,
+          total: element.product_price * element.order,
+          attributes: null
+        }
+        temp_order.push(temp_data)
+      }
+    }
+    let formvalue = {
+      total: this.all_price,
+      deviceId: 2,
+      roomNo: roomNo,
+      orderItems: temp_order,
+      remark: ''
+    }
+    this._service.add_order(formvalue).subscribe({
+      next: (resp: any)=> {
+        sessionStorage.setItem('orderId', resp.id)
+        this._router.navigate(['/summary-order'])
+      },
+      error: ()=> this.toastr.error("error")
+    })
+  }
+
+  search_itemName(event: Event){
+    const inputElement = event.target as HTMLInputElement
+    const find_data = inputElement.value
+    if (find_data != ''){
+      this.filter_items = this.all_items.filter(item => item.product_name && item.product_name.toLowerCase().includes(find_data.toLowerCase()))
+    } else {
+      this.filter_items = this.all_items
+    }
   }
 }

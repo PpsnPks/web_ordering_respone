@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { DeleteComponent } from './delete/delete.component';
 import { DiscountComponent } from './discount/discount.component';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'asha-summary-order',
@@ -31,6 +32,7 @@ export class SummaryOrderComponent {
   data: any
   nations: any
   form: FormGroup
+  payerType: any = 'normal'
   orders: any
   num_order: any = 0
   sum_order: any = 4
@@ -44,7 +46,9 @@ export class SummaryOrderComponent {
     private _router: Router,
     public bottom: MatBottomSheet,
     private _service: WebOrderingService,
-    private _fb: FormBuilder
+    private _fb: FormBuilder,
+    private toastr: ToastrService,
+    
   ){
     this.data = this._service.receiveOrder()
     this.nations = [
@@ -55,12 +59,32 @@ export class SummaryOrderComponent {
       nation: '',
       sex: ''
     })
-    this.orders = [
-      {name: 'กาแฟสังขยา (CUSTARD COFFEE)', order: 1, add: [{name:'เพิ่มช็อตกาแฟ 1', type: 'shot'}], price: 65, type:'normal'},
-      {name: 'Americano', order: 2, add: [{name: 'ขนาด M', type: 'size'}, {name: 'แถม โค้ก 1 ขวด', type: 'promotion'}], price: 85, type:'Pro'},
-      {name: 'COCOA', order: 1, add: [{name:'ขนาด S', type: 'size'}, {name:'ส่วนลด 2.00 บาท', type: 'discount', discount: 2}], price: 60, type:'DC'},
-    ]
-    this.sum_all_price()
+    this.orders = []
+    //this.orders = [
+    //  {name: 'กาแฟสังขยา (CUSTARD COFFEE)', order: 1, add: [{name:'เพิ่มช็อตกาแฟ 1', type: 'shot'}], price: 65, type:'normal'},
+    //  {name: 'Americano', order: 2, add: [{name: 'ขนาด M', type: 'size'}, {name: 'แถม โค้ก 1 ขวด', type: 'promotion'}], price: 85, type:'Pro'},
+    //  {name: 'COCOA', order: 1, add: [{name:'ขนาด S', type: 'size'}, {name:'ส่วนลด 2.00 บาท', type: 'discount', discount: 2}], price: 60, type:'DC'},
+    //]
+    this._service.get_order().subscribe({
+      next:(resp: any)=> {
+        console.log('resp', resp);
+        
+        for (let i = 0; i < resp?.orderItems?.length; i++) {
+          const order = resp.orderItems[i];
+          let temp_order = {
+            product_id: order.product.id,
+            name: order.product.name,
+            order: order.quantity,
+            price: order.product.price,
+            type: 'normal',
+            add: order.attributes
+          }
+          this.orders.push(temp_order)
+        }
+        console.log(this.orders);
+        this.sum_all_price()
+      }
+    })
   }
 
   changeNumOrder(signal: any, item: any){
@@ -74,7 +98,41 @@ export class SummaryOrderComponent {
 
   next(){
     this._service.set_sumPrice(this.sum_price - this.sum_discount + this.sum_vat + this.sum_service)
+    let roomNo = sessionStorage.getItem('roomNo')
+    let temp_order = []
+    for (let i = 0; i < this.orders.length; i++) {
+      const element = this.orders[i];
+      if (element.order > 0){
+        console.log('element2', element);
+        let temp_data = {
+          productId: element.product_id,
+          price: element.price,
+          quantity: element.order,
+          total: element.price * element.order,
+          attributes: null
+        }
+        temp_order.push(temp_data)
+      }
+    }
+    let formvalue = {
+      total: this.sum_price - this.sum_discount + this.sum_vat + this.sum_service,
+      deviceId: 2,
+      roomNo: roomNo,
+      orderItems: temp_order,
+      remark: ''
+    }
+    this._service.edit_order(formvalue).subscribe({
+      complete: ()=> {
+        console.log('update order');
+      },
+      error: ()=> this.toastr.error("error")
+    })
     this._router.navigate(['/payment'])
+  }
+
+  changePayer(data: any){
+    //console.log('changePayer',data);
+    this.payerType = data
   }
 
   sum_all_price(){
@@ -97,8 +155,9 @@ export class SummaryOrderComponent {
         }
       }
       let temp_total = this.sum_price - this.sum_discount
-      this.sum_vat = (temp_total*7.0) / 100.0
-      this.sum_service = temp_total / 10.0
+      
+      //this.sum_vat = (temp_total*7.0) / 100.0 //คำนวณ vat
+      //this.sum_service = temp_total / 10.0 //คำนวณ Service Charge 10%
     }
   }
   //openAddProduct(item: any) {
