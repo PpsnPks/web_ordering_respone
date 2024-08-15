@@ -140,7 +140,7 @@ export class HomeComponent {
           const item = resp[i];
           let temp_data = {
             product_id : item.id,
-            product_img : "../../../assets/ordering/mock_img.png",
+            product_img : "../../../assets/ordering/americano.png",
             product_name : item.name,
             product_price : item.price,
             order : 0,
@@ -266,14 +266,14 @@ export class HomeComponent {
           price: element.product_price,
           quantity: element.order,
           total: element.product_price * element.order,
-          attributes: element.attributes
+          attributes: []
         }
         temp_order.push(temp_data)
       }
     }
     let formvalue = {
       total: this.all_price,
-      deviceId: 2,
+      deviceId: 1,
       roomNo: roomNo,
       orderItems: temp_order,
       remark: ''
