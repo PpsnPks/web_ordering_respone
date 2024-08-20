@@ -48,7 +48,7 @@
 	</div>
 	<div class="flex justify-between px-5 py-[10px] bg-[#E8EAF6]">
 		<p class="text-[16px] font-medium text-[#424242]">Order #20240214001</p>
-		<div class="flex items-center gap-[6px]" (click)="openDeleteBill()">
+		<div class="flex items-center gap-[6px] cursor-pointer" (click)="openDeleteBill()">
 			<mat-icon class="text-[#616161]" svgIcon="heroicons_solid:x-circle"></mat-icon>
 			<p class="text-[16px] font-normal text-[#424242]">ลบบิล</p>
 		</div>
@@ -68,11 +68,11 @@
 				</div>
 				<div class="col-span-3 justify-self-end">
 					<div class="flex">
-						<div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center" [ngClass]="num_order == 0? 'opacity-50': 'opacity-1'"  (click)="order.order == 0? '': changeNumOrder('minus', order)">
+						<div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center cursor-pointer" [ngClass]="num_order == 0? 'opacity-50': 'opacity-1'"  (click)="order.order == 0? '': changeNumOrder('minus', order)">
 						  <mat-icon svgIcon="heroicons_outline:minus-small"></mat-icon>
 						</div>
 						<p class="flex items-center px-[16px] text-[#424242] text-[16px] font-normal">{{order.order}}</p>
-						<div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center" (click)="changeNumOrder('plus', order)">
+						<div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center cursor-pointer" (click)="changeNumOrder('plus', order)">
 						  <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
 						</div>
 					</div>
@@ -117,7 +117,7 @@
 		</div>
 	</div>
 	<div class="h-[12px] w-full bg-[#F6F6F8]"></div>
-	<div class="flex justify-between px-[20px] py-[18px] items-center w-full border-b-[1px] border-[#78909C]" (click)="openDiscount()">
+	<div class="flex justify-between px-[20px] py-[18px] items-center w-full border-b-[1px] border-[#78909C] cursor-pointer" (click)="openDiscount()">
 		<div class="flex items-center">
 			<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
 				<path d="M23.074 10.6113C23.441 10.5366 23.771 10.3374 24.0081 10.0474C24.2452 9.75735 24.3748 9.39435 24.375 9.01977V6.5C24.375 6.06902 24.2038 5.6557 23.8991 5.35095C23.5943 5.0462 23.181 4.875 22.75 4.875H3.25C2.81903 4.875 2.4057 5.0462 2.10095 5.35095C1.79621 5.6557 1.625 6.06902 1.625 6.5V9.01977C1.62521 9.39435 1.75482 9.75735 1.99189 10.0474C2.22897 10.3374 2.55896 10.5366 2.92602 10.6113C3.47487 10.7251 3.96772 11.0246 4.32155 11.4593C4.67538 11.894 4.86856 12.4374 4.86856 12.998C4.86856 13.5585 4.67538 14.1019 4.32155 14.5366C3.96772 14.9714 3.47487 15.2709 2.92602 15.3847C2.55827 15.4595 2.22776 15.6593 1.99061 15.9501C1.75345 16.241 1.62427 16.605 1.625 16.9802V19.5C1.625 19.931 1.79621 20.3443 2.10095 20.649C2.4057 20.9538 2.81903 21.125 3.25 21.125H22.75C23.181 21.125 23.5943 20.9538 23.8991 20.649C24.2038 20.3443 24.375 19.931 24.375 19.5V16.9802C24.3748 16.6057 24.2452 16.2426 24.0081 15.9526C23.771 15.6626 23.441 15.4634 23.074 15.3888C22.5251 15.2749 22.0323 14.9754 21.6785 14.5407C21.3246 14.106 21.1314 13.5626 21.1314 13.002C21.1314 12.4415 21.3246 11.8981 21.6785 11.4634C22.0323 11.0286 22.5251 10.7291 23.074 10.6153V10.6113ZM3.25 16.9812C4.16782 16.7943 4.99283 16.2959 5.58537 15.5705C6.17791 14.8451 6.50158 13.9372 6.50158 13.0005C6.50158 12.0638 6.17791 11.156 5.58537 10.4305C4.99283 9.70511 4.16782 9.20673 3.25 9.01977V6.5H8.9375V19.5H3.25V16.9812Z" fill="#1264E3"/>
@@ -131,7 +131,7 @@
 		</div>
 	</div>
 	<div class="p-4">
-		<div class="w-full px-3 py-3 flex items-center justify-between bg-[#1264E3] rounded-[8px]" (click)="next()">
+		<div class="w-full px-3 py-3 flex items-center justify-between bg-[#1264E3] rounded-[8px] cursor-pointer" (click)="next()">
 			<div class="flex items-center">
 				<div class="rounded-[4px] px-3 mr-2 text-[16px] text-[#1264E3] font-medium bg-[#FFFFFF] pt-[2px]">{{sum_order}}</div>
 				<p class="text-[#FFFFFF] text-[16px] font-medium">รายการ</p>

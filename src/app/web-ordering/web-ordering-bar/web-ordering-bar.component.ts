@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
   styleUrl: './web-ordering-bar.component.scss'
 })
 export class WebOrderingBarComponent implements OnInit{
-
+  roomNo: any
   constructor(
     public _router : Router,
     public location : Location
@@ -24,7 +24,7 @@ export class WebOrderingBarComponent implements OnInit{
     console.log(this.back);
     console.log(this.title);
     console.log(true)
-    
+    this.roomNo = sessionStorage.getItem('roomNo')
   }
   @Input() title: string;
   @Input() back: boolean;
@@ -39,5 +39,10 @@ export class WebOrderingBarComponent implements OnInit{
   open() {
     const item  = {...localStorage}
     alert(JSON.stringify(item))
+  }
+
+  exit() {
+    sessionStorage.removeItem('roomNo');
+    this._router.navigate(['/login']);
   }
 }
