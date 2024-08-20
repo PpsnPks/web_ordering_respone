@@ -1,7 +1,7 @@
 <div class="flex flex-col w-full max-w-md bg-white max-h-dvh">
 	<asha-web-ordering-bar [title]="'สั่งและชำระ'" [back]="false"></asha-web-ordering-bar>
 	<div class="w-full grid grid-cols-1">
-		<div class="flex justify-between px-[20px] py-[18px] items-center w-full" (click)="openPromotion()">
+		<div class="flex justify-between px-[20px] py-[18px] items-center w-full cursor-pointer" (click)="openPromotion()">
 			<div class="flex items-center">
 				<svg width="26" height="26" viewBox="0 0 26 26" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path fill-rule="evenodd" clip-rule="evenodd" d="M22.9301 10.4334L22.9389 10.4427C23.6123 11.1445 24.375 11.9397 24.375 13C24.375 14.0603 23.6123 14.8566 22.9389 15.5573L22.9356 15.5608C22.5537 15.9599 22.1595 16.3719 22.0106 16.7324C21.8728 17.0639 21.8644 17.6128 21.8563 18.1451L21.8562 18.1482L21.8562 18.1521C21.841 19.1424 21.8237 20.2638 21.0437 21.0437C20.2638 21.8237 19.1424 21.841 18.1521 21.8562L18.1482 21.8562L18.1451 21.8563C17.6128 21.8644 17.0639 21.8728 16.7324 22.0106C16.3726 22.1588 15.9638 22.5499 15.5666 22.9301L15.5573 22.9389C14.8555 23.6123 14.0603 24.375 13 24.375C11.9397 24.375 11.1434 23.6123 10.4427 22.9389L10.4392 22.9356C10.0401 22.5537 9.6281 22.1595 9.26758 22.0106C8.93612 21.8728 8.38717 21.8644 7.85495 21.8563L7.8518 21.8562L7.84788 21.8562C6.85759 21.841 5.73624 21.8237 4.95625 21.0437C4.17626 20.2638 4.15903 19.1424 4.14381 18.1521L4.14375 18.1482L4.1437 18.1451C4.13559 17.6128 4.12723 17.0639 3.98937 16.7324C3.84122 16.3726 3.45005 15.9638 3.06992 15.5666L3.06109 15.5573C2.38773 14.8555 1.625 14.0603 1.625 13C1.625 11.9397 2.38773 11.1434 3.06109 10.4427L3.06441 10.4392C3.44627 10.0401 3.84051 9.6281 3.98937 9.26758C4.12723 8.93612 4.13559 8.38717 4.1437 7.85495L4.14375 7.8518C4.14405 7.83694 4.14436 7.82205 4.14466 7.80713C4.16457 6.82694 4.18694 5.72556 4.95625 4.95625C5.73624 4.17626 6.8576 4.15903 7.84789 4.14381L7.8518 4.14375L7.85532 4.1437C8.38743 4.13559 8.93823 4.1272 9.26758 3.98937C9.62737 3.84123 10.0362 3.45006 10.4334 3.06992L10.4427 3.06109C11.1445 2.38773 11.9397 1.625 13 1.625C14.0603 1.625 14.8566 2.38773 15.5573 3.06109L15.5608 3.06441C15.9599 3.44627 16.3719 3.84051 16.7324 3.98937C17.0639 4.12723 17.6128 4.13559 18.1451 4.1437L18.1482 4.14375L18.1521 4.14381C19.1424 4.15903 20.2638 4.17626 21.0437 4.95625C21.8237 5.73624 21.841 6.85759 21.8562 7.84788L21.8562 7.8518L21.8563 7.85495C21.8644 8.38717 21.8728 8.93612 22.0106 9.26758C22.1588 9.62737 22.5499 10.0362 22.9301 10.4334ZM9.86053 8.61893C8.67753 8.61893 7.79353 9.37293 7.79353 10.7249C7.79353 12.0899 8.67753 12.8439 9.86053 12.8439C11.0435 12.8439 11.9275 12.0899 11.9275 10.7249C11.9275 9.37293 11.0435 8.61893 9.86053 8.61893ZM9.13253 10.7249C9.13253 10.0099 9.40553 9.71093 9.84753 9.71093C10.3025 9.71093 10.5885 10.0099 10.5885 10.7249C10.5885 11.4399 10.3025 11.7519 9.84753 11.7519C9.40553 11.7519 9.13253 11.4399 9.13253 10.7249ZM14.3585 8.77493L9.26253 17.8749H11.0305L16.1395 8.77493H14.3585ZM15.5675 13.8059C14.3845 13.8059 13.5005 14.5469 13.5005 15.9119C13.5005 17.2899 14.3845 18.0309 15.5675 18.0309C16.7375 18.0309 17.6085 17.2899 17.6085 15.9119C17.6085 14.5469 16.7375 13.8059 15.5675 13.8059ZM14.8135 15.9119C14.8135 15.1969 15.0995 14.8979 15.5545 14.8979C15.9965 14.8979 16.2825 15.1969 16.2825 15.9119C16.2825 16.6399 15.9965 16.9389 15.5545 16.9389C15.0995 16.9389 14.8135 16.6399 14.8135 15.9119Z" fill="#FF5252"/>
@@ -23,7 +23,7 @@
 					</mat-select>
 				  </mat-form-field>
 			</div>
-			<div class="border-s-[1px] border-[#FFFFFF] pl-[10px] justify-self-end" (click)="set_filterSearch('search')">
+			<div class="border-s-[1px] border-[#FFFFFF] pl-[10px] justify-self-end cursor-pointer" (click)="set_filterSearch('search')">
 				<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
 					<path d="M28.7073 27.2923L22.4485 21.0348C24.2626 18.8569 25.1672 16.0635 24.9741 13.2357C24.781 10.4079 23.5052 7.76337 21.412 5.85226C19.3188 3.94116 16.5694 2.91061 13.7357 2.97501C10.902 3.03941 8.20225 4.1938 6.19802 6.19802C4.1938 8.20225 3.03941 10.902 2.97501 13.7357C2.91061 16.5694 3.94116 19.3188 5.85226 21.412C7.76337 23.5052 10.4079 24.781 13.2357 24.9741C16.0635 25.1672 18.8569 24.2626 21.0348 22.4485L27.2923 28.7073C27.3852 28.8002 27.4955 28.8739 27.6169 28.9242C27.7383 28.9745 27.8684 29.0004 27.9998 29.0004C28.1312 29.0004 28.2613 28.9745 28.3827 28.9242C28.5041 28.8739 28.6144 28.8002 28.7073 28.7073C28.8002 28.6144 28.8739 28.5041 28.9242 28.3827C28.9745 28.2613 29.0004 28.1312 29.0004 27.9998C29.0004 27.8684 28.9745 27.7383 28.9242 27.6169C28.8739 27.4955 28.8002 27.3852 28.7073 27.2923ZM4.9998 13.9998C4.9998 12.2198 5.52764 10.4797 6.51657 8.99966C7.5055 7.51962 8.91111 6.36607 10.5556 5.68488C12.2002 5.00369 14.0098 4.82546 15.7556 5.17273C17.5014 5.52 19.1051 6.37716 20.3638 7.63584C21.6224 8.89451 22.4796 10.4982 22.8269 12.244C23.1741 13.9898 22.9959 15.7994 22.3147 17.4439C21.6335 19.0885 20.48 20.4941 18.9999 21.483C17.5199 22.472 15.7798 22.9998 13.9998 22.9998C11.6137 22.9972 9.32601 22.0481 7.63876 20.3608C5.95151 18.6736 5.00244 16.3859 4.9998 13.9998Z" fill="white"/>
 				</svg>					
@@ -31,18 +31,18 @@
 		</div>
 		<div class="bg-[#607D8B] flex justify-between px-[16px] py-[6px] items-center w-full" *ngIf="filterSearch == 'search'">
 			<div class="flex items-center grow">
-				<mat-icon (click)="set_filterSearch('filter')" class="text-white h-[32px] w-[32px] my-[7px]" [svgIcon]="'heroicons_outline:chevron-left'"></mat-icon>	
+				<mat-icon (click)="set_filterSearch('filter')" class="text-white h-[32px] w-[32px] my-[7px] cursor-pointer" [svgIcon]="'heroicons_outline:chevron-left'"></mat-icon>	
 				<mat-form-field [ngClass]="formFieldHelpers" class="w-full">
 					<input matInput [(ngModel)]="text_search" (input)="search_itemName($event)" class="text-[20px] text-white font-normal pt-[2px]" [placeholder]="'ค้นหา'">
 				</mat-form-field>
 			</div>
-			<mat-icon (click)="resetText_search()" class="text-white h-[32px] w-[32px]" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
+			<mat-icon (click)="resetText_search()" class="text-white h-[32px] w-[32px] cursor-pointer" [svgIcon]="'heroicons_outline:x-mark'"></mat-icon>
 		</div>
 		<div *ngIf="filter_items.length == 0" class="flex justify-center gap-4 py-[10px] border-b-[1px] border-[#CFD8DC]">
 			<p>NOT FOUND</p>
 		</div>
 		<div class="px-5 pt-[10px] grid grid-cols-1">
-			<div class="flex gap-4 py-[10px] border-b-[1px] border-[#CFD8DC]" *ngFor="let item of filter_items" (click)="openAddProduct(item)">
+			<div class="flex gap-4 py-[10px] border-b-[1px] border-[#CFD8DC] cursor-pointer" *ngFor="let item of filter_items" (click)="openAddProduct(item)">
 				<div class="">
 					<img class="h-[90px] w-[90px]" src= {{item.product_img}} alt="mock_img">
 				</div>
@@ -57,7 +57,7 @@
 		</div>
 	</div>
 	<div class="fixed bottom-5 px-5 w-full" *ngIf="all_order > 0">
-		<div class="w-full px-3 py-3 flex items-center justify-between bg-[#1264E3] rounded-[8px]" (click)="next()">
+		<div class="w-full px-3 py-3 flex items-center justify-between bg-[#1264E3] rounded-[8px] cursor-pointer" (click)="next()">
 			<div class="flex items-center">
 				<div class="rounded-[4px] px-3 mr-2 text-[16px] text-[#1264E3] font-medium bg-[#FFFFFF]">{{all_order}}</div>
 				<p class="text-[#FFFFFF] text-[16px] font-medium">รายการ</p>
