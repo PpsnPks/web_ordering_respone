@@ -120,7 +120,7 @@ export class AddProductComponent {
     findDataArray(name: any, value: any){
       //console.log(name,'  ',value,'  ',this.attribute[name]?.find(item => item == value));
       if(this.attribute.find(item => item.attributeName == name && item.find(attvalue=> attvalue.attributeValues == value)) != undefined){
-        console.log('find: ',());
+        console.log('find: ',this.attribute.find(item => item.attributeName == name && item.find(attvalue=> attvalue.attributeValues == value)));
         return true
       } else {
         return false
