@@ -53,21 +53,37 @@ export class AddProductComponent {
       //]
     }
     setAttribute(name: any, data: any, typeAtt: any, allAttDetail: any){
-      console.log(allAttDetail);
-      
+      //console.log(allAttDetail);
       if(typeAtt == 'multiple'){
         console.log('multiple');
-        
-        //if(name in this.attribute){
-        //  if(this.attribute[name]?.find(item => item == data)){
-        //    this.attribute[name] = this.attribute[name].filter(item => item !== data);
-        //  } else {
-        //    this.attribute[name].push(data)
-        //  }
-        //} else {
-        //  this.attribute[name] = []
-        //  this.attribute[name].push(data)
-        //}
+        const temp_data = this.attribute.find(item => item.attributeName == name)
+        if (temp_data){
+          if(temp_data.attributeValues.some(item=> item.attributeValueName == data)){
+            temp_data.attributeValues = temp_data.attributeValues.filter(item => item.attributeValueName != data)
+          }else {
+            const temp = {
+                attributeValueName: allAttDetail.name,
+                quantity: 1,
+                price: allAttDetail.price,
+                total: allAttDetail.price
+            }
+            temp_data.attributeValues.push(temp)
+          }
+          temp_data.total = temp_data.attributeValues.reduce((sum, item) => sum + item.total, 0);
+        } else {
+          const temp = {
+            attributeName: name,
+            total: allAttDetail.price,
+            attributeValues:[{
+              attributeValueName: allAttDetail.name,
+              quantity: 1,
+              price: allAttDetail.price,
+              total: allAttDetail.price
+            }]
+          }
+          this.attribute.push(temp)
+        }
+        console.log('this.attribute999', this.attribute);
       } else {
         //this.attribute[name] = data
         if (this.attribute.find(item => item.attributeName == name)){
@@ -100,7 +116,7 @@ export class AddProductComponent {
           }
           this.attribute.push(temp)
         }
-        console.log('this.attribute111', this.attribute);
+        //console.log('this.attribute111', this.attribute);
       }
     }
 
@@ -119,13 +135,15 @@ export class AddProductComponent {
 
     findDataArray(name: any, value: any){
       //console.log(name,'  ',value,'  ',this.attribute[name]?.find(item => item == value));
-      if(this.attribute.find(item => item.attributeName == name && item.find(attvalue=> attvalue.attributeValues == value)) != undefined){
-        console.log('find: ',this.attribute.find(item => item.attributeName == name && item.find(attvalue=> attvalue.attributeValues == value)));
-        return true
-      } else {
+      const tempFind = this.attribute.find(item => item.attributeName == name)
+      //console.log(tempFind,'  ', value);
+      
+      if(tempFind !== undefined ){
+        return tempFind.attributeValues.some(item => item.attributeValueName === value)
+      }
+      else {
         return false
       }
-      return false
     }
 
     changeShot(data: any){
@@ -165,9 +183,8 @@ export class AddProductComponent {
     }
   
     confirmed() {
-      console.log("888", this.attribute);
-      
-      //this.toastrService.success('เพิ่มสินค้าสำเร็จ', '', {positionClass: 'toast-top-center'})
-      //this._bottomSheetRef.dismiss(this.attribute);
+      //console.log("888", this.attribute);
+      this.toastrService.success('เพิ่มสินค้าสำเร็จ', '', {positionClass: 'toast-top-center'})
+      this._bottomSheetRef.dismiss(this.attribute);
     }
 }

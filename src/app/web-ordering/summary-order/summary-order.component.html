@@ -56,26 +56,32 @@
 	<div class="flex flex-col" *ngIf="orders.length > 0">
 		<ng-container *ngFor="let order of orders">
 			<div class="grid grid-cols-9 px-5 pt-5 border-b-[1px] border-[#B0BEC5]">
-				<div class="flex flex-col col-span-6">
+				<div class="flex justify-between col-span-9 pb-2">
 					<div class="flex pb-2">
 						<div *ngIf="order.type == 'Pro'" class="bg-[#4CAF50] text-[#FFFFFF] text-[12px] font-normal px-3 py-[3px] rounded-[12px] h-fit mr-[14px]">Pro</div>
 						<div *ngIf="order.type == 'DC'" class="bg-[#FF5252] text-[#FFFFFF] text-[12px] font-normal px-3 py-[3px] rounded-[12px] h-fit mr-[14px]">DC</div>
 						<p class="text-[#424242] text-[16px] font-medium">{{order.name}}</p>
 					</div>
-					<ng-container *ngFor="let add of order.add">
-						<p class="text-[#455A64] text-[14px] font-normal" [ngClass]="add.type == 'discount' ? 'text-[#FF5252]':'text-[#455A64]'">{{add.name}}</p>
-					</ng-container>
-				</div>
-				<div class="col-span-3 justify-self-end">
-					<div class="flex">
-						<div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center cursor-pointer" [ngClass]="num_order == 0? 'opacity-50': 'opacity-1'"  (click)="order.order == 0? '': changeNumOrder('minus', order)">
-						  <mat-icon svgIcon="heroicons_outline:minus-small"></mat-icon>
-						</div>
-						<p class="flex items-center px-[16px] text-[#424242] text-[16px] font-normal">{{order.order}}</p>
-						<div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center cursor-pointer" (click)="changeNumOrder('plus', order)">
-						  <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
+					<div class="">
+						<div class="flex">
+							<div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center cursor-pointer" [ngClass]="num_order == 0? 'opacity-50': 'opacity-1'"  (click)="order.order == 0? '': changeNumOrder('minus', order)">
+								<mat-icon svgIcon="heroicons_outline:minus-small"></mat-icon>
+							</div>
+							<p class="flex items-center px-[16px] text-[#424242] text-[16px] font-normal">{{order.order}}</p>
+							<div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center cursor-pointer" (click)="changeNumOrder('plus', order)">
+								<mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
+							</div>
 						</div>
 					</div>
+				</div>
+				<div class="flex flex-col col-span-9">
+					<ng-container *ngFor="let add of order.add">
+						<div *ngFor="let value of add.attributeValues" class="flex justify-between">
+							<p class="text-[#455A64] text-[14px] font-normal" [ngClass]="add.type == 'discount' ? 'text-[#FF5252]':'text-[#455A64]'">{{add.attributeName}}</p>
+							<p class="text-[#455A64] text-[14px] font-normal" [ngClass]="add.type == 'discount' ? 'text-[#FF5252]':'text-[#455A64]'">{{value.attributeName}}</p>
+						</div>
+					</ng-container>
+
 				</div>
 				<div class="col-span-10 flex justify-between items-center py-2">
 					<p class="text-[#424242] text-[14px] font-normal">{{order.price | number: '1.2-2'}}</p>
