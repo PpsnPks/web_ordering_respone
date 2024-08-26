@@ -32,6 +32,8 @@ export class AddProductComponent {
   promotions: any
   num_shot: any = 0
 
+  attribute: any = []
+
   constructor(
     private _bottomSheetRef: MatBottomSheetRef<AddProductComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
@@ -49,6 +51,28 @@ export class AddProductComponent {
       //    id:
       //  }
       //]
+    }
+    setAttribute(name: any, data: any, typeAtt: any){
+      if(typeAtt == 'multiple'){
+          if(this.attribute[name].find(data)){
+            this.attribute[name] = this.attribute[name].filter(item => item !== data);
+          } else {
+            this.attribute[name].push(data)
+          }
+      } else {
+        this.attribute[name] = data
+      }
+    }
+
+    MaxWidthTextColspan(itemAtt: any) {
+      const maxWidth = Math.max(...itemAtt.map(item => item.name.length))
+      console.log('maxWidth', maxWidth);
+      if(maxWidth <= 4)
+        return 'grid-cols-5'
+      else if(maxWidth <= 6)
+        return 'grid-cols-4'
+      else
+        return 'grid-cols-3'
     }
 
     changeShot(data: any){

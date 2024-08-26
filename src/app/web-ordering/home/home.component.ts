@@ -195,42 +195,52 @@ export class HomeComponent {
   }
 
   openAddProduct(item: any) {
-    if (item.attributes == null){
-      //item.order = item.order + 1
-      console.log(item.order-1,' = ',item.order);
-      
-      if (this.order_selected.find(order => order.product_id == item.product_id) === undefined){
-        let temp = {
-          product_id: item.product_id,
-          product_price: item.product_price,
-          order: 1,
-          attributes: item.attributes
-        }
-        this.order_selected.push(temp)
-        this.filter_items.find(order => order.product_id == item.product_id).order = 1
-      } else {
-        //if (this.order_selected === this.filter_items || this.order_selected === this.all_items ){
-        //  this.order_selected.find(order => order.product_id == item.product_id).order += 1
-        //}else{
-          this.order_selected.find(order => order.product_id == item.product_id).order += 1
-          this.filter_items.find(order => order.product_id == item.product_id).order += 1
-        //}
-        console.log('I can find IT ',this.order_selected);
-      }
-      console.log('44: ', this.order_selected.find(order => order.product_id == item.product_id));
-      this.summaryOrder()
-    } else {
-      const bottomSheetAddProductRef = this.bottom.open(AddProductComponent, {
-        data: item
-      });
-      bottomSheetAddProductRef.afterDismissed().subscribe((result) => {
-        if (result === 'confirm') {
-          item.order = item.order + 1
-          console.log(item);
+    //console.log('item', item);
+    
+    this._service.getProductById(item.product_id).subscribe({
+      next:(resp: any)=> {
+        console.log('resp', resp);
+        if (resp.productAttributes == null){
+          //item.order = item.order + 1
+          console.log(item.order-1,' = ',item.order);
+          
+          if (this.order_selected.find(order => order.product_id == item.product_id) === undefined){
+            let temp = {
+              product_id: item.product_id,
+              product_price: item.product_price,
+              order: 1,
+              attributes: item.attributes
+            }
+            this.order_selected.push(temp)
+            this.filter_items.find(order => order.product_id == item.product_id).order = 1
+          } else {
+            //if (this.order_selected === this.filter_items || this.order_selected === this.all_items ){
+            //  this.order_selected.find(order => order.product_id == item.product_id).order += 1
+            //}else{
+              this.order_selected.find(order => order.product_id == item.product_id).order += 1
+              this.filter_items.find(order => order.product_id == item.product_id).order += 1
+            //}
+            console.log('I can find IT ',this.order_selected);
+          }
+          console.log('44: ', this.order_selected.find(order => order.product_id == item.product_id));
           this.summaryOrder()
+        } else {
+          const bottomSheetAddProductRef = this.bottom.open(AddProductComponent, {
+            data: {
+              name: resp.name,
+              data: resp.productAttributes
+            }
+          });
+          bottomSheetAddProductRef.afterDismissed().subscribe((result) => {
+            if (result === 'confirm') {
+              item.order = item.order + 1
+              console.log(item);
+              this.summaryOrder()
+            }
+          });
         }
-      });
-    }
+      }
+    })
   }
 
   openPromotion(){
