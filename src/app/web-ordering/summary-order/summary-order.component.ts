@@ -71,20 +71,26 @@ export class SummaryOrderComponent {
       next:(resp: any)=> {
         console.log('resp', resp);
         this.status_order = resp.orderStatus
+        this.sum_order = resp.orderItems.length
+        this.sum_price = resp.total
+        this.sum_discount = resp.discount ?? 0
+        this.sum_vat = resp.vat ?? 0
+        this.sum_service = resp.serviceCharge ?? 0
         for (let i = 0; i < resp?.orderItems?.length; i++) {
           const order = resp.orderItems[i];
+          console.log('RRR',i," :",);
           let temp_order = {
             product_id: order.product.id,
             name: order.product.name,
             order: order.quantity,
-            price: order.product.price,
+            price: order.product.price + order.attributes?.reduce((sum,item)=> sum + item.total, 0),
             type: 'normal',
             add: order.attributes
           }
           this.orders.push(temp_order)
         }
         console.log(this.orders);
-        this.sum_all_price()
+        //this.sum_all_price()
       }
     })
   }
@@ -112,7 +118,7 @@ export class SummaryOrderComponent {
             price: element.price,
             quantity: element.order,
             total: element.price * element.order,
-            attributes: null
+            attributes: element.add
           }
           temp_order.push(temp_data)
         }
@@ -160,7 +166,7 @@ export class SummaryOrderComponent {
           }
         }
       }
-      let temp_total = this.sum_price - this.sum_discount
+      //let temp_total = this.sum_price - this.sum_discount
       
       //this.sum_vat = (temp_total*7.0) / 100.0 //คำนวณ vat
       //this.sum_service = temp_total / 10.0 //คำนวณ Service Charge 10%

@@ -22,7 +22,6 @@ export class WebOrderingService {
   set_sumPrice(data: any){
     this.total = data
     console.log("set_sumPrice", this.total);
-    
   }
 
   get_sumPrice(){
@@ -61,6 +60,7 @@ export class WebOrderingService {
     const orderPaymentId = sessionStorage.getItem('orderPaymentId')
     return this.http.post(`/api/order/${orderId}/paylater/${orderPaymentId}`, {})
   }
+
   paybyQR(){
     const orderId = sessionStorage.getItem('orderId')
     const orderPaymentId = sessionStorage.getItem('orderPaymentId')
@@ -95,6 +95,10 @@ export class WebOrderingService {
         return of(null);
       })
     );
+  }
+
+  getProductById(id: any){
+    return this.http.get(`/api/product/${id}`)
   }
 //  datatable(dataTablesParameters: any) {
 //    const { columns, order, search, start, length } = dataTablesParameters;
