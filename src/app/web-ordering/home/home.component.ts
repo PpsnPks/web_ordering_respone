@@ -200,7 +200,7 @@ export class HomeComponent {
     this._service.getProductById(item.product_id).subscribe({
       next:(resp: any)=> {
         console.log('resp', resp);
-        if (resp.productAttributes == null){
+        if (resp.productAttributes == null || resp.productAttributes.length == 0 || resp.productAttributes == ''){
           //item.order = item.order + 1
           console.log(item.order-1,' = ',item.order);
           
@@ -232,8 +232,24 @@ export class HomeComponent {
             }
           });
           bottomSheetAddProductRef.afterDismissed().subscribe((result) => {
-            if (result === 'confirm') {
-              item.order = item.order + 1
+            console.log("result", result);
+            
+            if (result && result !== 'cancle') {
+              //item.order = item.order + 1
+              if (this.order_selected.find(order => order.product_id == item.product_id) === undefined){
+                let temp = {
+                  product_id: item.product_id,
+                  product_price: item.product_price,
+                  order: 1,
+                  attributes: result
+                }
+                this.order_selected.push(temp)
+                this.filter_items.find(order => order.product_id == item.product_id).order = 1
+              } else {
+                  this.order_selected.find(order => order.product_id == item.product_id).order += 1
+                  this.filter_items.find(order => order.product_id == item.product_id).order += 1
+                  console.log('I can find IT ',this.order_selected);
+              }
               console.log(item);
               this.summaryOrder()
             }
@@ -276,7 +292,7 @@ export class HomeComponent {
           price: element.product_price,
           quantity: element.order,
           total: element.product_price * element.order,
-          attributes: []
+          attributes: element?.attributes
         }
         temp_order.push(temp_data)
       }

@@ -52,27 +52,80 @@ export class AddProductComponent {
       //  }
       //]
     }
-    setAttribute(name: any, data: any, typeAtt: any){
+    setAttribute(name: any, data: any, typeAtt: any, allAttDetail: any){
+      console.log(allAttDetail);
+      
       if(typeAtt == 'multiple'){
-          if(this.attribute[name].find(data)){
-            this.attribute[name] = this.attribute[name].filter(item => item !== data);
-          } else {
-            this.attribute[name].push(data)
-          }
+        console.log('multiple');
+        
+        //if(name in this.attribute){
+        //  if(this.attribute[name]?.find(item => item == data)){
+        //    this.attribute[name] = this.attribute[name].filter(item => item !== data);
+        //  } else {
+        //    this.attribute[name].push(data)
+        //  }
+        //} else {
+        //  this.attribute[name] = []
+        //  this.attribute[name].push(data)
+        //}
       } else {
-        this.attribute[name] = data
+        //this.attribute[name] = data
+        if (this.attribute.find(item => item.attributeName == name)){
+          if((this.attribute.find(item => item.attributeName == name)).attributeValues.find(item=> item.attributeValueName == data)){
+            this.attribute = this.attribute.filter(item => item.attributeName != name)
+          }else {
+            this.attribute = this.attribute.filter(item => item.attributeName != name)
+            const temp = {
+              attributeName: name,
+              total: allAttDetail.price,
+              attributeValues:[{
+                attributeValueName: allAttDetail.name,
+                quantity: 1,
+                price: allAttDetail.price,
+                total: allAttDetail.price
+              }]
+            }
+            this.attribute.push(temp)
+          }
+        } else {
+          const temp = {
+            attributeName: name,
+            total: allAttDetail.price,
+            attributeValues:[{
+              attributeValueName: allAttDetail.name,
+              quantity: 1,
+              price: allAttDetail.price,
+              total: allAttDetail.price
+            }]
+          }
+          this.attribute.push(temp)
+        }
+        console.log('this.attribute111', this.attribute);
       }
     }
 
-    MaxWidthTextColspan(itemAtt: any) {
+    MaxWidthTextColspan(itemName: any, itemAtt: any) {
       const maxWidth = Math.max(...itemAtt.map(item => item.name.length))
-      console.log('maxWidth', maxWidth);
+      //console.log(itemName,' => maxWidth:', maxWidth);
       if(maxWidth <= 4)
         return 'grid-cols-5'
-      else if(maxWidth <= 6)
+      else if(maxWidth <= 5)
         return 'grid-cols-4'
-      else
+      else if(maxWidth <= 6)
         return 'grid-cols-3'
+      else
+        return 'grid-cols-2'
+    }
+
+    findDataArray(name: any, value: any){
+      //console.log(name,'  ',value,'  ',this.attribute[name]?.find(item => item == value));
+      if(this.attribute.find(item => item.attributeName == name && item.find(attvalue=> attvalue.attributeValues == value)) != undefined){
+        console.log('find: ',());
+        return true
+      } else {
+        return false
+      }
+      return false
     }
 
     changeShot(data: any){
@@ -112,7 +165,9 @@ export class AddProductComponent {
     }
   
     confirmed() {
-      this.toastrService.success('เพิ่มสินค้าสำเร็จ', '', {positionClass: 'toast-top-center'})
-      this._bottomSheetRef.dismiss('confirm');
+      console.log("888", this.attribute);
+      
+      //this.toastrService.success('เพิ่มสินค้าสำเร็จ', '', {positionClass: 'toast-top-center'})
+      //this._bottomSheetRef.dismiss(this.attribute);
     }
 }
