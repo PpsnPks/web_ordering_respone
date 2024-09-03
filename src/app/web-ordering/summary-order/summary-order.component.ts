@@ -124,11 +124,13 @@ export class SummaryOrderComponent {
         }
       }
       let formvalue = {
-        total: this.sum_price - this.sum_discount + this.sum_vat + this.sum_service,
-        deviceId: 2,
+        grandtotal:this.sum_price - this.sum_discount + this.sum_vat + this.sum_service,
+        total: this.sum_price,
+        deviceId: 1,
         roomNo: roomNo,
         orderItems: temp_order,
-        remark: ''
+        remark: '',
+        serviceCharge: this.sum_service
       }
       this._service.edit_order(formvalue).subscribe({
         complete: ()=> {
@@ -136,7 +138,7 @@ export class SummaryOrderComponent {
         },
         error: ()=> this.toastr.error("error")
       })
-      this._router.navigate(['/payment'])
+      this._router.navigate(['/payment/pay/success'])
     } else {
       this.toastr.error('คำสั่งซื้อรายการนี้มีการชำระเงินแล้ว')
     }
@@ -169,7 +171,7 @@ export class SummaryOrderComponent {
       //let temp_total = this.sum_price - this.sum_discount
       
       //this.sum_vat = (temp_total*7.0) / 100.0 //คำนวณ vat
-      //this.sum_service = temp_total / 10.0 //คำนวณ Service Charge 10%
+      this.sum_service = this.sum_price / 10.0 //คำนวณ Service Charge 10%
     }
   }
   //openAddProduct(item: any) {
