@@ -356,12 +356,18 @@ export class HomeComponent {
         temp_order.push(temp_data)
       }
     }
+    console.log('temp_order: ',temp_order);
+    const temp_grand = temp_order?.reduce((sum, item) => sum + item.total, 0);
     let formvalue = {
       total: this.all_price,
       deviceId: 1,
       roomNo: roomNo,
       orderItems: temp_order,
-      remark: ''
+      remark: '',
+      grandtotal: ((temp_grand * 110)/100).toFixed(2),
+      serviceCharge: (temp_grand/10).toFixed(2),
+      serviceChargeRate: 10,
+      vat: 0
     }
     this._service.add_order(formvalue).subscribe({
       next: (resp: any)=> {

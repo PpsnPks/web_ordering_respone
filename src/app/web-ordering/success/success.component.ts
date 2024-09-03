@@ -49,20 +49,23 @@ export class SuccessComponent {
     //]
     this._service.get_order().subscribe({
       next:(resp: any)=> {
-        this.payment_type = resp.orderPayments[0].paymentMethod.type
-        console.log('resp=> successPage : ',resp.orderPayments[0].paymentMethod.type);
-        if (this.payment_type == 'cash'){
-          this.title = 'คำสั่งซื้อเสร็จสมบูรณ์'
-          this.paid_total = 0
-          this.text_payment = 'ชำระภายหลัง'
-        } else{
-          this.title = 'ชำระเงินสำเร็จ'
-          this.paid_total = resp.grandTotal
-          if (this.payment_type == 'member')
-            this.text_payment = 'Charge เข้าห้อง'
-          else if (this.payment_type == 'thaiqr')
-            this.text_payment = 'QR Promptpay'
-        }
+        //this.payment_type = resp.orderPayments[0].paymentMethod.type
+        //console.log('resp=> successPage : ',resp.orderPayments[0].paymentMethod.type);
+        this.title = 'คำสั่งซื้อเสร็จสมบูรณ์'
+        this.paid_total = 0
+        this.text_payment = 'ชำระภายหลัง'
+        //if (this.payment_type == 'cash'){
+        //  this.title = 'คำสั่งซื้อเสร็จสมบูรณ์'
+        //  this.paid_total = 0
+        //  this.text_payment = 'ชำระภายหลัง'
+        //} else{
+        //  this.title = 'ชำระเงินสำเร็จ'
+        //  this.paid_total = resp.grandTotal
+        //  if (this.payment_type == 'member')
+        //    this.text_payment = 'Charge เข้าห้อง'
+        //  else if (this.payment_type == 'thaiqr')
+        //    this.text_payment = 'QR Promptpay'
+        //}
         this.orderNo = resp.orderNo
         this.all_total = resp.grandTotal
 
