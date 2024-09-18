@@ -76,7 +76,6 @@ export class DialogForm implements OnInit {
 
     )
     {
-        console.log(' this.form', this.data);
         if(this.data.type === 'EDIT') {
             this.form = this.FormBuilder.group({
                 file: '',
@@ -90,7 +89,6 @@ export class DialogForm implements OnInit {
         }
 
 
-        // console.log('1111',this.data?.type);
 
     }
 
@@ -102,7 +100,6 @@ export class DialogForm implements OnInit {
         //   })
 
         } else {
-            console.log('New');
         }
     }
     exportTemplate(){

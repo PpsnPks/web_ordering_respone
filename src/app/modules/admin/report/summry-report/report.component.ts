@@ -130,7 +130,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
                 {
                     title: 'วันที่ทำรายการ',
                     data: 'orderDate',
-                    
+
                     // ngPipeInstance: this.datePipe,
                     // ngPipeArgs: ['mediumDate'],
                     className: 'text-center',
@@ -214,7 +214,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
 
             }
         });
@@ -239,7 +238,6 @@ export class ReportComponent implements OnInit, AfterViewInit {
             endDate: endDate
         })
 
-        console.log(this.form.value)
     }
 
     onSearch() {

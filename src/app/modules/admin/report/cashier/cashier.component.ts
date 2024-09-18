@@ -69,7 +69,6 @@ export class CashierComponent implements OnInit {
 	loadCashier():void {
 		this._service.getCashier().subscribe((resp: any)=>{
 			this.cashiers = resp;
-			console.log(resp);
 
 		})
 	}

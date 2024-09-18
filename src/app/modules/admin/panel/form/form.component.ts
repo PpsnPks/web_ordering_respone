@@ -104,7 +104,6 @@ export class PanelFormComponent implements OnInit, AfterViewInit {
             }
         });
         DialogRef.afterClosed().subscribe((result) => {
-            console.log(result);
 
             if (result) {
                item.patchValue(
@@ -149,7 +148,6 @@ export class PanelFormComponent implements OnInit, AfterViewInit {
     Submit() {
         let formValue = this.form.value
         formValue.productIds = this.form.value.products.map(product => product.product_id);
-        console.log(formValue);
 
         const confirmation = this.fuseConfirmationService.open({
             title: "ยืนยันการบันทึกข้อมูล",

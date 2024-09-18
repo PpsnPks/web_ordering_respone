@@ -80,14 +80,13 @@ export class ProductComposeComponent implements OnInit {
             this.title = "แก้ไขสินค้า"
 
             this.item = this.data.value
-            console.log(this.item);
 
             this.form = this.fb.group({
                 ...this.data.value,
                 categoryId: this.data?.value?.category?.id,
                 unitId: this.data?.value?.unit?.id,
                 branchId: this.data?.value?.branch?.id,
-                
+
             });
 
             for (const productAttribute of this.data.value.productAttributes) {
@@ -98,7 +97,7 @@ export class ProductComposeComponent implements OnInit {
         this.productService.categories$.subscribe(resp => this.catagories = resp);
         this.productService.units$.subscribe(resp => this.units = resp);
         this.productService.branch$.subscribe(resp => this.branch = resp);
-       
+
 
     }
 

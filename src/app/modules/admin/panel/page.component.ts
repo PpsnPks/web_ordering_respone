@@ -138,7 +138,6 @@ export class PanelComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });
@@ -161,7 +160,6 @@ export class PanelComponent implements OnInit, AfterViewInit {
             });
             DialogRef.afterClosed().subscribe((result) => {
                 if (result) {
-                    console.log(result, 'result')
                     this.rerender();
                 }
             });

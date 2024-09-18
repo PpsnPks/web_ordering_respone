@@ -65,7 +65,6 @@ export class DialogForm implements OnInit {
         private toastr: ToastrService,
     )
     {
-        console.log(' this.form', this.data);
         if(this.data.type === 'EDIT') {
             this.form = this.FormBuilder.group({
                 code: this.data.value.code ?? '',
@@ -82,7 +81,6 @@ export class DialogForm implements OnInit {
         }
 
 
-        // console.log('1111',this.data?.type);
 
     }
 
@@ -94,7 +92,6 @@ export class DialogForm implements OnInit {
         //   })
 
         } else {
-            console.log('New');
         }
     }
 

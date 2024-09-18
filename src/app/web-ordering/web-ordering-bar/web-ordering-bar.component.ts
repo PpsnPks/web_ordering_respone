@@ -8,8 +8,8 @@ import { Router } from '@angular/router';
   selector: 'asha-web-ordering-bar',
   standalone: true,
   imports: [
-    CommonModule, 
-    MatIconModule, 
+    CommonModule,
+    MatIconModule,
     MatToolbarModule
   ],
   templateUrl: './web-ordering-bar.component.html',
@@ -21,9 +21,6 @@ export class WebOrderingBarComponent implements OnInit{
     public _router : Router,
     public location : Location
   ) {
-    console.log(this.back);
-    console.log(this.title);
-    console.log(true)
     this.roomNo = sessionStorage.getItem('roomNo')
   }
   @Input() title: string;
@@ -32,8 +29,6 @@ export class WebOrderingBarComponent implements OnInit{
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    console.log(this.back);
-    console.log(this.title);
   }
 
   open() {

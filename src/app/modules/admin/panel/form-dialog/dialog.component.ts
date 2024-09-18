@@ -75,7 +75,6 @@ export class DialogForm implements OnInit {
 
 
         } else {
-            console.log('New');
         }
     }
 

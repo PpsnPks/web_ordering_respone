@@ -88,7 +88,7 @@ export class TapLogComponent implements OnInit, AfterViewInit {
         } else {
             this.rerender()
         }
-        
+
     }
 
     ngOnDestroy(): void {
@@ -100,7 +100,7 @@ export class TapLogComponent implements OnInit, AfterViewInit {
         this.dtOptions = {
             pagingType: 'full_numbers',
             serverSide: true, // Set the flag
-            //scrollX: true, 
+            //scrollX: true,
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.filter = {
                     'filter.card.card_type': this.form.value.cardType ?? ''
@@ -206,7 +206,6 @@ export class TapLogComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });
@@ -230,7 +229,6 @@ export class TapLogComponent implements OnInit, AfterViewInit {
             });
             DialogRef.afterClosed().subscribe((result) => {
                 if (result) {
-                    console.log(result, 'result')
                     this.rerender();
                 }
             });

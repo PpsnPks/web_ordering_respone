@@ -33,14 +33,13 @@ export class PaymentComponent {
   ){
     this._service.get_order().subscribe({
       next:(resp: any)=> {
-        console.log('grandTotal', resp.grandTotal);
         this.all_total = resp.grandTotal
         this.status_order = resp.orderStatus
       }
     })
     //this.all_total = this._service.get_sumPrice()
   }
-  
+
   next(){
     if (this.status_order != 'complete'){
       if(this.selected_payment == 4){
@@ -63,15 +62,12 @@ export class PaymentComponent {
             sessionStorage.setItem('orderPaymentId', resp.orderPayments[0].id)
             this._service.paidRoomService().subscribe({
               complete: ()=> {
-                console.log('pay roomService complete')
                 this._router.navigate(['/payment/pay/success'])
               },
               error: ()=> {
-                console.log('pay roomService error')
                 this.toastr.error('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง')
               }
             })
-            console.log('selectPayment: service charge');
           }
         })
       } else if(this.selected_payment == 3) {
@@ -91,20 +87,16 @@ export class PaymentComponent {
         }
         this._service.selectPayment(formvalue).subscribe({
           next: (resp: any)=>{
-            console.log('selectPayment', resp.orderPayments[0].id);
-            
+
             sessionStorage.setItem('orderPaymentId', resp.orderPayments[0].id)
             this._service.paylater().subscribe({
               complete: ()=> {
-                console.log('pay later complete')
                 this._router.navigate(['/payment/pay/success'])
               },
               error: ()=> {
-                console.log('pay later error')
                 this.toastr.error('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง')
               }
             })
-            console.log('selectPayment: pay later');
           }
         })
       } else if(this.selected_payment == 2) {
@@ -124,9 +116,7 @@ export class PaymentComponent {
         }
         this._service.selectPayment(formvalue).subscribe({
           next: (resp: any)=>{
-            console.log('selectPayment', resp.orderPayments[0].id);
             sessionStorage.setItem('orderPaymentId', resp.orderPayments[0].id)
-            console.log('selectPayment: QR Code');
             this._router.navigate(['/payment/pay'])
           }
         })

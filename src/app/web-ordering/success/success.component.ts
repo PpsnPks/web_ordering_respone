@@ -50,7 +50,6 @@ export class SuccessComponent {
     this._service.get_order().subscribe({
       next:(resp: any)=> {
         //this.payment_type = resp.orderPayments[0].paymentMethod.type
-        //console.log('resp=> successPage : ',resp.orderPayments[0].paymentMethod.type);
         this.title = 'คำสั่งซื้อเสร็จสมบูรณ์'
         this.paid_total = 0
         this.text_payment = 'ชำระภายหลัง'
@@ -93,7 +92,6 @@ export class SuccessComponent {
   }
 
   print(){
-    console.log('print');
     const printContents = document.getElementById('print-section')?.innerHTML;
     if (printContents) {
       const popupWindow = window.open('', '_blank');
@@ -186,7 +184,7 @@ export class SuccessComponent {
                         border-right: 1px solid transparent;
                         border-left: 1px solid transparent;
                     }
-                      
+
                     tbody.report-content tr:not(:last-child)>td {
                       border-bottom: 1px dashed #000000;
                     }
@@ -241,7 +239,7 @@ export class SuccessComponent {
                   height: 100px;
                   padding-right: 10px;
                 }
-              
+
                 .img-header {
                   display: flex;
                   justify-content: center;

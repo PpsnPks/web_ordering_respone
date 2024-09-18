@@ -90,7 +90,7 @@ export class RightinfoComponent implements OnInit, AfterViewInit {
                     data: 'name',
                     className: 'text-center'
                 },
-                
+
                 {
                     title: 'จัดการ',
                     data: null,
@@ -131,7 +131,6 @@ export class RightinfoComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });
@@ -151,7 +150,6 @@ export class RightinfoComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });

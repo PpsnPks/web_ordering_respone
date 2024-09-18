@@ -43,12 +43,12 @@ import {MatRadioModule} from '@angular/material/radio';
     ]
 })
 export class DialogForm implements OnInit {
-    
+
     form: FormGroup;
     stores: any[]=[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: DataTables.Settings = {};
-    addForm: FormGroup;   
+    addForm: FormGroup;
     constructor(
         private dialogRef: MatDialogRef<DialogForm>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -57,7 +57,7 @@ export class DialogForm implements OnInit {
         public _service: DeviceService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
-    ) 
+    )
     {
         if(this.data.type === 'EDIT') {
             this.form = this.FormBuilder.group({
@@ -75,19 +75,17 @@ export class DialogForm implements OnInit {
         }
 
 
-        // console.log('1111',this.data?.type);
-        
+
     }
-    
+
     ngOnInit(): void {
          if (this.data.type === 'EDIT') {
         //   this.form.patchValue({
         //     ...this.data.value,
         //     roleId: +this.data.value?.role?.id
-        //   })  
-       
+        //   })
+
         } else {
-            console.log('New');
         }
     }
 

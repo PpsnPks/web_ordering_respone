@@ -77,7 +77,6 @@ export class DialogForm implements OnInit {
 
     )
     {
-        console.log(' this.form', this.data);
         if(this.data.type === 'EDIT') {
             this.form = this.FormBuilder.group({
                 code: this.data.value.code ?? '',
@@ -105,7 +104,6 @@ export class DialogForm implements OnInit {
         }
 
 
-        // console.log('1111',this.data?.type);
 
     }
 
@@ -123,7 +121,6 @@ export class DialogForm implements OnInit {
         //   })
 
         } else {
-            console.log('New');
         }
     }
 
@@ -189,6 +186,5 @@ export class DialogForm implements OnInit {
         this.form.patchValue({
           branchIds: this.selectedBranches.map(branch => branch.id)
         });
-        console.log('Selected Branch IDs:', this.form.get('branchIds')?.value);
       }
 }

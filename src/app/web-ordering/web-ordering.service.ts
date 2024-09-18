@@ -21,7 +21,6 @@ export class WebOrderingService {
 
   set_sumPrice(data: any){
     this.total = data
-    console.log("set_sumPrice", this.total);
   }
 
   get_sumPrice(){
@@ -36,11 +35,11 @@ export class WebOrderingService {
     const id = sessionStorage.getItem('orderId')
     return this.http.get('/api/order/'+id)
   }
-  
+
   add_order(data: any){
     return this.http.post('/api/order', data)
   }
-  
+
   edit_order(data: any){
     const id = sessionStorage.getItem('orderId')
     return this.http.put('/api/order/'+id, data)

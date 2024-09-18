@@ -71,7 +71,6 @@ export class DialogForm implements OnInit {
         private _service: TaplogService,
         private toastr: ToastrService,
     ) {
-        console.log(' this.form', this.data);
         this.form = this.FormBuilder.group({
             sn: '',
             date: '',
@@ -88,16 +87,15 @@ export class DialogForm implements OnInit {
 
 
         } else {
-            console.log('New');
         }
     }
 
     Submit() {
         let formValue = this.form.value
         formValue.datetime = DateTime.fromISO(formValue.date).toFormat('yyyy-MM-dd') + ' ' + formValue.shift;
-        
-        
-       
+
+
+
         const confirmation = this.fuseConfirmationService.open({
             title: "ยืนยันการบันทึกข้อมูล",
             icon: {
