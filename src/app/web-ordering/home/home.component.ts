@@ -40,7 +40,7 @@ registerLocaleData(localeTh);
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  
+
   selected: any = ''
   items: any = []
   all_product = []
@@ -59,7 +59,7 @@ export class HomeComponent {
   //]
   order_selected: any = []
   priceAddOn: any = 0
-  
+
   constructor(
     private _router: Router,
     public bottom: MatBottomSheet,
@@ -132,7 +132,7 @@ export class HomeComponent {
 
   getProduct(id: any){
     console.log('133', this.order_selected);
-    
+
     this._service.get_product(id).subscribe({
       next:(resp: any)=> {
         let all = []
@@ -189,7 +189,7 @@ export class HomeComponent {
       console.log('temp_price',temp_price);
     }
     console.log('temp_price',temp_price);
-    
+
     this.all_order = temp_order
     this.all_price = temp_price
     console.log(this.order_selected, '  ', this.all_price);
@@ -201,14 +201,14 @@ export class HomeComponent {
 
   openAddProduct(item: any) {
     //console.log('item', item);
-    
+
     this._service.getProductById(item.product_id).subscribe({
       next:(resp: any)=> {
         console.log('resp', resp);
         if (resp.productAttributes == null || resp.productAttributes.length == 0 || resp.productAttributes == ''){
           //item.order = item.order + 1
           console.log(item.order-1,' = ',item.order);
-          
+
           if (this.order_selected.find(order => order.product_id == item.product_id) === undefined){
             let temp = {
               product_id: item.product_id,
@@ -238,7 +238,7 @@ export class HomeComponent {
           });
           bottomSheetAddProductRef.afterDismissed().subscribe((result) => {
             console.log("result", result);
-            
+
             if (result && result !== 'cancle') {
               //item.order = item.order + 1
               this.priceAddOn = this.priceAddOn + result?.reduce((sum, item) => sum + item.total, 0) ?? 0
@@ -259,16 +259,16 @@ export class HomeComponent {
                   attributes: result
                 }
                 console.log('temp: ',temp,' this.order_selected: ',this.order_selected);
-                
-                const existingOrder = this.order_selected.find(order => 
+
+                const existingOrder = this.order_selected.find(order =>
                   order.product_id === temp.product_id &&
                   order.attributes.length === temp.attributes.length && // ตรวจสอบความยาวของ attributes
-                  temp.attributes.every(tempAttr => 
-                    order.attributes.some(attr => 
+                  temp.attributes.every(tempAttr =>
+                    order.attributes.some(attr =>
                       attr.attributeName === tempAttr.attributeName &&
                       attr.attributeValues.length === tempAttr.attributeValues.length &&
-                      tempAttr.attributeValues.every(tempValue => 
-                        attr.attributeValues.some(value => 
+                      tempAttr.attributeValues.every(tempValue =>
+                        attr.attributeValues.some(value =>
                           value.attributeValueName === tempValue.attributeValueName &&
                           //value.quantity === tempValue.quantity &&
                           //value.price === tempValue.price &&
@@ -278,13 +278,13 @@ export class HomeComponent {
                     )
                   )
                 );
-                //const existingOrder = this.order_selected.find(order => 
+                //const existingOrder = this.order_selected.find(order =>
                 //  order.product_id === temp.product_id &&
                 //  order.attributes.length === temp.attributes.length && // ตรวจสอบความยาวของ attributes
-                //  order.attributes.every((attr, index) => 
+                //  order.attributes.every((attr, index) =>
                 //    attr.attributeName === temp.attributes[index].attributeName &&
                 //    attr.attributeValues.length === temp.attributes[index].attributeValues.length &&
-                //    attr.attributeValues.every((value, i) => 
+                //    attr.attributeValues.every((value, i) =>
                 //      value.attributeValueName === temp.attributes[index].attributeValues[i].attributeValueName &&
                 //      //value.quantity === temp.attributes[index].attributeValues[i].quantity &&
                 //      //value.price === temp.attributes[index].attributeValues[i].price &&
@@ -292,7 +292,7 @@ export class HomeComponent {
                 //    )
                 //  )
                 //);
-                
+
                 if (existingOrder) {
                   // ถ้าพบอ็อบเจกต์ที่ตรงกัน ให้เพิ่มค่า order ขึ้น 1
                   existingOrder.order += 1;
@@ -352,7 +352,7 @@ export class HomeComponent {
           attributes: element?.attributes
         }
         console.log(temp_data.total, element.product_price, element.attributes?.reduce((sum, item) => sum + item.total, 0) ?? 0), element.order;
-        
+
         temp_order.push(temp_data)
       }
     }
@@ -361,6 +361,7 @@ export class HomeComponent {
     let formvalue = {
       total: this.all_price,
       deviceId: 1,
+      branchId: 1,
       roomNo: roomNo,
       orderItems: temp_order,
       remark: '',
