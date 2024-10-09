@@ -3,15 +3,15 @@
       <p class="text-[23px] text-[#424242] font-medium">{{data.name}}</p>
       <mat-icon (click)="close()" class="icon-size-4 text-[#616161] cursor-pointer" svgIcon="heroicons_outline:x-mark"></mat-icon>
     </div>
-    <ng-container *ngFor="let item of data.data">
+    <ng-container *ngFor="let item of data.data; let i=index">
       <div class="flex justify-between py-[16px] items-center" *ngIf="item.type == 'quantity'">
-        <div class="text-[#424242] text-[16px] font-medium pt-1">เพิ่มช็อต</div>
+        <div class="text-[#424242] text-[16px] font-medium pt-1 flex">{{item.name}}  <p class="pl-2 text-[12px]">(+ {{item.productAttributeValues[0].price}})</p></div>
         <div class="flex">
-          <div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center cursor-pointer" [ngClass]="num_shot == 0? 'opacity-50': 'opacity-1'"  (click)="num_shot == 0? '': changeShot('minus')">
+          <div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center cursor-pointer" [ngClass]="num_shots[i] == 0? 'opacity-50': 'opacity-1'"  (click)="num_shots[i] == 0? '': changeShot('minus', i, item.name, item.productAttributeValues[0].name, item.type, item.productAttributeValues[0])">
             <mat-icon svgIcon="heroicons_outline:minus-small"></mat-icon>
           </div>
-          <p class="flex items-center px-[10px] text-[#424242] text-[16px] font-normal">{{num_shot}}</p>
-          <div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center cursor-pointer" (click)="changeShot('plus')">
+          <p class="flex items-center px-[10px] text-[#424242] text-[16px] font-normal">{{num_shots[i]}}</p>
+          <div class="bg-[#CFD8DC] rounded-[8px] h-8 w-8 flex justify-center items-center cursor-pointer" (click)="changeShot('plus', i, item.name, item.productAttributeValues[0].name, item.type, item.productAttributeValues[0])">
             <mat-icon svgIcon="heroicons_outline:plus-small"></mat-icon>
           </div>
         </div>

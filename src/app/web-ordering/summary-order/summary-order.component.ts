@@ -84,6 +84,7 @@ export class SummaryOrderComponent {
             type: 'normal',
             add: order.attributes
           }
+          console.log('order.add',  temp_order.add);
           this.orders.push(temp_order)
         }
         //this.sum_all_price()
@@ -156,10 +157,11 @@ export class SummaryOrderComponent {
         for (let j = 0; j < element.add.length; j++) {
           const temp_data = element.add[j];
           if(temp_data?.discount){
-            this.sum_discount += temp_data.discount * element.order ?? ''
+            this.sum_discount += (temp_data.discount * element.order) || 0
           }
         }
       }
+
       //let temp_total = this.sum_price - this.sum_discount
 
       //this.sum_vat = (temp_total*7.0) / 100.0 //คำนวณ vat

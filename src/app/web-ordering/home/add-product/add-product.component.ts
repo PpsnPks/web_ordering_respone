@@ -30,7 +30,7 @@ export class AddProductComponent {
   ice_selected: any = '70%'
   topping_selected: any = 'Pineapple Jelly'
   promotions: any
-  num_shot: any = 0
+  num_shots: any = {}
 
   attribute: any = []
 
@@ -40,6 +40,13 @@ export class AddProductComponent {
     private router: Router,
     private toastrService: ToastrService
     ) {
+      console.log('data: ', data);
+      for (let i = 0; i < data.data.length; i++) {
+        const element = data.data[i];
+        if(element.type === 'quantity'){
+          this.num_shots[i] = 0
+        }
+      }
       //this.promotions = [
       //  { name: 'On Top Promotions',  reduced: 'สินค้าลดเหลือ 100', type: 'Discount', startDate: '15/03/2025', endDate: '31/06/2025'},
       //  { name: 'Promotion Set',  reduced: 'สินค้าลดเหลือ 90', type: 'Gift', startDate: '01/11/2025', endDate: '31/12/2025'},
@@ -51,6 +58,42 @@ export class AddProductComponent {
       //  }
       //]
     }
+    setAttributeQuantity(name: any, data: any,  allAttDetail: any, index: any){
+      //this.attribute[name] = data
+      if (this.attribute.find(item => item.attributeName == name)){
+          this.attribute = this.attribute.filter(item => item.attributeName != name)
+          const temp = {
+            type: 'quantity',
+            attributeName: name,
+            total: allAttDetail.price * this.num_shots[index],
+            attributeValues:[{
+              attributeValueName: allAttDetail.name,
+              quantity: this.num_shots[index],
+              price: allAttDetail.price,
+              total: allAttDetail.price * this.num_shots[index]
+
+            }]
+          }
+          console.log('temp: ',temp);
+          
+          this.attribute.push(temp)
+      } else {
+        const temp = {
+          type: 'quantity',
+          attributeName: name,
+          total: allAttDetail.price * this.num_shots[index],
+          attributeValues:[{
+            attributeValueName: allAttDetail.name,
+            quantity: this.num_shots[index],
+            price: allAttDetail.price,
+            total: allAttDetail.price * this.num_shots[index]
+          }]
+        }
+          console.log('temp: ',temp);
+          this.attribute.push(temp)
+      }
+    }
+
     setAttribute(name: any, data: any, typeAtt: any, allAttDetail: any){
       if(typeAtt == 'multiple'){
         const temp_data = this.attribute.find(item => item.attributeName == name)
@@ -69,6 +112,7 @@ export class AddProductComponent {
           temp_data.total = temp_data.attributeValues.reduce((sum, item) => sum + item.total, 0);
         } else {
           const temp = {
+            type: 'multiple',
             attributeName: name,
             total: allAttDetail.price,
             attributeValues:[{
@@ -80,7 +124,7 @@ export class AddProductComponent {
           }
           this.attribute.push(temp)
         }
-      } else {
+      } else if (typeAtt == 'single'){
         //this.attribute[name] = data
         if (this.attribute.find(item => item.attributeName == name)){
           if((this.attribute.find(item => item.attributeName == name)).attributeValues.find(item=> item.attributeValueName == data)){
@@ -88,6 +132,7 @@ export class AddProductComponent {
           }else {
             this.attribute = this.attribute.filter(item => item.attributeName != name)
             const temp = {
+              type: 'single',
               attributeName: name,
               total: allAttDetail.price,
               attributeValues:[{
@@ -100,7 +145,8 @@ export class AddProductComponent {
             this.attribute.push(temp)
           }
         } else {
-          const temp = {
+            const temp = {
+            type: 'single',
             attributeName: name,
             total: allAttDetail.price,
             attributeValues:[{
@@ -138,12 +184,23 @@ export class AddProductComponent {
       }
     }
 
-    changeShot(data: any){
-      if (data == 'minus'){
-        this.num_shot -= 1
-      }else if (data == 'plus'){
-        this.num_shot += 1
+    changeShot(data: any, index: any, item_name: any, value_name: any, item_type: any, value: any){
+      if (data === 'plus') {
+        this.num_shots[index] = (this.num_shots[index] || 0) + 1;
+        this.setAttributeQuantity(item_name, value_name, value, index)
+      } else if (data === 'minus' && this.num_shots[index] > 0) {
+        this.num_shots[index] -= 1;
+        this.setAttributeQuantity(item_name, value_name, value, index)
       }
+      // if (data == 'minus'){
+      //   this.num_shot -= 1
+      //   console.log('item', item);
+      //   // this.setAttribute(item_name, value_name, item_type, this.num_shot)
+      // }else if (data == 'plus'){
+      //   this.num_shot += 1
+      //   console.log('item', item);
+      //   // this.setAttribute(item_name, value_name, item_type, this.num_shot)
+      // }
     }
 
     setSize(data: any){

@@ -76,9 +76,17 @@
 				</div>
 				<div class="flex flex-col col-span-9">
 					<ng-container *ngFor="let add of order.add">
-						<div *ngFor="let value of add.attributeValues" class="flex justify-between">
-							<p class="text-[#455A64] text-[14px] font-normal" [ngClass]="add.type == 'discount' ? 'text-[#FF5252]':'text-[#455A64]'">{{add.attributeName}}</p>
-							<p class="text-[#455A64] text-[14px] font-normal" [ngClass]="add.type == 'discount' ? 'text-[#FF5252]':'text-[#455A64]'">{{value.attributeName}}</p>
+						<div *ngIf="add.type !== 'quantity'">
+							<div *ngFor="let value of add.attributeValues" class="flex justify-between">
+								<p class="text-[#455A64] text-[14px] font-normal" [ngClass]="add.type == 'discount' ? 'text-[#FF5252]':'text-[#455A64]'">{{add.attributeName}}</p>
+								<p class="text-[#455A64] text-[14px] font-normal" [ngClass]="add.type == 'discount' ? 'text-[#FF5252]':'text-[#455A64]'">{{value.attributeName}}</p>
+							</div>
+						</div>
+						<div *ngIf="add.type === 'quantity'">
+							<div *ngFor="let value of add.attributeValues" class="flex justify-between">
+								<p class="text-[#455A64] text-[14px] font-normal" [ngClass]="add.type == 'discount' ? 'text-[#FF5252]':'text-[#455A64]'">{{add.attributeName}}</p>
+								<p class="text-[#455A64] text-[14px] font-normal" [ngClass]="add.type == 'discount' ? 'text-[#FF5252]':'text-[#455A64]'">{{value.quantity}}</p>
+							</div>
 						</div>
 					</ng-container>
 
