@@ -169,7 +169,6 @@ export class BannerComponent implements OnInit, AfterViewInit {
     }
 
     openDialogEdit(item: any) {
-        console.log(item)
         this._service.get(item).subscribe((resp: any) =>{
         const DialogRef = this.dialog.open(BannerComposeComponent, {
             disableClose: true,
@@ -183,7 +182,6 @@ export class BannerComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });
@@ -233,7 +231,6 @@ export class BannerComponent implements OnInit, AfterViewInit {
         )
     }
     showPicture(imgObject: string): void {
-        console.log(imgObject)
         this.dialog
             .open(PictureComponent, {
                 autoFocus: false,
@@ -261,7 +258,6 @@ export class BannerComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });

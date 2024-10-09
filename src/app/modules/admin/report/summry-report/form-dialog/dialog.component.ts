@@ -50,7 +50,7 @@ export class DialogForm implements OnInit {
     stores: any[]=[];
     formFieldHelpers: string[] = ['fuse-mat-dense'];
     dtOptions: DataTables.Settings = {};
-    addForm: FormGroup;   
+    addForm: FormGroup;
     constructor(
         private dialogRef: MatDialogRef<DialogForm>,
         @Inject(MAT_DIALOG_DATA) public data: any,
@@ -59,24 +59,23 @@ export class DialogForm implements OnInit {
         public _service: ReportService,
         private fuseConfirmationService: FuseConfirmationService,
         private toastr: ToastrService,
-    ) 
+    )
     {
-        console.log(' this.form', this.data);
         this.form = this._fb.group({
             startDate: '',
             endDate: '',
         })
 
 
-        
+
     }
-    
+
     ngOnInit(): void {
 
     }
 
     Submit() {
-   
+
     }
 
     onClose() {

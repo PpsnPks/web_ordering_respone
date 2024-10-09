@@ -47,8 +47,7 @@ export class DeviceComponent implements OnInit, AfterViewInit {
 
     ) {
         this.branch = this.activated.snapshot.data.branch;
-        console.log(this.branch);
-        
+
     }
     ngOnInit(): void {
         setTimeout(() =>
@@ -145,7 +144,6 @@ export class DeviceComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });
@@ -166,7 +164,6 @@ export class DeviceComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });

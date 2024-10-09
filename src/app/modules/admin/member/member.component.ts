@@ -104,7 +104,7 @@ export class MemberComponent implements OnInit, AfterViewInit {
             ajax: (dataTablesParameters: any, callback) => {
                 dataTablesParameters.filter = {
                     'filter.card.card_type': this.form.value.card_type ?? '',
-                    
+
                 }
                 this._service?.datatable(dataTablesParameters).subscribe({
                     next: (resp: any) => {
@@ -209,7 +209,6 @@ export class MemberComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });
@@ -228,7 +227,6 @@ export class MemberComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });
@@ -247,7 +245,6 @@ export class MemberComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });
@@ -266,7 +263,6 @@ export class MemberComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });
@@ -314,7 +310,6 @@ export class MemberComponent implements OnInit, AfterViewInit {
         )
     }
     showPicture(imgObject: string): void {
-        console.log(imgObject)
         this.dialog
             .open(PictureComponent, {
                 autoFocus: false,
@@ -341,7 +336,6 @@ export class MemberComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });

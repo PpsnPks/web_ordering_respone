@@ -84,8 +84,7 @@ export class DialogCreditComponent implements OnInit {
                 activeDate: this.data.value.card?.activeDate ?? '',
             });
         } else {
-            console.log(this.data.value);
-            
+
             this.form = this.FormBuilder.group({
                 amount: [0, [Validators.required, Validators.max(2000)]],
                 walletType: '',
@@ -97,7 +96,7 @@ export class DialogCreditComponent implements OnInit {
     ngOnInit(): void {
         if (this.data.type === 'EDIT') {
         } else {
-            
+
         }
     }
 

@@ -50,13 +50,12 @@ export class SummaryOrderComponent {
     private _service: WebOrderingService,
     private _fb: FormBuilder,
     private toastr: ToastrService,
-    
+
   ){
     this.data = this._service.receiveOrder()
     this.nations = [
       { value: 'thai', name: 'ไทย'},
     ]
-    console.log(this.data);
     this.form = this._fb.group({
       nation: '',
       sex: ''
@@ -69,7 +68,6 @@ export class SummaryOrderComponent {
     //]
     this._service.get_order().subscribe({
       next:(resp: any)=> {
-        console.log('resp', resp);
         this.status_order = resp.orderStatus
         this.sum_order = resp.orderItems.length
         this.sum_price = resp.total
@@ -78,7 +76,6 @@ export class SummaryOrderComponent {
         this.sum_service = resp.serviceCharge ?? 0
         for (let i = 0; i < resp?.orderItems?.length; i++) {
           const order = resp.orderItems[i];
-          console.log('RRR',i," :",);
           let temp_order = {
             product_id: order.product.id,
             name: order.product.name,
@@ -89,7 +86,6 @@ export class SummaryOrderComponent {
           }
           this.orders.push(temp_order)
         }
-        console.log(this.orders);
         //this.sum_all_price()
       }
     })
@@ -112,7 +108,6 @@ export class SummaryOrderComponent {
       for (let i = 0; i < this.orders.length; i++) {
         const element = this.orders[i];
         if (element.order > 0){
-          console.log('element2', element);
           let temp_data = {
             productId: element.product_id,
             price: element.price,
@@ -134,7 +129,6 @@ export class SummaryOrderComponent {
       }
       this._service.edit_order(formvalue).subscribe({
         complete: ()=> {
-          console.log('update order');
         },
         error: ()=> this.toastr.error("error")
       })
@@ -145,12 +139,11 @@ export class SummaryOrderComponent {
   }
 
   changePayer(data: any){
-    //console.log('changePayer',data);
     this.payerType = data
   }
 
   sum_all_price(){
-    this.sum_order = 0 
+    this.sum_order = 0
     this.sum_price = 0
     this.sum_discount = 0
     this.sum_vat = 0
@@ -163,13 +156,12 @@ export class SummaryOrderComponent {
         for (let j = 0; j < element.add.length; j++) {
           const temp_data = element.add[j];
           if(temp_data?.discount){
-            console.log('temp_data?.discount: ',temp_data.discount);
             this.sum_discount += temp_data.discount * element.order ?? ''
           }
         }
       }
       //let temp_total = this.sum_price - this.sum_discount
-      
+
       //this.sum_vat = (temp_total*7.0) / 100.0 //คำนวณ vat
       this.sum_service = this.sum_price / 10.0 //คำนวณ Service Charge 10%
     }
@@ -181,7 +173,6 @@ export class SummaryOrderComponent {
   //  bottomSheetAddProductRef.afterDismissed().subscribe((result) => {
   //    if (result === 'confirm') {
   //      item.order = item.order + 1
-  //      console.log(item);
   //      this.summaryOrder()
   //    }
   //  });
@@ -194,14 +185,14 @@ export class SummaryOrderComponent {
     bottomSheetDeleteRef.afterDismissed().subscribe((result) => {
       if (result === 'confirm') {
         this.orders = []
-        this.sum_order = 0 
+        this.sum_order = 0
         this.sum_price = 0
         this.sum_discount = 0
         this.sum_vat = 0
         this.sum_service = 0
       }
     });
-    
+
   }
 
   openDiscount(){

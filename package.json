@@ -15,6 +15,7 @@
     "build:essilor": "ng build --configuration essilor",
     "build:sct": "ng build --configuration sct",
     "build:bih": "ng build --configuration bih",
+    "build:sct:dev": "ng build --configuration sctdev",
     "test": "ng test",
     "test:watch": "ng test --watch"
   },

@@ -29,9 +29,9 @@ import { ActivatedRoute } from '@angular/router';
         FilePickerModule,
         MatMenuModule,
         MatDividerModule,
-        MatFormFieldModule, 
+        MatFormFieldModule,
         MatInputModule,
-        FormsModule, 
+        FormsModule,
         MatToolbarModule,
         MatDialogTitle,
         MatDialogContent,
@@ -63,9 +63,8 @@ export class ProfileComponent implements OnInit {
         public _service: ProfileService,
 
     ) {
-    
+
         this.storeId = this.activatedRoute.snapshot.params.id;
-        console.log(this.storeId)
         this.form = this.fb.group({
             code: '',
             username: '',
@@ -76,19 +75,18 @@ export class ProfileComponent implements OnInit {
     ngOnInit(): void {
         this._service.getStoreId(this.storeId).subscribe((resp: any) => {
             this.store = resp
-            
+
             this.form.patchValue({
             ...this.store
             })
          })
         this.loadProfile();
-       
+
     }
 
 	loadProfile():void {
 		this._service.getProfile().subscribe((resp: any)=>{
 			this.profile = resp;
-			console.log(resp);
             this.form.patchValue({
                 code: resp.code,
                 username: resp.username,
@@ -96,8 +94,7 @@ export class ProfileComponent implements OnInit {
                 phoneNumber: resp.phoneNumber,
               });
 		})
-        //console.log(this.form);
-        
+
 	}
 
     Submit() {
@@ -132,7 +129,7 @@ export class ProfileComponent implements OnInit {
                         },
                         complete: () => {
                             this.toastr.success('ดำเนินการแก้ไขข้อมูลสำเร็จ')
-                           
+
                         },
                     });
                 }
@@ -140,7 +137,7 @@ export class ProfileComponent implements OnInit {
         )
     }
 
-  
+
 
 
 }

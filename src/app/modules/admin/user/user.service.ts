@@ -80,7 +80,6 @@ export class UserService {
     return this.http.get('/api/branch').pipe(
       tap((resp: any) => {
         this._branch.next(resp);
-        console.log(resp)
       })
     );
   }

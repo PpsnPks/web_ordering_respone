@@ -78,7 +78,6 @@ export class AuthService
 
                 // Store the user on the user service
                 // this._userService.user = response.user;
-                console.log('login',response)
                 sessionStorage.setItem('role',response.role);
                 // Return a new observable with the response
                 return of(response);
@@ -168,7 +167,6 @@ export class AuthService
      */
     check(): Observable<boolean>
     {
-        // console.log(this._authenticated,'_authenticated')
 
         // Check if the user is logged in
         if ( this._authenticated )

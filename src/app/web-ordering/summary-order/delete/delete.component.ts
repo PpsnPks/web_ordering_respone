@@ -34,7 +34,6 @@ export class DeleteComponent {
     private router: Router,
     private toastrService: ToastrService
     ) {
-      console.log(this.data);
       this.promotions = [
         { name: 'On Top Promotions',  reduced: 'สินค้าลดเหลือ 100', type: 'Discount', startDate: '15/03/2025', endDate: '31/06/2025'},
         { name: 'Promotion Set',  reduced: 'สินค้าลดเหลือ 90', type: 'Gift', startDate: '01/11/2025', endDate: '31/12/2025'},
@@ -69,7 +68,7 @@ export class DeleteComponent {
     close(){
       this._bottomSheetRef.dismiss('cancle');
     }
-  
+
     submit() {
       this.toastrService.success('ลบบิลสำเร็จ', '', {positionClass: 'toast-top-center'})//{positionClass: 'toast-top-center'}
       this._bottomSheetRef.dismiss('confirm');

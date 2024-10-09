@@ -84,7 +84,6 @@ export class CardReportComponent {
       return;
     }
     if (formattedDate) {
-      console.log('date:', formattedDate);
     }
     this.form.patchValue({
       date: formattedDate
@@ -114,8 +113,8 @@ export class CardReportComponent {
       this.toastr.error('กรุณาเลือกวันที่')
       return;
     }
-  
-    
+
+
     this._service.tapSummary({ startDate: startDate, endDate: endDate }).subscribe({
       next: (resp) => {
         createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
@@ -135,7 +134,7 @@ export class CardReportComponent {
       this.toastr.error('กรุณาเลือกวันที่')
       return;
     }
-  
+
     this._service.tapSummaryDetail({ startDate: startDate, endDate: endDate }).subscribe({
       next: (resp) => {
         createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
@@ -155,7 +154,7 @@ export class CardReportComponent {
       this.toastr.error('กรุณาเลือกวันที่')
       return;
     }
-  
+
     this._service.topupSummary({ startDate: startDate, endDate: endDate }).subscribe({
       next: (resp) => {
         createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
@@ -175,7 +174,7 @@ export class CardReportComponent {
       this.toastr.error('กรุณาเลือกวันที่')
       return;
     }
-  
+
     this._service.creditSummaryToday({ startDate: startDate, endDate: endDate }).subscribe({
       next: (resp) => {
         createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
@@ -195,7 +194,7 @@ export class CardReportComponent {
       this.toastr.error('กรุณาเลือกวันที่')
       return;
     }
-  
+
     this._service.paymentSummary({ startDate: startDate, endDate: endDate }).subscribe({
       next: (resp) => {
         createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);
@@ -215,7 +214,7 @@ export class CardReportComponent {
       this.toastr.error('กรุณาเลือกวันที่')
       return;
     }
-  
+
     this._service.paymentSummaryTopup({ startDate: startDate, endDate: endDate }).subscribe({
       next: (resp) => {
         createFileFromBlob(resp, `summary_${startDate}_${endDate}.xlsx`);

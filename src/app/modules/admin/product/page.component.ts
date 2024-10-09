@@ -178,7 +178,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
     }
 
     createProduct() {
-        console.log('create');
         const DialogRef = this.dialog.open(ProductComposeComponent, {
             disableClose: true,
             width: 'calc(100% - 100px)',
@@ -199,8 +198,8 @@ export class ProductComponent implements OnInit, AfterViewInit {
         });
     }
 
-   
-   
+
+
 
     opendialogapro2() {
         const DialogRef = this.dialog.open(DialogForm, {
@@ -215,14 +214,13 @@ export class ProductComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });
     }
 
 
-   
+
     openDialogEdit(item: any) {
         this._service.getById(item.id).subscribe((result) => {
             const dialogRef = this.dialog.open(ProductComposeComponent, {
@@ -289,7 +287,6 @@ export class ProductComponent implements OnInit, AfterViewInit {
         )
     }
     showPicture(imgObject: string): void {
-        console.log(imgObject)
         this.dialog
             .open(PictureComponent, {
                 autoFocus: false,

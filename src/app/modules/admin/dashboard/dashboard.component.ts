@@ -96,7 +96,6 @@ export class DashboardComponent {
 
     ngOnInit(): void {
         this.service.getDashboard().subscribe(resp => {
-            console.log('seedata', resp);
             this.paymentType = resp.paymentType.map(item => item.value);
             this.total = resp.total;
             this.bill = resp.bill;
@@ -176,7 +175,6 @@ export class DashboardComponent {
                     type: "bar",
                     events: {
                         click: function(chart, w, e) {
-                            // console.log(chart, w, e)
                         }
                     }
                 },
@@ -282,7 +280,6 @@ export class DashboardComponent {
                 type: "bar",
                 events: {
                     click: function(chart, w, e) {
-                        // console.log(chart, w, e)
                     }
                 }
             },
@@ -341,7 +338,6 @@ export class DashboardComponent {
                 type: "bar",
                 events: {
                     click: function(chart, w, e) {
-                        // console.log(chart, w, e)
                     }
                 }
             },

@@ -40,7 +40,7 @@ registerLocaleData(localeTh);
   styleUrl: './home.component.scss'
 })
 export class HomeComponent {
-  
+
   selected: any = ''
   items: any = []
   all_product = []
@@ -59,7 +59,7 @@ export class HomeComponent {
   //]
   order_selected: any = []
   priceAddOn: any = 0
-  
+
   constructor(
     private _router: Router,
     public bottom: MatBottomSheet,
@@ -131,17 +131,15 @@ export class HomeComponent {
   }
 
   getProduct(id: any){
-    console.log('133', this.order_selected);
-    
+
     this._service.get_product(id).subscribe({
       next:(resp: any)=> {
         let all = []
-        console.log('AAA: ',resp)
         for (let i = 0; i < resp.length; i++) {
           const item = resp[i];
           let temp_data = {
             product_id : item.id,
-            product_img : "../../../assets/ordering/mock_img.png",
+            product_img : "../../../assets/ordering/americano.png",
             product_name : item.name,
             product_price : item.price,
             order : 0,
@@ -151,7 +149,6 @@ export class HomeComponent {
         }
         for (let i = 0; i < this.order_selected.length; i++) {
           const element = this.order_selected[i];
-          console.log('22',element);
           if (all.find(item=> item.product_id == element.product_id) != undefined)
             all.find(item=> item.product_id == element.product_id).order = element.order
         }
@@ -164,20 +161,17 @@ export class HomeComponent {
 
   resetText_search(){
     this.text_search = ''
-    console.log('resetText_search');
     this.resetDataIn_filter()
   }
 
   set_filterSearch(data: any){
     this.filterSearch = data
-    console.log("filterSearch: ", this.filterSearch);
     this.resetDataIn_filter()
     this.resetText_search()
   }
 
   categorieChange(data: any){
     this.getProduct(data)
-    console.log('categorieChange', data);
   }
 
   summaryOrder(){
@@ -186,13 +180,10 @@ export class HomeComponent {
     for(let item of this.order_selected){
       temp_order += item.order
       temp_price += (parseInt(item.product_price) + (item.attributes?.reduce((sum, item)=> sum + item.total, 0 ) ?? 0)) * item.order
-      console.log('temp_price',temp_price);
     }
-    console.log('temp_price',temp_price);
-    
+
     this.all_order = temp_order
     this.all_price = temp_price
-    console.log(this.order_selected, '  ', this.all_price);
   }
 
   resetDataIn_filter(){
@@ -200,15 +191,12 @@ export class HomeComponent {
   }
 
   openAddProduct(item: any) {
-    //console.log('item', item);
-    
+
     this._service.getProductById(item.product_id).subscribe({
       next:(resp: any)=> {
-        console.log('resp', resp);
         if (resp.productAttributes == null || resp.productAttributes.length == 0 || resp.productAttributes == ''){
           //item.order = item.order + 1
-          console.log(item.order-1,' = ',item.order);
-          
+
           if (this.order_selected.find(order => order.product_id == item.product_id) === undefined){
             let temp = {
               product_id: item.product_id,
@@ -225,9 +213,7 @@ export class HomeComponent {
               this.order_selected.find(order => order.product_id == item.product_id).order += 1
               this.filter_items.find(order => order.product_id == item.product_id).order += 1
             //}
-            console.log('I can find IT ',this.order_selected);
           }
-          console.log('44: ', this.order_selected.find(order => order.product_id == item.product_id));
           this.summaryOrder()
         } else {
           const bottomSheetAddProductRef = this.bottom.open(AddProductComponent, {
@@ -237,8 +223,7 @@ export class HomeComponent {
             }
           });
           bottomSheetAddProductRef.afterDismissed().subscribe((result) => {
-            console.log("result", result);
-            
+
             if (result && result !== 'cancle') {
               //item.order = item.order + 1
               this.priceAddOn = this.priceAddOn + result?.reduce((sum, item) => sum + item.total, 0) ?? 0
@@ -258,17 +243,16 @@ export class HomeComponent {
                   order: 1,
                   attributes: result
                 }
-                console.log('temp: ',temp,' this.order_selected: ',this.order_selected);
-                
-                const existingOrder = this.order_selected.find(order => 
+
+                const existingOrder = this.order_selected.find(order =>
                   order.product_id === temp.product_id &&
                   order.attributes.length === temp.attributes.length && // ตรวจสอบความยาวของ attributes
-                  temp.attributes.every(tempAttr => 
-                    order.attributes.some(attr => 
+                  temp.attributes.every(tempAttr =>
+                    order.attributes.some(attr =>
                       attr.attributeName === tempAttr.attributeName &&
                       attr.attributeValues.length === tempAttr.attributeValues.length &&
-                      tempAttr.attributeValues.every(tempValue => 
-                        attr.attributeValues.some(value => 
+                      tempAttr.attributeValues.every(tempValue =>
+                        attr.attributeValues.some(value =>
                           value.attributeValueName === tempValue.attributeValueName &&
                           //value.quantity === tempValue.quantity &&
                           //value.price === tempValue.price &&
@@ -278,13 +262,13 @@ export class HomeComponent {
                     )
                   )
                 );
-                //const existingOrder = this.order_selected.find(order => 
+                //const existingOrder = this.order_selected.find(order =>
                 //  order.product_id === temp.product_id &&
                 //  order.attributes.length === temp.attributes.length && // ตรวจสอบความยาวของ attributes
-                //  order.attributes.every((attr, index) => 
+                //  order.attributes.every((attr, index) =>
                 //    attr.attributeName === temp.attributes[index].attributeName &&
                 //    attr.attributeValues.length === temp.attributes[index].attributeValues.length &&
-                //    attr.attributeValues.every((value, i) => 
+                //    attr.attributeValues.every((value, i) =>
                 //      value.attributeValueName === temp.attributes[index].attributeValues[i].attributeValueName &&
                 //      //value.quantity === temp.attributes[index].attributeValues[i].quantity &&
                 //      //value.price === temp.attributes[index].attributeValues[i].price &&
@@ -292,7 +276,7 @@ export class HomeComponent {
                 //    )
                 //  )
                 //);
-                
+
                 if (existingOrder) {
                   // ถ้าพบอ็อบเจกต์ที่ตรงกัน ให้เพิ่มค่า order ขึ้น 1
                   existingOrder.order += 1;
@@ -305,9 +289,7 @@ export class HomeComponent {
                 //const temp_data = this.order_selected.find(order => order.product_id == item.product_id)
                 //this.order_selected.find(order => order.product_id == item.product_id).order += 1
                 //this.filter_items.find(order => order.product_id == item.product_id).order += 1
-                //console.log('I can find IT ',this.order_selected);
               }
-              console.log(item);
               this.summaryOrder()
             }
           });
@@ -343,7 +325,6 @@ export class HomeComponent {
     for (let i = 0; i < this.order_selected.length; i++) {
       const element = this.order_selected[i];
       if (element.order > 0){
-        console.log('element', element);
         let temp_data = {
           productId: element.product_id,
           price: element.product_price,
@@ -351,16 +332,15 @@ export class HomeComponent {
           total: (element.product_price + element.attributes?.reduce((sum, item) => sum + item.total, 0) ?? 0) * element.order,
           attributes: element?.attributes
         }
-        console.log(temp_data.total, element.product_price, element.attributes?.reduce((sum, item) => sum + item.total, 0) ?? 0), element.order;
-        
+
         temp_order.push(temp_data)
       }
     }
-    console.log('temp_order: ',temp_order);
     const temp_grand = temp_order?.reduce((sum, item) => sum + item.total, 0);
     let formvalue = {
       total: this.all_price,
       deviceId: 1,
+      branchId: 1,
       roomNo: roomNo,
       orderItems: temp_order,
       remark: '',

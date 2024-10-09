@@ -34,7 +34,6 @@ export class PayComponent {
     this.all_total = this._service.get_sumPrice()
     this._service.paybyQR().subscribe({
       next:(resp: any)=> {
-          console.log(resp);
           this.all_total = resp.total
           this.img_qr = resp.image
       },
@@ -45,7 +44,6 @@ export class PayComponent {
   LoopCheckPayment(){
     this._service.check_statusQR().subscribe({
       next:(resp: any)=>{
-        console.log('LoopCheckPayment resp:', resp);
         if(resp.orderStatus == 'complete')
           this.openLoading()
       }
@@ -55,7 +53,6 @@ export class PayComponent {
   //checkPayment(){
   //  this._service.get_order().subscribe({
   //    next:(resp: any)=> {
-  //      console.log(resp);
   //    }
   //  })
   //}

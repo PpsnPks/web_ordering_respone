@@ -44,7 +44,7 @@
 		<div class="px-5 pt-[10px] grid grid-cols-1">
 			<div class="flex gap-4 py-[10px] border-b-[1px] border-[#CFD8DC] cursor-pointer" *ngFor="let item of filter_items" (click)="openAddProduct(item)">
 				<div class="">
-					<img class="h-[90px] w-[90px]" src= {{item.product_img}} alt="mock_img">
+					<img class="h-[90px] w-[90px] object-scale-down" src= {{item.product_img}} alt="mock_img">
 				</div>
 				<div class="flex flex-col grow">
 					<p class="text-[16px] font-normal mb-1 whitespace-nowrap text-nowrap truncate">{{item.product_name}}</p>

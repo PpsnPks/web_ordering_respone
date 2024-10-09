@@ -40,7 +40,6 @@ export class AddProductComponent {
     private router: Router,
     private toastrService: ToastrService
     ) {
-      console.log(this.data);
       //this.promotions = [
       //  { name: 'On Top Promotions',  reduced: 'สินค้าลดเหลือ 100', type: 'Discount', startDate: '15/03/2025', endDate: '31/06/2025'},
       //  { name: 'Promotion Set',  reduced: 'สินค้าลดเหลือ 90', type: 'Gift', startDate: '01/11/2025', endDate: '31/12/2025'},
@@ -53,9 +52,7 @@ export class AddProductComponent {
       //]
     }
     setAttribute(name: any, data: any, typeAtt: any, allAttDetail: any){
-      //console.log(allAttDetail);
       if(typeAtt == 'multiple'){
-        console.log('multiple');
         const temp_data = this.attribute.find(item => item.attributeName == name)
         if (temp_data){
           if(temp_data.attributeValues.some(item=> item.attributeValueName == data)){
@@ -83,7 +80,6 @@ export class AddProductComponent {
           }
           this.attribute.push(temp)
         }
-        console.log('this.attribute999', this.attribute);
       } else {
         //this.attribute[name] = data
         if (this.attribute.find(item => item.attributeName == name)){
@@ -116,13 +112,11 @@ export class AddProductComponent {
           }
           this.attribute.push(temp)
         }
-        //console.log('this.attribute111', this.attribute);
       }
     }
 
     MaxWidthTextColspan(itemName: any, itemAtt: any) {
       const maxWidth = Math.max(...itemAtt.map(item => item.name.length))
-      //console.log(itemName,' => maxWidth:', maxWidth);
       if(maxWidth <= 4)
         return 'grid-cols-5'
       else if(maxWidth <= 5)
@@ -134,10 +128,8 @@ export class AddProductComponent {
     }
 
     findDataArray(name: any, value: any){
-      //console.log(name,'  ',value,'  ',this.attribute[name]?.find(item => item == value));
       const tempFind = this.attribute.find(item => item.attributeName == name)
-      //console.log(tempFind,'  ', value);
-      
+
       if(tempFind !== undefined ){
         return tempFind.attributeValues.some(item => item.attributeValueName === value)
       }
@@ -181,9 +173,8 @@ export class AddProductComponent {
     cancle(){
       this._bottomSheetRef.dismiss('cancle');
     }
-  
+
     confirmed() {
-      //console.log("888", this.attribute);
       this.toastrService.success('เพิ่มสินค้าสำเร็จ', '', {positionClass: 'toast-top-center'})
       this._bottomSheetRef.dismiss(this.attribute);
     }

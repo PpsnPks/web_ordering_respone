@@ -165,20 +165,20 @@ export class ReportListComponent implements OnInit, AfterViewInit {
     ) {
         this.filteredReports = this.reportList;
         this.branch = this.activated.snapshot.data.branch;
-  
+
     }
     ngOnInit(): void {
-      
+
 
     }
 
     ngAfterViewInit() {
-     
+
     }
 
     ngOnDestroy(): void {
         // Do not forget to unsubscribe the event
-   
+
     }
 
     openDialogReport(item: any) {
@@ -195,15 +195,13 @@ export class ReportListComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 // this.rerender();
             }
         });
     }
 
     onKeyup() {
-        console.log('1');
-        
+
         this.filteredReports = this.searchQuery ?
           this.reportList.filter(report =>
             report.name.toLowerCase().includes(this.searchQuery.toLowerCase())
@@ -212,5 +210,5 @@ export class ReportListComponent implements OnInit, AfterViewInit {
 
 
 
-   
+
 }

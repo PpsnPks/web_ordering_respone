@@ -49,7 +49,7 @@ export class OrderComponent implements OnInit, AfterViewInit {
     formstatus: FormGroup
 
     filterStatus : any[] = [
-        'complete', 
+        'complete',
         'void'
      ]
     constructor(
@@ -191,7 +191,6 @@ export class OrderComponent implements OnInit, AfterViewInit {
         });
         DialogRef.afterClosed().subscribe((result) => {
             if (result) {
-                console.log(result, 'result')
                 this.rerender();
             }
         });
@@ -213,12 +212,11 @@ export class OrderComponent implements OnInit, AfterViewInit {
             });
             DialogRef.afterClosed().subscribe((result) => {
                 if (result) {
-                    console.log(result, 'result')
                     this.rerender();
                 }
             });
         })
-      
+
     }
 
     clickVoid(id: any){

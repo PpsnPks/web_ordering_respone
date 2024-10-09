@@ -61,8 +61,6 @@ item: any;
     private toastr: ToastrService,
     private _changeDetectorRef: ChangeDetectorRef,
   ) {
-    // console.log(' this.form', this.data);
-    //  console.log(this.data.value.title)
 
 
 }
@@ -175,11 +173,9 @@ ngOnInit(): void {
   }
 
   changeDate() {
-    console.log(this.form.value);
     //     const formValue =  this.range.value
     //     this.range.value.start = moment(this.range.value.start).format('YYYY-MM-DD');
     //     this.range.value.end = moment(this.range.value.end).format('YYYY-MM-DD');
-    //    console.log(this.range.value);
     this._changeDetectorRef.markForCheck()
 }
 
