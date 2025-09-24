@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatListModule} from '@angular/material/list';
 import {
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-bottom-finish-job',
@@ -29,8 +30,10 @@ export class PromotionBsComponent {
   promotions: any
 
   constructor(
-    private _bottomSheetRef: MatBottomSheetRef<PromotionBsComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
+    @Optional() private bottomSheetRef: MatBottomSheetRef<PromotionBsComponent>,
+    @Optional() private dialogRef: MatDialogRef<PromotionBsComponent>,
+    @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) private bottomSheetData: any,
+    @Optional() @Inject(MAT_DIALOG_DATA) private dialogData: any,
     private router: Router,
     private toastrService: ToastrService
     ) {
@@ -62,15 +65,24 @@ export class PromotionBsComponent {
     }
 
     goto() {
-      this._bottomSheetRef.dismiss();
+      if (this.dialogRef)
+        this.dialogRef.close()
+      else if(this.bottomSheetRef)
+        this.bottomSheetRef.dismiss();
     }
 
     close(){
-      this._bottomSheetRef.dismiss();
+      if (this.dialogRef)
+        this.dialogRef.close()
+      else if(this.bottomSheetRef)
+        this.bottomSheetRef.dismiss();
     }
 
     submit() {
       this.toastrService.success('บันทึกจบงานสำเร็จ', '', {positionClass: 'toast-top-center'})
-      this._bottomSheetRef.dismiss();
+      if (this.dialogRef)
+        this.dialogRef.close()
+      else if(this.bottomSheetRef)
+        this.bottomSheetRef.dismiss();
     }
 }

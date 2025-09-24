@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatListModule} from '@angular/material/list';
 import {
@@ -15,6 +15,7 @@ import { MatRadioGroup, MatRadioModule } from '@angular/material/radio';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-bottom-finish-job',
@@ -39,8 +40,10 @@ export class DiscountComponent {
   selectedDiscount: any = 0
 
   constructor(
-    private _bottomSheetRef: MatBottomSheetRef<DiscountComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
+    @Optional() private bottomSheetRef: MatBottomSheetRef<DiscountComponent>,
+    @Optional() private dialogRef: MatDialogRef<DiscountComponent>,
+    @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) public bottomSheetData: any,
+    @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) public dialogData: any,
     private router: Router,
     private toastrService: ToastrService
     ) {
@@ -72,15 +75,24 @@ export class DiscountComponent {
     }
 
     goto() {
-      this._bottomSheetRef.dismiss();
+      if(this.dialogRef)
+        return this.dialogRef.close();
+      else
+        return this.bottomSheetRef.dismiss();
     }
 
     close(){
-      this._bottomSheetRef.dismiss();
+      if(this.dialogRef)
+        return this.dialogRef.close();
+      else
+        return this.bottomSheetRef.dismiss();
     }
 
     submit() {
       this.toastrService.success('เลือกส่วนลดสำเร็จ', '', {positionClass: 'toast-top-center'})
-      this._bottomSheetRef.dismiss();
+      if(this.dialogRef)
+        return this.dialogRef.close();
+      else
+        return this.bottomSheetRef.dismiss();
     }
 }

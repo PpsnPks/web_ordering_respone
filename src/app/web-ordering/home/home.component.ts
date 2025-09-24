@@ -22,6 +22,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { take } from 'rxjs/operators';
 
 registerLocaleData(localeTh);
 @Component({
@@ -70,11 +71,17 @@ export class HomeComponent {
     bottomSheetRef?: MatBottomSheetRef;
     dialogRef?: MatDialogRef<any>;
 
+    pro_bottomSheetRef?: MatBottomSheetRef;
+    pro_dialogRef?: MatDialogRef<any>;
+
     constructor(
         private _router: Router,
         public breakpointObserver: BreakpointObserver,
+        public breakpointObserver2: BreakpointObserver,
         public bottom: MatBottomSheet,
         public dialog: MatDialog,
+        public bottom2: MatBottomSheet,
+        public dialog2: MatDialog,
         private _service: WebOrderingService,
         private toastr: ToastrService
     ) {
@@ -206,7 +213,7 @@ export class HomeComponent {
                             { name: 'อกไก่', price: 0 },
                             { name: 'หมู', price: 0 },
                             { name: 'กุ้ง', price: 10 },
-                            { name: 'ปู', price: 10 },
+                            // { name: 'ปู', price: 10 },
                         ],
                     },
                 ],
@@ -383,7 +390,6 @@ export class HomeComponent {
     openAddProduct(item: any) {
         console.log('ZZZ', this.order_selected);
         console.log('ZZZ2', item);
-
         if (
             item.attributes == null ||
             item.attributes.length == 0 ||
@@ -415,13 +421,13 @@ export class HomeComponent {
             }
             this.summaryOrder();
         } else {
-            this.breakpointObserver
+            const breakref = this.breakpointObserver
                 .observe(['(orientation: portrait)'])
                 .subscribe((result) => {
                     if (result.matches) {
                         // ถ้าแนวตั้ง แสดง Bottom Sheet
                         if (this.dialogRef)
-                            this.dialogRef.close()
+                            this.dialogRef.close('change')
                         this.bottomSheetRef = this.bottom.open(
                             AddProductComponent,
                             {
@@ -434,7 +440,15 @@ export class HomeComponent {
                         this.bottomSheetRef
                             .afterDismissed()
                             .subscribe((result) => {
-                                if (result && result !== 'cancle') {
+                                this.bottomSheetRef = undefined; // จำเป็น → เคลียร์ค่าเมื่อปิด dialog แล้ว
+                                if(result !== 'change'){
+                                    this.dialogRef = undefined; // จำเป็น → เคลียร์ค่าเมื่อปิด dialog แล้ว
+                                    if (this.breakpointObserver) {
+                                        breakref.unsubscribe();
+                                        // this.breakpointObserver = undefined;
+                                    }
+                                }
+                                if (result && result !== 'cancle' && result !== 'change') {
                                     this.priceAddOn =
                                         this.priceAddOn +
                                         result.reduce(
@@ -550,7 +564,7 @@ export class HomeComponent {
                             });
                     } else {
                         if (this.bottomSheetRef)
-                            this.bottomSheetRef.dismiss()
+                            this.bottomSheetRef.dismiss('change')
                         // ถ้าแนวนอน แสดง dialog
                         this.dialogRef = this.dialog.open(
                             AddProductComponent,
@@ -565,7 +579,15 @@ export class HomeComponent {
                         this.dialogRef
                             .afterClosed()
                             .subscribe((result) => {
-                                if (result && result !== 'cancle') {
+                                this.dialogRef = undefined; // จำเป็น → เคลียร์ค่าเมื่อปิด dialog แล้ว
+                                if(result !== 'change'){
+                                    this.bottomSheetRef = undefined; // จำเป็น → เคลียร์ค่าเมื่อปิด dialog แล้ว
+                                    if (this.breakpointObserver) {
+                                        breakref.unsubscribe();
+                                        // this.breakpointObserver = undefined;
+                                    }
+                                }
+                                if (result && result !== 'cancle' && result !== 'change') {
                                     this.priceAddOn =
                                         this.priceAddOn +
                                         result.reduce(
@@ -790,9 +812,62 @@ export class HomeComponent {
     }
 
     openPromotion() {
-        const bottomSheePromotiontRef = this.bottom.open(PromotionBsComponent, {
-            data: '',
-        });
+        this.bottomSheetRef = undefined;
+        this.dialogRef = undefined;
+        const breakref = this.breakpointObserver.observe(['(orientation: portrait)']).subscribe((result)=>{
+            if(result.matches){
+                console.log('portrait')
+                if (this.dialogRef)
+                    this.dialogRef.close('change')
+                // if (!this.bottomSheetRef){
+                    this.bottomSheetRef = this.bottom.open(PromotionBsComponent, {
+                        data: '',
+                    });
+                    this.bottomSheetRef.afterDismissed().subscribe((result) => {
+                        
+                        console.log(result, this.bottomSheetRef, this.dialogRef, this.breakpointObserver);
+                        this.bottomSheetRef = undefined; // จำเป็น → เคลียร์ค่าเมื่อปิด dialog แล้ว
+                        if(result !== 'change'){
+                            this.dialogRef = undefined; // จำเป็น → เคลียร์ค่าเมื่อปิด dialog แล้ว
+                            if (this.breakpointObserver) {
+                                breakref.unsubscribe();
+                                // this.breakpointObserver = undefined;
+                            }
+                        }
+                        console.log(result, this.bottomSheetRef, this.dialogRef, this.breakpointObserver);
+                    });
+                // }
+            } else {
+                console.log('landscape')
+                if (this.bottomSheetRef)
+                    this.bottomSheetRef.dismiss('change')
+                // if (!this.pro_dialogRef){
+                    this.dialogRef = this.dialog.open(PromotionBsComponent, {
+                        data: '',
+                        width: '600px',
+                        height: '500px'
+                    });
+                    this.dialogRef.afterClosed().subscribe((result) => {
+                        
+                        console.log(result, this.bottomSheetRef, this.dialogRef, this.breakpointObserver);
+                        this.dialogRef = undefined; // จำเป็น → เคลียร์ค่าเมื่อปิด dialog แล้ว
+                        if(result !== 'change'){
+                            console.log('QQQQQQQQQQQQ');
+                            
+                            this.bottomSheetRef = undefined; // จำเป็น → เคลียร์ค่าเมื่อปิด dialog แล้ว
+                            if (this.breakpointObserver) {
+                                breakref.unsubscribe();
+                                // this.breakpointObserver = undefined;
+                            }
+                        }
+                        console.log(result, this.bottomSheetRef, this.dialogRef, this.breakpointObserver);
+                    });
+                // }
+            }
+        })
+        // const bottomSheePromotiontRef = this.bottom.open(PromotionBsComponent, {
+        //     data: '',
+        // });
     }
 
     next() {

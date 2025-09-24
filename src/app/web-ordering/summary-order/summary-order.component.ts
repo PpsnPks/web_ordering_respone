@@ -2,7 +2,7 @@ import { Order } from './../../modules/admin/report/compact.component';
 import { Component, TemplateRef  } from '@angular/core';
 import { WebOrderingBarComponent } from '../web-ordering-bar/web-ordering-bar.component';
 import { Router } from '@angular/router';
-import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { MatBottomSheet, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { WebOrderingService } from '../web-ordering.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -12,6 +12,8 @@ import { CommonModule } from '@angular/common';
 import { DeleteComponent } from './delete/delete.component';
 import { DiscountComponent } from './discount/discount.component';
 import { ToastrService } from 'ngx-toastr';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { BreakpointObserver } from '@angular/cdk/layout';
 
 @Component({
   selector: 'asha-summary-order',
@@ -44,9 +46,14 @@ export class SummaryOrderComponent {
 
   status_order: any
 
+  bottomRef?: MatBottomSheetRef
+  dialogRef?: MatDialogRef<any>
+
   constructor(
     private _router: Router,
     public bottom: MatBottomSheet,
+    public dialog: MatDialog,
+    public breakpointObserver: BreakpointObserver,
     private _service: WebOrderingService,
     private _fb: FormBuilder,
     private toastr: ToastrService,
@@ -247,8 +254,46 @@ export class SummaryOrderComponent {
   }
 
   openDiscount(){
-    const bottomSheetDiscountRef = this.bottom.open(DiscountComponent, {
-      data: ''
-    });
+    const breakref = this.breakpointObserver.observe(['(orientation: portrait)']).subscribe((result)=>{
+      if (result.matches){
+        if(this.dialogRef)
+          this.dialogRef.close('change')
+        this.bottomRef = this.bottom.open(DiscountComponent, {
+          data: ''
+        });
+        this.bottomRef.afterDismissed().subscribe((result) => {
+          this.bottomRef = undefined; // จำเป็น → เคลียร์ค่าเมื่อปิด dialog แล้ว
+          if(result !== 'change'){
+              this.dialogRef = undefined; // จำเป็น → เคลียร์ค่าเมื่อปิด dialog แล้ว
+              if (this.breakpointObserver) {
+                  breakref.unsubscribe();
+                  // this.breakpointObserver = undefined;
+              }
+          }
+        });
+      } else {
+        if(this.bottomRef)
+          this.bottomRef.dismiss('change')
+        this.dialogRef = this.dialog.open(DiscountComponent, {
+          data: '',
+          width: '600px'
+        });
+        this.dialogRef.afterClosed().subscribe((result) => {
+            this.dialogRef = undefined; // จำเป็น → เคลียร์ค่าเมื่อปิด dialog แล้ว
+            if(result !== 'change'){
+                console.log('QQQQQQQQQQQQ');
+                
+                this.bottomRef = undefined; // จำเป็น → เคลียร์ค่าเมื่อปิด dialog แล้ว
+                if (this.breakpointObserver) {
+                    breakref.unsubscribe();
+                    // this.breakpointObserver = undefined;
+                }
+            }
+        });
+      }
+    })
+    // const bottomSheetDiscountRef = this.bottom.open(DiscountComponent, {
+    //   data: ''
+    // });
   }
 }

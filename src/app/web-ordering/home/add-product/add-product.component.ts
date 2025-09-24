@@ -170,14 +170,26 @@ export class AddProductComponent {
 
     MaxWidthTextColspan(itemName: any, itemAtt: any) {
       const maxWidth = Math.max(...itemAtt.map(item => item.name.length))
-      if(maxWidth <= 4)
+      if(maxWidth <= 4){
+        if(itemAtt.length < 5)
+          return 'grid-cols-' + itemAtt.length
         return 'grid-cols-5'
-      else if(maxWidth <= 5)
+      }
+      else if(maxWidth <= 5){
+        if(itemAtt.length < 4)
+          return 'grid-cols-' + itemAtt.length
         return 'grid-cols-4'
-      else if(maxWidth <= 6)
+      }
+      else if(maxWidth <= 6){
+        if(itemAtt.length < 3)
+          return 'grid-cols-' + itemAtt.length
         return 'grid-cols-3'
-      else
+      }
+      else{
+        if(itemAtt.length < 2)
+          return 'grid-cols-' + itemAtt.length
         return 'grid-cols-2'
+      }
     }
 
     findDataArray(name: any, value: any){
