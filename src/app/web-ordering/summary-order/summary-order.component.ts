@@ -52,7 +52,8 @@ export class SummaryOrderComponent {
     private toastr: ToastrService,
 
   ){
-    this.data = this._service.receiveOrder()
+    console.log('start')
+    // this.data = this._service.receiveOrder()
     this.nations = [
       { value: 'thai', name: 'ไทย'},
     ]
@@ -66,30 +67,72 @@ export class SummaryOrderComponent {
     //  {name: 'Americano', order: 2, add: [{name: 'ขนาด M', type: 'size'}, {name: 'แถม โค้ก 1 ขวด', type: 'promotion'}], price: 85, type:'Pro'},
     //  {name: 'COCOA', order: 1, add: [{name:'ขนาด S', type: 'size'}, {name:'ส่วนลด 2.00 บาท', type: 'discount', discount: 2}], price: 60, type:'DC'},
     //]
-    this._service.get_order().subscribe({
+
+    console.log('start')
+    this._service.receiveOrder().subscribe({
       next:(resp: any)=> {
-        this.status_order = resp.orderStatus
+        console.log('SSS',resp);
+        this.status_order = 'waiting'
+        console.log('k1',resp.orderItems.length);
         this.sum_order = resp.orderItems.length
-        this.sum_price = resp.total
+        console.log('k2');
+        this.sum_price = +resp.total
+        console.log('k3');
         this.sum_discount = resp.discount ?? 0
+        console.log('k4');
         this.sum_vat = resp.vat ?? 0
-        this.sum_service = resp.serviceCharge ?? 0
-        for (let i = 0; i < resp?.orderItems?.length; i++) {
+        console.log('k5');
+        this.sum_service = +resp.serviceCharge
+        console.log('k6');
+        //useReal resp?.data?.length but temp = resp?.orderItems?.length 
+        for (let i = 0; i < resp?.orderItems?.length ; i++) {
           const order = resp.orderItems[i];
+          console.log('i = ',i , order.price + (order.attributes ?? []).reduce((sum,item)=> sum + item.total, 0))
           let temp_order = {
-            product_id: order.product.id,
-            name: order.product.name,
-            order: order.quantity,
-            price: order.product.price + order.attributes?.reduce((sum,item)=> sum + item.total, 0),
+            product_id: order.productId, //useReal order.product_id
+            name: order.name,
+            order: order.quantity, //useReal order.order,
+            price: order.price + (order.attributes ?? []).reduce((sum,item)=> sum + item.total, 0),
+            //useReal price: order.product.price + order.attributes?.reduce((sum,item)=> sum + item.total, 0),
             type: 'normal',
             add: order.attributes
           }
+          console.log('order',  order);
+          console.log('temp_order',  temp_order);
           console.log('order.add',  temp_order.add);
           this.orders.push(temp_order)
+
         }
         //this.sum_all_price()
+          console.log('orders',  this.orders);
       }
     })
+    console.log('end')
+    //useReal
+    // this._service.get_order().subscribe({
+    //   next:(resp: any)=> {
+    //     this.status_order = resp.orderStatus
+    //     this.sum_order = resp.orderItems.length
+    //     this.sum_price = resp.total
+    //     this.sum_discount = resp.discount ?? 0
+    //     this.sum_vat = resp.vat ?? 0
+    //     this.sum_service = resp.serviceCharge ?? 0
+    //     for (let i = 0; i < resp?.orderItems?.length; i++) {
+    //       const order = resp.orderItems[i];
+    //       let temp_order = {
+    //         product_id: order.product.id,
+    //         name: order.product.name,
+    //         order: order.quantity,
+    //         price: order.product.price + order.attributes?.reduce((sum,item)=> sum + item.total, 0),
+    //         type: 'normal',
+    //         add: order.attributes
+    //       }
+    //       console.log('order.add',  temp_order.add);
+    //       this.orders.push(temp_order)
+    //     }
+    //     //this.sum_all_price()
+    //   }
+    // })
   }
 
   changeNumOrder(signal: any, item: any){
@@ -99,6 +142,12 @@ export class SummaryOrderComponent {
       item.order += 1
     }
     this.sum_all_price()
+  }
+
+  nextTemp(){
+    let formvalue = [...this.orders]
+    this._service.sendSumOrder(formvalue)
+    this._router.navigate(['/payment/pay/success'])
   }
 
   next(){

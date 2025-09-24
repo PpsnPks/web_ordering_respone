@@ -1,4 +1,4 @@
-<div class="flex flex-col w-full max-w-md bg-white max-h-dvh">
+<div class="flex flex-col w-full bg-white"><!--  max-w-md max-h-dvh -->
 	<asha-web-ordering-bar [title]="'สั่งและชำระ'" [back]="false"></asha-web-ordering-bar>
 	<div class="w-full grid grid-cols-1">
 		<div class="flex justify-between px-[20px] py-[18px] items-center w-full cursor-pointer" (click)="openPromotion()">
@@ -47,7 +47,7 @@
 					<img class="h-[90px] w-[90px] object-scale-down" src= {{item.product_img}} alt="mock_img">
 				</div>
 				<div class="flex flex-col grow">
-					<p class="text-[16px] font-normal mb-1 whitespace-nowrap text-nowrap truncate">{{item.product_name}}</p>
+					<p class="text-[16px] font-normal mb-1 whitespace-nowrap text-nowrap truncate">{{item.name}}</p><!-- product_name -->
 					<div class="flex justify-between">
 						<p class="text-[16px] font-semibold">฿ {{item.product_price}}</p>
 						<div *ngIf="+item.order > 0" class="px-2 pt-[2px] rounded-[4px] bg-[#1264E3] text-[#FFFFFF] text-[16px] font-medium">{{item.order}}</div>

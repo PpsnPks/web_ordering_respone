@@ -47,8 +47,10 @@ export class SuccessComponent {
     //  {name: 'Mocca', qty: 4, pricePerPiece: 65},
     //  {name: 'Thai Tea', qty: 1, pricePerPiece: 50},
     //]
-    this._service.get_order().subscribe({
+
+    this._service.receiveSumOrder().subscribe({
       next:(resp: any)=> {
+        console.log('resp = ', resp)
         //this.payment_type = resp.orderPayments[0].paymentMethod.type
         this.title = 'คำสั่งซื้อเสร็จสมบูรณ์'
         this.paid_total = 0
@@ -65,8 +67,9 @@ export class SuccessComponent {
         //  else if (this.payment_type == 'thaiqr')
         //    this.text_payment = 'QR Promptpay'
         //}
-        this.orderNo = resp.orderNo
-        this.all_total = resp.grandTotal
+        this.orderNo = 84219
+        this.all_total = resp.reduce((sum, item)=> sum + (1.1 * item.price * item.order), 0)
+
 
         //เก็บค่าทำใบเสร็จ
         let sum_num_order = 0
@@ -85,6 +88,46 @@ export class SuccessComponent {
         this.service = resp.serviceCharge ?? 0
       }
     })
+
+    //useReal
+    // this._service.get_order().subscribe({
+    //   next:(resp: any)=> {
+    //     //this.payment_type = resp.orderPayments[0].paymentMethod.type
+    //     this.title = 'คำสั่งซื้อเสร็จสมบูรณ์'
+    //     this.paid_total = 0
+    //     this.text_payment = 'ชำระภายหลัง'
+    //     //if (this.payment_type == 'cash'){
+    //     //  this.title = 'คำสั่งซื้อเสร็จสมบูรณ์'
+    //     //  this.paid_total = 0
+    //     //  this.text_payment = 'ชำระภายหลัง'
+    //     //} else{
+    //     //  this.title = 'ชำระเงินสำเร็จ'
+    //     //  this.paid_total = resp.grandTotal
+    //     //  if (this.payment_type == 'member')
+    //     //    this.text_payment = 'Charge เข้าห้อง'
+    //     //  else if (this.payment_type == 'thaiqr')
+    //     //    this.text_payment = 'QR Promptpay'
+    //     //}
+    //     this.orderNo = resp.orderNo
+    //     this.all_total = resp.grandTotal
+
+    //     //เก็บค่าทำใบเสร็จ
+    //     let sum_num_order = 0
+    //     for (let i = 0; i < resp?.orderItems?.length; i++) {
+    //       const order = resp.orderItems[i];
+    //       let temp_order = {
+    //         name: order.product.name, qty: order.quantity, pricePerPiece: order.price
+    //       }
+    //       sum_num_order += order.quantity
+    //       this.orderData.push(temp_order)
+    //     }
+    //     this.num_order = sum_num_order ?? 0
+    //     this.sub_total = resp.total ?? 0
+    //     this.discount = resp.discount ?? 0
+    //     this.vat = resp.vat ?? 0
+    //     this.service = resp.serviceCharge ?? 0
+    //   }
+    // })
   }
 
   next(){

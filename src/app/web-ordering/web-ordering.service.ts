@@ -9,6 +9,7 @@ export class WebOrderingService {
 
   constructor(private http: HttpClient) { }
   order: any
+  sumOrder: any
   total: any
 
   sendOrder(data:any){
@@ -16,7 +17,15 @@ export class WebOrderingService {
   }
 
   receiveOrder(){
-	return this.order
+	return of(this.order)
+  }
+
+  sendSumOrder(data:any){
+	this.sumOrder = data
+  }
+
+  receiveSumOrder(){
+	return of(this.sumOrder)
   }
 
   set_sumPrice(data: any){

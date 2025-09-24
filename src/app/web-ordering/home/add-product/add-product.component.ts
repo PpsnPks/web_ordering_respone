@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {MatListModule} from '@angular/material/list';
 import {
@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-bottom-product',
@@ -33,13 +34,19 @@ export class AddProductComponent {
   num_shots: any = {}
 
   attribute: any = []
+  data: any
 
   constructor(
-    private _bottomSheetRef: MatBottomSheetRef<AddProductComponent>,
-    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
+    @Optional() private dialogRef: MatDialogRef<AddProductComponent>,
+    @Optional() private bottomSheetRef: MatBottomSheetRef<AddProductComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) private dialogData: any,
+    @Optional() @Inject(MAT_BOTTOM_SHEET_DATA) private bottomSheetData: any,
     private router: Router,
     private toastrService: ToastrService
     ) {
+      let data = dialogData ?? bottomSheetData;
+      this.data = data
+      console.log('dataName',data.name)
       console.log('data: ', data);
       for (let i = 0; i < data.data.length; i++) {
         const element = data.data[i];
@@ -220,19 +227,35 @@ export class AddProductComponent {
     }
 
     goto() {
-      this._bottomSheetRef.dismiss();
+      if (this.dialogRef) {
+        this.dialogRef.close();
+      } else if (this.bottomSheetRef) {
+        this.bottomSheetRef.dismiss();
+      }
     }
 
     close(){
-      this._bottomSheetRef.dismiss('');
+      if (this.dialogRef) {
+        this.dialogRef.close('');
+      } else if (this.bottomSheetRef) {
+        this.bottomSheetRef.dismiss('');
+      }
     }
 
     cancle(){
-      this._bottomSheetRef.dismiss('cancle');
+      if (this.dialogRef) {
+        this.dialogRef.close('cancle');
+      } else if (this.bottomSheetRef) {
+        this.bottomSheetRef.dismiss('cancle');
+      }
     }
 
     confirmed() {
       this.toastrService.success('เพิ่มสินค้าสำเร็จ', '', {positionClass: 'toast-top-center'})
-      this._bottomSheetRef.dismiss(this.attribute);
+      if (this.dialogRef) {
+        this.dialogRef.close(this.attribute);
+      } else if (this.bottomSheetRef) {
+        this.bottomSheetRef.dismiss(this.attribute);
+      }
     }
 }

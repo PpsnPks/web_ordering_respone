@@ -1,13 +1,13 @@
 <!--<div>
 	<p>login works!</p>
 </div>-->
-<div class="flex flex-col w-full max-w-md bg-white max-h-dvh">
+<div class="flex flex-col w-full bg-white max-h-dvh"><!--  max-w-md -->
 	<!--<asha-web-ordering-bar [title]="'ประวัติการสั่งซื้อ'" [back]="false"></asha-web-ordering-bar>-->
-	<div class="h-full grid grid-rows-3 grid-cols-1">
-	  	<div class="flex items-center justify-center">
-			<img class="w-[210px] h-[193px]" src="../../../assets/ordering/login.png" alt="img_login">
+	<div class="h-full grid landscape:grid-cols-2 landscape:grid-rows-1 grid-rows-3 grid-cols-1">
+	  	<div class="flex items-center justify-center"><!--  lg:translate-x-15 lg:scale-[2] -->
+			<img class="landscape:w-auto landscape:h-[50%] w-[50%] h-auto" src="../../../assets/ordering/login.png" alt="img_login">
 	  	</div>
-	  	<div class="flex flex-col px-4 gap-[20px] justify-center">
+	  	<div class="flex flex-col px-4 gap-[20px] justify-center lg:max-w-[70%]">
 			<p class="font-semibold text-[32px] text-[#424242]">สั่งอาหาร</p>
 			<form [formGroup]="form" class="h-[56px]">
 				<div class="w-full flex items-center gap-2 border-b-[1px] border-[#78909C] px-2 py-3">
